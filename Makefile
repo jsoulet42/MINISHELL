@@ -9,7 +9,7 @@ VPATH		=	Srcs:		\
 SRCS		=	main.c
 
 OBJS_DIR	=	Objs
-OBJS		=	$(SRCS:.c=.o)
+OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
@@ -27,7 +27,7 @@ all:	$(NAME)
 $(NAME):	$(OBJS_DIR) $(OBJS)
 	$(CC) $(CFLAGS) -L $(LIBS_DIR) $(LIBS) $(OBJS) -o $@
 
-$(OBJS_DIR)/%.o:%.c
+$(OBJS_DIR)/%.o:	%.c
 	$(CC) $(CFLAGS) -L $(LIBS_DIR) $(LIBS) -c $< -o $@
 
 $(OBJS_DIR):
@@ -37,27 +37,27 @@ $(OBJS_DIR):
 	fi
 
 clean:
-	@if [ ls *.flac >/dev/null  2>&1 ]; then					\
-		$(RM) $(OBJS_DIR)/*.o;									\
-		echo "Removed all object files";						\
-	else														\
-		echo "Nothing to be done for: $(RM) $(OBJS_DIR)/*.o";	\
+	@if [ $$(ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l) != 0 ]; then		\
+		$(RM) $(OBJS_DIR)/*.o;											\
+		echo "Removed all object files";								\
+	else																\
+		echo "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'";	\
 	fi
 
 fclean:	clean
-	@if [ ls *.flac >/dev/null  2>&1 ]; then			\
-		$(RM) $(NAME);									\
-		echo "Removed executable file";					\
-	else												\
-		echo "Nothing to be done for: $(RM) $(NAME)";	\
+	@if [ ls *.flac >/dev/null  2>&1 ]; then					\
+		$(RM) $(NAME);											\
+		echo "Removed executable file";							\
+	else														\
+		echo "make: Nothing to be done for '$(RM) $(NAME)'";	\
 	fi
 
 dclean:	clean
-	@if [ -d $(OBJS_DIR) ]; then							\
-		$(RM) $(OBJS_DIR);									\
-		echo "Removed objects directory '$(OBJS_DIR)/'";	\
-	else													\
-		echo "Nothing to be done for: $(RM) $(OBJS_DIR)";	\
+	@if [ -d $(OBJS_DIR) ]; then									\
+		$(RM) $(OBJS_DIR);											\
+		echo "Removed objects directory '$(OBJS_DIR)/'";			\
+	else															\
+		echo "make: Nothing to be done for '$(RM) $(OBJS_DIR)'";	\
 	fi
 
 re:	fclean all
