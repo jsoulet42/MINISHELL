@@ -25,10 +25,10 @@ RM			= rm -rf
 all:	$(NAME)
 
 $(NAME):	$(OBJS_DIR) $(OBJS)
-	$(CC) $(CFLAGS) -L $(LIBS_DIR) $(LIBS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 
 $(OBJS_DIR)/%.o:	%.c
-	$(CC) $(CFLAGS) -L $(LIBS_DIR) $(LIBS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 
 $(OBJS_DIR):
 	@if [ ! -d $(OBJS_DIR) ]; then							\
