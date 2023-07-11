@@ -1,0 +1,5 @@
+.*.swp
+test*
+ignore
+Objs
+minishell
