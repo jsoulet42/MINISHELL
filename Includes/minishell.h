@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/10 18:22:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/11 13:59:51 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,4 +15,29 @@
 
 # include "libft.h"
 
+//#include <readline> //FLAG: -lreadline*****readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history		*****
+#include <stdio.h> //					*****printf																						*****
+#include <stdlib.h> //					*****malloc free exit																			*****
+#include <unistd.h> //					*****write, access, open, read, close, fork, execve, dup, dup2, pipe, isatty, unlink			*****
+#include <sys/wait.h> //				*****wait, waitpid, wait3, wait4																*****
+#include <signal.h> //					*****signal, sigaction, sigemptyset, sigaddset, kill											*****
+#include <sys/stat.h> //				*****stat, lstat, fstat																			*****
+#include <dirent.h> //					*****opendir, readdir, closedir																	*****
+#include <string.h> //					*****steerror, strerror_r																		*****
+#include <sys/types.h> //				*****pid_t																						*****
+#include <termios.h> //					*****tcsetattr, tcgetattr																		*****
+#include <curses.h> //FLAG: -lncurses	*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
+#include <errno.h> //					*****errno																						*****
+#include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
+
+#include "minishell_macros.h"
+
+typedef struct s_parsing
+{
+	char	*name;
+	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable
+}				t_par;
+
+/*Srcs/mdiamant/parsing_01.c*/
+int count_arg(const char *argv);
 #endif
