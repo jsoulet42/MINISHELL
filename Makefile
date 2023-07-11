@@ -6,8 +6,11 @@
 NAME		=	minishell
 
 VPATH		=	Srcs:		\
+				Srcs/mdiamant:
 
-SRCS		=	main.c
+
+SRCS		=	main.c\
+				parsing.c
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
