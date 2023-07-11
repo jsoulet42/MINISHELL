@@ -2,6 +2,7 @@
 #    MINISHELL MAKEFILE                                                        #
 # **************************************************************************** #
 
+# Files variables ***************** #
 NAME		=	minishell
 
 VPATH		=	Srcs:		\
@@ -11,6 +12,7 @@ SRCS		=	main.c
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
+# Compilation variables *********** #
 CC			=	gcc
 CFLAGS		=	-Wall -Werror -Wextra
 
@@ -19,47 +21,61 @@ INCL_DIR	=	Includes
 LIBS_DIR	=	Libs
 LIBS		=	-lft
 
-RM			= rm -rf
+# Files management variables ****** #
+RM			=	rm -rf
 
+# **************************************************************************** #
 
 all:	$(NAME)
 
+# Compilation rules *************** #
 $(NAME):	$(OBJS_DIR) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled executabl: $@")
 
 $(OBJS_DIR)/%.o:	%.c
-	$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled object file: $@")
 
 $(OBJS_DIR):
-	@if [ ! -d $(OBJS_DIR) ]; then							\
-		mkdir $(OBJS_DIR);									\
-		echo "Created objects directory '$(OBJS_DIR)/'";	\
-	fi
+	@mkdir $(OBJS_DIR)
+	@$(call terminal_disp, "Created objects directory \'$(OBJS_DIR)/\'")
 
+# File management rules *********** #
 clean:
-	@if [ $$(ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l) != 0 ]; then		\
-		$(RM) $(OBJS_DIR)/*.o;											\
-		echo "Removed all object files";								\
-	else																\
-		echo "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'";	\
-	fi
+ifneq ($(shell ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l), 0)
+	@$(RM) $(OBJS_DIR)/*.o
+	@$(call terminal_disp, "Removed object files")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'")
+endif
 
 fclean:	clean
-	@if [ ls *.flac >/dev/null  2>&1 ]; then					\
-		$(RM) $(NAME);											\
-		echo "Removed executable file";							\
-	else														\
-		echo "make: Nothing to be done for '$(RM) $(NAME)'";	\
-	fi
+ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
+	@$(RM) $(NAME);
+	@$(call terminal_disp, "Removed executable file")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(NAME)'")
+endif
 
 dclean:	clean
-	@if [ -d $(OBJS_DIR) ]; then									\
-		$(RM) $(OBJS_DIR);											\
-		echo "Removed objects directory '$(OBJS_DIR)/'";			\
-	else															\
-		echo "make: Nothing to be done for '$(RM) $(OBJS_DIR)'";	\
-	fi
+ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 1)
+	@$(RM) $(OBJS_DIR)
+	@$(call terminal_disp, "Removed objects directory '$(OBJS_DIR)/'")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)'")
+endif
 
 re:	fclean all
+
+# **************************************************************************** #
+
+# Display functions *************** #
+define terminal_disp
+	$(eval message = $(1))
+	echo "$$> ${message}"
+endef
+
+# **************************************************************************** #
 
 .PHONY:	all clean fclean dclean re
