@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   error_exit_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:18:20 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/11 14:56:24 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/11 17:02:48 by mdiamant          #+#    #+#             */
+/*   Updated: 2023/07/12 08:21:03 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv)
+void	error_exit(char *str)
 {
-	if (argc == 1)
-		return (0);
-	ft_parsing(argv[1]);
-	return (0);
+	perror(str);
+	exit(1);
 }

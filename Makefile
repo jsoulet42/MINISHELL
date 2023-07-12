@@ -10,7 +10,8 @@ VPATH		=	Srcs:		\
 
 
 SRCS		=	main.c\
-				parsing.c
+				parsing_01.c\
+				error_exit_01.c
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
