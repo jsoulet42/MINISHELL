@@ -6,67 +6,71 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 11:26:19 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:33:52 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-/*t_par **init_parsing(char *argv)
-{
-	t_par	**parsing;
-	int		i;
-
-	i = 0;
-	if (!parsing)
-		return (NULL); //appeler la fonction qui gere les erreurs
-	parsing[argv] = NULL;
-	return (par);
-}*/
-int calcSizeType(char *str);
-int calcType(char *str);
+int		calcSizeType(char *str);
+int		calcType(char *str);
 void	sparse(t_par **p, char *argv);
-
-
 
 void	ft_parsing(char *argv)
 {
 	int		res;
 	char	*line;
-	char 	*linetmp;
-	//t_par	**p;
+	t_par	**p;
 
-	linetmp = ft_strtrim(argv, " ");
-	line = ft_strjoin(linetmp, "\n");
-	free(linetmp);
+	line = ft_strtrim(argv, " ");
+
 	res = count_arg(line);
-	//p = malloc(sizeof(t_par *) * (res + 2));
-	//sparse(p, line);
-	free(line);
 	printf("il y a %d mots\n", res);
+
+	p = malloc(sizeof(t_par *) * (res + 2));
+	sparse(p, line);
+	free(line);
+	free_t_par(p);
 }
 
 void	sparse(t_par **p, char *argv)
 {
 	int	i;
+	int j;
 	int size;
 
 	i = 0;
-	while(argv[i])
+	j = 0;
+	while(argv[i] && argv[i] != '\n')
 	{
 		i += getSkipCount(argv + i);
-		p[i] = malloc(sizeof(t_par));
-		p[i]->type = calcType(argv + i);
+		p[j] = malloc(sizeof(t_par));
+		p[j]->type = calcType(argv + i);
 		size = calcSizeType(argv + i);
-		p[i]->str = ft_substr(argv, i, size);
-		printf("type : %d, size : %d, str : %s\n\n", p[i]->type, size, p[i]->str);
+		p[j]->str = ft_substr(argv, i, size);
+		printf("p[%d] = type : %d, str : '%s'\n", j, p[j]->type, p[j]->str);
+		j++;
 		i += size;
 	}
 }
 
+void free_t_par(t_par **p)
+{
+	int i;
+
+	i = 0;
+	while (p[i])
+	{
+		free(p[i]->str);
+		free(p[i]);
+		i++;
+	}
+	free(p);
+}
+
 int calcType(char *str)
 {
-	if (ft_isalnum(str[0]))
+	/*if (ft_isalnum(str[0]))
 		return (1);
 	if (is_operand(str))
 		return (3);
@@ -75,36 +79,38 @@ int calcType(char *str)
 	if (str[0] == '\"')
 		return (4);
 	if (str[0] == '\n')
-		return (0);
-
-	printf("charatere non reconnu :\n\"%s\"\n", str);
-	error_exit("fonction : calcType\n");
-	return (0);
-
+		return (0);*/
+	if (is_operand(str))
+		return (1);
+	return (2);
 }
 int calcSizeType(char *str)
 {
+	int	size;
 	int i;
 
 	i = 0;
-	if (is_operand(str))
-		return (is_operand(str));
-	else if (simplquote(str) != -1)
-		return (simplquote(str));
+	size = 1;
+	if (simplquote(str + 1) != -1)
+		size = simplquote(str + 1);
 	else if (doublquote(str) != -1)
-		return (doublquote(str));
-	else if (ft_isalnum(str[0]))
+		size = doublquote(str + 1);
+	else if (is_operand(str) != 0)
+		size = is_operand(str);
+	else
 	{
 		while (str[i])
 		{
-			if (is_operand(str + i) || simplquote(str + i)
-			|| doublquote(str + i) || str[i] == ' ' || str[i] == '\t')
+			if (is_operand(str + i) || simplquote(str + i) != -1
+			|| doublquote(str + i) != -1 || str[i] == ' ' || str[i] == '\t')
 				break;
 			i++;
 		}
-		return (i);
+		size = i;
 	}
-	return (1);
+	if (size == 0)
+		error_exit("error size = 0 // fonction : calcSizeType // erno ");
+	return (size);
 }
 
 int count_arg(const char *argv)
@@ -144,7 +150,7 @@ int	is_operand(const char *str)
 	int i;
 
 	res = 0;
-	if (ft_strchr(OPERANDS, *str) != NULL && *str != ' ')
+	if (ft_strchr(OPERANDS, *str) != NULL && *str != ' ' && *str)
 	{
 		if (str[0] == str[1])
 		{
@@ -158,7 +164,10 @@ int	is_operand(const char *str)
 		}
 		i += getSkipCount(str + i);
 		if (is_operand(str + i) != 0)
+		{
+			printf("error operand : %s, %d\n", str, res);
 			error_exit("Robin, sort de ce corps !");
+		}
 	}
 	return (res);
 }
