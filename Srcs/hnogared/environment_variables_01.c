@@ -1,13 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mdiamant.h                                         :+:      :+:    :+:   */
+/*   environment_variables_01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 12:13:10 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/12 15:50:09 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/12 15:53:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void free_t_par(t_par **p);
+#include "../../Includes/minishell.h"
+
+//char *getenv(char *varname)
+char	*get_var_value(char *var_name)
+{
+	
+}
