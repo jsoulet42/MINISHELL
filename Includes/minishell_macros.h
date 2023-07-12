@@ -6,14 +6,14 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:31:05 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/11 16:36:15 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 16:01:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINSHELL_MACROS_H
-# define MINSHELL_MACROS_H
+#ifndef MINISHELL_MACROS_H
+# define MINISHELL_MACROS_H
 
-# define number_of_operands 12
+# define OPERANDS_COUNT 12
 
 # define OPERANDS "| || & && $ $$ < > \\ ' \" << >>"
 
@@ -29,6 +29,5 @@
 # define BACKSLASH "\\"
 # define SIMPLE_QUOTE "'"
 # define DOUBLE_QUOTE "\""
-
 
 #endif
