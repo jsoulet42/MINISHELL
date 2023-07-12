@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doublquote_01.c                                    :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 13:56:24 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/12 11:09:57 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/12 15:03:50 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../../Includes/minishell.h"
 
-int doublquote(char *str)
+int	main(int argc, char **env)
 {
 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		if ((int)str[i] == 34)
-			return (i);
-		i++;
-	}
-	//error !!
-	return (-1);
+	i = -1;
+	(void)argc;
+	if (!env)
+		printf("\n");
+	else
+		while (env[++i])
+			printf("%s\n", env[i]);
+	return (0);
 }

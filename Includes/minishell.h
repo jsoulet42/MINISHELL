@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 11:29:54 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:12:33 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@
 #include <string.h> //					*****steerror, strerror_r																		*****
 #include <sys/types.h> //				*****pid_t																						*****
 #include <termios.h> //					*****tcsetattr, tcgetattr																		*****
-#include <curses.h> //FLAG: -lncurses	*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
+//#include <curses.h> //FLAG: -lncurses	*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 #include <errno.h> //					*****errno																						*****
-#include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
+//#include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 
 #include "minishell_macros.h"
 #include "hnogared.h"
