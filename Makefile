@@ -6,7 +6,8 @@
 NAME		=	minishell
 
 BIN_DIR		=	bin
-ECHO_BIN	=	$(addprefix $(BIN_DIR)/, echo)
+ECHO_NAME	=	echo
+ECHO_PATH	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
 
 VPATH		=	Srcs:			\
 				Srcs/builtins:	\
@@ -42,17 +43,19 @@ RM			=	rm -rf
 all:	$(NAME)
 
 # Compilation rules *************** #
-$(NAME):	$(ECHO_BIN) $(OBJS_DIR) $(OBJS)
+$(NAME):	$(ECHO_PATH) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
-	@$(call terminal_disp, "Compiled executable: $@")
+	@$(call terminal_disp, "Compiled executable: '$@'")
 
-$(ECHO_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
-	@$(call terminal_disp, "Compiled builtin binary: $@")
+$(ECHO_NAME):	$(ECHO_PATH)
+
+$(ECHO_PATH):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
+	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $(ECHO_PATH) $(LDLIBS)
+	@$(call terminal_disp, "Compiled builtin binary: '$@'")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled object file: $@")
+	@$(call terminal_disp, "Compiled object file: '$@'")
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
@@ -71,20 +74,20 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'")
 endif
 
-binclean: clean
-ifeq ($(shell if [ -f "$(ECHO_BIN)" ]; then echo 1; else echo 0; fi), 1)
-	@$(RM) $(ECHO_BIN);
-	@$(call terminal_disp, "Removed builtin executable file: '$(ECHO_BIN)'")
-else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(ECHO_BIN)'")
-endif
-
 fclean:	clean
 ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(NAME);
 	@$(call terminal_disp, "Removed executable file")
 else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(NAME)'")
+endif
+
+binclean: clean
+ifeq ($(shell if [ -f "$(ECHO_PATH)" ]; then echo 1; else echo 0; fi), 1)
+	@$(RM) $(ECHO_PATH);
+	@$(call terminal_disp, "Removed builtin executable file: '$(ECHO_NAME)'")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(ECHO_PATH)'")
 endif
 
 dclean:	binclean
@@ -108,17 +111,17 @@ re:	fclean all
 # Display functions *************** #
 define terminal_disp
 	$(eval message = $(1))
-	@sh_message=$(message);					\
-	i=1;	\
-	echo -n "makefile@minishell $$> ";			\
-	while [ $${i} -le $${#sh_message} ]; do	\
+	@sh_message=$(message);										\
+	i=1;														\
+	echo -n "makefile@minishell $$> ";							\
+	while [ $${i} -le $${#sh_message} ]; do						\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";	\
-		i=$$(expr $$i + 1);			\
-	done;			\
+		i=$$(expr $$i + 1);										\
+	done;														\
 	echo
 endef
 
 #echo "$$> ${message}"
 # **************************************************************************** #
 
-.PHONY:	all clean fclean dclean re
+.PHONY:	all clean fclean binclean dclean re
