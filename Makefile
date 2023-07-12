@@ -5,10 +5,13 @@
 # Files variables ***************** #
 NAME		=	minishell
 
+BIN_DIR		=	bin
+ECHO_BIN	=	$(addprefix $(BIN_DIR)/, echo)
+
 VPATH		=	Srcs:			\
+				Srcs/builtins:	\
 				Srcs/mdiamant:	\
 				Srcs/lolefevr:
-
 
 SRCS		=	main.c			\
 				parsing_01.c	\
@@ -16,8 +19,11 @@ SRCS		=	main.c			\
 				doublquote_01.c	\
 				simplquote_01.c
 
+ECHO_SRCS	=	ft_echo_01.c
+
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
+ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
 
 # Compilation variables *********** #
 CC			=	gcc
@@ -36,9 +42,13 @@ RM			=	rm -rf
 all:	$(NAME)
 
 # Compilation rules *************** #
-$(NAME):	$(OBJS_DIR) $(OBJS)
+$(NAME):	$(ECHO_BIN) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: $@")
+
+$(ECHO_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
+	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
+	@$(call terminal_disp, "Compiled builtin binary: $@")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
@@ -46,7 +56,11 @@ $(OBJS_DIR)/%.o:	%.c
 
 $(OBJS_DIR):
 	@mkdir $(OBJS_DIR)
-	@$(call terminal_disp, "Created objects directory \'$(OBJS_DIR)/\'")
+	@$(call terminal_disp, "Created objects directory '$(OBJS_DIR)/'")
+
+$(BIN_DIR):
+	@mkdir $(BIN_DIR)
+	@$(call terminal_disp, "Created binaries directory '$(BIN_DIR)/'")
 
 # File management rules *********** #
 clean:
@@ -57,6 +71,14 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'")
 endif
 
+binclean: clean
+ifeq ($(shell if [ -f "$(ECHO_BIN)" ]; then echo 1; else echo 0; fi), 1)
+	@$(RM) $(ECHO_BIN);
+	@$(call terminal_disp, "Removed builtin executable file: '$(ECHO_BIN)'")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(ECHO_BIN)'")
+endif
+
 fclean:	clean
 ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(NAME);
@@ -65,12 +87,18 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(NAME)'")
 endif
 
-dclean:	clean
+dclean:	binclean
 ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(OBJS_DIR)
 	@$(call terminal_disp, "Removed objects directory '$(OBJS_DIR)/'")
 else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)'")
+endif
+ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 1)
+	@$(RM) $(BIN_DIR)
+	@$(call terminal_disp, "Removed objects directory '$(BIN_DIR)/'")
+else
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)'")
 endif
 
 re:	fclean all
