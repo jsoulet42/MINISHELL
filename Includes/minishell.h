@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 13:35:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/12 15:09:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@
 
 #include "minishell_macros.h"
 
+#include "hnogared.h"
+#include "mdiamant.h"
+#include "lolefevr.h"
+#include "jsoulet.h"
+
 typedef struct s_parsing
 {
 	char	*str;
 	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
 }				t_par;
-
-#include "hnogared.h"
-#include "mdiamant.h"
-#include "lolefevr.h"
-#include "jsoulet.h"
 
 /*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
 int		is_operand(const char *str);

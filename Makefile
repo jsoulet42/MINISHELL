@@ -11,7 +11,10 @@ VPATH		=	Srcs:			\
 
 
 SRCS		=	main.c			\
-				parsing_01.c
+				parsing_01.c	\
+				error_exit_01.c	\
+				doublquote_01.c	\
+				simplquote_01.c
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
@@ -79,7 +82,7 @@ define terminal_disp
 	$(eval message = $(1))
 	@sh_message=$(message);					\
 	i=1;	\
-	echo -n "$$> ";			\
+	echo -n "makefile@minishell $$> ";			\
 	while [ $${i} -le $${#sh_message} ]; do	\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";	\
 		i=$$(expr $$i + 1);			\
