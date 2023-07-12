@@ -6,7 +6,8 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 11:28:44 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 12:13:10 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+void free_t_par(t_par **p);
