@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   hnogared.h                                         :+:      :+:    :+:   */
+/*   environment_variables_01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 16:39:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 16:45:18 by hnogared         ###   ########.fr       */
+/*   Created: 2023/07/12 15:50:09 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/12 15:53:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HNOGARED_H
-# define HNOGARED_H
+#include "../../Includes/minishell.h"
 
-/* open */
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
-
-#endif
+//char *getenv(char *varname)
+char	*get_var_value(char *var_name)
+{
+	
+}
