@@ -5,18 +5,13 @@
 # Files variables ***************** #
 NAME		=	minishell
 
-VPATH		=	Srcs:		\
-				Srcs/mdiamant:\
+VPATH		=	Srcs:			\
+				Srcs/mdiamant:	\
 				Srcs/lolefevr:
 
 
-SRCS		=	main.c\
-				parsing_01.c\
-				error_exit_01.c\
-				doublquote_01.c\
-				simplquote_01.c
-
-
+SRCS		=	main.c			\
+				parsing_01.c
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
@@ -28,7 +23,7 @@ CFLAGS		=	-Wall -Werror -Wextra
 INCL_DIR	=	Includes
 
 LIBS_DIR	=	Libs
-LIBS		=	-lft
+LIBS		=	-lft -lncurses
 
 # Files management variables ****** #
 RM			=	rm -rf
@@ -39,8 +34,8 @@ all:	$(NAME)
 
 # Compilation rules *************** #
 $(NAME):	$(OBJS_DIR) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled executabl: $@")
+	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
+	@$(call terminal_disp, "Compiled executable: $@")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
@@ -82,9 +77,17 @@ re:	fclean all
 # Display functions *************** #
 define terminal_disp
 	$(eval message = $(1))
-	echo "$$> ${message}"
+	@sh_message=$(message);					\
+	i=1;	\
+	echo -n "$$> ";			\
+	while [ $${i} -le $${#sh_message} ]; do	\
+		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";	\
+		i=$$(expr $$i + 1);			\
+	done;			\
+	echo
 endef
 
+#echo "$$> ${message}"
 # **************************************************************************** #
 
 .PHONY:	all clean fclean dclean re
