@@ -3,19 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:18:20 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/11 14:56:24 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/12 16:57:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	if (argc == 1)
-		return (0);
-	ft_parsing(argv[1]);
+	char	*line;
+
+	while (1)
+	{
+		line = readline("mishelle $> ");
+		if (!line)
+			break ;
+		ft_parsing(line);
+		free(line);
+	}
 	return (0);
 }
