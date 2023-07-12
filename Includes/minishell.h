@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/11 13:59:51 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:29:54 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,32 @@
 #include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 
 #include "minishell_macros.h"
+#include "hnogared.h"
+#include "mdiamant.h"
+#include "lolefevr.h"
+#include "jsoulet.h"
 
 typedef struct s_parsing
 {
-	char	*name;
-	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable
+	char	*str;
+	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
 }				t_par;
 
-/*Srcs/mdiamant/parsing_01.c*/
-int count_arg(const char *argv);
+/*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
+int		is_operand(const char *str);
+t_par	**init_parsing(char *argv);
+int		count_arg(const char *argv);
+void	ft_parsing(char *argv);
+int		getSkipCount(const char *str);
+
+
+/*-----------------Srcs/mdiamant/error_exit_01.c-----------------*/
+void	error_exit(char *str);
+
+/*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
+int doublquote(char *str);
+
+/*-----------------Srcs/lolefevr/simplquote_01.c-----------------*/
+int simplquote(char *str);
+
 #endif
