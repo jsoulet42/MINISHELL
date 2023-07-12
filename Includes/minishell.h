@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 10:20:45 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:29:54 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@
 #include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 
 #include "minishell_macros.h"
+#include "hnogared.h"
+#include "mdiamant.h"
+#include "lolefevr.h"
+#include "jsoulet.h"
 
 typedef struct s_parsing
 {
@@ -47,7 +51,12 @@ int		getSkipCount(const char *str);
 
 
 /*-----------------Srcs/mdiamant/error_exit_01.c-----------------*/
-
 void	error_exit(char *str);
+
+/*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
+int doublquote(char *str);
+
+/*-----------------Srcs/lolefevr/simplquote_01.c-----------------*/
+int simplquote(char *str);
 
 #endif

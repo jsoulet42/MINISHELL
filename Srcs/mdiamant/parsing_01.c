@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 10:42:53 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:26:19 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	ft_parsing(char *argv)
 	int		res;
 	char	*line;
 	char 	*linetmp;
-	t_par	**p;
+	//t_par	**p;
 
 	linetmp = ft_strtrim(argv, " ");
 	line = ft_strjoin(linetmp, "\n");
 	free(linetmp);
 	res = count_arg(line);
-	p = malloc(sizeof(t_par *) * (res + 2));
-	sparse(p, line);
+	//p = malloc(sizeof(t_par *) * (res + 2));
+	//sparse(p, line);
 	free(line);
 	printf("il y a %d mots\n", res);
 }
@@ -74,8 +74,10 @@ int calcType(char *str)
 		return (4);
 	if (str[0] == '\"')
 		return (4);
+	if (str[0] == '\n')
+		return (0);
 
-	printf("charatere non reconnu : %s\n", str);
+	printf("charatere non reconnu :\n\"%s\"\n", str);
 	error_exit("fonction : calcType\n");
 	return (0);
 
@@ -87,22 +89,22 @@ int calcSizeType(char *str)
 	i = 0;
 	if (is_operand(str))
 		return (is_operand(str));
-	if (simple_quote(str))
-		return (simple_quote(str));
-	if (double_quote(str))
-		return (double_quote(str));
-	if (ft_isalnum(str[0]))
+	else if (simplquote(str) != -1)
+		return (simplquote(str));
+	else if (doublquote(str) != -1)
+		return (doublquote(str));
+	else if (ft_isalnum(str[0]))
 	{
 		while (str[i])
 		{
-			if (is_operand(str + i) || simple_quote(str + i)
-			|| double_quote(str + i) || str[i] == ' ' || str[i] == '\t')
+			if (is_operand(str + i) || simplquote(str + i)
+			|| doublquote(str + i) || str[i] == ' ' || str[i] == '\t')
 				break;
 			i++;
 		}
 		return (i);
 	}
-	return (0);
+	return (1);
 }
 
 int count_arg(const char *argv)
