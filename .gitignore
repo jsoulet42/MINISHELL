@@ -3,3 +3,4 @@ test*
 ignore
 Objs
 minishell
+bin
