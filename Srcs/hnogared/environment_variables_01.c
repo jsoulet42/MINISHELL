@@ -1,23 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   environment_variables_01.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:18:20 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 16:10:55 by hnogared         ###   ########.fr       */
+/*   Created: 2023/07/12 15:50:09 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/12 15:53:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-/*
-int	main(int argc, char **argv)
+//char *getenv(char *varname)
+char	*get_var_value(char *var_name)
 {
-	if (argc == 1)
-		return (0);
-	ft_parsing(argv[1]);
-	return (0);
+	
 }
-*/

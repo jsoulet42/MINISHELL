@@ -12,13 +12,15 @@ ECHO_PATH	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
 VPATH		=	Srcs:			\
 				Srcs/builtins:	\
 				Srcs/mdiamant:	\
-				Srcs/lolefevr:
+				Srcs/lolefevr:	\
+				Srcs/hnogared:
 
 SRCS		=	main.c			\
 				parsing_01.c	\
 				error_exit_01.c	\
 				doublquote_01.c	\
-				simplquote_01.c
+				simplquote_01.c	\
+				main_hnogared.c
 
 ECHO_SRCS	=	ft_echo_01.c
 
@@ -33,7 +35,7 @@ CFLAGS		=	-Wall -Werror -Wextra
 INCL_DIR	=	Includes
 
 LIBS_DIR	=	Libs
-LIBS		=	-lft -lncurses
+LIBS		=	-lft -lncurses -lreadline
 
 # Files management variables ****** #
 RM			=	rm -rf

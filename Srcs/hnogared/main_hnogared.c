@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/10 16:18:20 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 16:10:55 by hnogared         ###   ########.fr       */
+/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/12 16:26:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-/*
-int	main(int argc, char **argv)
+int	main(void)
 {
-	if (argc == 1)
-		return (0);
-	ft_parsing(argv[1]);
-	return (0);
+	int	fd;
+
+	fd = open(0, "O_RDONLY");
+	while (1)
+	{
+		readline(fd);
+	}
+	close(fd);
 }
-*/
