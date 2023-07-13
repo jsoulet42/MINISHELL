@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mdiamant.h                                         :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/13 17:23:54 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/12 15:06:11 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/12 16:45:27 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct s_parsing
-{
-	char	*str;
-	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
-}				t_par;
+#include "../../Includes/minishell.h"
 
-int		calc_size_type(char *str);
-int		calc_type(char *str);
-void	sparse(t_par **p, char *argv);
-void	print_t_par(t_par **p);
-int		get_skip_count(const char *str);
-void	ft_parsing(char *argv);
-int		is_quote(char *argv);
-int		verifquote(char *argv);
-void	free_t_par(t_par **p);
+int main(int argc, char **argv)
+{
+    char buffer[512];
+
+	(void)argc;
+	(void)argv;
+    if (getcwd(buffer, sizeof(buffer)) != NULL)
+        printf("Le répertoire de travail actuel est : %s\n", buffer);
+	else
+	{
+        perror("Erreur lors de l'appel à getcwd");
+        return 1;
+    }
+    return 0;
+}
