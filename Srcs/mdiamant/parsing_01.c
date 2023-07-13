@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 16:33:52 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/13 09:20:34 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,35 @@ void	sparse(t_par **p, char *argv)
 	{
 		i += getSkipCount(argv + i);
 		p[j] = malloc(sizeof(t_par));
+		if (verifquote(argv + i) == 1)
+		{
+			p[j]->str = ft_substr(argv, i, 1);
+			p[j++]->type = calcType(argv + i);
+			size = calcSizeType(argv + i);
+			p[j++]->str = ft_substr(argv, i + 1, size);
+			i += size + 1;
+			p[j]->str = ft_substr(argv, i - 1, 1);
+			p[j++]->type = calcType(argv + i - 1);
+		}
+		else
+		{
 		p[j]->type = calcType(argv + i);
 		size = calcSizeType(argv + i);
 		p[j]->str = ft_substr(argv, i, size);
 		printf("p[%d] = type : %d, str : '%s'\n", j, p[j]->type, p[j]->str);
 		j++;
 		i += size;
+		}
+
 	}
+	p[j] = NULL;
+}
+
+int	verifquote(char *argv)
+{
+	if (argv[0] == '\'' || argv[0] == '\"')
+		return (1);
+	return (0);
 }
 
 void free_t_par(t_par **p)
@@ -92,9 +114,11 @@ int calcSizeType(char *str)
 	i = 0;
 	size = 1;
 	if (simplquote(str + 1) != -1)
-		size = simplquote(str + 1);
+	{
+		size = simplquote(str + 1) + 1;
+	}
 	else if (doublquote(str) != -1)
-		size = doublquote(str + 1);
+		size = doublquote(str + 1) + 1;
 	else if (is_operand(str) != 0)
 		size = is_operand(str);
 	else
@@ -133,7 +157,7 @@ int count_arg(const char *argv)
 		if (j != 0)
 		{
 			if (i == 0)
-				count--;
+				count -= 2;
 			count++;
 			i = i + j - 1;
 			if (argv[i + 1] != ' ' && argv[i + 1] != '\n')
