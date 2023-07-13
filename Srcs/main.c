@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 18:02:27 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/13 12:36:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 
 	while (1)
 	{
-		line = readline("mishelle $> ");
+		line = prompt();
 		if (!line)
 			break ;
 		ft_parsing(line);
