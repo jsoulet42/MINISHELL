@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mdiamant.h                                         :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/13 17:23:54 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/12 15:03:50 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-typedef struct s_parsing
-{
-	char	*str;
-	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
-}				t_par;
+#include "../../Includes/minishell.h"
 
-int		calc_size_type(char *str);
-int		calc_type(char *str);
-void	sparse(t_par **p, char *argv);
-void	print_t_par(t_par **p);
-int		get_skip_count(const char *str);
-void	ft_parsing(char *argv);
-int		is_quote(char *argv);
-int		verifquote(char *argv);
-void	free_t_par(t_par **p);
+int	main(int argc, char **env)
+{
+	int	i;
+
+	i = -1;
+	(void)argc;
+	if (!env)
+		printf("\n");
+	else
+		while (env[++i])
+			printf("%s\n", env[i]);
+	return (0);
+}
