@@ -6,13 +6,10 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/07/12 19:07:05 by lolefevr         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/12 17:57:16 by mdiamant         ###   ########.fr       */
->>>>>>> 3a31d1f2bc5aa1bbde8ccb321a2e8615964643b9
+/*   Updated: 2023/07/13 17:57:05 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 
 #ifndef MINISHELL_H
@@ -55,10 +52,7 @@
 # include "hnogared.h"
 # include "lolefevr.h"
 # include "jsoulet.h"
-<<<<<<< HEAD
-=======
 # include "hnogared.h"
->>>>>>> 3a31d1f2bc5aa1bbde8ccb321a2e8615964643b9
 
 /*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
 int		is_operand(const char *str);

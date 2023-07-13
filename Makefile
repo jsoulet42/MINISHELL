@@ -15,13 +15,6 @@ VPATH		=	Srcs:			\
 				Srcs/lolefevr:	\
 				Srcs/hnogared:
 
-<<<<<<< HEAD
-SRCS		=	main.c			\
-				parsing_01.c	\
-				error_exit_01.c	\
-				doublquote_01.c	\
-				simplquote_01.c	\
-=======
 SRCS		=	main.c				\
 				parsing_01.c		\
 				error_exit_01.c		\
@@ -29,8 +22,9 @@ SRCS		=	main.c				\
 				simplquote_01.c		\
 				display_01.c		\
 				environment_01.c	\
-				environment_utils_01.c
->>>>>>> 3a31d1f2bc5aa1bbde8ccb321a2e8615964643b9
+				environment_utils_01.c	\
+				check_starterrors01.c	\
+				check_starterrors02.c
 
 ECHO_SRCS	=	ft_echo_01.c
 
