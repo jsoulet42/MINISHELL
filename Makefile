@@ -20,7 +20,6 @@ SRCS		=	main.c			\
 				error_exit_01.c	\
 				doublquote_01.c	\
 				simplquote_01.c	\
-				main_hnogared.c
 
 ECHO_SRCS	=	ft_echo_01.c
 
