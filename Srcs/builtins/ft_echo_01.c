@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "../../Includes/minishell.h"
 
 void ft_echo(char *str, int option, char *stro)
 {

@@ -6,20 +6,16 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/07/12 12:12:33 by lolefevr         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/12 17:31:51 by hnogared         ###   ########.fr       */
->>>>>>> 1f19e556878f8bcef6d11284a9f6a56f21cdc6dc
+/*   Updated: 2023/07/12 19:07:05 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "libft.h"
 
-<<<<<<< HEAD
 //#include <readline> //FLAG: -lreadline*****readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history		*****
 #include <stdio.h> //					*****printf																						*****
 #include <stdlib.h> //					*****malloc free exit																			*****
@@ -34,7 +30,6 @@
 //#include <curses.h> //FLAG: -lncurses	*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 #include <errno.h> //					*****errno																						*****
 //#include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
-=======
 # include <readline/readline.h> //FLAG: -lreadline*****readline, rl_clear_history, rl_on_new_line, rl_replace_line, rl_redisplay, add_history		*****
 # include <stdio.h> //					*****printf																						*****
 # include <stdlib.h> //					*****malloc free exit																			*****
@@ -52,19 +47,10 @@
 
 # include "minishell_macros.h"
 
-# include "hnogared.h"
 # include "mdiamant.h"
+# include "hnogared.h"
 # include "lolefevr.h"
 # include "jsoulet.h"
->>>>>>> 1f19e556878f8bcef6d11284a9f6a56f21cdc6dc
-
-
-typedef struct s_parsing
-{
-	char	*str;
-	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
-}				t_par;
-
 
 /*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
 int		is_operand(const char *str);

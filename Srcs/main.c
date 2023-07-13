@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/12 17:36:32 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/13 11:04:00 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(void)
 		line = readline("mishelle $> ");
 		if (!line)
 			break ;
+		check_starterrors(line);
 		ft_parsing(line);
 		free(line);
 	}
