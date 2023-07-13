@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 16:49:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/13 17:26:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 	temp = *env_list;
 	while (temp && temp->next)
 		temp = temp->next;
+	ft_printf("final : %s\n", temp);
 	if (temp)
 		temp->next = new;
 	else
-		temp = new;
+		*env_list = new;
 	return (*env_list);
 }
 

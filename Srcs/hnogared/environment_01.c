@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/13 17:15:16 by dw dqw           ###   ########.fr       */
+/*   Updated: 2023/07/13 17:30:52 by dw dqw           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ t_env	*get_default_env(char **envp)
 			free_env(&env_list);
 			return (NULL);
 		}
-		printf("New : %s\n", new_var->var_display);
 		env_add_back(&env_list, new_var);
 	}
 	return (env_list);
