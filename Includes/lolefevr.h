@@ -14,14 +14,14 @@
 # define LOLEFEVR_H
 
 int	check_starterrors(char *str);
-int error_pipe(char *str);
-int error_gen(char *str, int i);
+int 	error_pipe(char *str);
+int 	error_gen(char *str, int i);
 int	error_quote(char *str);
-void error_squote(char *str, int *squote, int *i);
-void error_dquote(char *str, int *dquote, int *i);
-void dblequote(int *i, char *str);
-void simplequote( int *i, char *str);
-int viveldop(int gel, char *str, int *i);
+void 	error_squote(char *str, int *squote, int *i);
+void 	error_dquote(char *str, int *dquote, int *i);
+void 	dblequote(int *i, char *str);
+void 	simplequote( int *i, char *str);
+int 	viveldop(int gel, char *str, int *i);
 int	unknown_command();
 
 #endif
