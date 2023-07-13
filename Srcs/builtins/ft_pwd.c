@@ -1,27 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lolefevr.h                                         :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 11:05:36 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/13 17:30:56 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/07/12 15:06:11 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/12 16:45:27 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LOLEFEVR_H
-# define LOLEFEVR_H
+#include "../../Includes/minishell.h"
 
-int	check_starterrors(char *str);
-int error_pipe(char *str);
-int error_gen(char *str, int i);
-int	error_quote(char *str);
-void error_squote(char *str, int *squote, int *i);
-void error_dquote(char *str, int *dquote, int *i);
-void dblequote(int *i, char *str);
-void simplequote( int *i, char *str);
-int viveldop(int gel, char *str, int *i);
-int	unknown_command();
+int main(int argc, char **argv)
+{
+    char buffer[512];
 
-#endif
+	(void)argc;
+	(void)argv;
+    if (getcwd(buffer, sizeof(buffer)) != NULL)
+        printf("Le répertoire de travail actuel est : %s\n", buffer);
+	else
+	{
+        perror("Erreur lors de l'appel à getcwd");
+        return 1;
+    }
+    return 0;
+}

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
+<<<<<<< HEAD
+/*   Updated: 2023/07/12 19:07:03 by lolefevr         ###   ########.fr       */
+=======
 /*   Updated: 2023/07/13 09:18:07 by mdiamant         ###   ########.fr       */
+>>>>>>> 3a31d1f2bc5aa1bbde8ccb321a2e8615964643b9
 /*                                                                            */
 /* ************************************************************************** */
 

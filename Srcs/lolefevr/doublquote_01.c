@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   doublquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:56:24 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/12 11:09:57 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/12 19:10:36 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../Includes/minishell.h"
 
 int doublquote(char *str)
 {
