@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:39:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 16:13:51 by dw dqw           ###   ########.fr       */
+/*   Updated: 2023/07/13 18:48:12 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*prompt(void);
 
 /* Srcs/hnogared/environment_01.c */
 t_env	*add_env_variable(t_env *env_list, char *var_name, char *var_value);
-t_env	*init_env(char **env);
+t_env	*init_env(t_env **env_list, char **envp);
 void	print_str_tab(char **str_tab);
 void	free_str_tab(char **str_tab);
 

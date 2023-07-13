@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 17:26:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:31:15 by dw dqw           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 	temp = *env_list;
 	while (temp && temp->next)
 		temp = temp->next;
-	ft_printf("final : %s\n", temp);
 	if (temp)
 		temp->next = new;
 	else
@@ -58,8 +57,7 @@ void	print_env(t_env *env_list)
 		return ;
 	while (env_list)
 	{
-		printf("%s (%s %s)\n", env_list->var_display, env_list->var_name,
-			env_list->var_val);
+		printf("%s\n", env_list->var_display);
 		env_list = env_list->next;
 	}
 }

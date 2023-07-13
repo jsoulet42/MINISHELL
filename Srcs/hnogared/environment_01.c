@@ -6,13 +6,13 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/13 17:30:52 by dw dqw           ###   ########.fr       */
+/*   Updated: 2023/07/13 18:48:48 by dw dqw           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-t_env	*get_default_env(char **envp)
+static t_env	*get_default_env(char **envp)
 {
 	int		i;
 	t_env	*new_var;
@@ -20,6 +20,7 @@ t_env	*get_default_env(char **envp)
 
 	if (!envp || !*envp)
 		return (NULL);
+	env_list = NULL;
 	i = 0;
 	while (envp[i])
 	{
@@ -34,18 +35,16 @@ t_env	*get_default_env(char **envp)
 	return (env_list);
 }
 
-t_env	*init_env(char **envp)
-{
-	t_env	*env_list;
+//static t_env	*complete_env(t_env **env)
 
-	env_list = NULL;
-	env_list = get_default_env(envp);
-	env_list = new_env_var("TEST=test", NULL);
-	if (envp)
-		return (env_list);
-	return (env_list);
+t_env	*init_env(t_env **env_list, char **envp)
+{
+	*env_list = get_default_env(envp);
+//	complete_env(&env_list);
+	return (*env_list);
 }
 
+/*
 void	print_str_tab(char **str_tab)
 {
 	if (!str_tab)
@@ -66,3 +65,4 @@ void	free_str_tab(char **str_tab)
 	free(str_tab);
 	str_tab = NULL;
 }
+*/
