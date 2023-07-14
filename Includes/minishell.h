@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:12:02 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 16:20:55 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,6 @@ typedef struct s_shell
 # include "lolefevr.h"
 # include "jsoulet.h"
 # include "hnogared.h"
-
-/*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
-int		is_operand(const char *str);
-t_par	**init_parsing(char *argv);
-int		count_arg(const char *argv);
-void	ft_parsing(char *argv);
-int		getSkipCount(const char *str);
-
-/*-----------------Srcs/mdiamant/error_exit_01.c-----------------*/
-void	error_exit(char *str);
 
 /*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
 int		doublquote(char *str);
