@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:59:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 10:53:12 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:09:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <fcntl.h>
 
 /* Status codes for function returns */
-# define SH_SUCCES	0
+# define SH_SUCCESS	0
 # define SH_ERROR	1
 
 /* Prompt string buffer size */
@@ -33,7 +33,7 @@
 # define SH_OVERWRITE	0
 # define SH_CONCAT		1
 
-typedef struct t_env
+typedef struct s_env
 {
 	char	*name;
 	char	*value;
