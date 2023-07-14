@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:51:18 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/13 17:33:18 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/13 19:04:36 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	unknown_command()
 {
-	printf("Error : Unknown type command\n");
+	printf("Error : Unknown command type \n");
 	return (1);
 }
 
@@ -60,13 +60,7 @@ int error_pipe(char *str)
 
 int	check_starterrors(char *str)
 {
-	int	boole;
-
-	boole = 0;
-	boole += error_quote(str);
-	boole += error_gen(str, 0);
-	boole += error_pipe(str);
-	if (boole > 0)
+	if (error_quote(str) || error_gen(str, 0) || error_pipe(str))
 		return (1);
 	else
 		return (0);
