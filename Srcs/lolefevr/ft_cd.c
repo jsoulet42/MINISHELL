@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/14 17:19:13 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:12:52 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,5 @@ int main(int argc, char **argv, char **env)
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
 	return 0;
+	// ok
 }
