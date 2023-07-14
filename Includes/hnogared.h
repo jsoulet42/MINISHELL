@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:39:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:38:21 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 16:39:58 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define SH_OVERWRITE	0
 # define SH_CONCAT		1
 
-typedef struct t_env
+struct t_env
 {
 	char	*name;
 	char	*value;
