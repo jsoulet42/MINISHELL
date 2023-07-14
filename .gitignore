@@ -4,3 +4,4 @@ ignore
 Objs
 minishell
 bin
+test
