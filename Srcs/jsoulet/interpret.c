@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 17:15:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:27:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,24 +87,22 @@ void execute_cmd(t_par *par, t_env *env)
 	char **commande;
 	char *path;
 
-	commande = create_commande(par);
+	commande = create_commande(&par);
 	if (commande == NULL)
 		return ;
 	path = get_path(commande[0], env);
 	if (!path)
 		printf("minishell: command not found: %s\n", commande[0]);
 	else
-		execve(path, commande, env);
+		execve(path, commande, env_to_str_tab(env));
 	free_str_tab(commande);
 }
 
 char *get_path(char *cmd, t_env *env)
 {
-	int i;
 	char **path;
 	char *path_cmd;
 
-	i = 0;
 	while (env)
 	{
 		if (ft_strncmp(env->name, "PATH", 4) == 0)

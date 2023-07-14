@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 17:18:57 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:21:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int		verifquote(char *argv);
 void	free_t_par(t_par **p);
 int		is_operand(const char *str);
 int		count_arg(const char *argv);
-t_par	ft_parsing(char *argv);
 
 void	error_exit(char *str);
 
