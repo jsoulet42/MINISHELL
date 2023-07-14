@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 10:34:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:45:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void	free_str_tab(char **str_tab)
 	while (str_tab[i])
 		free(str_tab[i++]);
 	free(str_tab);
+	str_tab = NULL;
 }

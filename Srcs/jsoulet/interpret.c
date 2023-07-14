@@ -6,12 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 17:57:37 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 19:03:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
 
 /*si il y a plusieur operateur de suite on print une erreur
 	et on return le print de l'erreur*/
@@ -43,13 +42,11 @@ int commande_len(t_par **par)
 	int	len;
 
 	i = 0;
-	len = 1;
-	while (par[i])
-	{
-		if (par[i]->type == 1)
-			len++;
+	len = 0;
+	while (par[i] && par[i]->type == 1)
 		i++;
-	}
+	while (par[i + len] && par[i + len]->type != 1)
+		len++;
 	return (len);
 }
 
@@ -63,9 +60,11 @@ char **create_commande(t_par **par)
 	int		i;
 	char	**commande;
 
+	if (!par)
+		return (NULL);
 	j = 0;
 	i = 0;
-	commande = malloc(sizeof(char *) * commande_len(par) + 1);
+	commande = (char **) malloc(sizeof(char *) * (commande_len(par) + 1));
 	while (par[i] && par[i]->type == 1)
 		i++;
 	if (par[i] == NULL)
@@ -99,7 +98,7 @@ void execute_cmd(t_par *par, t_env *env)
 	}
 	else
 		execve(path, commande, env_to_str_tab(env));
-	free_str_tab(commande);
+	free(commande);
 }
 
 char *get_path(char *cmd, t_env *env)
@@ -157,15 +156,15 @@ void	piper(t_par **par, t_env *env)
 			return ;
 		if (pid == 0)
 		{
+			dup2(fd[1], g_shell_data->out);
 			close(fd[0]);
-			dup2(fd[1], 1);
 			execute_cmd(par[i], env);
 		}
 		else
 		{
-			waitpid(pid, NULL, 0);
+			dup2(fd[0], g_shell_data->in);
 			close(fd[1]);
-			dup2(fd[0], 0);
+			waitpid(pid, NULL, g_shell_data->in);
 		}
 		i++;
 	}
