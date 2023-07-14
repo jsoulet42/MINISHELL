@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 17:57:05 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:12:02 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,17 @@
 # include <term.h> //					*****tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs											*****
 
 # include "minishell_macros.h"
+
+typedef struct s_parsing t_par;
+typedef struct s_env t_env;
+
+typedef struct s_shell
+{
+	t_par	**par;
+	t_env	*env;
+	int 	in;
+	int 	out;
+}			t_shell;
 
 # include "mdiamant.h"
 # include "hnogared.h"
