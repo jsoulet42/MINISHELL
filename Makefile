@@ -14,7 +14,8 @@ VPATH		=	Srcs:			\
 				Srcs/builtins:	\
 				Srcs/mdiamant:	\
 				Srcs/lolefevr:	\
-				Srcs/hnogared:
+				Srcs/hnogared:	\
+				Srcs/jsoulet
 
 SRCS		=	main.c					\
 				parsing_01.c			\

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 16:28:41 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 16:59:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define JSOULET_H
 
 #include "../Includes/minishell.h"
+
 
 int check_line(t_par **par);
 int commande_len(t_par **par);

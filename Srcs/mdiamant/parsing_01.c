@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 15:46:13 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:33:25 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,11 +201,12 @@ int	get_skip_count(const char *str)
 		i++;
 	return (i);
 }
-void	test_dup(t_par **p);
+void	test_dup(t_par **p)
 {
 	int	oldfd;
 	int	newfd;
 
+	(void)p;
 	oldfd = dup(STDIN_FILENO);
 	newfd = dup(STDOUT_FILENO);
 	printf("oldfd : %d\n", oldfd);

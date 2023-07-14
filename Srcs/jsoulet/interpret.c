@@ -6,12 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 16:03:40 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 19:03:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
 
 /*si il y a plusieur operateur de suite on print une erreur
 	et on return le print de l'erreur*/
@@ -43,13 +42,11 @@ int commande_len(t_par **par)
 	int	len;
 
 	i = 0;
-	len = 1;
-	while (par[i])
-	{
-		if (par[i]->type == 1)
-			len++;
+	len = 0;
+	while (par[i] && par[i]->type == 1)
 		i++;
-	}
+	while (par[i + len] && par[i + len]->type != 1)
+		len++;
 	return (len);
 }
 
@@ -63,9 +60,11 @@ char **create_commande(t_par **par)
 	int		i;
 	char	**commande;
 
+	if (!par)
+		return (NULL);
 	j = 0;
 	i = 0;
-	commande = malloc(sizeof(char *) * commande_len(par) + 1);
+	commande = (char **) malloc(sizeof(char *) * (commande_len(par) + 1));
 	while (par[i] && par[i]->type == 1)
 		i++;
 	if (par[i] == NULL)
@@ -87,36 +86,34 @@ void execute_cmd(t_par *par, t_env *env)
 	char **commande;
 	char *path;
 
-	commande = create_commande(par);
+	commande = create_commande(&par);
 	if (commande == NULL)
 		return ;
 	path = get_path(commande[0], env);
 	if (!path)
-		printf("minishell: command not found: %s\n", commande[0]);
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(commande[0], 2);
+		ft_putstr_fd("\n", 2);
+	}
 	else
-		execve(path, commande, env);
-	free_str_tab(commande);
+		execve(path, commande, env_to_str_tab(env));
+	free(commande);
 }
 
 char *get_path(char *cmd, t_env *env)
 {
-	int i;
+	char	*var;
 	char **path;
 	char *path_cmd;
 
-	i = 0;
-	while (env)
-	{
-		if (ft_strncmp(env->name, "PATH", 4) == 0)
-		{
-			path = ft_split(env->value, ':');
-			path_cmd = get_path_cmd(path, cmd);
-			free_str_tab(path);
-			return (path_cmd);
-		}
-		env = env->next;
-	}
-	return (NULL);
+	var = ft_getenv(env, "PATH");
+	if (!var)
+		return (NULL);
+	path = ft_split(var, ':');
+	path_cmd = get_path_cmd(path, cmd);
+	free_str_tab(path);
+	return (path_cmd);
 }
 
 char *get_path_cmd(char **path, char *cmd)
@@ -159,15 +156,15 @@ void	piper(t_par **par, t_env *env)
 			return ;
 		if (pid == 0)
 		{
-			dup2(fd[1], 1);
+			dup2(fd[1], g_shell_data->out);
 			close(fd[0]);
 			execute_cmd(par[i], env);
 		}
 		else
 		{
-			dup2(fd[0], 0);
+			dup2(fd[0], g_shell_data->in);
 			close(fd[1]);
-			waitpid(pid, NULL, 0);
+			waitpid(pid, NULL, g_shell_data->in);
 		}
 		i++;
 	}
