@@ -5,9 +5,9 @@
 # Files variables ***************** #
 NAME		=	minishell
 
-BIN_DIR		=	bin
 ECHO_NAME	=	echo
-ECHO_PATH	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
+ENV_NAME	=	env
+PWD_NAME	=	pwd
 
 VPATH		=	Srcs:			\
 				Srcs/builtins:	\
@@ -15,22 +15,34 @@ VPATH		=	Srcs:			\
 				Srcs/lolefevr:	\
 				Srcs/hnogared:
 
-SRCS		=	main.c				\
-				parsing_01.c		\
-				error_exit_01.c		\
-				doublquote_01.c		\
-				simplquote_01.c		\
-				display_01.c		\
-				environment_01.c	\
+SRCS		=	main.c					\
+				parsing_01.c			\
+				error_exit_01.c			\
+				doublquote_01.c			\
+				simplquote_01.c			\
+				display_01.c			\
+				environment_01.c		\
 				environment_utils_01.c	\
+				environment_utils_02.c	\
+				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c
 
+BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c
+ENV_SRCS	=	ft_env.c
+PWD_SRCS	=	ft_pwd.c
+
+BIN_DIR		=	bin
+ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
+ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
+PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
+ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
+PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
 
 # Compilation variables *********** #
 CC			=	gcc
@@ -49,15 +61,27 @@ RM			=	rm -rf
 all:	$(NAME)
 
 # Compilation rules *************** #
-$(NAME):	$(ECHO_PATH) $(OBJS_DIR) $(OBJS)
+$(NAME):	$(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
 
-$(ECHO_NAME):	$(ECHO_PATH)
+$(ECHO_NAME):	$(ECHO_BIN)
 
-$(ECHO_PATH):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $(ECHO_PATH) $(LDLIBS)
-	@$(call terminal_disp, "Compiled builtin binary: '$@'")
+$(ENV_NAME):	$(ENV_BIN)
+
+$(PWD_NAME):	$(PWD_BIN)
+
+$(ECHO_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
+	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
+
+$(ENV_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
+	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
+
+$(PWD_BIN):	$(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
+	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
@@ -89,11 +113,11 @@ else
 endif
 
 binclean: clean
-ifeq ($(shell if [ -f "$(ECHO_PATH)" ]; then echo 1; else echo 0; fi), 1)
-	@$(RM) $(ECHO_PATH);
-	@$(call terminal_disp, "Removed builtin executable file: '$(ECHO_NAME)'")
+ifneq ($(shell ls $(BIN_DIR) 2> /dev/null | wc -l), 0)
+	@$(RM) $(BIN_DIR)/*
+	@$(call terminal_disp, "Removed builtin executable files")
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(ECHO_PATH)'")
+	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)/*'")
 endif
 
 dclean:	binclean
