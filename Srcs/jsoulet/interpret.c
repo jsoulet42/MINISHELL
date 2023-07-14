@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 17:27:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:57:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,11 @@ void execute_cmd(t_par *par, t_env *env)
 		return ;
 	path = get_path(commande[0], env);
 	if (!path)
-		printf("minishell: command not found: %s\n", commande[0]);
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(commande[0], 2);
+		ft_putstr_fd("\n", 2);
+	}
 	else
 		execve(path, commande, env_to_str_tab(env));
 	free_str_tab(commande);
@@ -100,21 +104,17 @@ void execute_cmd(t_par *par, t_env *env)
 
 char *get_path(char *cmd, t_env *env)
 {
+	char	*var;
 	char **path;
 	char *path_cmd;
 
-	while (env)
-	{
-		if (ft_strncmp(env->name, "PATH", 4) == 0)
-		{
-			path = ft_split(env->value, ':');
-			path_cmd = get_path_cmd(path, cmd);
-			free_str_tab(path);
-			return (path_cmd);
-		}
-		env = env->next;
-	}
-	return (NULL);
+	var = ft_getenv(env, "PATH");
+	if (!var)
+		return (NULL);
+	path = ft_split(var, ':');
+	path_cmd = get_path_cmd(path, cmd);
+	free_str_tab(path);
+	return (path_cmd);
 }
 
 char *get_path_cmd(char **path, char *cmd)
@@ -157,15 +157,15 @@ void	piper(t_par **par, t_env *env)
 			return ;
 		if (pid == 0)
 		{
-			dup2(fd[1], 1);
 			close(fd[0]);
+			dup2(fd[1], 1);
 			execute_cmd(par[i], env);
 		}
 		else
 		{
-			dup2(fd[0], 0);
-			close(fd[1]);
 			waitpid(pid, NULL, 0);
+			close(fd[1]);
+			dup2(fd[0], 0);
 		}
 		i++;
 	}
