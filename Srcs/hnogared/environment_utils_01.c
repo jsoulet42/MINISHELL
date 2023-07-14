@@ -6,12 +6,36 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 02:41:49 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:39:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
+/* Function to retrieve a variable's value inside the minishell's environment
+ *
+ * @param t_env *env		-> pointer to the source environment linked list
+ * @param char *var_name	-> pointer to the variable name to search for
+ * @return char *			-> pointer to the variable value to retrieve
+ */
+char	*ft_getenv(t_env *env, char *var_name)
+{
+	t_env	*found;
+
+	if (!env || !var_name)
+		return (NULL);
+	found = get_env_node(env, var_name);
+	if (found)
+		return (found->value);
+	return (NULL);
+}
+
+/* Function to allocate a minishell environment variable with a given value
+ *
+ * @param char *var_str	-> pointer to the name and value of the variable
+ * @param void *next	-> pointer to the following environment variable
+ * @return t_env *		-> pointer to the newly allocated variable structure
+ */
 t_env	*new_env_var(char *var_str, void *next)
 {
 	int		len;
@@ -38,6 +62,12 @@ t_env	*new_env_var(char *var_str, void *next)
 	return (new);
 }
 
+/* Function to add an environment variable to the end of the environment
+ *
+ * @param t_env **env_list	-> pointer to the environment's first variable
+ * @param t_env *new		-> pointer to the variable structure to add
+ * @return t_env *			-> pointer to the new environment
+ */
 t_env	*env_add_back(t_env **env_list, t_env *new)
 {
 	t_env	*temp;
@@ -54,17 +84,12 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 	return (*env_list);
 }
 
-void	print_env(t_env *env_list)
-{
-	if (!env_list)
-		return ;
-	while (env_list)
-	{
-		printf("%s\n", env_list->display);
-		env_list = env_list->next;
-	}
-}
-
+/* Function to free the allocated memory of an environment variable
+ *
+ * @param t_env *env_var	-> pointer to the variable structure to free
+ * @param t_env *prev_var	-> pointer to the previous variable structure
+ * @param t_env *next_var	-> pointer to the next variable structure
+ */
 void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var)
 {
 	if (!env_var)
@@ -78,6 +103,10 @@ void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var)
 	env_var = NULL;
 }
 
+/* Function to free the minishell's environment linked list
+ *
+ * @param t_env **env_list	-> pointer to the environment's first element
+ */
 void	free_env(t_env **env_list)
 {
 	t_env	*next;

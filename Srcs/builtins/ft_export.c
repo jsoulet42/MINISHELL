@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 03:16:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 11:00:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,14 @@
 /*
 int	ft_export(char **argv, t_env *env)
 {
-	if (!)
+	int	i;
+
+	if (!argv || !*argv)
+		return (SH_ERROR);
+	i = 1;
+	while (argv[i])
+	{
+		if (ft_getenv())
+	}
+	return (SH_SUCCESS);
 }*/
