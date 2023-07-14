@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:59:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:35:26 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:09:24 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ struct s_env
 	char	*value;
 	char	*display;
 	void	*next;
-}				t_env;
+};
 
 /* Srcs/hnogared/utils_01.c */
 void	safe_free(void **ptr_addr);
