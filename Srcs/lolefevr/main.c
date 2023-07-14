@@ -5,28 +5,17 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 18:03:32 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/07/14 12:14:32 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/14 17:18:02 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-int	main(void)
+int main(int argc, char **argv, char **env)
 {
-	char	*line;
-	char	*line2;
-
-	while (1)
-	{
-		line = prompt();
-		if (!line)
-			break ;
-		line2 = ft_strtrim(line, " \n\t\v");
-		free(line);
-		if (check_starterrors(line2) > 0)
-			return (0);
-		ft_parsing(line2);
-	}
-	return (0);
+	char *str[] = {"cd", NULL};
+	execve("./ft_cd", str, env);
+	printf("shelle\n");
+	return 0;
 }
