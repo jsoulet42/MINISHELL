@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/13 17:57:05 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/14 18:25:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,25 @@
 
 # include "minishell_macros.h"
 
+typedef struct s_parsing t_par;
+typedef struct s_env t_env;
+
+typedef struct s_shell
+{
+	t_par	**par;
+	t_env	*env;
+	int 	in;
+	int 	out;
+}			t_shell;
+
+extern t_shell *g_shell_data;
+
 # include "mdiamant.h"
 # include "hnogared.h"
 # include "lolefevr.h"
 # include "jsoulet.h"
 # include "hnogared.h"
 
-/*-----------------Srcs/mdiamant/parsing_01.c-----------------*/
-int		is_operand(const char *str);
-t_par	**init_parsing(char *argv);
-int		count_arg(const char *argv);
-void	ft_parsing(char *argv);
-int		getSkipCount(const char *str);
-
-/*-----------------Srcs/mdiamant/error_exit_01.c-----------------*/
-void	error_exit(char *str);
 
 /*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
 int		doublquote(char *str);

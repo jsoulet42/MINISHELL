@@ -1,49 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_01.c                                   :+:      :+:    :+:   */
+/*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/13 17:30:52 by dw dqw           ###   ########.fr       */
+/*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/14 18:45:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-t_env	*get_default_env(char **envp)
+void	safe_free(void **ptr_addr)
 {
-	int		i;
-	t_env	*new_var;
-	t_env	*env_list;
-
-	if (!envp || !*envp)
-		return (NULL);
-	i = 0;
-	while (envp[i])
+	if (*ptr_addr)
 	{
-		new_var = new_env_var(envp[i++], NULL);
-		if (!new_var)
-		{
-			free_env(&env_list);
-			return (NULL);
-		}
-		env_add_back(&env_list, new_var);
+		free(*ptr_addr);
+		*ptr_addr = NULL;
 	}
-	return (env_list);
-}
-
-t_env	*init_env(char **envp)
-{
-	t_env	*env_list;
-
-	env_list = NULL;
-	env_list = get_default_env(envp);
-	env_list = new_env_var("TEST=test", NULL);
-	if (envp)
-		return (env_list);
-	return (env_list);
 }
 
 void	print_str_tab(char **str_tab)
