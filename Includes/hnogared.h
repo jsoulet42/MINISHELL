@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:39:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:16:50 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 16:35:09 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # define START_VAR_AMOUNT	1
 # define START_PATH	"bin"
 
-typedef struct t_env
+struct t_env
 {
 	char	*var_name;
 	char	*var_val;
