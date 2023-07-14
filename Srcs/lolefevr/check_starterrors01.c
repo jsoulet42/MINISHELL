@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_starterrors01.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:49:37 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/13 17:33:09 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/13 18:42:54 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,3 @@ void simplequote( int *i, char *str)
 	while (str[*(i)] && str[*(i)] != 39)
 		(*i)++;
 }
-
-
