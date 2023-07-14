@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:44:12 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 16:58:31 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ struct s_env
 	char	*value;
 	char	*display;
 	void	*next;
-}				t_env;
+};
 
 /* Srcs/hnogared/utils_01.c */
 void	safe_free(void **ptr_addr);

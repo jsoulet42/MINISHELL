@@ -6,13 +6,13 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/13 17:23:46 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:03:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void	ft_parsing(char *argv)
+t_par	**ft_parsing(char *argv)
 {
 	int		res;
 	char	*line;
@@ -26,7 +26,7 @@ void	ft_parsing(char *argv)
 	sparse(p, line);
 	print_t_par(p);
 	free(line);
-	free_t_par(p);
+	return (p);
 }
 
 void	print_t_par(t_par **p)

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:14:51 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/14 17:01:36 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,20 @@
 
 t_shell *g_shell_data;
 
+int init_fd(void)
+{
+	g_shell_data->in = dup(STDIN_FILENO);
+	g_shell_data->out = dup(STDOUT_FILENO);
+	return (0);
+}
+
 int	main(void)
 {
 	char	*line;
 	char	*line2;
 
-	g_shell_data = init_fd();
+	g_shell_data = (t_shell *)malloc(sizeof(t_shell));
+	init_fd();
 	while (1)
 	{
 		line = prompt();
@@ -35,13 +43,5 @@ int	main(void)
 		free(line2);
 		free_t_par(g_shell_data->par);
 	}
-	return (0);
-}
-
-int init_fd(void)
-{
-	g_shell_data = (t_shell *)malloc(sizeof(t_shell));
-	g_shell_data->in = dup(STDIN_FILENO);
-	g_shell_data->out = dup(STDOUT_FILENO);
 	return (0);
 }
