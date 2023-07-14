@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 11:54:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 12:22:41 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,13 @@ t_env	*get_env_node(t_env *env_list, char *var_name)
 	return (env_list);
 }
 
-/* Function to update a variable structure value
+/* Function to update a variable structure's value with a new one
  *
+ * @parent_function update_env_var
+ * @param t_env *env_var	-> pointer to the variable structure to update
+ * @param char *value		-> pointer to the update value
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @return int				-> status code of the function
  */
 static int	update_env_value(t_env *env_var, char *value, int mode)
 {
@@ -87,10 +92,20 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 		free(temp);
 	}
 	if (!env_var->value)
-		return (1);
-	return (0);
+		return (SH_ERROR);
+	return (SH_SUCCESS);
 }
 
+/* Function to update a variable structure's value and display with a new value
+ * mode(SH_OVERWRITE)	-> set the variable to the new value
+ * mode(SH_CONCAT)		-> concatenate the new value to the current variable value
+ *
+ * @child_function update_env_value
+ * @param t_env *env_var	-> pointer to the variable structure to update
+ * @param char *value		-> pointer to the update value
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @return t_env *			-> pointer to the updated variable structure
+ */
 t_env	*update_env_var(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
@@ -99,7 +114,7 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 		return (NULL);
 	if (!value && mode == SH_CONCAT)
 		return (env_var);
-	if (update_env_value(env_var, value, mode))
+	if (update_env_value(env_var, value, mode) != SH_SUCCESS)
 		return (NULL);
 	safe_free((void **) &env_var->display);
 	temp = ft_strjoin(env_var->name, "=");
@@ -112,6 +127,10 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 	return (env_var); 
 }
 
+/* Function to display the environment linked list on terminal
+ *
+ * @param t_env *env_list	-> pointer to the enviromnent to display
+ */
 void	print_env(t_env *env_list)
 {
 	if (!env_list)
