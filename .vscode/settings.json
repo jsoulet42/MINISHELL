@@ -2,6 +2,7 @@
 	"files.associations": {
 		"stdio.h": "c",
 		"minishell.h": "c",
-		"signal.h": "c"
+		"signal.h": "c",
+		"mdiamant.h": "c"
 	}
 }
