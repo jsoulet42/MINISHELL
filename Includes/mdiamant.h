@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 16:19:09 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:07:09 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ struct s_parsing
 	char	*str;
 	int		type;
 	int		quote_type;
-}				t_par;
+};
 
 int		calc_size_type(char *str);
 int		calc_type(char *str);
