@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 17:03:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:18:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_par	**ft_parsing(char *argv)
 		printf("malloc error // ft_parsing\n");
 	sparse(p, line);
 	print_t_par(p);
+	test_dup(p);
 	free(line);
 	return (p);
 }
@@ -62,8 +63,11 @@ void	sparse(t_par **p, char *argv)
 	{
 		i += get_skip_count(argv + i);
 		p[j] = malloc(sizeof(t_par));
+		p[j]->quote_type = 2;
 		if (is_quote(argv + i) != -1)
 		{
+			if (argv[i] == '\'')
+				p[j]->quote_type = 1;
 			size = is_quote(argv + i);
 			if (size == 0)
 				p[j]->str = ft_strdup("\0");
@@ -197,3 +201,15 @@ int	get_skip_count(const char *str)
 		i++;
 	return (i);
 }
+void	test_dup(t_par **p);
+{
+	int	oldfd;
+	int	newfd;
+
+	oldfd = dup(STDIN_FILENO);
+	newfd = dup(STDOUT_FILENO);
+	printf("oldfd : %d\n", oldfd);
+	printf("newfd : %d\n", newfd);
+
+}
+

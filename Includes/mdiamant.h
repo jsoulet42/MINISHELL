@@ -3,17 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 17:03:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/14 17:18:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#ifndef MDIAMANT_H
+# define MDIAMANT_H
 
 struct s_parsing
 {
 	char	*str;
-	int		type; //0 = string, 1 = operand, 2 = option, 3 = variable, 4 = num
+	int		type;
+	int		quote_type;
 };
 
 int		calc_size_type(char *str);
@@ -25,3 +29,12 @@ t_par	**ft_parsing(char *argv);
 int		is_quote(char *argv);
 int		verifquote(char *argv);
 void	free_t_par(t_par **p);
+int		is_operand(const char *str);
+int		count_arg(const char *argv);
+t_par	ft_parsing(char *argv);
+
+void	error_exit(char *str);
+
+void	test_dup(t_par **p);
+
+#endif
