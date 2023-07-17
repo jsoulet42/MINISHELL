@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 19:03:49 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:40:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int commande_len(t_par **par)
 	int	i;
 	int	len;
 
+	if (!par)
+		return (0);
 	i = 0;
 	len = 0;
 	while (par[i] && par[i]->type == 1)
@@ -58,17 +60,21 @@ char **create_commande(t_par **par)
 {
 	int		j;
 	int		i;
+	int		len;
 	char	**commande;
 
 	if (!par)
 		return (NULL);
-	j = 0;
 	i = 0;
-	commande = (char **) malloc(sizeof(char *) * (commande_len(par) + 1));
 	while (par[i] && par[i]->type == 1)
 		i++;
 	if (par[i] == NULL)
 		return (NULL);
+	len = commande_len(par);
+	if (!len)
+		return (NULL);
+	commande = (char **) malloc(sizeof(char *) * (len + 1));
+	j = 0;
 	while (par[i] && par[i]->type != 1)
 	{
 		commande[j] = par[i]->str;
@@ -81,12 +87,12 @@ char **create_commande(t_par **par)
 }
 
 
-void execute_cmd(t_par *par, t_env *env)
+void execute_cmd(t_par **par, t_env *env)
 {
 	char **commande;
 	char *path;
 
-	commande = create_commande(&par);
+	commande = create_commande(par);
 	if (commande == NULL)
 		return ;
 	path = get_path(commande[0], env);
@@ -156,17 +162,17 @@ void	piper(t_par **par, t_env *env)
 			return ;
 		if (pid == 0)
 		{
-			dup2(fd[1], g_shell_data->out);
 			close(fd[0]);
-			execute_cmd(par[i], env);
+			dup2(fd[1], g_shell_data->out);
+			execute_cmd(par, env);
 		}
 		else
-		{
-			dup2(fd[0], g_shell_data->in);
-			close(fd[1]);
 			waitpid(pid, NULL, g_shell_data->in);
-		}
 		i++;
 	}
+	if (g_shell_data->in > 0)
+		close(g_shell_data->in);
+	if (g_shell_data->out > 0)
+		close(g_shell_data->out);
 }
 
