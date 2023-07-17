@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
 /*   Updated: 2023/07/17 14:15:22 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:50:49 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,16 +164,20 @@ void	piper(t_par **par, t_env *env)
 		if (pid == 0)
 		{
 			close(fd[0]);
-			dup2(fd[1], g_shell_data->out);
+			dup2(fd[1], STDOUT_FILENO);
 			execute_cmd(par, env);
 		}
 		else
-			waitpid(pid, NULL, g_shell_data->in);
+		{
+			close(fd[1]);
+			dup2(fd[0], STDIN_FILENO);
+			waitpid(pid, NULL, 0);
+		}
 		i++;
 	}
-	if (g_shell_data->in > 0)
+	/*if (g_shell_data->in > 0)
 		close(g_shell_data->in);
 	if (g_shell_data->out > 0)
-		close(g_shell_data->out);
+		close(g_shell_data->out);*/
 }
 

@@ -3,10 +3,11 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
 /*   Updated: 2023/07/17 16:15:32 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:03:40 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
