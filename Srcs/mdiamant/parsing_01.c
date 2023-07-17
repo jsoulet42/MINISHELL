@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 17:33:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:04:15 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_par	**ft_parsing(char *argv)
 	if (!p)
 		printf("malloc error // ft_parsing\n");
 	sparse(p, line);
-	print_t_par(p);
+	//print_t_par(p);
 	test_dup(p);
 	free(line);
 	return (p);

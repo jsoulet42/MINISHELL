@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/14 19:03:49 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 09:57:01 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ char **create_commande(t_par **par)
 }
 
 
-void execute_cmd(t_par *par, t_env *env)
+void execute_cmd(t_par **par, t_env *env)
 {
 	char **commande;
 	char *path;
 
-	commande = create_commande(&par);
+	commande = create_commande(par);
 	if (commande == NULL)
 		return ;
 	path = get_path(commande[0], env);
@@ -156,15 +156,15 @@ void	piper(t_par **par, t_env *env)
 			return ;
 		if (pid == 0)
 		{
-			dup2(fd[1], g_shell_data->out);
 			close(fd[0]);
-			execute_cmd(par[i], env);
+			dup2(fd[1], 1);
+			execute_cmd(par, env);
 		}
 		else
 		{
-			dup2(fd[0], g_shell_data->in);
+			waitpid(pid, &g_shell_data->in, 0);
 			close(fd[1]);
-			waitpid(pid, NULL, g_shell_data->in);
+			dup2(fd[0], 0);
 		}
 		i++;
 	}
