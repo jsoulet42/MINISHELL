@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 10:56:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 16:15:32 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,29 @@ t_par	**ft_parsing(char *argv)
 	if (!p)
 		printf("malloc error // ft_parsing\n");
 	sparse(p, line);
-//	print_t_par(p);
-//	test_dup(p);
+	command_nb(p);
 	free(line);
 	return (p);
+}
+
+void	command_nb(t_par **p)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	p[0]->command_elem_id = 1;
+	while (p[i])
+	{
+		p[i]->command_elem_id = 0;
+		j = is_operand(p[i]->str);
+		if (j != 0 && p[i + 1] && p[i + 2])
+		{
+			p[i + 1]->command_elem_id = 1;
+			i += j;
+		}
+		i++;
+	}
 }
 
 void	print_t_par(t_par **p)
@@ -212,4 +231,3 @@ void	test_dup(t_par **p)
 	printf("oldfd : %d\n", oldfd);
 	printf("newfd : %d\n", newfd);
 }
-
