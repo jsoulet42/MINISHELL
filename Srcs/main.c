@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 12:42:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 17:06:51 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,13 @@ static int	prompt_cmd(void)
 
 int	main(int argc, char **argv, char **envp)
 {
+	char	**test = (char *[]){"export", "COUCOU+=45", NULL};
 	(void)argc;
 	(void)argv;
 	if (init_data(envp))
 		return (1);
+	ft_export(test, g_shell_data->env);
+	print_env(g_shell_data->env, SH_UNORDERED);
 	while (1)
 	{
 		if (prompt_cmd())
