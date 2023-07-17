@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:08:29 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/16 20:22:55 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**env_to_str_tab(t_env *env_list)
  * @param char *var_name	-> pointer to the variable name to find
  * @return t_env *			-> pointer to the retrieved variable structure
  */
-t_env	*get_env_node(t_env *env_list, char *var_name)
+t_env	*get_env_var(t_env *env_list, char *var_name)
 {
 	int	name_len;
 
@@ -129,15 +129,33 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 
 /* Function to display the environment linked list on terminal
  *
- * @param t_env *env_list	-> pointer to the enviromnent to display
+ * @param t_env *env_list	-> pointer to the environment to display
  */
-void	print_env(t_env *env_list)
+void	print_env(t_env *env_list, int mode)
 {
-	if (!env_list)
-		return ;
-	while (env_list)
+	char	**temp;
+	char	**str_env;
+
+	if (mode != SH_ORDERED)
 	{
-		printf("%s\n", env_list->display);
-		env_list = env_list->next;
+		while (env_list)
+		{
+			printf("%s\n", env_list->display);
+			env_list = env_list->next;
+		}
+		return ;
 	}
+	str_env = env_to_str_tab(env_list);
+	if (!str_env)
+		return ;
+	order_str_tab(str_env, '=');
+	temp = str_env;
+	while (*temp)
+	{
+		if (!*(ft_strchr(*temp, '=') + 1))
+			printf("%s\"\"\n", *temp++);
+		else
+			printf("%s\n", *temp++);
+	}
+	free_str_tab(str_env);
 }
