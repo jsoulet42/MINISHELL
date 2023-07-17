@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 11:39:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/16 19:16:25 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_getenv(t_env *env, char *var_name)
 
 	if (!env || !var_name)
 		return (NULL);
-	found = get_env_node(env, var_name);
+	found = get_env_var(env, var_name);
 	if (found)
 		return (found->value);
 	return (NULL);

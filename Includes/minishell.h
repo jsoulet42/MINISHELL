@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 16:20:55 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/16 19:35:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,14 @@ typedef struct s_shell
 	int 	out;
 }			t_shell;
 
+extern t_shell *g_shell_data;
+
 # include "mdiamant.h"
 # include "hnogared.h"
 # include "lolefevr.h"
 # include "jsoulet.h"
 # include "hnogared.h"
+
 
 /*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
 int		doublquote(char *str);
