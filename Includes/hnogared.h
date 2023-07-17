@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 10:51:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:32:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@
 
 /* Startup environment variables */
 # define START_VAR_AMOUNT	1
-# define START_PATH	":./bin"
+# define START_PATH	"./bin:"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
-# define SH_CONCAT		1
+# define SH_ADDBACK		1
+# define SH_ADDFRONT	2
 
 /* Environment display mode */
 # define SH_UNORDERED	0
