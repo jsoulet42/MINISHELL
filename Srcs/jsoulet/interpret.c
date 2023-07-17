@@ -3,9 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/07/17 14:15:22 by mdiamant         ###   ########.fr       */
 /*   Updated: 2023/07/17 15:50:49 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -71,7 +72,7 @@ char **create_commande(t_par **par)
 	if (par[i] == NULL)
 		return (NULL);
 	len = commande_len(par);
-	if (!len)
+	if (len == 0)
 		return (NULL);
 	commande = (char **) malloc(sizeof(char *) * (len + 1));
 	j = 0;
