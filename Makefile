@@ -29,7 +29,8 @@ SRCS		=	main.c					\
 				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
-				interpret.c
+				interpret.c				\
+				ft_export.c
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c

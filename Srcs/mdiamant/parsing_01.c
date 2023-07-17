@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 10:04:15 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/17 11:35:54 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,12 @@ t_par	**ft_parsing(char *argv)
 
 	line = ft_strtrim(argv, " ");
 	res = count_arg(line);
-	p = malloc(sizeof(t_par *) * (res + 2));
+	p = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!p)
 		printf("malloc error // ft_parsing\n");
 	sparse(p, line);
-	//print_t_par(p);
-	test_dup(p);
+//	print_t_par(p);
+//	test_dup(p);
 	free(line);
 	return (p);
 }
@@ -62,7 +62,7 @@ void	sparse(t_par **p, char *argv)
 	while (argv[i])
 	{
 		i += get_skip_count(argv + i);
-		p[j] = malloc(sizeof(t_par));
+		p[j] = (t_par *) malloc(sizeof(t_par));
 		p[j]->quote_type = 2;
 		if (is_quote(argv + i) != -1)
 		{
@@ -211,6 +211,5 @@ void	test_dup(t_par **p)
 	newfd = dup(STDOUT_FILENO);
 	printf("oldfd : %d\n", oldfd);
 	printf("newfd : %d\n", newfd);
-
 }
 

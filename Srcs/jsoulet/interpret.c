@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/17 09:57:01 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/17 11:35:03 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int commande_len(t_par **par)
 	int	i;
 	int	len;
 
+	if (!par)
+		return (0);
 	i = 0;
 	len = 0;
 	while (par[i] && par[i]->type == 1)
@@ -58,17 +60,21 @@ char **create_commande(t_par **par)
 {
 	int		j;
 	int		i;
+	int		len;
 	char	**commande;
 
 	if (!par)
 		return (NULL);
-	j = 0;
 	i = 0;
-	commande = (char **) malloc(sizeof(char *) * (commande_len(par) + 1));
 	while (par[i] && par[i]->type == 1)
 		i++;
 	if (par[i] == NULL)
 		return (NULL);
+	len = commande_len(par);
+	if (!len)
+		return (NULL);
+	commande = (char **) malloc(sizeof(char *) * (len + 1));
+	j = 0;
 	while (par[i] && par[i]->type != 1)
 	{
 		commande[j] = par[i]->str;
@@ -157,16 +163,16 @@ void	piper(t_par **par, t_env *env)
 		if (pid == 0)
 		{
 			close(fd[0]);
-			dup2(fd[1], 1);
+			dup2(fd[1], g_shell_data->out);
 			execute_cmd(par, env);
 		}
 		else
-		{
-			waitpid(pid, &g_shell_data->in, 0);
-			close(fd[1]);
-			dup2(fd[0], 0);
-		}
+			waitpid(pid, NULL, g_shell_data->in);
 		i++;
 	}
+	if (g_shell_data->in > 0)
+		close(g_shell_data->in);
+	if (g_shell_data->out > 0)
+		close(g_shell_data->out);
 }
 

@@ -6,12 +6,14 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/14 17:18:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 10:51:54 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HNOGARED_H
 # define HNOGARED_H
+
+# include "minishell.h"
 
 /* open */
 # include <sys/types.h>
@@ -33,6 +35,15 @@
 # define SH_OVERWRITE	0
 # define SH_CONCAT		1
 
+/* Environment display mode */
+# define SH_UNORDERED	0
+# define SH_ORDERED		1
+
+/* Comparative macros */
+# define SH_SET(dst, src)	__typeof__ (src) dst = (src)
+# define SH_MAX(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a > _b ? _a : _b;})
+# define SH_MIN(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a < _b ? _a : _b;})
+
 struct s_env
 {
 	char	*name;
@@ -41,10 +52,15 @@ struct s_env
 	void	*next;
 };
 
+/* Srcs/builtins */
+int		ft_export(char **argv, t_env *env);
+
 /* Srcs/hnogared/utils_01.c */
+char	**order_str_tab(char **str_tab, char limit);
 void	safe_free(void **ptr_addr);
 void	print_str_tab(char **str_tab);
 void	free_str_tab(char **str_tab);
+void	free_data(t_shell *shell_data);
 
 /* Srcs/hnogared/prompt_01.c */
 char	*prompt(void);
@@ -61,8 +77,8 @@ void	free_env(t_env **env_list);
 
 /* Srcs/hnogared/environment_utils_02.c */
 char	**env_to_str_tab(t_env *env_list);
-t_env	*get_env_node(t_env *env_list, char *var_name);
+t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
-void	print_env(t_env *env_list);
+void	print_env(t_env *env_list, int mode);
 
 #endif
