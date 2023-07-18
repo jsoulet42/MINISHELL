@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/17 10:40:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 15:56:37 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,17 @@ void execute_cmd(t_par **par, t_env *env)
 		ft_putstr_fd("\n", 2);
 	}
 	else
+	{
+		printf("laaa = %s\n", commande[0]);
+	//	if (ft_strncmp(commande[0], "cd", 2) == 0)
+	//		ft_cd(lentab(commande), commande, env_to_str_tab(env));
+		/*else if (ft_strncmp(commande[0], "export", 6) == 0)
+			ft_export();
+		else if (ft_strncmp(commande[0], "unset", 5) == 0)
+			ft_unset();*/
+	//	else
 		execve(path, commande, env_to_str_tab(env));
+	}
 	free(commande);
 }
 

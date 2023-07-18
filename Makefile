@@ -8,7 +8,6 @@ NAME		=	minishell
 ECHO_NAME	=	echo
 ENV_NAME	=	env
 PWD_NAME	=	pwd
-CD_NAME		=	cd
 
 VPATH		=	Srcs:			\
 				Srcs/builtins:	\
@@ -30,26 +29,30 @@ SRCS		=	main.c					\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
 				interpret.c				\
-				ft_export.c
+				ft_export.c				\
+				ft_cd.c					\
+				lentab.c				\
+				init_signal.c
+
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c
 ENV_SRCS	=	ft_env.c
 PWD_SRCS	=	ft_pwd.c
-CD_SRCS		=	ft_cd.c
+
 
 BIN_DIR		=	bin
 ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
 ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
 PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
-CD_BIN		=	$(addprefix $(BIN_DIR)/, $(CD_NAME))
+
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
 ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
 PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
-CD_OBJS		=	$(addprefix $(OBJS_DIR)/, $(CD_SRCS:.c=.o))
+
 
 # Compilation variables *********** #
 CC			=	gcc
@@ -83,7 +86,7 @@ $(NAME):	screen $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
 
-builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
+builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN)
 
 $(ECHO_NAME):	$(ECHO_BIN)
 
@@ -91,7 +94,7 @@ $(ENV_NAME):	$(ENV_BIN)
 
 $(PWD_NAME):	$(PWD_BIN)
 
-$(CD_NAME):		$(CD_BIN)
+
 
 $(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
 	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
@@ -105,9 +108,6 @@ $(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
 	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
 
-$(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
-	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(CD_NAME)'")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
@@ -194,9 +194,9 @@ define terminal_disp
 endef
 
 define put_screen
-	$(call put_screen_width) 
-	$(call put_screen_height) 
-	$(call put_screen_width) 
+	$(call put_screen_width)
+	$(call put_screen_height)
+	$(call put_screen_width)
 endef
 
 define put_screen_width
@@ -207,7 +207,7 @@ define put_screen_width
 		i=$$(expr $$i + 1);										\
 	done;		\
 	echo "\\"
-endef	
+endef
 
 # **************************************************************************** #
 
