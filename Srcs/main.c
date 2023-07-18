@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 13:39:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:22:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	prompt_cmd(void)
 	line = prompt();
 	if (!line)
 		return (1);
+	add_history(line);
 	line2 = ft_strtrim(line, " \n\t\v");
 	free(line);
 	if (check_starterrors(line2) > 0)

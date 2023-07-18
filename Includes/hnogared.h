@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 13:21:50 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:20:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define HNOGARED_H
 
 # include "minishell.h"
+
+/* History management */
+# include <readline/history.h>
 
 /* open */
 # include <sys/types.h>
