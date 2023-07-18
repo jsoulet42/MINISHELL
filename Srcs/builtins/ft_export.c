@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:09:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:17:10 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static int	check_arg(char *arg)
  * @parent_function export_var
  * @param t_env **var	-> pointer to the variable structure to set
  * @param char *arg		-> pointer to the input argument (NAME[+/=][VALUE])
- * @param t_env *env	-> pointer to the environment list to search into
+ * @param t_env *env	-> pointer to the shell environment list to search into
  * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
  * @return int			-> function exit code
  */
@@ -95,7 +95,7 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
  * @parent_function ft_export
  * @child_function find_var
  * @param char *arg		-> pointer to the input argument (NAME[+/=][VALUE])
- * @param t_env *env	-> pointer to the environment list to modify
+ * @param t_env *env	-> pointer to the shell environment list to modify
  * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
  * @return int			-> function exit code
  */
@@ -128,13 +128,13 @@ static int	export_var(char *arg, t_env *env, int mode)
 	return (SH_SUCCESS);
 }
 
-/* Function to modify/add environment variables according to arguments
+/* Function to modify/add shell environment variables according to arguments
  * Put error for each invalid argument
  *
  * @child_function check_arg
  * @child_function export_var
  * @param char **argv	-> pointer to the input arguments array
- * @param t_env *env	-> pointer to the environment to modify
+ * @param t_env *env	-> pointer to the shell environment to modify
  * @return int			-> function exit code
  */
 int	ft_export(char **argv, t_env *env)

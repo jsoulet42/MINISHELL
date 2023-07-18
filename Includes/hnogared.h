@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 18:07:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:20:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@
 # define SH_ADDFRONT	2
 
 /* Environment display mode */
-# define SH_UNORDERED	0
+# define SH_DISORDERED	0
 # define SH_ORDERED		1
 
 /* Comparative macros */

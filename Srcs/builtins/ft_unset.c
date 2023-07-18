@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 16:21:45 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:11:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:13:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Function to delete a variable from its shell environment
  *
  * @param char **argv	-> pointer to the arguments array
- * @param t_env *env	-> pointer to the environment to modify
+ * @param t_env *env	-> pointer to the shell environment to modify
  * @return int			-> function exit code
  */
 int	ft_unset(char **argv, t_env *env)
