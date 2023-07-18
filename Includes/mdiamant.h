@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/14 17:21:15 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:47:58 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ struct s_parsing
 	char	*str;
 	int		type;
 	int		quote_type;
+	int		command_elem_id;
 };
 
 int		calc_size_type(char *str);
@@ -31,6 +32,8 @@ int		verifquote(char *argv);
 void	free_t_par(t_par **p);
 int		is_operand(const char *str);
 int		count_arg(const char *argv);
+void	command_nb(t_par **p);
+
 
 void	error_exit(char *str);
 

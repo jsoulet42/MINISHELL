@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   display_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:23:02 by hnogared          #+#    #+#             */
 /*   Updated: 2023/07/18 14:21:34 by hnogared         ###   ########.fr       */

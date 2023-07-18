@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 10:56:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:11:57 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../Includes/minishell.h"
 
@@ -24,10 +25,29 @@ t_par	**ft_parsing(char *argv)
 	if (!p)
 		printf("malloc error // ft_parsing\n");
 	sparse(p, line);
-//	print_t_par(p);
-//	test_dup(p);
+	command_nb(p);
 	free(line);
 	return (p);
+}
+
+void	command_nb(t_par **p)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	p[0]->command_elem_id = 1;
+	while (p[i])
+	{
+		p[i]->command_elem_id = 0;
+		j = is_operand(p[i]->str);
+		if (j != 0 && p[i + 1] && p[i + 2])
+		{
+			p[i + 1]->command_elem_id = 1;
+			i += j;
+		}
+		i++;
+	}
 }
 
 void	print_t_par(t_par **p)
@@ -37,7 +57,7 @@ void	print_t_par(t_par **p)
 	i = 0;
 	while (p[i])
 	{
-		printf("p[%d]->str : %s\n", i, p[i]->str);
+		printf("p[%d] : str : '%s' // type : %d // quote_type : %d // command_elem_id : %d\n", i, p[i]->str, p[i]->type, p[i]->quote_type, p[i]->command_elem_id);
 		i++;
 	}
 }
@@ -201,15 +221,5 @@ int	get_skip_count(const char *str)
 		i++;
 	return (i);
 }
-void	test_dup(t_par **p)
-{
-	int	oldfd;
-	int	newfd;
 
-	(void)p;
-	oldfd = dup(STDIN_FILENO);
-	newfd = dup(STDOUT_FILENO);
-	printf("oldfd : %d\n", oldfd);
-	printf("newfd : %d\n", newfd);
-}
 
