@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/16 20:07:22 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/17 12:41:48 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static t_env	*complete_env(t_env **env_list)
 	if (!env_list)
 		env_list = (t_env **) ft_calloc(1, sizeof(t_env *));
 	env_var = get_env_var(*env_list, "PATH");
-	if (env_var && !update_env_var(env_var, START_PATH, SH_CONCAT))
+	if (env_var && !update_env_var(env_var, START_PATH, SH_ADDFRONT))
 		return (NULL);
 	else if (!env_var)
 	{

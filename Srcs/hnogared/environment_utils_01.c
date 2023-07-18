@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/16 19:16:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:37:13 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ char	*ft_getenv(t_env *env, char *var_name)
  */
 t_env	*new_env_var(char *var_str, void *next)
 {
-	int		len;
-	int		var_str_len;
+	int		len[2];
 	t_env	*new;
 
 	if (!var_str)
@@ -47,18 +46,22 @@ t_env	*new_env_var(char *var_str, void *next)
 	new = (t_env *) ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (NULL);
-	len = ft_strchr(var_str, '=') - var_str;
-	new->name = ft_substr(var_str, 0, len);
+	new->next = next;
+	len[1] = ft_strlen(var_str);
+	if (!ft_strchr(var_str, '='))
+		len[0] = len[1];
+	else
+		len[0] = ft_strchr(var_str, '=') - var_str;
+	new->name = ft_substr(var_str, 0, len[0]);
 	if (!new->name)
 		return (free(new), NULL);
-	var_str_len = ft_strlen(var_str);
-	new->value = ft_substr(var_str, len + 1, var_str_len - len);
-	if (!new->value)
+	if (len[0] != len[1])
+		new->value = ft_substr(var_str, len[0] + 1, len[1] - len[0]);
+	if (len[0] != len[1] && !new->value)
 		return (del_env_var(new, NULL, NULL), NULL);
-	new->display = ft_substr(var_str, 0, var_str_len);
+	new->display = ft_strdup(var_str);
 	if (!new->display)
 		return (del_env_var(new, NULL, NULL), NULL);
-	new->next = next;
 	return (new);
 }
 

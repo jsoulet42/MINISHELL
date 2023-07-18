@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/16 20:22:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:18:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ t_env	*get_env_var(t_env *env_list, char *var_name)
  * @parent_function update_env_var
  * @param t_env *env_var	-> pointer to the variable structure to update
  * @param char *value		-> pointer to the update value
- * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return int				-> status code of the function
  */
 static int	update_env_value(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
 
-	if (mode == SH_OVERWRITE)
+	if (!env_var->value || mode == SH_OVERWRITE)
 	{
 		safe_free((void **) &env_var->value);
 		if (value)
@@ -88,7 +88,10 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 	else if (value)
 	{
 		temp = env_var->value;
-		env_var->value = ft_strjoin(temp, value);
+		if (mode == SH_ADDFRONT)
+			env_var->value = ft_strjoin(value, temp);
+		else
+			env_var->value = ft_strjoin(temp, value);
 		free(temp);
 	}
 	if (!env_var->value)
@@ -98,12 +101,13 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 
 /* Function to update a variable structure's value and display with a new value
  * mode(SH_OVERWRITE)	-> set the variable to the new value
- * mode(SH_CONCAT)		-> concatenate the new value to the current variable value
+ * mode(SH_ADDBACK)		-> concatenate the new value after the current value
+ * mode(SH_ADDFRONT)	-> concatenate the new value before the current value
  *
  * @child_function update_env_value
  * @param t_env *env_var	-> pointer to the variable structure to update
  * @param char *value		-> pointer to the update value
- * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return t_env *			-> pointer to the updated variable structure
  */
 t_env	*update_env_var(t_env *env_var, char *value, int mode)
@@ -112,7 +116,7 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 
 	if (!env_var)
 		return (NULL);
-	if (!value && mode == SH_CONCAT)
+	if (!value && mode != SH_OVERWRITE)
 		return (env_var);
 	if (update_env_value(env_var, value, mode) != SH_SUCCESS)
 		return (NULL);
