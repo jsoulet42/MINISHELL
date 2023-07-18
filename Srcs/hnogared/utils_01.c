@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 10:52:49 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:38:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,5 @@ void	free_data(t_shell *shell_data)
 		free_env(&shell_data->env);
 	if (shell_data->par)
 		free_t_par(shell_data->par);
+	rl_clear_history();
 }
