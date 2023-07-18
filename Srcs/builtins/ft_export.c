@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 15:41:38 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:58:29 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int	check_arg(char *arg)
 	if (!arg)
 		return (-2);
 	i = 0;
+	if (!i && ft_isdigit(arg[i]))
+		return (put_export_error(arg), -1);
 	while (arg[i] && arg[i] != '+' && arg[i] != '=')
 	{
 		if (!ft_isalnum(arg[i]))
