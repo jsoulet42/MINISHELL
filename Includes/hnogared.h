@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 10:51:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 14:20:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define HNOGARED_H
 
 # include "minishell.h"
+
+/* History management */
+# include <readline/history.h>
 
 /* open */
 # include <sys/types.h>
@@ -29,11 +32,12 @@
 
 /* Startup environment variables */
 # define START_VAR_AMOUNT	1
-# define START_PATH	":./bin"
+# define START_PATH	"./bin:"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
-# define SH_CONCAT		1
+# define SH_ADDBACK		1
+# define SH_ADDFRONT	2
 
 /* Environment display mode */
 # define SH_UNORDERED	0
@@ -43,6 +47,10 @@
 # define SH_SET(dst, src)	__typeof__ (src) dst = (src)
 # define SH_MAX(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a > _b ? _a : _b;})
 # define SH_MIN(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a < _b ? _a : _b;})
+
+/* Undeclared arrays macros */
+# define INT_TAB(...)	(int []){__VA_ARGS__}
+# define STR_TAB(...)	(char *[]){__VA_ARGS__}
 
 struct s_env
 {

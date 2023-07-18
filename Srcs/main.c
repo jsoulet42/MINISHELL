@@ -58,6 +58,7 @@ static int	prompt_cmd(void)
 	line = prompt();
 	if (!line)
 		return (1);
+	add_history(line);
 	line2 = ft_strtrim(line, " \n\t\v");
 	free(line);
 	if (check_starterrors(line2) > 0)
