@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/17 12:41:48 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:58:31 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_env	*get_default_env(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		new = new_env_var(envp[i++], NULL);
+		new = new_env_var(envp[i++], NULL, NULL);
 		if (!new)
 			return (free_env(&env_list), NULL);
 		env_add_back(&env_list, new);
@@ -52,7 +52,7 @@ static t_env	*complete_env(t_env **env_list)
 		free(temp);
 		if (!temp2)
 			return (NULL);
-		env_var = new_env_var(temp2, NULL);
+		env_var = new_env_var(temp2, NULL, NULL);
 		if (!env_var)
 			return (NULL);
 		env_add_back(env_list, env_var);

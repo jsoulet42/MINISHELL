@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 14:20:52 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:07:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ struct s_env
 	char	*name;
 	char	*value;
 	char	*display;
+	void	*prev;
 	void	*next;
 };
 
 /* Srcs/builtins */
 int		ft_export(char **argv, t_env *env);
+int		ft_unset(char **argv, t_env *env);
 
 /* Srcs/hnogared/utils_01.c */
 char	**order_str_tab(char **str_tab, char limit);
@@ -78,7 +80,7 @@ t_env	*init_env(t_env **env_list, char **envp);
 
 /* Srcs/hnogared/environment_utils_01.c */
 char	*ft_getenv(t_env *env, char *var_name);
-t_env	*new_env_var(char *var_str, void *next);
+t_env	*new_env_var(char *var_str, void *prev, void *next);
 t_env	*env_add_back(t_env **env_list, t_env *new);
 void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
 void	free_env(t_env **env_list);

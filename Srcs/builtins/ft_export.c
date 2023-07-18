@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 15:58:29 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:01:25 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	export_var(char *arg, t_env *env, int mode)
 			return (SH_ERROR);
 		if (mode == SH_ADDBACK && temp)
 			ft_memmove(arg_dup + 1, arg_dup, (char *) temp - arg - 1);
-		var = new_env_var(arg_dup + (mode == SH_ADDBACK && temp), NULL);
+		var = new_env_var(arg_dup + (mode == SH_ADDBACK && temp), NULL, NULL);
 		free(arg_dup);
 		if (!var)
 			return (SH_ERROR);
