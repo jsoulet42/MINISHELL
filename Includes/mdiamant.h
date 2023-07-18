@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 16:12:37 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/17 18:47:58 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

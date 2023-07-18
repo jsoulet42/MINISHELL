@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 16:11:11 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/18 12:29:22 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,35 @@
 
 t_shell	*g_shell_data;
 
+void exec_last(t_env *env);
+
+int count_cmd(t_par **par)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (par[i])
+	{
+		if (par[i]->command_elem_id == 1)
+			j++;
+		i++;
+	}
+	return (j);
+}
+
 int	init_data(char **envp)
 {
-	g_shell_data = (t_shell *) malloc(sizeof(t_shell));
+	g_shell_data = (t_shell *) ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
 		return (1);
 	init_env(&g_shell_data->env, envp);
-	//g_shell_data->in = dup(STDIN_FILENO);
-	//g_shell_data->out = dup(STDOUT_FILENO);
-	g_shell_data->fd[0] = 0;
-	g_shell_data->fd[1] = 0;
+	g_shell_data->in = dup(STDIN_FILENO);
+	g_shell_data->out = dup(STDOUT_FILENO);
+	g_shell_data->commande = NULL;
+	//g_shell_data->fd[0] = 0;
+	//g_shell_data->fd[1] = 0;
 	return (0);
 }
 
@@ -35,7 +54,7 @@ static int	prompt_cmd(void)
 
 	//dup2(g_shell_data->in, STDIN_FILENO);
 	//dup2(g_shell_data->out, STDOUT_FILENO);
-	dup2(g_shell_data->fd[0], STDIN_FILENO);
+	//dup2(g_shell_data->fd[0], STDIN_FILENO);
 	line = prompt();
 	if (!line)
 		return (1);
@@ -49,29 +68,41 @@ static int	prompt_cmd(void)
 	cmd = count_cmd(g_shell_data->par);
 	while (cmd > 0)
 	{
-		piper(g_shell_data->par, g_shell_data->env);
+		g_shell_data->commande = create_commande(g_shell_data->par);
+		piper(g_shell_data->env);
+		//dup2(g_shell_data->out, STDOUT_FILENO);
 		cmd--;
 	}
+	//dup2(1, STDOUT_FILENO);
+	exec_last(g_shell_data->env);
+	//dup2(1, STDOUT_FILENO);
+	dup2(g_shell_data->in, STDIN_FILENO);
+	//dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
 }
 
-int count_cmd(t_par **par)
+void exec_last(t_env *env)
 {
-	int i;
-	int	j;
+	char *path;
+	pid_t pid;
 
-	i = 0;
-	j = 0;
-	while (par[i])
+	path = get_path(g_shell_data->commande[0], env);
+	if (!path)
 	{
-		if (par[i]->commande_elem_id == 1)
-			j++;
-		i++;
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(g_shell_data->commande[0], 2);
+		ft_putstr_fd("\n", 2);
 	}
-	return (j);
+	else
+	{
+		pid = fork();
+		if (pid == 0)
+			execve(path, g_shell_data->commande, env_to_str_tab(env));
+		else
+			waitpid(pid, NULL, 0);
+	}
 }
-
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
