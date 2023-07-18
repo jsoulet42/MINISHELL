@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:25:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 01:10:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,10 +162,8 @@ void	print_env(t_env *env_list, int mode)
 	while (*temp)
 	{
 		check = ft_strchr(*temp, '=');
-		if (check && !*(check + 1))
-			printf("%s\"\"\n", *temp++);
-		else
-			printf("%s\n", *temp++);
+		mode = '"' * (check && !*(check + 1));
+		printf("%s%c%c\n", *temp++, mode, mode);
 	}
 	free_str_tab(str_env);
 }
