@@ -6,18 +6,33 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 18:01:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:09:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/hnogared.h"
 
+/* Function to put the current argument's error message on the standard error
+ *
+ * @parent_function check_arg
+ * @param char *arg	-> pointer to the current invalid argument (NAME[+/=][VALUE])
+ */
 static void	put_export_error(char *arg)
 {
 	ft_fprintf(STDERR_FILENO,
 		"mishelle: export: `%s': not a valid identifier\n", arg);
 }
 
+/* Function to check if the current argument is valid. If in this case, return
+ * if it is an argument for variable value overwriting or appending
+ * mode(SH_OVERWRITE)	-> overwrite the variable's value with the new one
+ * mode(SH_ADDBAKC)		-> append the new value to the current variable's value
+ *
+ * @parent_function ft_export
+ * @child_function put_export_error
+ * @param char *arg	-> pointer to the argument to check (NAME[+/=][VALUE])
+ * @return int		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
+ */
 static int	check_arg(char *arg)
 {
 	int	i;
@@ -40,7 +55,18 @@ static int	check_arg(char *arg)
 	return (SH_OVERWRITE);
 }
 
-int	find_var(t_env **var, char *arg, t_env *env, int mode)
+/* Function to find + set the environment variable corresponding to the argument
+ * mode(SH_OVERWRITE)	-> overwrite the variable's value with the new one
+ * mode(SH_ADDBAKC)		-> append the new value to the current variable's value
+ *
+ * @parent_function export_var
+ * @param t_env **var	-> pointer to the variable structure to set
+ * @param char *arg		-> pointer to the input argument (NAME[+/=][VALUE])
+ * @param t_env *env	-> pointer to the environment list to search into
+ * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
+ * @return int			-> function exit code
+ */
+static int	find_var(t_env **var, char *arg, t_env *env, int mode)
 {
 	char	*var_name;
 	void	*temp;
@@ -62,7 +88,18 @@ int	find_var(t_env **var, char *arg, t_env *env, int mode)
 	return (-1);
 }
 
-int	export_var(char *arg, t_env *env, int mode)
+/* Function to export/modify an environment variable following an argument
+ * mode(SH_OVERWRITE)	-> overwrite the variable's value with the new one
+ * mode(SH_ADDBAKC)		-> append the new value to the current variable's value
+ *
+ * @parent_function ft_export
+ * @child_function find_var
+ * @param char *arg		-> pointer to the input argument (NAME[+/=][VALUE])
+ * @param t_env *env	-> pointer to the environment list to modify
+ * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
+ * @return int			-> function exit code
+ */
+static int	export_var(char *arg, t_env *env, int mode)
 {
 	int		res;
 	t_env	*var;
@@ -91,6 +128,15 @@ int	export_var(char *arg, t_env *env, int mode)
 	return (SH_SUCCESS);
 }
 
+/* Function to modify/add environment variables according to arguments
+ * Put error for each invalid argument
+ *
+ * @child_function check_arg
+ * @child_function export_var
+ * @param char **argv	-> pointer to the input arguments array
+ * @param t_env *env	-> pointer to the environment to modify
+ * @return int			-> function exit code
+ */
 int	ft_export(char **argv, t_env *env)
 {
 	int		mode;
