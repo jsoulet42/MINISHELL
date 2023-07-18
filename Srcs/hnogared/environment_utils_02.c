@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 12:43:53 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 11:18:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
 
-	if (mode == SH_OVERWRITE)
+	if (!env_var->value || mode == SH_OVERWRITE)
 	{
 		safe_free((void **) &env_var->value);
 		if (value)

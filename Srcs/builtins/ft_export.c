@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 17:46:04 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:00:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,12 @@ static void	put_export_error(char *arg)
 static int	check_arg(char *arg)
 {
 	int	i;
-	
+
 	if (!arg)
-		return (-1);
+		return (-2);
 	i = 0;
-	while (arg[i] && arg[i] != '=')
+	while (arg[i] && arg[i] != '+' && arg[i] != '=')
 	{
-		if (arg[i] == '+')
-			break ;
 		if (!ft_isalnum(arg[i]))
 			return (put_export_error(arg), -1);
 		i++;
@@ -39,35 +37,60 @@ static int	check_arg(char *arg)
 	return (SH_OVERWRITE);
 }
 
-int	export_var(char *arg, int mode)
+int	find_var(t_env **var, char *arg, t_env *env, int mode)
 {
-	int	mode;
+	char	*var_name;
+	void	*temp;
 
 	if (mode == SH_OVERWRITE)
-		var_name = ft_substr(*argv, 0, ft_strchr(arg, '=') - arg);
+		temp = ft_strchr(arg, '='); 
 	else
-		var_name = ft_substr(*argv, 0, ft_strchr(arg, '+') - arg);
-	var = get_env_var(env, var_name);
+		temp = ft_strchr(arg, '+'); 
+	if (temp)
+		var_name = ft_substr(arg, 0, (char *) temp - arg);
+	else
+		var_name = ft_strdup(arg);
+	if (!var_name)
+		return (SH_ERROR);
+	*var = get_env_var(env, var_name);
 	free(var_name);
+	if (*var && !temp)
+		return (SH_SUCCESS);
+	return (-1);
+}
+
+int	export_var(char *arg, t_env *env, int mode)
+{
+	int		res;
+	t_env	*var;
+	char	*arg_dup;
+	void	*temp;
+
+	res = find_var(&var, arg, env, mode);
+	if (res != -1)
+		return (res);
+	temp = ft_strchr(arg, '=');
 	if (!var)
 	{
-		var = new_env_var(arg, NULL);
+		arg_dup = ft_strdup(arg);
+		if (!arg_dup)
+			return (SH_ERROR);
+		if (mode == SH_ADDBACK && temp)
+			ft_memmove(arg_dup + 1, arg_dup, (char *) temp - arg - 1);
+		var = new_env_var(arg_dup + (mode == SH_ADDBACK && temp), NULL);
+		free(arg_dup);
 		if (!var)
 			return (SH_ERROR);
-		env_add_back(&env, var);
-		return (SH_SUCCESS);
+		return (env_add_back(&env, var), SH_SUCCESS);
 	}
-	len = ft_strchr(arg, '=') - arg + 1;
-	update_env_var(var, arg + len, mode);
+	if (temp)
+		update_env_var(var, arg + ((char *) temp - arg + 1), mode);
 	return (SH_SUCCESS);
 }
 
 int	ft_export(char **argv, t_env *env)
 {
 	int		mode;
-	int		len;
-	char	*var_name;
-	t_env	*var;
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
@@ -77,9 +100,14 @@ int	ft_export(char **argv, t_env *env)
 	while (*argv)
 	{
 		mode = check_arg(*argv);
-		if (mode < 0)
+		if (mode == -2)
 			return (1);
-		if (export_var(*argv, mode) == SH_ERROR)
+		if (mode < 0)
+		{
+			argv++;
+			continue ;
+		}
+		if (export_var(*argv, env, mode) == SH_ERROR)
 			return (SH_ERROR);
 		argv++;
 	}
