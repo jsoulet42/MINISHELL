@@ -6,10 +6,10 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 16:15:32 by mdiamant         ###   ########.fr       */
-/*   Updated: 2023/07/17 15:03:40 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/18 11:11:57 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../Includes/minishell.h"
 
@@ -57,7 +57,7 @@ void	print_t_par(t_par **p)
 	i = 0;
 	while (p[i])
 	{
-		printf("p[%d]->str : %s\n", i, p[i]->str);
+		printf("p[%d] : str : '%s' // type : %d // quote_type : %d // command_elem_id : %d\n", i, p[i]->str, p[i]->type, p[i]->quote_type, p[i]->command_elem_id);
 		i++;
 	}
 }
@@ -221,14 +221,5 @@ int	get_skip_count(const char *str)
 		i++;
 	return (i);
 }
-void	test_dup(t_par **p)
-{
-	int	oldfd;
-	int	newfd;
 
-	(void)p;
-	oldfd = dup(STDIN_FILENO);
-	newfd = dup(STDOUT_FILENO);
-	printf("oldfd : %d\n", oldfd);
-	printf("newfd : %d\n", newfd);
-}
+
