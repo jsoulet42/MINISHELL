@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
 /*   Updated: 2023/07/18 18:28:56 by hnogared         ###   ########.fr       */
@@ -55,7 +55,7 @@ void	print_str_tab(char **str_tab)
 	if (!str_tab)
 		return ;
 	while (*str_tab)
-		printf("%s\n", *str_tab++);
+		printf("[%s]\n", *str_tab++);
 }
 
 void	free_str_tab(char **str_tab)
