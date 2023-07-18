@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 13:24:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 13:39:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
-	ft_export(STR_TAB("export", "YOYO+=", "=WRONG", "YAYA=34", "+=TEST", "", "TEST", NULL), g_shell_data->env);
-	print_env(g_shell_data->env, SH_UNORDERED);
-	free_env(&g_shell_data->env);
-	free(g_shell_data);
-	return (0);
 	while (1)
 	{
 		if (prompt_cmd())
