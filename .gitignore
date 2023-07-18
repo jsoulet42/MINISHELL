@@ -6,3 +6,4 @@ minishell
 bin
 test
 Ignore
+*.txt
