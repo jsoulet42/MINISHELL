@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 14:41:18 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:41:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	put_export_error(char *arg)
 {
-	printf("mishelle: export: `%s': not a valid identifier\n", arg);
+	ft_fprintf(STDERR_FILENO,
+		"mishelle: export: `%s': not a valid identifier\n", arg);
 }
 
 static int	check_arg(char *arg)
@@ -96,20 +97,15 @@ int	ft_export(char **argv, t_env *env)
 		return (SH_ERROR);
 	if (!argv[1])
 		return (print_env(env, SH_ORDERED), SH_SUCCESS);
-	argv++;
-	while (*argv)
+	while (*(++argv))
 	{
 		mode = check_arg(*argv);
 		if (mode == -2)
 			return (1);
 		if (mode < 0)
-		{
-			argv++;
 			continue ;
-		}
 		if (export_var(*argv, env, mode) == SH_ERROR)
 			return (SH_ERROR);
-		argv++;
 	}
 	return (SH_SUCCESS);
 }
