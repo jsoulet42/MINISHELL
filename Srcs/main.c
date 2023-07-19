@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 16:29:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:48:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	prompt_cmd(void)
 	//dup2(g_shell_data->in, STDIN_FILENO);
 	//dup2(g_shell_data->out, STDOUT_FILENO);
 	//dup2(g_shell_data->fd[0], STDIN_FILENO);
-	line = prompt();
+	line = prompt(g_shell_data->env);
 	if (!line)
 		return (1);
 	if (!*line)
@@ -116,14 +116,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
-	print_env(g_shell_data->env, SH_DISORDERED);
-	free_data(g_shell_data);
-	return (0);
 	while (1)
 	{
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}
-	free_env(&g_shell_data->env);
+	free_data(g_shell_data);
 	return (0);
 }

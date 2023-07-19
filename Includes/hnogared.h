@@ -6,12 +6,14 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 15:59:10 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:18:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HNOGARED_H
 # define HNOGARED_H
+
+# include "minishell.h"
 
 /* History management */
 # include <readline/history.h>
@@ -29,7 +31,6 @@
 # define PROMPT_BUFFER	255
 
 /* Startup environment variables */
-# define START_VAR_AMOUNT	1
 # define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
@@ -72,12 +73,12 @@ void	free_data(t_shell *shell_data);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);
-char	*ft_concat(char **dest, char *src, int start, int end);
+char	*ft_free_strcat(char **dest, char *src, int start, int end);
 char	**order_str_tab(char **str_tab, char limit);
 void	print_str_tab(char **str_tab);
 
 /* Srcs/hnogared/prompt_01.c */
-char	*prompt(void);
+char	*prompt(t_env *env);
 
 /* Srcs/hnogared/init_environment_01.c */
 t_env	*init_env(t_env **env_list, char **envp);

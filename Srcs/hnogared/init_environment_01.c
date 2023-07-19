@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/19 17:20:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 17:26:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ t_env	*init_env(t_env **env_list, char **envp)
 	if (!complete_env_path(env_list))
 		return (free_env(env_list), NULL);
 	if (!ft_getenv(*env_list, "LOGNAME"))
+		ft_export((char *[]){"export", START_LOGNAME, NULL}, env_list);
+	if (!ft_getenv(*env_list, "NAME"))
 		ft_export((char *[]){"export", START_NAME, NULL}, env_list);
 	return (*env_list);
 }

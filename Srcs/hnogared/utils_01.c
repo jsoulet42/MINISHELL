@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 11:57:57 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:25:16 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin_plus(char *dest, char *src)
 	return (ft_strjoin(dest, src));
 }
 
-char	*ft_concat(char **dest, char *src, int start, int end)
+char	*ft_free_strcat(char **dest, char *src, int start, int end)
 {
 	char	*temp;
 	char	*temp2;
