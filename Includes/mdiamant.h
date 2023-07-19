@@ -6,12 +6,14 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 16:12:37 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:36:30 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MDIAMANT_H
 # define MDIAMANT_H
+
+#include "get_next_line_bonus.h"
 
 struct s_parsing
 {
@@ -19,6 +21,12 @@ struct s_parsing
 	int		type;
 	int		quote_type;
 	int		command_elem_id;
+};
+struct s_par
+{
+	char	**commande;
+	int		char *file;
+	int		quote_type;
 };
 
 int		calc_size_type(char *str);

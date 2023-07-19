@@ -6,9 +6,10 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/18 09:16:43 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/18 17:07:12 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../Includes/minishell.h"
 
@@ -56,7 +57,7 @@ void	print_t_par(t_par **p)
 	i = 0;
 	while (p[i])
 	{
-		printf("p[%d]->str : %s\n", i, p[i]->str);
+		printf("p[%d] : str : '%s' // type : %d // quote_type : %d // command_elem_id : %d\n", i, p[i]->str, p[i]->type, p[i]->quote_type, p[i]->command_elem_id);
 		i++;
 	}
 }
@@ -219,26 +220,6 @@ int	get_skip_count(const char *str)
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	return (i);
-}
-void	test_dup(t_par **p)
-{
-	int	oldfd;
-	int	newfd;
-
-	(void)p;
-	oldfd = dup(STDIN_FILENO);
-	newfd = dup(STDOUT_FILENO);
-	printf("oldfd : %d\n", oldfd);
-	printf("newfd : %d\n", newfd);
-}
-
-int	saut_cammande(t_par **p)
-{
-	int i;
-
-	i = 0;
-	while (p->command_elem_id == 0)
-		p++;
 }
 
 

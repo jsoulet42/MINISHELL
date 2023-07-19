@@ -30,7 +30,9 @@ SRCS		=	main.c					\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
 				interpret.c				\
-				ft_export.c
+				ft_export.c\
+				get_next_line_bonus.c\
+				get_next_line_utils_bonus.c
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c
@@ -194,9 +196,9 @@ define terminal_disp
 endef
 
 define put_screen
-	$(call put_screen_width) 
-	$(call put_screen_height) 
-	$(call put_screen_width) 
+	$(call put_screen_width)
+	$(call put_screen_height)
+	$(call put_screen_width)
 endef
 
 define put_screen_width
@@ -207,7 +209,7 @@ define put_screen_width
 		i=$$(expr $$i + 1);										\
 	done;		\
 	echo "\\"
-endef	
+endef
 
 # **************************************************************************** #
 
