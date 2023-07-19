@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 12:29:22 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/18 18:13:50 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	prompt_cmd(void)
 	line = prompt();
 	if (!line)
 		return (1);
+	add_history(line);
 	line2 = ft_strtrim(line, " \n\t\v");
 	free(line);
 	if (check_starterrors(line2) > 0)
@@ -66,17 +67,21 @@ static int	prompt_cmd(void)
 	free(line2);
 	check_line(g_shell_data->par);
 	cmd = count_cmd(g_shell_data->par);
-	while (cmd > 0)
+	while (cmd > 1)
 	{
 		g_shell_data->commande = create_commande(g_shell_data->par);
+		//print_str_tab(g_shell_data->commande);
 		piper(g_shell_data->env);
-		//dup2(g_shell_data->out, STDOUT_FILENO);
 		cmd--;
 	}
-	//dup2(1, STDOUT_FILENO);
+	g_shell_data->commande = create_commande(g_shell_data->par);
 	exec_last(g_shell_data->env);
-	//dup2(1, STDOUT_FILENO);
+	//exec_last(g_shell_data->env);
 	dup2(g_shell_data->in, STDIN_FILENO);
+	//dup2(1, STDOUT_FILENO);
+	//exec_last(g_shell_data->env);
+	//dup2(1, STDOUT_FILENO);
+	//dup2(g_shell_data->in, STDIN_FILENO);
 	//dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
