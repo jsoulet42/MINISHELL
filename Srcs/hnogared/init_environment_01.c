@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/19 15:20:58 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:55:51 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static t_env	*get_default_env(char **envp)
 	return (env_list);
 }
 
-static t_env	*complete_env(t_env **env_list)
+static t_env	*complete_env_path(t_env **env_list)
 {
 	char	*temp;
 	char	*value;
@@ -43,7 +43,7 @@ static t_env	*complete_env(t_env **env_list)
 	value = ft_strjoin_plus(START_PATH, value);
 	if (!value)
 		return (NULL);
-	temp = ft_strjoin_plus("PATH=", value);
+	temp = ft_strtrim(value, ":");
 	free(value);
 	if (!temp)
 		return (NULL);
@@ -55,7 +55,9 @@ static t_env	*complete_env(t_env **env_list)
 t_env	*init_env(t_env **env_list, char **envp)
 {
 	*env_list = get_default_env(envp);
-	if (!complete_env(env_list))
+	if (!complete_env_path(env_list))
 		return (free_env(env_list), NULL);
+	if (!ft_getenv(*env_list, "LOGNAME"))
+		ft_export((char *[]){"export", START_NAME, NULL}, env_list);
 	return (*env_list);
 }

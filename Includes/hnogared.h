@@ -6,14 +6,12 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:59:10 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HNOGARED_H
 # define HNOGARED_H
-
-# include "minishell.h"
 
 /* History management */
 # include <readline/history.h>
@@ -32,7 +30,9 @@
 
 /* Startup environment variables */
 # define START_VAR_AMOUNT	1
-# define START_PATH	"./bin:"
+# define START_PATH		"PATH=./bin:"
+# define START_LOGNAME	"LOGNAME=guest"
+# define START_NAME		"NAME=mishelle"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0

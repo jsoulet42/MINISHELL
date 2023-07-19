@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 15:26:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:40:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
+	print_env(g_shell_data->env, SH_DISORDERED);
+	free_data(g_shell_data);
+	return (0);
 	while (1)
 	{
 		if (prompt_cmd())

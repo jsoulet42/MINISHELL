@@ -6,14 +6,14 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/17 18:55:20 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:49:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef JSOULET_H
 # define JSOULET_H
 
-#include "../Includes/minishell.h"
+//#include "../Includes/minishell.h"
 
 
 int check_line(t_par **par);
