@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:23:02 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 14:21:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 12:50:40 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,3 @@ char	*prompt(void)
 		ft_memmove(prompt + lens[0] + 1, "mishelle $> ", 12 * sizeof(char));
 	return (readline(prompt));
 }
-
-/*
-if (str[0] == '$')
-{
-	var = getenv(str + 1);
-	if (var)
-		prinft("%s", var);
-	printf("\n")
-}
-*/
