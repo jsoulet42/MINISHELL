@@ -6,11 +6,14 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/17 15:56:37 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/18 15:18:13 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../Includes/minishell.h"
+
+int	next_cmd(t_par **par);
 
 /*si il y a plusieur operateur de suite on print une erreur
 	et on return le print de l'erreur*/
@@ -49,6 +52,7 @@ int commande_len(t_par **par)
 		i++;
 	while (par[i + len] && par[i + len]->type != 1)
 		len++;
+	//printf("len = %d\n", len);
 	return (len);
 }
 
@@ -65,56 +69,67 @@ char **create_commande(t_par **par)
 
 	if (!par)
 		return (NULL);
-	i = 0;
-	while (par[i] && par[i]->type == 1)
-		i++;
-	if (par[i] == NULL)
-		return (NULL);
+	if (g_shell_data->commande != NULL)
+		free(g_shell_data->commande);
 	len = commande_len(par);
-	if (!len)
+	if (len == 0)
 		return (NULL);
-	commande = (char **) malloc(sizeof(char *) * (len + 1));
+	commande = (char **)malloc(sizeof(char *) * (len + 1));
+	if (!commande)
+		return (NULL);
 	j = 0;
-	while (par[i] && par[i]->type != 1)
+	i = next_cmd(par);
+	while (par[i + j] && par[i + j]->type != 1)
 	{
-		commande[j] = par[i]->str;
-		par[i]->type = 1;
+		commande[j] = par[i + j]->str;
 		j++;
-		i++;
 	}
 	commande[j] = NULL;
 	return (commande);
 }
 
-
-void execute_cmd(t_par **par, t_env *env)
+int	next_cmd(t_par **par)
 {
-	char **commande;
+	int	i;
+
+	i = 0;
+	while (par[i])
+	{
+		if (par[i]->command_elem_id == 1)
+		{
+			par[i]->command_elem_id = 0;
+			return (i);
+		}
+		i++;
+	}
+	return (i);
+}
+
+void execute_cmd(t_env *env)
+{
 	char *path;
 
-	commande = create_commande(par);
-	if (commande == NULL)
-		return ;
-	path = get_path(commande[0], env);
+
+	if (ft_strncmp(g_shell_data->commande[0], "cd", 2) == 0)
+	{
+		ft_putstr_fd("sa mere", 2);
+		ft_cd(lentab(g_shell_data->commande), g_shell_data->commande, env_to_str_tab(env));
+	}
+	path = get_path(g_shell_data->commande[0], env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(commande[0], 2);
+		ft_putstr_fd(g_shell_data->commande[0], 2);
 		ft_putstr_fd("\n", 2);
 	}
 	else
 	{
-		printf("laaa = %s\n", commande[0]);
-	//	if (ft_strncmp(commande[0], "cd", 2) == 0)
-	//		ft_cd(lentab(commande), commande, env_to_str_tab(env));
-		/*else if (ft_strncmp(commande[0], "export", 6) == 0)
-			ft_export();
-		else if (ft_strncmp(commande[0], "unset", 5) == 0)
+	/*	else if (ft_strncmp(g_shell_data->commande[0], "export", 6) == 0)
+			ft_export(g_shell_data->commande, env);
+		else if (ft_strncmp(g_shell_data->commande[0], "unset", 5) == 0)
 			ft_unset();*/
-	//	else
-		execve(path, commande, env_to_str_tab(env));
+		execve(path, g_shell_data->commande, env_to_str_tab(env));
 	}
-	free(commande);
 }
 
 char *get_path(char *cmd, t_env *env)
@@ -156,33 +171,27 @@ char *get_path_cmd(char **path, char *cmd)
 	return (NULL);
 }
 
-void	piper(t_par **par, t_env *env)
+void	piper(t_env *env)
 {
 	int		fd[2];
-	int		i;
 	pid_t	pid;
 
-	i = 0;
-	while (par[i])
+	if (pipe(fd) == -1)
+		return ;
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		if (pipe(fd) == -1)
-			return ;
-		pid = fork();
-		if (pid == -1)
-			return ;
-		if (pid == 0)
-		{
-			close(fd[0]);
-			dup2(fd[1], g_shell_data->out);
-			execute_cmd(par, env);
-		}
-		else
-			waitpid(pid, NULL, g_shell_data->in);
-		i++;
+		close(fd[0]);
+		dup2(fd[1], 1);
+		execute_cmd(env);
 	}
-	if (g_shell_data->in > 0)
-		close(g_shell_data->in);
-	if (g_shell_data->out > 0)
-		close(g_shell_data->out);
+	else
+	{
+		close(fd[1]);
+		dup2(fd[0], 0);
+		waitpid(pid, NULL, 0);
+	}
 }
 

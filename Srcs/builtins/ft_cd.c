@@ -6,13 +6,29 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/17 15:41:53 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/18 18:11:21 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
 /*char *str[] = {"cd", NULL};*/
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	int	i;
+
+	i = 0;
+	if (!n)
+		return (0);
+	while (((char *)s1)[i] && ((char *)s1)[i] == ((char *)s2)[i] && --n)
+	{
+		if (!s1[i])
+			return (0);
+		i++;
+	}
+	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
+}
+
 int change_directory(const char *path)
 {
 	if (chdir(path) == 0)
@@ -47,12 +63,13 @@ char	*go_home(char **env)
 	return (home);
 }
 
-void ft_cd(int argc, char **argv, char **env)
+int main(int argc, char **argv, char **env)
 {
 	int		changedir;
 	char	*home;
-	int i = -1;
+	int		i;
 
+	i = -1;
 	changedir = 42;
 	printf("argc = %d\n", argc);
 	while (argv[++i])
@@ -67,6 +84,5 @@ void ft_cd(int argc, char **argv, char **env)
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
-	return ;
-	// ok
+	return 0;
 }
