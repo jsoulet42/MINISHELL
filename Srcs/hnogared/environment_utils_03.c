@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:51:38 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 04:41:03 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:38:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 	return (i);
 }
 
-char	*expand_dollar(char *str, t_env *env)
+char	*expand_dollars(char *str, t_env *env)
 {
 	int		id[2];
 	char	*res;
 	char	*temp;
 
 	if (!str || !env)
-		return (NULL);
+		return (ft_strdup(str));
 	res = NULL;
 	id[0] = -1;
 	id[1] = 0;

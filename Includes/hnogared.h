@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 04:08:13 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:00:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ struct s_env
 };
 
 /* Srcs/builtins */
-int		ft_export(char **argv, t_env *env);
+int		ft_export(char **argv, t_env **env);
 int		ft_unset(char **argv, t_env *env);
 
 /* Srcs/hnogared/free_utils_01.c */
@@ -97,6 +97,6 @@ void	print_env(t_env *env_list, int mode);
 
 /* Srcs/hnogared/environment_utils_03.c */
 int		get_dollar_value(char **to_set, char *to_search, t_env *env);
-char	*expand_dollar(char *str, t_env *env);
+char	*expand_dollars(char *str, t_env *env);
 
 #endif

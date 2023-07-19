@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:17:10 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:59:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
  * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
  * @return int			-> function exit code
  */
-static int	export_var(char *arg, t_env *env, int mode)
+static int	export_var(char *arg, t_env **env, int mode)
 {
 	int		res;
 	t_env	*var;
 	char	*arg_dup;
 	void	*temp;
 
-	res = find_var(&var, arg, env, mode);
+	res = find_var(&var, arg, *env, mode);
 	if (res != -1)
 		return (res);
 	temp = ft_strchr(arg, '=');
@@ -121,7 +121,7 @@ static int	export_var(char *arg, t_env *env, int mode)
 		free(arg_dup);
 		if (!var)
 			return (SH_ERROR);
-		return (env_add_back(&env, var), SH_SUCCESS);
+		return (env_add_back(env, var), SH_SUCCESS);
 	}
 	if (temp)
 		update_env_var(var, arg + ((char *) temp - arg + 1), mode);
@@ -137,23 +137,26 @@ static int	export_var(char *arg, t_env *env, int mode)
  * @param t_env *env	-> pointer to the shell environment to modify
  * @return int			-> function exit code
  */
-int	ft_export(char **argv, t_env *env)
+int	ft_export(char **argv, t_env **env)
 {
 	int		mode;
+	char	*expanded;
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
 	if (!argv[1])
-		return (print_env(env, SH_ORDERED), SH_SUCCESS);
+		return (print_env(*env, SH_ORDERED), SH_SUCCESS);
 	while (*(++argv))
 	{
-		mode = check_arg(*argv);
-		if (mode == -2)
-			return (1);
-		if (mode < 0)
-			continue ;
-		if (export_var(*argv, env, mode) == SH_ERROR)
+		expanded = expand_dollars(*argv, *env);
+		if (!expanded)
 			return (SH_ERROR);
+		mode = check_arg(expanded);
+		if (mode == -2)
+			return (free(expanded), SH_ERROR);
+		if (mode > -1 && export_var(expanded, env, mode) == SH_ERROR)
+			return (free(expanded), SH_ERROR);
+		free(expanded);
 	}
 	return (SH_SUCCESS);
 }
