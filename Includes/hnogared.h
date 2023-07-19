@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:20:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 04:08:13 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,16 @@ struct s_env
 int		ft_export(char **argv, t_env *env);
 int		ft_unset(char **argv, t_env *env);
 
-/* Srcs/hnogared/utils_01.c */
-char	**order_str_tab(char **str_tab, char limit);
+/* Srcs/hnogared/free_utils_01.c */
 void	safe_free(void **ptr_addr);
-void	print_str_tab(char **str_tab);
 void	free_str_tab(char **str_tab);
 void	free_data(t_shell *shell_data);
+
+/* Srcs/hnogared/utils_01.c */
+char	*ft_strjoin_plus(char *dest, char *src);
+char	*ft_concat(char **dest, char *src, int start, int end);
+char	**order_str_tab(char **str_tab, char limit);
+void	print_str_tab(char **str_tab);
 
 /* Srcs/hnogared/prompt_01.c */
 char	*prompt(void);
@@ -90,5 +94,9 @@ char	**env_to_str_tab(t_env *env_list);
 t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
 void	print_env(t_env *env_list, int mode);
+
+/* Srcs/hnogared/environment_utils_03.c */
+int		get_dollar_value(char **to_set, char *to_search, t_env *env);
+char	*expand_dollar(char *str, t_env *env);
 
 #endif
