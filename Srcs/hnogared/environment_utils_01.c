@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:14:50 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 14:57:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 
 	if (!env_list)
 		return (NULL);
+	if (!*env_list)
+	{
+		*env_list = new;
+		return (*env_list);
+	}
 	temp = *env_list;
 	while (temp && temp->next)
 		temp = temp->next;
@@ -85,8 +90,6 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 		temp->next = new;
 		new->prev = temp;
 	}
-	else
-		*env_list = new;
 	return (*env_list);
 }
 

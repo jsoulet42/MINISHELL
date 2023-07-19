@@ -58,6 +58,8 @@ static int	prompt_cmd(void)
 	line = prompt();
 	if (!line)
 		return (1);
+	if (!*line)
+		return (0);
 	add_history(line);
 	line2 = ft_strtrim(line, " \n\t\v");
 	free(line);

@@ -25,6 +25,8 @@ SRCS		=	main.c					\
 				init_environment_01.c	\
 				environment_utils_01.c	\
 				environment_utils_02.c	\
+				environment_utils_03.c	\
+				free_utils_01.c			\
 				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
