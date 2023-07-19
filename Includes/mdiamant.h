@@ -3,15 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/17 18:47:58 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:42:04 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MDIAMANT_H
 # define MDIAMANT_H
+
+#include "get_next_line_bonus.h"
 
 struct s_parsing
 {
@@ -19,6 +21,12 @@ struct s_parsing
 	int		type;
 	int		quote_type;
 	int		command_elem_id;
+};
+struct s_par
+{
+	char	**commande;
+	int		char *file;
+	int		quote_type;
 };
 
 int		calc_size_type(char *str);

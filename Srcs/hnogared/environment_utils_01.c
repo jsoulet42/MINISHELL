@@ -6,13 +6,13 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/16 19:16:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:14:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-/* Function to retrieve a variable's value inside the minishell's environment
+/* Function to retrieve a variable's value inside a shell's environment
  *
  * @param t_env *env		-> pointer to the source environment linked list
  * @param char *var_name	-> pointer to the variable name to search for
@@ -30,16 +30,15 @@ char	*ft_getenv(t_env *env, char *var_name)
 	return (NULL);
 }
 
-/* Function to allocate a minishell environment variable with a given value
+/* Function to allocate a shell environment variable with a given value
  *
  * @param char *var_str	-> pointer to the name and value of the variable
  * @param void *next	-> pointer to the following environment variable
  * @return t_env *		-> pointer to the newly allocated variable structure
  */
-t_env	*new_env_var(char *var_str, void *next)
+t_env	*new_env_var(char *var_str, void *prev, void *next)
 {
-	int		len;
-	int		var_str_len;
+	int		len[2];
 	t_env	*new;
 
 	if (!var_str)
@@ -47,22 +46,26 @@ t_env	*new_env_var(char *var_str, void *next)
 	new = (t_env *) ft_calloc(1, sizeof(t_env));
 	if (!new)
 		return (NULL);
-	len = ft_strchr(var_str, '=') - var_str;
-	new->name = ft_substr(var_str, 0, len);
+	new->next = next;
+	new->prev = prev;
+	len[1] = ft_strlen(var_str);
+	len[0] = len[1];
+	if (ft_strchr(var_str, '='))
+		len[0] = ft_strchr(var_str, '=') - var_str;
+	new->name = ft_substr(var_str, 0, len[0]);
 	if (!new->name)
 		return (free(new), NULL);
-	var_str_len = ft_strlen(var_str);
-	new->value = ft_substr(var_str, len + 1, var_str_len - len);
-	if (!new->value)
+	if (len[0] != len[1])
+		new->value = ft_substr(var_str, len[0] + 1, len[1] - len[0]);
+	if (len[0] != len[1] && !new->value)
 		return (del_env_var(new, NULL, NULL), NULL);
-	new->display = ft_substr(var_str, 0, var_str_len);
+	new->display = ft_strdup(var_str);
 	if (!new->display)
 		return (del_env_var(new, NULL, NULL), NULL);
-	new->next = next;
 	return (new);
 }
 
-/* Function to add an environment variable to the end of the environment
+/* Function to add an environment variable to the end of the shell environment
  *
  * @param t_env **env_list	-> pointer to the environment's first variable
  * @param t_env *new		-> pointer to the variable structure to add
@@ -78,13 +81,16 @@ t_env	*env_add_back(t_env **env_list, t_env *new)
 	while (temp && temp->next)
 		temp = temp->next;
 	if (temp)
+	{
 		temp->next = new;
+		new->prev = temp;
+	}
 	else
 		*env_list = new;
 	return (*env_list);
 }
 
-/* Function to free the allocated memory of an environment variable
+/* Function to free the allocated memory of a shell environment variable
  *
  * @param t_env *env_var	-> pointer to the variable structure to free
  * @param t_env *prev_var	-> pointer to the previous variable structure
@@ -96,6 +102,8 @@ void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var)
 		return ;
 	if (prev_var)
 		prev_var->next = next_var;
+	if (next_var)
+		next_var->prev = prev_var;
 	safe_free((void **) &env_var->name);
 	safe_free((void **) &env_var->value);
 	safe_free((void **) &env_var->display);
