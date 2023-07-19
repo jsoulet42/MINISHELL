@@ -6,13 +6,13 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/16 20:22:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:25:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-/* Function to return an environment linked list data as a strings array
+/* Function to return a shell environment's data as a strings array
  *
  * @param t_env *env_list	-> pointer to the list to convert
  * @return char **			-> pointer to the converted strings array
@@ -65,19 +65,19 @@ t_env	*get_env_var(t_env *env_list, char *var_name)
 	return (env_list);
 }
 
-/* Function to update a variable structure's value with a new one
+/* Function to update a shell variable structure's value with a new one
  *
  * @parent_function update_env_var
  * @param t_env *env_var	-> pointer to the variable structure to update
  * @param char *value		-> pointer to the update value
- * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return int				-> status code of the function
  */
 static int	update_env_value(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
 
-	if (mode == SH_OVERWRITE)
+	if (!env_var->value || mode == SH_OVERWRITE)
 	{
 		safe_free((void **) &env_var->value);
 		if (value)
@@ -88,7 +88,10 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 	else if (value)
 	{
 		temp = env_var->value;
-		env_var->value = ft_strjoin(temp, value);
+		if (mode == SH_ADDFRONT)
+			env_var->value = ft_strjoin(value, temp);
+		else
+			env_var->value = ft_strjoin(temp, value);
 		free(temp);
 	}
 	if (!env_var->value)
@@ -96,14 +99,15 @@ static int	update_env_value(t_env *env_var, char *value, int mode)
 	return (SH_SUCCESS);
 }
 
-/* Function to update a variable structure's value and display with a new value
+/* Function to update a variable structure's value + display with a new value
  * mode(SH_OVERWRITE)	-> set the variable to the new value
- * mode(SH_CONCAT)		-> concatenate the new value to the current variable value
+ * mode(SH_ADDBACK)		-> concatenate the new value after the current value
+ * mode(SH_ADDFRONT)	-> concatenate the new value before the current value
  *
  * @child_function update_env_value
  * @param t_env *env_var	-> pointer to the variable structure to update
  * @param char *value		-> pointer to the update value
- * @param int mode			-> update mode (SH_OVERWRITE/SH_CONCAT)
+ * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return t_env *			-> pointer to the updated variable structure
  */
 t_env	*update_env_var(t_env *env_var, char *value, int mode)
@@ -112,7 +116,7 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 
 	if (!env_var)
 		return (NULL);
-	if (!value && mode == SH_CONCAT)
+	if (!value && mode != SH_OVERWRITE)
 		return (env_var);
 	if (update_env_value(env_var, value, mode) != SH_SUCCESS)
 		return (NULL);
@@ -127,16 +131,21 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 	return (env_var); 
 }
 
-/* Function to display the environment linked list on terminal
+/* Function to display an environment's linked list of variables on terminal
+ * following a given mode
+ * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
+ * mode(SH_ORDERED)		-> display all variables in alphabetical order
  *
  * @param t_env *env_list	-> pointer to the environment to display
+ * @param int mode			-> display mode of the environment
  */
 void	print_env(t_env *env_list, int mode)
 {
+	char	*check;
 	char	**temp;
 	char	**str_env;
 
-	if (mode != SH_ORDERED)
+	if (mode == SH_DISORDERED)
 	{
 		while (env_list)
 		{
@@ -152,7 +161,8 @@ void	print_env(t_env *env_list, int mode)
 	temp = str_env;
 	while (*temp)
 	{
-		if (!*(ft_strchr(*temp, '=') + 1))
+		check = ft_strchr(*temp, '=');
+		if (check && !*(check + 1))
 			printf("%s\"\"\n", *temp++);
 		else
 			printf("%s\n", *temp++);
