@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/17 10:51:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/18 19:20:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define HNOGARED_H
 
 # include "minishell.h"
+
+/* History management */
+# include <readline/history.h>
 
 /* open */
 # include <sys/types.h>
@@ -29,14 +32,15 @@
 
 /* Startup environment variables */
 # define START_VAR_AMOUNT	1
-# define START_PATH	":./bin"
+# define START_PATH	"./bin:"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
-# define SH_CONCAT		1
+# define SH_ADDBACK		1
+# define SH_ADDFRONT	2
 
 /* Environment display mode */
-# define SH_UNORDERED	0
+# define SH_DISORDERED	0
 # define SH_ORDERED		1
 
 /* Comparative macros */
@@ -44,16 +48,22 @@
 # define SH_MAX(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a > _b ? _a : _b;})
 # define SH_MIN(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a < _b ? _a : _b;})
 
+/* Undeclared arrays macros */
+# define INT_TAB(...)	(int []){__VA_ARGS__}
+# define STR_TAB(...)	(char *[]){__VA_ARGS__}
+
 struct s_env
 {
 	char	*name;
 	char	*value;
 	char	*display;
+	void	*prev;
 	void	*next;
 };
 
 /* Srcs/builtins */
 int		ft_export(char **argv, t_env *env);
+int		ft_unset(char **argv, t_env *env);
 
 /* Srcs/hnogared/utils_01.c */
 char	**order_str_tab(char **str_tab, char limit);
@@ -70,7 +80,7 @@ t_env	*init_env(t_env **env_list, char **envp);
 
 /* Srcs/hnogared/environment_utils_01.c */
 char	*ft_getenv(t_env *env, char *var_name);
-t_env	*new_env_var(char *var_str, void *next);
+t_env	*new_env_var(char *var_str, void *prev, void *next);
 t_env	*env_add_back(t_env **env_list, t_env *new);
 void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
 void	free_env(t_env **env_list);
