@@ -6,11 +6,36 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 18:28:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:57:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+char	*ft_strjoin_plus(char *dest, char *src)
+{
+	if (!dest || !src)
+		return (ft_strdup((void *)((uintptr_t)(void *) src * (1 && src)
+			+ (uintptr_t)(void *) dest * (1 && dest))));
+	return (ft_strjoin(dest, src));
+}
+
+char	*ft_concat(char **dest, char *src, int start, int end)
+{
+	char	*temp;
+	char	*temp2;
+
+	temp = ft_substr(src, start, end - start);
+	if (!temp)
+		return (NULL);
+	temp2 = ft_strjoin_plus(*dest, temp);
+	free(temp);
+	safe_free((void **) dest);
+	if (!temp2)
+		return (NULL);
+	*dest = temp2;
+	return (*dest);
+}
 
 char	**order_str_tab(char **str_tab, char limit)
 {
@@ -41,42 +66,10 @@ char	**order_str_tab(char **str_tab, char limit)
 	return (str_tab);
 }
 
-void	safe_free(void **ptr_addr)
-{
-	if (*ptr_addr)
-	{
-		free(*ptr_addr);
-		*ptr_addr = NULL;
-	}
-}
-
 void	print_str_tab(char **str_tab)
 {
 	if (!str_tab)
 		return ;
 	while (*str_tab)
 		printf("[%s]\n", *str_tab++);
-}
-
-void	free_str_tab(char **str_tab)
-{
-	int	i;
-
-	if (!str_tab)
-		return ;
-	i = 0;
-	while (str_tab[i])
-		free(str_tab[i++]);
-	free(str_tab);
-	str_tab = NULL;
-}
-
-void	free_data(t_shell *shell_data)
-{
-	if (shell_data->env)
-		free_env(&shell_data->env);
-	if (shell_data->par)
-		free_t_par(shell_data->par);
-	safe_free((void **) &shell_data);
-	rl_clear_history();
 }
