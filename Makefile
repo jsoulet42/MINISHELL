@@ -103,7 +103,7 @@ $(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
 	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
 
 $(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
 
 $(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
