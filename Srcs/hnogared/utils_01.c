@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 05:08:26 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 11:57:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 char	*ft_strjoin_plus(char *dest, char *src)
 {
-	if (!dest && !src)
-		return (NULL);
 	if (!dest || !src)
 		return (ft_strdup((void *)((uintptr_t)(void *) src * (1 && src)
 			+ (uintptr_t)(void *) dest * (1 && dest))));
