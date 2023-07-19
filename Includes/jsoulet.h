@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   jsoulet.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/17 18:55:20 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:47:17 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef JSOULET_H
 # define JSOULET_H
 
-#include "../Includes/minishell.h"
+# include "minishell.h"
 
 
 int check_line(t_par **par);

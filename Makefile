@@ -31,9 +31,11 @@ SRCS		=	main.c					\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
 				interpret.c				\
-				ft_export.c\
-				get_next_line_bonus.c\
-				get_next_line_utils_bonus.c
+				ft_export.c				\
+				get_next_line_bonus.c	\
+				get_next_line_utils_bonus.c \
+				lentab.c				\
+				ft_cd.c
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c

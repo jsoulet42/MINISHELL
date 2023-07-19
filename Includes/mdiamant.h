@@ -6,14 +6,14 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/19 15:42:04 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:11:54 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MDIAMANT_H
 # define MDIAMANT_H
 
-#include "get_next_line_bonus.h"
+# include "get_next_line_bonus.h"
 
 struct s_parsing
 {
@@ -25,7 +25,7 @@ struct s_parsing
 struct s_par
 {
 	char	**commande;
-	int		char *file;
+	char	*file;
 	int		quote_type;
 };
 

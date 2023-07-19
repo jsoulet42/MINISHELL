@@ -6,12 +6,14 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:05:36 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/18 14:10:31 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:47:24 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LOLEFEVR_H
 # define LOLEFEVR_H
+
+# include "minishell.h"
 
 int		check_starterrors(char *str);
 int		error_pipe(char *str);

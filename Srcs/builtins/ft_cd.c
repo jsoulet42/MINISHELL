@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/18 18:11:21 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:54:16 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*go_home(char **env)
 	return (home);
 }
 
-int main(int argc, char **argv, char **env)
+void ft_cd(int argc, char **argv, char **env)
 {
 	int		changedir;
 	char	*home;
@@ -84,5 +84,5 @@ int main(int argc, char **argv, char **env)
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
-	return 0;
+	return ;
 }
