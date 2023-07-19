@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 18:13:50 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/19 15:26:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int	prompt_cmd(void)
 	line = prompt();
 	if (!line)
 		return (1);
+	if (!*line)
+		return (0);
 	add_history(line);
 	line2 = ft_strtrim(line, " \n\t\v");
 	free(line);

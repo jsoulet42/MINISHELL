@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 14:59:44 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 15:16:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,12 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
 	char	*var_name;
 	void	*temp;
 
-	if (mode == SH_OVERWRITE)
-		temp = ft_strchr(arg, '='); 
-	else
-		temp = ft_strchr(arg, '+'); 
+	if (var)
+		*var = NULL;
+	if (!var || !arg)
+		return (SH_ERROR);
+	temp = ft_strchr(arg, '=' * (mode == SH_OVERWRITE)
+			+ '+' * (mode != SH_OVERWRITE)); 
 	if (temp)
 		var_name = ft_substr(arg, 0, (char *) temp - arg);
 	else
