@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/18 17:35:00 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 11:46:05 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,3 +183,30 @@ void	piper(t_env *env)
 	}
 }
 
+char	*ft_heredoc(char *str)
+{
+	char	*line;
+	char	*heredoc;
+	int		fd;
+
+	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
+	if (fd == -1)
+		return (NULL);
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+			return (NULL);
+		if (ft_strcmp(line, str) == 0)
+		{
+			free(line);
+			break ;
+		}
+		heredoc = ft_strjoin(line, "\n");
+		free(line);
+		write(fd, heredoc, ft_strlen(heredoc));
+		free(heredoc);
+	}
+	close(fd);
+	return (".heredoc");
+}

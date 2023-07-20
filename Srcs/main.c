@@ -3,18 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 10:49:40 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/20 09:17:36 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
 t_shell	*g_shell_data;
-
-void exec_last(t_env *env);
 
 int count_cmd(t_par **par)
 {
@@ -41,8 +39,6 @@ int	init_data(char **envp)
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	g_shell_data->commande = NULL;
-	//g_shell_data->fd[0] = 0;
-	//g_shell_data->fd[1] = 0;
 	return (0);
 }
 
@@ -52,9 +48,6 @@ static int	prompt_cmd(void)
 	char	*line2;
 	int		cmd;
 
-	//dup2(g_shell_data->in, STDIN_FILENO);
-	//dup2(g_shell_data->out, STDOUT_FILENO);
-	//dup2(g_shell_data->fd[0], STDIN_FILENO);
 	line = prompt();
 	if (!line)
 		return (1);
@@ -72,19 +65,12 @@ static int	prompt_cmd(void)
 	while (cmd > 1)
 	{
 		g_shell_data->commande = create_commande(g_shell_data->par);
-		//print_str_tab(g_shell_data->commande);
 		piper(g_shell_data->env);
 		cmd--;
 	}
 	g_shell_data->commande = create_commande(g_shell_data->par);
 	exec_last(g_shell_data->env);
-	//exec_last(g_shell_data->env);
 	dup2(g_shell_data->in, STDIN_FILENO);
-	//dup2(1, STDOUT_FILENO);
-	//exec_last(g_shell_data->env);
-	//dup2(1, STDOUT_FILENO);
-	//dup2(g_shell_data->in, STDIN_FILENO);
-	//dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
 }
