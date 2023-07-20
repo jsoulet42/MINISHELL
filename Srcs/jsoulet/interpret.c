@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/20 11:46:05 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 16:59:36 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int commande_len(t_par **par)
 		i++;
 	while (par[i + len] && par[i + len]->type != 1)
 		len++;
-	//printf("len = %d\n", len);
 	return (len);
 }
 
@@ -186,7 +185,6 @@ void	piper(t_env *env)
 char	*ft_heredoc(char *str)
 {
 	char	*line;
-	char	*heredoc;
 	int		fd;
 
 	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
@@ -197,16 +195,12 @@ char	*ft_heredoc(char *str)
 		line = readline("> ");
 		if (!line)
 			return (NULL);
-		if (ft_strcmp(line, str) == 0)
-		{
-			free(line);
+		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break ;
-		}
-		heredoc = ft_strjoin(line, "\n");
+		ft_fprintf(fd, "%s\n", line);
 		free(line);
-		write(fd, heredoc, ft_strlen(heredoc));
-		free(heredoc);
 	}
+	safe_free((void **)&line);
 	close(fd);
 	return (".heredoc");
 }

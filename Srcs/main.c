@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 15:31:37 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:05:03 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_shell	*g_shell_data;
 
-int	count_cmd(t_par **par)
+/*int	count_cmd(t_par **par)
 {
 	int	i;
 	int	j;
@@ -28,7 +28,7 @@ int	count_cmd(t_par **par)
 		i++;
 	}
 	return (j);
-}
+}*/
 
 int	init_data(char **envp)
 {
