@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 10:49:40 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:09:18 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,13 @@ void exec_last(t_env *env)
 	pid_t pid;
 
 	path = get_path(g_shell_data->commande[0], env);
-	if (!path)
+	if (ft_strncmp(g_shell_data->commande[0], "cd", 2) == 0)
+		ft_cd(lentab(g_shell_data->commande), g_shell_data->commande, env);
+	else if (ft_strncmp(g_shell_data->commande[0], "export", 6) == 0)
+		ft_export(g_shell_data->commande, &env);
+	else if (ft_strncmp(g_shell_data->commande[0], "unset", 5) == 0)
+		ft_unset(g_shell_data->commande, &env);
+	else if (!path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(g_shell_data->commande[0], 2);

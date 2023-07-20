@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/19 16:29:58 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:11:05 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,27 +109,21 @@ void execute_cmd(t_env *env)
 {
 	char *path;
 
-
-	if (ft_strncmp(g_shell_data->commande[0], "cd", 2) == 0)
-	{
-		ft_putstr_fd("sa mere", 2);
-		ft_cd(lentab(g_shell_data->commande), g_shell_data->commande, env_to_str_tab(env));
-	}
 	path = get_path(g_shell_data->commande[0], env);
-	if (!path)
+	if (ft_strncmp(g_shell_data->commande[0], "cd", 2) == 0)
+		ft_cd(lentab(g_shell_data->commande), g_shell_data->commande, env);
+	else if (ft_strncmp(g_shell_data->commande[0], "export", 6) == 0)
+		ft_export(g_shell_data->commande, &env);
+	else if (ft_strncmp(g_shell_data->commande[0], "unset", 5) == 0)
+		ft_unset(g_shell_data->commande, &env);
+	else if (!path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
 		ft_putstr_fd(g_shell_data->commande[0], 2);
 		ft_putstr_fd("\n", 2);
 	}
 	else
-	{
-	/*	else if (ft_strncmp(g_shell_data->commande[0], "export", 6) == 0)
-			ft_export(g_shell_data->commande, env);
-		else if (ft_strncmp(g_shell_data->commande[0], "unset", 5) == 0)
-			ft_unset();*/
 		execve(path, g_shell_data->commande, env_to_str_tab(env));
-	}
 }
 
 char *get_path(char *cmd, t_env *env)

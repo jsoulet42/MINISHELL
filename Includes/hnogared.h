@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 15:00:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:10:34 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ struct s_env
 
 /* Srcs/builtins */
 int		ft_export(char **argv, t_env **env);
-int		ft_unset(char **argv, t_env *env);
+int		ft_unset(char **argv, t_env **env);
 
 /* Srcs/hnogared/free_utils_01.c */
 void	safe_free(void **ptr_addr);

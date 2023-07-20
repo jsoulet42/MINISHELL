@@ -6,13 +6,12 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/19 15:54:16 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:11:46 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
-/*char *str[] = {"cd", NULL};*/
+/*
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int	i;
@@ -27,7 +26,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-}
+}*/
 
 int change_directory(const char *path)
 {
@@ -39,7 +38,7 @@ int change_directory(const char *path)
 		return (-1);
     }
 }
-
+/*
 char	*go_home(char **env)
 {
 	char	*home;
@@ -61,28 +60,22 @@ char	*go_home(char **env)
 		j++;
 	}
 	return (home);
-}
+}*/
 
-void ft_cd(int argc, char **argv, char **env)
+void ft_cd(int argc, char **argv, t_env *env)
 {
 	int		changedir;
 	char	*home;
-	int		i;
 
-	i = -1;
 	changedir = 42;
-	printf("argc = %d\n", argc);
-	while (argv[++i])
-		printf("argv = %s   ok \n", argv[i]);
 	if (argc < 2)
 	{
-		home = go_home(env);
-		changedir = change_directory(home);
-		free(home);
+		home = ft_getenv(env, "HOME");
+		if (home)
+			changedir = change_directory(home);
 	}
 	else
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
-	return ;
 }
