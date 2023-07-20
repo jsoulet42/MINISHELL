@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/19 17:26:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 06:45:12 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ t_env	*init_env(t_env **env_list, char **envp)
 	*env_list = get_default_env(envp);
 	if (!complete_env_path(env_list))
 		return (free_env(env_list), NULL);
-	if (!ft_getenv(*env_list, "LOGNAME"))
-		ft_export((char *[]){"export", START_LOGNAME, NULL}, env_list);
-	if (!ft_getenv(*env_list, "NAME"))
-		ft_export((char *[]){"export", START_NAME, NULL}, env_list);
+	if (!ft_getenv(*env_list, "LOGNAME") && ft_export(
+			(char *[]){"export", START_LOGNAME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*env_list, "NAME") && ft_export(
+			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
 	return (*env_list);
 }
