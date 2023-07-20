@@ -17,24 +17,25 @@ VPATH		=	Srcs:			\
 				Srcs/hnogared:	\
 				Srcs/jsoulet
 
-SRCS		=	main.c					\
-				parsing_01.c			\
-				error_exit_01.c			\
-				doublquote_01.c			\
-				simplquote_01.c			\
-				display_01.c			\
-				init_environment_01.c	\
-				environment_utils_01.c	\
-				environment_utils_02.c	\
-				environment_utils_03.c	\
-				free_utils_01.c			\
-				utils_01.c				\
-				check_starterrors01.c	\
-				check_starterrors02.c	\
-				interpret.c				\
-				ft_export.c\
-				get_next_line_bonus.c\
-				get_next_line_utils_bonus.c
+SRCS		=	main.c						\
+				parsing_01.c				\
+				error_exit_01.c				\
+				doublquote_01.c				\
+				simplquote_01.c				\
+				display_01.c				\
+				init_environment_01.c		\
+				environment_utils_01.c		\
+				environment_utils_02.c		\
+				environment_utils_03.c		\
+				free_utils_01.c				\
+				utils_01.c					\
+				check_starterrors01.c		\
+				check_starterrors02.c		\
+				interpret.c					\
+				ft_export.c					\
+				get_next_line_bonus.c		\
+				get_next_line_utils_bonus.c	\
+				signals.c
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c

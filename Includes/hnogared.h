@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 18:18:38 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:08:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		ft_unset(char **argv, t_env *env);
 void	safe_free(void **ptr_addr);
 void	free_str_tab(char **str_tab);
 void	free_data(t_shell *shell_data);
+void	free_and_exit(void);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);
@@ -99,5 +100,8 @@ void	print_env(t_env *env_list, int mode);
 /* Srcs/hnogared/environment_utils_03.c */
 int		get_dollar_value(char **to_set, char *to_search, t_env *env);
 char	*expand_dollars(char *str, t_env *env);
+
+/* Srcs/hnogared/signals.c */
+void	sig_handler(int signal);
 
 #endif
