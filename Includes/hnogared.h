@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 19:20:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:08:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,9 @@
 # define PROMPT_BUFFER	255
 
 /* Startup environment variables */
-# define START_VAR_AMOUNT	1
-# define START_PATH	"./bin:"
+# define START_PATH		"PATH=./bin:"
+# define START_LOGNAME	"LOGNAME=guest"
+# define START_NAME		"NAME=mishelle"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
@@ -62,18 +63,23 @@ struct s_env
 };
 
 /* Srcs/builtins */
-int		ft_export(char **argv, t_env *env);
+int		ft_export(char **argv, t_env **env);
 int		ft_unset(char **argv, t_env *env);
 
-/* Srcs/hnogared/utils_01.c */
-char	**order_str_tab(char **str_tab, char limit);
+/* Srcs/hnogared/free_utils_01.c */
 void	safe_free(void **ptr_addr);
-void	print_str_tab(char **str_tab);
 void	free_str_tab(char **str_tab);
 void	free_data(t_shell *shell_data);
+void	free_and_exit(void);
+
+/* Srcs/hnogared/utils_01.c */
+char	*ft_strjoin_plus(char *dest, char *src);
+char	*ft_free_strcat(char **dest, char *src, int start, int end);
+char	**order_str_tab(char **str_tab, char limit);
+void	print_str_tab(char **str_tab);
 
 /* Srcs/hnogared/prompt_01.c */
-char	*prompt(void);
+char	*prompt(t_env *env);
 
 /* Srcs/hnogared/init_environment_01.c */
 t_env	*init_env(t_env **env_list, char **envp);
@@ -90,5 +96,12 @@ char	**env_to_str_tab(t_env *env_list);
 t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
 void	print_env(t_env *env_list, int mode);
+
+/* Srcs/hnogared/environment_utils_03.c */
+int		get_dollar_value(char **to_set, char *to_search, t_env *env);
+char	*expand_dollars(char *str, t_env *env);
+
+/* Srcs/hnogared/signals.c */
+void	sig_handler(int signal);
 
 #endif

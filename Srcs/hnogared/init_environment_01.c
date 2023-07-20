@@ -6,7 +6,7 @@
 /*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/18 17:58:31 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 12:11:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,36 +32,36 @@ static t_env	*get_default_env(char **envp)
 	return (env_list);
 }
 
-static t_env	*complete_env(t_env **env_list)
+static t_env	*complete_env_path(t_env **env_list)
 {
 	char	*temp;
-	char	*temp2;
-	t_env	*env_var;
+	char	*value;
 
 	if (!env_list)
-		env_list = (t_env **) ft_calloc(1, sizeof(t_env *));
-	env_var = get_env_var(*env_list, "PATH");
-	if (env_var && !update_env_var(env_var, START_PATH, SH_ADDFRONT))
 		return (NULL);
-	else if (!env_var)
-	{
-		temp = ft_strtrim(START_PATH, ":");
-		if (!temp)
-			return (NULL);
-		temp2 = ft_strjoin("PATH=", temp);
-		free(temp);
-		if (!temp2)
-			return (NULL);
-		env_var = new_env_var(temp2, NULL, NULL);
-		if (!env_var)
-			return (NULL);
-		env_add_back(env_list, env_var);
-	}
+	value = ft_getenv(*env_list, "PATH");
+	value = ft_strjoin_plus(START_PATH, value);
+	if (!value)
+		return (NULL);
+	temp = ft_strtrim(value, ":");
+	free(value);
+	if (!temp)
+		return (NULL);
+	ft_export((char *[]){"export", temp, NULL}, env_list);
+	free(temp);
 	return (*env_list);
 }
 
 t_env	*init_env(t_env **env_list, char **envp)
 {
 	*env_list = get_default_env(envp);
-	return (complete_env(env_list));
+	if (!complete_env_path(env_list))
+		return (free_env(env_list), NULL);
+	if (!ft_getenv(*env_list, "LOGNAME") && ft_export(
+			(char *[]){"export", START_LOGNAME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*env_list, "NAME") && ft_export(
+			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	return (*env_list);
 }

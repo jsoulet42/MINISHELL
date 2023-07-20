@@ -6,47 +6,33 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:23:02 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/18 14:21:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:06:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-char	*prompt(void)
+char	*prompt(t_env *env)
 {
-	int		lens[2];
-	char	*env_value;
-	char	prompt[PROMPT_BUFFER];
+	char	*line;
+	char	*temp;
+	char	*prompt;
 
-	ft_bzero(prompt, PROMPT_BUFFER);
-	env_value = getenv("USER");
-	lens[0] = ft_strlen(env_value);
-	if (lens[0] > 0 && lens[0] < PROMPT_BUFFER - 1)
-		ft_memmove(prompt, env_value, lens[0] * sizeof(char));
-	else
+	if (!ft_getenv(env, "LOGNAME") || !ft_getenv(env, "NAME"))
+		return (readline("guest@mishelle $> "));
+	temp = expand_dollars("$LOGNAME@$NAME ", g_shell_data->env);
+	if (!temp)
+		return (NULL);
+	prompt = ft_strjoin_plus(temp, "$> ");
+	free(temp);
+	if (!prompt)
+		return (NULL);
+	line = readline(prompt);
+	free(prompt);
+	if (!line)
 	{
-		lens[0] = 5;
-		ft_memmove(prompt, "guest", lens[0] * sizeof(char));
+		ft_printf("mishelle: Exit o7\n");
+		free_and_exit();
 	}
-	prompt[lens[0]] = '@';
-	env_value = getenv("NAME");
-	lens[1] = ft_strlen(env_value);
-	if (lens[1] > 0 && lens[1] + lens[0] < PROMPT_BUFFER - 5)
-	{
-		ft_memmove(prompt + lens[0] + 1, env_value, lens[1] * sizeof(char));
-		ft_memmove(prompt + lens[0] + lens[1] + 1, " $> ", 4 * sizeof(char));
-	}
-	else if (lens[0] < PROMPT_BUFFER - 13)
-		ft_memmove(prompt + lens[0] + 1, "mishelle $> ", 12 * sizeof(char));
-	return (readline(prompt));
+	return (line);
 }
-
-/*
-if (str[0] == '$')
-{
-	var = getenv(str + 1);
-	if (var)
-		prinft("%s", var);
-	printf("\n")
-}
-*/

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
 /*   Updated: 2023/07/20 16:06:46 by mdiamant         ###   ########.fr       */
@@ -30,6 +30,9 @@ struct s_par //t_rinity: file.txt < cat file
 	char	**type_in; // << <
 	char	**type_out;// >> >
 	char	**kafka;// char ** qui contient >> << < >
+	char	**commande;
+	char	*file;
+	int		quote_type;
 };
 
 int			calc_size_type(char *str);
