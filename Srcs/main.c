@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 09:17:36 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 15:31:37 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_shell	*g_shell_data;
 
-int count_cmd(t_par **par)
+int	count_cmd(t_par **par)
 {
-	int i;
+	int	i;
 	int	j;
 
 	i = 0;
@@ -48,13 +48,11 @@ static int	prompt_cmd(void)
 	char	*line2;
 	int		cmd;
 
-	line = prompt();
-	if (!line)
-		return (1);
-	if (!*line)
-		return (0);
+	line = prompt(g_shell_data->env);
+	if (!line || !*line)
+		return (line2 = line, safe_free((void **) &line), !line2);
 	add_history(line);
-	line2 = ft_strtrim(line, " \n\t\v");
+	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
@@ -62,11 +60,10 @@ static int	prompt_cmd(void)
 	free(line2);
 	check_line(g_shell_data->par);
 	cmd = count_cmd(g_shell_data->par);
-	while (cmd > 1)
+	while (cmd-- > 1)
 	{
 		g_shell_data->commande = create_commande(g_shell_data->par);
 		piper(g_shell_data->env);
-		cmd--;
 	}
 	g_shell_data->commande = create_commande(g_shell_data->par);
 	exec_last(g_shell_data->env);
@@ -75,38 +72,41 @@ static int	prompt_cmd(void)
 	return (0);
 }
 
-void exec_last(t_env *env)
+void	exec_last(t_env *env)
 {
-	char *path;
-	pid_t pid;
+	char	*path;
+	pid_t	pid;
 
 	path = get_path(g_shell_data->commande[0], env);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(g_shell_data->commande[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
+			g_shell_data->commande[0]);
+		return ;
 	}
+	pid = fork();
+	if (pid == 0)
+		execve(path, g_shell_data->commande, env_to_str_tab(env));
 	else
-	{
-		pid = fork();
-		if (pid == 0)
-			execve(path, g_shell_data->commande, env_to_str_tab(env));
-		else
-			waitpid(pid, NULL, 0);
-	}
+		waitpid(pid, NULL, 0);
 }
+
+/*
+ * SIGQUIT -> Ctrl-\ signal which needs to be ignored
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
 	if (init_data(envp))
 		return (1);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
+		signal(SIGINT, sig_handler);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}
-	free_env(&g_shell_data->env);
+	free_data(g_shell_data);
 	return (0);
 }

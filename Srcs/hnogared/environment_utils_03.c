@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 18:51:38 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 14:38:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/19 18:26:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ char	*expand_dollars(char *str, t_env *env)
 	{
 		if (str[id[0]] != '$')
 			continue ;
-		if (id[0] != id[1] && !ft_concat(&res, str, id[1], id[0]))
+		if (id[0] != id[1] && !ft_free_strcat(&res, str, id[1], id[0]))
 			return (NULL);
 		id[1] = id[0];
 		id[1] += get_dollar_value(&temp, str + id[0], env);
-		if (temp && !ft_concat(&res, temp, 0, id[1] - id[0]))
+		if (temp && !ft_free_strcat(&res, temp, 0, id[1]))
 			return (NULL);
 		id[0] = id[1] - 1;
 	}
-	if ((!res || id[0] != id[1]) && !ft_concat(&res, str, id[1], id[0]))
+	if ((!res || id[0] != id[1]) && !ft_free_strcat(&res, str, id[1], id[0]))
 		return (NULL);
 	return (res);
 }

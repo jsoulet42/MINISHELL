@@ -1,30 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/19 16:25:48 by hnogared         ###   ########.fr       */
+/*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
+/*   Updated: 2023/07/20 13:16:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	sig_handler(int signal)
 {
-	int	i;
-
-	(void)argc;
-	(void)argv;
-	if (!env)
-		return (1);
-	i = -1;
-	while (env[++i])
-	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
-	}
-	return (0);
+	if (signal != SIGINT)
+		return ;
+	ft_fprintf(STDIN_FILENO, "\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
