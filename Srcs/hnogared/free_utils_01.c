@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 02:33:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 13:08:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ void	free_data(t_shell *shell_data)
 		free_t_par(shell_data->par);
 	safe_free((void **) &shell_data);
 	rl_clear_history();
+}
+
+void	free_and_exit(void)
+{
+	int	exit_code;
+
+	exit_code = 0;
+	/* TODO implement exit code inside g_shell_data */
+//	exit_code = g_shell_data->exit_code;
+	free_data(g_shell_data);
+	exit(exit_code);
 }
