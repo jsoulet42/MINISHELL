@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/20 16:59:36 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:13:40 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,10 @@ char **create_commande(t_par **par)
 	if (!par)
 		return (NULL);
 	if (g_shell_data->commande != NULL)
+	{
 		free(g_shell_data->commande);
+		g_shell_data->commande = NULL;
+	}
 	len = commande_len(par);
 	if (len == 0)
 		return (NULL);
@@ -80,6 +83,8 @@ char **create_commande(t_par **par)
 	i = next_cmd(par);
 	while (par[i + j] && par[i + j]->type != 1)
 	{
+		if (par[i + j]->type >= 2 && par[i + j]->type <= 5)
+			i += 2;
 		commande[j] = par[i + j]->str;
 		j++;
 	}
