@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 13:09:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/21 11:20:46 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 t_shell	*g_shell_data;
 
-void	exec_last(t_env *env);
-
-int	count_cmd(t_par **par)
+/*int	count_cmd(t_par **par)
 {
 	int	i;
 	int	j;
@@ -30,7 +28,7 @@ int	count_cmd(t_par **par)
 		i++;
 	}
 	return (j);
-}
+}*/
 
 int	init_data(char **envp)
 {
@@ -41,8 +39,6 @@ int	init_data(char **envp)
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	g_shell_data->commande = NULL;
-	//g_shell_data->fd[0] = 0;
-	//g_shell_data->fd[1] = 0;
 	return (0);
 }
 
@@ -50,7 +46,7 @@ static int	prompt_cmd(void)
 {
 	char	*line;
 	char	*line2;
-	int		cmd;
+	int		i;
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -60,37 +56,45 @@ static int	prompt_cmd(void)
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
-	g_shell_data->par = ft_parsing(line2);
+	g_shell_data->t = ft_parsing(line2);
 	free(line2);
-	check_line(g_shell_data->par);
-	cmd = count_cmd(g_shell_data->par);
-	while (cmd-- > 1)
+	i = 0;
+	while (g_shell_data->t[i + 1])
 	{
-		g_shell_data->commande = create_commande(g_shell_data->par);
-		piper(g_shell_data->env);
+		ft_fprintf(2, "while: i = %d\n", i);
+		piper(g_shell_data->env, g_shell_data->t[i++]);
 	}
-	g_shell_data->commande = create_commande(g_shell_data->par);
-	exec_last(g_shell_data->env);
+	ft_fprintf(2, "sortie: i = %d\n", i);
+	exec_last(g_shell_data->env, g_shell_data->t[i]);
+	ft_fprintf(2, "apres exec_last\n");
 	dup2(g_shell_data->in, STDIN_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
 }
 
-void	exec_last(t_env *env)
+void	exec_last(t_env *env, t_rinity *cmd_struct)
 {
 	char	*path;
 	pid_t	pid;
+	int		fd_in;
 
-	path = get_path(g_shell_data->commande[0], env);
+	if (!cmd_struct)
+		return ;
+	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	if (fd_in != -1)
+		dup2(fd_in, STDIN_FILENO);
+	path = get_path(cmd_struct->command[0], env);
 	if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
-			g_shell_data->commande[0]);
+			cmd_struct->command[0]);
 		return ;
 	}
 	pid = fork();
 	if (pid == 0)
-		execve(path, g_shell_data->commande, env_to_str_tab(env));
+	{
+		execve(path, cmd_struct->command, env_to_str_tab(env));
+	}
 	else
 		waitpid(pid, NULL, 0);
 }
