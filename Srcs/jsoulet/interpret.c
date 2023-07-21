@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/20 19:36:37 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/21 10:28:14 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ char **create_commande(t_par **par)
 	i = next_cmd(par);
 	while (par[i + j] && par[i + j]->type != 1)
 	{
-		if (par[i + j]->type >= 2 && par[i + j]->type <= 5)
-			i += 2;
 		commande[j] = par[i + j]->str;
+		if (par[i + j + 1] && par[i + j + 1]->type >= 2 && par[i + j + 1]->type <= 5)
+			i += 2;
 		j++;
 	}
 	commande[j] = NULL;
@@ -195,7 +195,7 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 
 	i = 0;
 	if (!file_in || !type_in)
-		return (1);
+		return (-1);
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
@@ -234,8 +234,9 @@ int append_file_content(char *file, int fd_in)
 
 char *ft_heredoc(char *str)
 {
-	char *line;
-	int fd;
+	char	*line;
+	int		fd;
+	char	*new_line;
 
 	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd == -1)
@@ -247,10 +248,12 @@ char *ft_heredoc(char *str)
 			return (NULL);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
-		ft_fprintf(fd, "%s\n", line);
+		new_line = ft_strjoin(line, "\n");
+		ft_fprintf(fd, "%s", new_line);
 		free(line);
 	}
 	safe_free((void **)&line);
+	safe_free((void **)&new_line);
 	close(fd);
 	return (".heredoc");
 }
