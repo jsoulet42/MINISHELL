@@ -6,28 +6,31 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/18 17:07:12 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/21 10:10:01 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../Includes/minishell.h"
 
-t_par	**ft_parsing(char *argv)
+t_rinity	**ft_parsing(char *argv)
 {
 	int		res;
 	char	*line;
-	t_par	**p;
+	t_rinity **t;
 
 	line = ft_strtrim(argv, " ");
 	res = count_arg(line);
-	p = (t_par **) malloc(sizeof(t_par *) * (res + 1));
-	if (!p)
-		printf("malloc error // ft_parsing\n");
-	sparse(p, line);
-	command_nb(p);
+	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
+	if (!g_shell_data->par)
+		ft_fprintf(2, "malloc error // ft_parsing\n");
+	sparse(g_shell_data->par, line);
+	command_nb(g_shell_data->par);
+	check_line(g_shell_data->par);
 	free(line);
-	return (p);
+	t = t_rinity_init(g_shell_data->par);
+	print_t_rinity(t);
+	return (t);
 }
 
 void	command_nb(t_par **p)
@@ -57,7 +60,7 @@ void	print_t_par(t_par **p)
 	i = 0;
 	while (p[i])
 	{
-		printf("p[%d] : str : '%s' // type : %d // quote_type : %d // command_elem_id : %d\n", i, p[i]->str, p[i]->type, p[i]->quote_type, p[i]->command_elem_id);
+		ft_fprintf(2, "p[%d] : str : '%s' // type : %d // quote_type : %d // command_elem_id : %d\n", i, p[i]->str, p[i]->type, p[i]->quote_type, p[i]->command_elem_id);
 		i++;
 	}
 }
@@ -217,9 +220,227 @@ int	get_skip_count(const char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\v')
 		i++;
 	return (i);
 }
 
+t_rinity **t_rinity_init(t_par **p)
+{
+	t_rinity **t;
+	int	cmd;
+	int	i;
+	int	len;
 
+	i = 0;
+	len = 0;
+	cmd = real_cmd(p);
+	t = (t_rinity**)malloc(sizeof(t_rinity *) * (cmd + 1));
+	if (!t)
+	{
+		ft_putstr_fd("malloc error1 // t_rinity_init\n", 2); //ajouter fonction exit
+		exit(1);
+	}
+	while (i < cmd)
+	{
+		t[i] = ft_calloc(sizeof(t_rinity), 1);
+		if (!t[i])
+		{
+			ft_putstr_fd("malloc error2 // t_rinity_init\n", 2); //ajouter fonction exit
+			exit(1);
+		}
+		t[i]->command = NULL;
+		t[i]->type_in = NULL;
+		t[i]->type_out = NULL;
+		t[i]->file_in = NULL;
+		t[i]->file_out = NULL;
+		t[i]->kafka = NULL;
+		t[i]->command = create_commande(p);
+		t[i]->type_in = create_type_in(p, len);
+		t[i]->type_out = create_type_out(p, len);
+		t[i]->file_in = create_file_in(p, len);
+		t[i]->file_out = create_file_out(p, len);
+		t[i]->kafka = create_kafka(p, len);
+		ft_fprintf(2, "len = %d\n", len);
+		len = next_pipe(p, i);
+		i++;
+	}
+	t[cmd] = NULL;
+	return (t);
+}
+
+int	next_pipe(t_par **p, int nb_cmd)
+{
+	int	j;
+	int	res;
+
+	j = 0;
+	res = 0;
+	while (p[j] && res != nb_cmd + 1)
+	{
+		if (p[j]->type == 1)
+			res++;
+		j++;
+	}
+	if (p[j])
+		return (j + 1);
+	return (j);
+}
+
+char	**create_type_out(t_par **p, int i)
+{
+	char	**new;
+
+	new = NULL;
+	while (p[i] && p[i]->type != 1)
+	{
+		if (p[i]->type == 3 || p[i]->type == 4)
+			new = str_tab_add_neo(new, p[i]->str);
+		i++;
+	}
+
+	return(new);
+}
+char	**create_type_in(t_par **p, int i)
+{
+	char	**new;
+
+	new = NULL;
+	while (p[i] && p[i]->type != 1)
+	{
+		if (p[i]->type == 2 || p[i]->type == 5)
+			new = str_tab_add_neo(new, p[i]->str);
+		i++;
+	}
+	return(new);
+}
+
+char	**create_file_out(t_par **p, int i)
+{
+	char	**new;
+
+	new = NULL;
+	while (p[i] && p[i]->type != 1)
+	{
+		if (p[i]->type == 4)
+			{
+				// new = str_tab_add_neo(new, ft_heredoc(p[i + 1]));
+				i++;
+			}
+		if (p[i]->type == 3)
+		{
+			new = str_tab_add_neo(new, p[i + 1]->str);
+			i++;
+		}
+		i++;
+	}
+	return(new);
+}
+char	**create_file_in(t_par **p, int i)
+{
+	char	**new;
+
+	new = NULL;
+	while (p[i] && p[i]->type != 1)
+	{
+		if (p[i]->type == 2 || p[i]->type == 5)
+				new = str_tab_add_neo(new, p[i + 1]->str);
+		i++;
+	}
+	return(new);
+}
+char	**create_kafka(t_par **p, int i)
+{
+	char	**new;
+
+	new = NULL;
+	while (p[i] && p[i]->type != 1)
+	{
+		if (p[i]->type >= 2 && p[i]->type <= 5)
+				new = str_tab_add_neo(new, p[i]->str);
+		i++;
+	}
+	return(new);
+}
+char	**str_tab_add_neo(char **str, char *add)
+{
+	int		i;
+	char	**new;
+
+	if (!str)
+	{
+		new = (char **)malloc(sizeof(char *) * 2);
+		if (!new)
+			return (NULL);
+		new[0] = ft_strdup(add);
+		new[1] = NULL;
+		return (new);
+	}
+	i = strstr_len(str);
+	new = (char **)malloc(sizeof(char *) * (i + 2));
+	if (!new)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		new[i] = ft_strdup(str[i]);
+		free(str[i]);
+		i++;
+	}
+	new[i] = ft_strdup(add);
+	new[i + 1] = NULL;
+	return (new);
+}
+
+int	strstr_len(char **str)
+{
+	int	i;
+
+	i = 0;
+	if (str)
+		return (0);
+	while (str[i])
+		i++;
+	return(i);
+}
+
+void	print_t_rinity(t_rinity **t)
+{
+	int	i;
+
+	i = 0;
+	while (t[i])
+	{
+		ft_fprintf(2, " ___________________________________\n");
+		ft_fprintf(2, "|\tla commande est : ");
+		print_str_tab(t[i]->command);
+		ft_fprintf(2, "|\ttype_in  : ");
+		print_str_tab(t[i]->type_in);
+		ft_fprintf(2, "|\ttype_out : ");
+		print_str_tab(t[i]->type_out);
+		ft_fprintf(2, "|\tfile_in  : ");
+		print_str_tab(t[i]->file_in);
+		ft_fprintf(2, "|\tfile_out : ");
+		print_str_tab(t[i]->file_out);
+		ft_fprintf(2, "|\tkafka    : ");
+		print_str_tab(t[i]->kafka);
+		ft_fprintf(2, "|___________________________________\n");
+		i++;
+	}
+}
+
+int	real_cmd(t_par **par)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 1;
+	while (par[i])
+	{
+		if (par[i]->type == 1)
+			j++;
+		i++;
+	}
+	return (j);
+}
