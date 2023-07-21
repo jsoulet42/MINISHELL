@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/21 12:20:07 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:11:55 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
-			append_file_content(ft_heredoc(file_in[i]), fd_in);
+			ft_heredoc(file_in[i], fd_in);
 		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
 			append_file_content(file_in[i], fd_in);
 		else
@@ -220,9 +220,7 @@ int append_file_content(char *file, int fd_in)
 		fd_in2 = open(file, O_RDONLY);
 		if (fd_in2 == -1)
 		{
-			ft_putstr_fd("mishelle: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			ft_fprintf(STDERR_FILENO, "mishelle: `%s': No such file or directory\n");
 			return (1);
 		}
 		while (read(fd_in2, &c, 1) > 0)
@@ -232,28 +230,22 @@ int append_file_content(char *file, int fd_in)
 	return (0);
 }
 
-char *ft_heredoc(char *str)
+int	ft_heredoc(char *str, int fd)
 {
 	char	*line;
-	int		fd;
-	char	*new_line;
 
-	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd == -1)
-		return (NULL);
+		return (1);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (NULL);
+			return (0);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
-		new_line = ft_strjoin(line, "\n");
-		ft_fprintf(fd, "%s", new_line);
+		ft_fprintf(fd, "%s\n", line);
 		free(line);
 	}
 	safe_free((void **)&line);
-	safe_free((void **)&new_line);
-	close(fd);
-	return (".heredoc");
+	return (0);
 }

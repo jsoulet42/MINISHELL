@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 11:20:46 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/21 14:10:12 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,8 @@ static int	prompt_cmd(void)
 	free(line2);
 	i = 0;
 	while (g_shell_data->t[i + 1])
-	{
-		ft_fprintf(2, "while: i = %d\n", i);
 		piper(g_shell_data->env, g_shell_data->t[i++]);
-	}
-	ft_fprintf(2, "sortie: i = %d\n", i);
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
-	ft_fprintf(2, "apres exec_last\n");
 	dup2(g_shell_data->in, STDIN_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
@@ -92,9 +87,7 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	}
 	pid = fork();
 	if (pid == 0)
-	{
 		execve(path, cmd_struct->command, env_to_str_tab(env));
-	}
 	else
 		waitpid(pid, NULL, 0);
 }
