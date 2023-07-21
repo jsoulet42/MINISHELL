@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/20 19:59:19 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/21 10:10:01 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,12 +256,12 @@ t_rinity **t_rinity_init(t_par **p)
 		t[i]->file_out = NULL;
 		t[i]->kafka = NULL;
 		t[i]->command = create_commande(p);
-		len = next_pipe(p, i);
 		t[i]->type_in = create_type_in(p, len);
 		t[i]->type_out = create_type_out(p, len);
 		t[i]->file_in = create_file_in(p, len);
 		t[i]->file_out = create_file_out(p, len);
 		t[i]->kafka = create_kafka(p, len);
+		ft_fprintf(2, "len = %d\n", len);
 		len = next_pipe(p, i);
 		i++;
 	}
@@ -269,22 +269,22 @@ t_rinity **t_rinity_init(t_par **p)
 	return (t);
 }
 
-int	next_pipe(t_par **p, int i)
+int	next_pipe(t_par **p, int nb_cmd)
 {
 	int	j;
 	int	res;
 
 	j = 0;
 	res = 0;
-	while (p[j])
+	while (p[j] && res != nb_cmd + 1)
 	{
 		if (p[j]->type == 1)
 			res++;
-		if (res == i)
-			break ;
 		j++;
 	}
-	return (++j);
+	if (p[j])
+		return (j + 1);
+	return (j);
 }
 
 char	**create_type_out(t_par **p, int i)
@@ -411,19 +411,20 @@ void	print_t_rinity(t_rinity **t)
 	i = 0;
 	while (t[i])
 	{
-		ft_fprintf(2, "la commande est : ");
+		ft_fprintf(2, " ___________________________________\n");
+		ft_fprintf(2, "|\tla commande est : ");
 		print_str_tab(t[i]->command);
-
-		ft_fprintf(2, "type_in : ");
+		ft_fprintf(2, "|\ttype_in  : ");
 		print_str_tab(t[i]->type_in);
-		ft_fprintf(2, "type_out : ");
+		ft_fprintf(2, "|\ttype_out : ");
 		print_str_tab(t[i]->type_out);
-		ft_fprintf(2, "file_in : ");
+		ft_fprintf(2, "|\tfile_in  : ");
 		print_str_tab(t[i]->file_in);
-		ft_fprintf(2, "file_out : ");
+		ft_fprintf(2, "|\tfile_out : ");
 		print_str_tab(t[i]->file_out);
-		ft_fprintf(2, "kafka : ");
+		ft_fprintf(2, "|\tkafka    : ");
 		print_str_tab(t[i]->kafka);
+		ft_fprintf(2, "|___________________________________\n");
 		i++;
 	}
 }
