@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 15:17:54 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/21 17:07:16 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,15 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	char	*path;
 	pid_t	pid;
 	int		fd_in;
+	int		fd_out;
 
 	if (!cmd_struct)
 		return ;
+	if (cmd_struct->file_in && cmd_struct->type_in)
+			fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in);
+	if (cmd_struct->file_out && cmd_struct->type_out)
+		fd_out = create_fd_in(cmd_struct->file_out, cmd_struct->type_out);
 	path = get_path(cmd_struct->command[0], env);
-	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
-	if (fd_in != -1)
-		dup2(fd_in, STDIN_FILENO);
 	if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
@@ -93,10 +95,14 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	pid = fork();
 	if (pid == 0)
 	{
+		dup2(fd_out, STDOUT_FILENO);
+		dup2(fd_in, STDIN_FILENO);
 		execve(path, cmd_struct->command, env_to_str_tab(env));
 	}
 	else
+	{
 		waitpid(pid, NULL, 0);
+	}
 }
 
 /*
