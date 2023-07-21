@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/07/21 14:11:55 by hnogared         ###   ########.fr       */
+=======
+/*   Updated: 2023/07/21 15:11:55 by jsoulet          ###   ########.fr       */
+>>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +176,10 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	pid = fork();
 	if (pid == -1)
 		return;
-	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	if (cmd_struct->file_in && cmd_struct->type_in)
+		fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	else
+		fd_in = STDIN_FILENO;
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -182,14 +189,14 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
+		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], fd_in);
 		close(fd[0]);
-		waitpid(pid, NULL, 0);
 	}
 }
 
-int create_fd_in(char **file_in, char **type_in, int fd_in)
+int create_fd_in(char **file_in, char **type_in, int t_fd_in)
 {
 	int i;
 
@@ -199,9 +206,13 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
+<<<<<<< HEAD
 			ft_heredoc(file_in[i], fd_in);
+=======
+			ft_heredoc(file_in[i], t_fd_in);
+>>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
-			append_file_content(file_in[i], fd_in);
+			append_file_content(file_in[i], t_fd_in);
 		else
 			return (0);
 		i++;
@@ -209,33 +220,42 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 	return (0);
 }
 
-int append_file_content(char *file, int fd_in)
+int append_file_content(char *file, int fd)
 {
-	int fd_in2;
+	int file_fd;
 	char c;
 
-	fd_in2 = -1;
+	file_fd = -1;
 	if (file)
 	{
-		fd_in2 = open(file, O_RDONLY);
-		if (fd_in2 == -1)
+		file_fd = open(file, O_RDONLY);
+		if (file_fd == -1)
 		{
 			ft_fprintf(STDERR_FILENO, "mishelle: `%s': No such file or directory\n");
 			return (1);
 		}
-		while (read(fd_in2, &c, 1) > 0)
-			write(fd_in, &c, 1);
+		while (read(file_fd, &c, 1) > 0)
+			write(fd, &c, 1);
 	}
-	close(fd_in2);
+	close(file_fd);
 	return (0);
 }
 
+<<<<<<< HEAD
 int	ft_heredoc(char *str, int fd)
 {
 	char	*line;
 
 	if (fd == -1)
 		return (1);
+=======
+char *ft_heredoc(char *str, int fd_in)
+{
+	char	*line;
+
+	if (fd_in == -1)
+		return (NULL);
+>>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 	while (1)
 	{
 		line = readline("> ");
@@ -243,9 +263,17 @@ int	ft_heredoc(char *str, int fd)
 			return (0);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
+<<<<<<< HEAD
 		ft_fprintf(fd, "%s\n", line);
 		free(line);
 	}
 	safe_free((void **)&line);
 	return (0);
+=======
+		ft_fprintf(fd_in, "%s\n", line);
+		free(line);
+	}
+	safe_free((void **)&line);
+	return (".heredoc");
+>>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 }

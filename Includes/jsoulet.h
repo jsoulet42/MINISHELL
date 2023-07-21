@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/21 14:03:27 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:19:08 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ char	**create_commande(t_par **par);
 void	execute_cmd(t_env *env, t_rinity *cmd_struct);
 char	*get_path(char *cmd, t_env *env);
 char	*get_path_cmd(char **path, char *cmd);
-void	piper(t_env *env, t_rinity *cmd_);
-void	exec_last(t_env *env, t_rinity *cmd_);
+void	piper(t_env *env, t_rinity *cmd_struct);
+void	exec_last(t_env *env, t_rinity *cmd_struct);
 int		create_fd_in(char **file_in, char **type_in, int fd_in);
 int		append_file_content(char *file, int fd_in);
 int		ft_heredoc(char *str, int fd);
