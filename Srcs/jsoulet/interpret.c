@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/18 17:35:00 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 18:21:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,12 +173,14 @@ void	piper(t_env *env)
 	{
 		close(fd[0]);
 		dup2(fd[1], 1);
+		close(fd[1]);
 		execute_cmd(env);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], 0);
+		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
