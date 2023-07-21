@@ -65,6 +65,8 @@ INCL_DIR	=	Includes
 LIBS_DIR	=	Libs
 LIBS		=	-lft -lncurses -lreadline
 
+DEFINES		=	-D_GNU_SOURCE
+
 # Files management variables ****** #
 RM			=	rm -rf
 
@@ -85,7 +87,7 @@ all:	screen builtins $(NAME)
 
 # Compilation rules *************** #
 $(NAME):	screen $(OBJS_DIR) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
+	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
 
 builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
@@ -115,7 +117,7 @@ $(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
 	@$(call terminal_disp, "Compiled builtin binary: '$(CD_NAME)'")
 
 $(OBJS_DIR)/%.o:	%.c
-	@$(CC) $(CFLAGS) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, "Compiled object file: '$@'")
 
 $(OBJS_DIR): screen

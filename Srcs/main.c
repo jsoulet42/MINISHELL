@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 13:45:24 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/21 15:17:54 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	prompt_cmd(void)
 	char	*line;
 	char	*line2;
 	int		i;
-	int 	fd[2];
+	//int 	fd[2];
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -59,12 +59,12 @@ static int	prompt_cmd(void)
 		return (free(line2), 1);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
-	fd[0] = dup(g_shell_data->in);
-	fd[1] = dup(g_shell_data->out);
+	//fd[0] = dup(g_shell_data->in);
+	//fd[1] = dup(g_shell_data->out);
 	i = 0;
 	while (g_shell_data->t[i + 1])
 	{
-		piper(g_shell_data->env, g_shell_data->t[i++], fd);
+		piper(g_shell_data->env, g_shell_data->t[i++]);
 	}
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
 	dup2(g_shell_data->in, STDIN_FILENO);
@@ -80,10 +80,10 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 
 	if (!cmd_struct)
 		return ;
+	path = get_path(cmd_struct->command[0], env);
 	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
 	if (fd_in != -1)
 		dup2(fd_in, STDIN_FILENO);
-	path = get_path(cmd_struct->command[0], env);
 	if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",

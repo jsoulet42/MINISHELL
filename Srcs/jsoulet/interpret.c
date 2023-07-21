@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/21 13:54:43 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/21 15:11:55 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,31 +161,34 @@ char *get_path_cmd(char **path, char *cmd)
 	return (NULL);
 }
 
-void piper(t_env *env, t_rinity *cmd_struct, int *fd)
+void piper(t_env *env, t_rinity *cmd_struct)
 {
 	int fd_in;
-	int fd2[2];
+	int fd[2];
 	pid_t pid;
 
-	if (pipe(fd2) == -1)
+	if (pipe(fd) == -1)
 		return;
 	pid = fork();
 	if (pid == -1)
 		return;
-	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, fd[0]);
+	if (cmd_struct->file_in && cmd_struct->type_in)
+		fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	else
+		fd_in = STDIN_FILENO;
 	if (pid == 0)
 	{
-		close(fd2[0]);
-		dup2(fd2[1], STDOUT_FILENO);
-		close(fd2[1]);
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 		execute_cmd(env, cmd_struct);
 	}
 	else
 	{
-		close(fd2[1]);
-		dup2(fd2[0], fd_in);
-		close(fd2[0]);
 		waitpid(pid, NULL, 0);
+		close(fd[1]);
+		dup2(fd[0], fd_in);
+		close(fd[0]);
 	}
 }
 
@@ -246,7 +249,7 @@ char *ft_heredoc(char *str, int fd_in)
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
 		ft_fprintf(fd_in, "%s\n", line);
-		write(fd_in, line, ft_strlen(line));
+		free(line);
 	}
 	safe_free((void **)&line);
 	return (".heredoc");

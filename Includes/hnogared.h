@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 13:08:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:06:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ struct s_env
 
 /* Srcs/builtins */
 int		ft_export(char **argv, t_env **env);
-int		ft_unset(char **argv, t_env *env);
+int		ft_unset(char **argv, t_env **env);
 
 /* Srcs/hnogared/free_utils_01.c */
 void	safe_free(void **ptr_addr);
