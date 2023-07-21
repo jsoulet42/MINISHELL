@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 17:13:48 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 19:56:13 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	prompt_cmd(void)
 {
 	char	*line;
 	char	*line2;
-	int		cmd;
+	int		i;
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -56,37 +56,40 @@ static int	prompt_cmd(void)
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
-	g_shell_data->par = ft_parsing(line2);
+	g_shell_data->t = ft_parsing(line2);
 	free(line2);
-	check_line(g_shell_data->par);
-	cmd = count_cmd(g_shell_data->par);
-	while (cmd-- > 1)
+	i = 0;
+	while (g_shell_data->t[i + 1])
 	{
-		g_shell_data->commande = create_commande(g_shell_data->par);
-		piper(g_shell_data->env);
+		piper(g_shell_data->env, g_shell_data->t[i++]);
 	}
-	g_shell_data->commande = create_commande(g_shell_data->par);
-	exec_last(g_shell_data->env);
+	exec_last(g_shell_data->env, g_shell_data->t[i]);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
 }
 
-void	exec_last(t_env *env)
+void	exec_last(t_env *env, t_rinity *cmd_struct)
 {
 	char	*path;
 	pid_t	pid;
+	int		fd_in;
 
-	path = get_path(g_shell_data->commande[0], env);
+	if (!cmd_struct)
+		return ;
+	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	if (fd_in != -1)
+		dup2(fd_in, STDIN_FILENO);
+	path = get_path(cmd_struct->command[0], env);
 	if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
-			g_shell_data->commande[0]);
+			cmd_struct->command[0]);
 		return ;
 	}
 	pid = fork();
 	if (pid == 0)
-		execve(path, g_shell_data->commande, env_to_str_tab(env));
+		execve(path, cmd_struct->command, env_to_str_tab(env));
 	else
 		waitpid(pid, NULL, 0);
 }

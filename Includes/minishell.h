@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 11:02:18 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/20 17:36:43 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ typedef struct s_par t_rinity;
 
 typedef struct s_shell
 {
-	t_par	**par;
-	t_env	*env;
-	char	**commande;
-	int 	in;
-	int 	out;
-	int 	fd[2];
-}			t_shell;
+	t_par		**par;
+	t_env		*env;
+	t_rinity	**t;
+	char		**commande;
+	int 		in;
+	int 		out;
+	int 		fd[2];
+}				t_shell;
 
 extern t_shell *g_shell_data;
 

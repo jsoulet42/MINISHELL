@@ -6,20 +6,19 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/20 17:13:40 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 19:36:37 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../Includes/minishell.h"
 
-int	next_cmd(t_par **par);
+int next_cmd(t_par **par);
 
 /*si il y a plusieur operateur de suite on print une erreur
 	et on return le print de l'erreur*/
 int check_line(t_par **par)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (par[i])
@@ -27,12 +26,12 @@ int check_line(t_par **par)
 		if (par[i]->type != 0 && par[i + 1] && par[i + 1]->type != 0)
 		{
 			printf("minishell: syntax error bad operand `");
-			return(printf("%s'\n", par[i + 1]->str));
+			return (printf("%s'\n", par[i + 1]->str));
 		}
 		if (par[i]->type != 0 && par[i + 1] == NULL)
 		{
 			printf("minishell: syntax error bad operand `");
-			return(printf("%s'\n", par[i]->str));
+			return (printf("%s'\n", par[i]->str));
 		}
 		i++;
 	}
@@ -41,8 +40,8 @@ int check_line(t_par **par)
 
 int commande_len(t_par **par)
 {
-	int	i;
-	int	len;
+	int i;
+	int len;
 
 	if (!par)
 		return (0);
@@ -55,16 +54,15 @@ int commande_len(t_par **par)
 	return (len);
 }
 
-
 /* on met dans un char **la prochaine commande a execve
 	 et si cette fonction return NULL c'est qu'il n'y a plus de commande
 		et donc que le programme doit s'arreter */
 char **create_commande(t_par **par)
 {
-	int		j;
-	int		i;
-	int		len;
-	char	**commande;
+	int j;
+	int i;
+	int len;
+	char **commande;
 
 	if (!par)
 		return (NULL);
@@ -92,9 +90,9 @@ char **create_commande(t_par **par)
 	return (commande);
 }
 
-int	next_cmd(t_par **par)
+int next_cmd(t_par **par)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (par[i])
@@ -109,24 +107,24 @@ int	next_cmd(t_par **par)
 	return (i);
 }
 
-void execute_cmd(t_env *env)
+void execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
 	char *path;
 
-	path = get_path(g_shell_data->commande[0], env);
+	path = get_path(cmd_struct->command[0], env);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(g_shell_data->commande[0], 2);
+		ft_putstr_fd(cmd_struct->command[0], 2);
 		ft_putstr_fd("\n", 2);
 	}
 	else
-		execve(path, g_shell_data->commande, env_to_str_tab(env));
+		execve(path, cmd_struct->command, env_to_str_tab(env));
 }
 
 char *get_path(char *cmd, t_env *env)
 {
-	char	*var;
+	char *var;
 	char **path;
 	char *path_cmd;
 
@@ -141,9 +139,9 @@ char *get_path(char *cmd, t_env *env)
 
 char *get_path_cmd(char **path, char *cmd)
 {
-	int		i;
-	char	*path_cmd;
-	char	*tmp;
+	int i;
+	char *path_cmd;
+	char *tmp;
 
 	i = 0;
 	while (path[i])
@@ -163,34 +161,81 @@ char *get_path_cmd(char **path, char *cmd)
 	return (NULL);
 }
 
-void	piper(t_env *env)
+void piper(t_env *env, t_rinity *cmd_struct)
 {
-	int		fd[2];
-	pid_t	pid;
+	int fd_in;
+	int fd[2];
+	pid_t pid;
 
 	if (pipe(fd) == -1)
-		return ;
+		return;
 	pid = fork();
 	if (pid == -1)
-		return ;
+		return;
+	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
 	if (pid == 0)
 	{
 		close(fd[0]);
-		dup2(fd[1], 1);
-		execute_cmd(env);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
+		execute_cmd(env, cmd_struct);
 	}
 	else
 	{
 		close(fd[1]);
-		dup2(fd[0], 0);
+		dup2(fd[0], fd_in);
+		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
 
-char	*ft_heredoc(char *str)
+int create_fd_in(char **file_in, char **type_in, int fd_in)
 {
-	char	*line;
-	int		fd;
+	int i;
+
+	i = 0;
+	if (!file_in || !type_in)
+		return (1);
+	while (file_in[i])
+	{
+		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
+			append_file_content(ft_heredoc(file_in[i]), fd_in);
+		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
+			append_file_content(file_in[i], fd_in);
+		else
+			return (0);
+		i++;
+	}
+	return (0);
+}
+
+int append_file_content(char *file, int fd_in)
+{
+	int fd_in2;
+	char c;
+
+	fd_in2 = -1;
+	if (file)
+	{
+		fd_in2 = open(file, O_RDONLY);
+		if (fd_in2 == -1)
+		{
+			ft_putstr_fd("mishelle: ", 2);
+			ft_putstr_fd(file, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+			return (1);
+		}
+		while (read(fd_in2, &c, 1) > 0)
+			write(fd_in, &c, 1);
+	}
+	close(fd_in2);
+	return (0);
+}
+
+char *ft_heredoc(char *str)
+{
+	char *line;
+	int fd;
 
 	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd == -1)
@@ -201,7 +246,7 @@ char	*ft_heredoc(char *str)
 		if (!line)
 			return (NULL);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
-			break ;
+			break;
 		ft_fprintf(fd, "%s\n", line);
 		free(line);
 	}

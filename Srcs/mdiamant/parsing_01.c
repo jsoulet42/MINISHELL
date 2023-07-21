@@ -3,35 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/20 17:05:53 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:59:19 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../Includes/minishell.h"
 
-t_par	**ft_parsing(char *argv)
+t_rinity	**ft_parsing(char *argv)
 {
 	int		res;
 	char	*line;
-	t_par	**p;
 	t_rinity **t;
 
 	line = ft_strtrim(argv, " ");
 	res = count_arg(line);
-	p = (t_par **) malloc(sizeof(t_par *) * (res + 1));
-	if (!p)
+	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
+	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	sparse(p, line);
-	command_nb(p);
+	sparse(g_shell_data->par, line);
+	command_nb(g_shell_data->par);
+	check_line(g_shell_data->par);
 	free(line);
-	t = t_rinity_init(p);
+	t = t_rinity_init(g_shell_data->par);
 	print_t_rinity(t);
-	command_nb(p);
-	return (p);
+	return (t);
 }
 
 void	command_nb(t_par **p)

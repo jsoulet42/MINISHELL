@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/20 16:06:46 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/20 19:42:13 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int			calc_type(char *str);
 void		sparse(t_par **p, char *argv);
 void		print_t_par(t_par **p);
 int			get_skip_count(const char *str);
-t_par		**ft_parsing(char *argv);
+t_rinity		**ft_parsing(char *argv);
 int			is_quote(char *argv);
 int			verifquote(char *argv);
 void		free_t_par(t_par **p);
