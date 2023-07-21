@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   jsoulet.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
 /*   Updated: 2023/07/21 14:39:19 by jsoulet          ###   ########.fr       */
@@ -18,7 +18,7 @@
 
 int		check_line(t_par **par);
 int		commande_len(t_par **par);
-char	**create_commande(t_par **par);
+char	**create_commande(t_par **par, int i);
 void	execute_cmd(t_env *env, t_rinity *cmd_struct);
 char	*get_path(char *cmd, t_env *env);
 char	*get_path_cmd(char **path, char *cmd);
