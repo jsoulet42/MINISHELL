@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/21 10:28:14 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:54:43 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,35 +161,35 @@ char *get_path_cmd(char **path, char *cmd)
 	return (NULL);
 }
 
-void piper(t_env *env, t_rinity *cmd_struct)
+void piper(t_env *env, t_rinity *cmd_struct, int *fd)
 {
 	int fd_in;
-	int fd[2];
+	int fd2[2];
 	pid_t pid;
 
-	if (pipe(fd) == -1)
+	if (pipe(fd2) == -1)
 		return;
 	pid = fork();
 	if (pid == -1)
 		return;
-	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
+	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, fd[0]);
 	if (pid == 0)
 	{
-		close(fd[0]);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
+		close(fd2[0]);
+		dup2(fd2[1], STDOUT_FILENO);
+		close(fd2[1]);
 		execute_cmd(env, cmd_struct);
 	}
 	else
 	{
-		close(fd[1]);
-		dup2(fd[0], fd_in);
-		close(fd[0]);
+		close(fd2[1]);
+		dup2(fd2[0], fd_in);
+		close(fd2[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
 
-int create_fd_in(char **file_in, char **type_in, int fd_in)
+int create_fd_in(char **file_in, char **type_in, int t_fd_in)
 {
 	int i;
 
@@ -199,9 +199,9 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
-			append_file_content(ft_heredoc(file_in[i]), fd_in);
+			ft_heredoc(file_in[i], t_fd_in);
 		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
-			append_file_content(file_in[i], fd_in);
+			append_file_content(file_in[i], t_fd_in);
 		else
 			return (0);
 		i++;
@@ -209,37 +209,34 @@ int create_fd_in(char **file_in, char **type_in, int fd_in)
 	return (0);
 }
 
-int append_file_content(char *file, int fd_in)
+int append_file_content(char *file, int fd)
 {
-	int fd_in2;
+	int file_fd;
 	char c;
 
-	fd_in2 = -1;
+	file_fd = -1;
 	if (file)
 	{
-		fd_in2 = open(file, O_RDONLY);
-		if (fd_in2 == -1)
+		file_fd = open(file, O_RDONLY);
+		if (file_fd == -1)
 		{
 			ft_putstr_fd("mishelle: ", 2);
 			ft_putstr_fd(file, 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
 			return (1);
 		}
-		while (read(fd_in2, &c, 1) > 0)
-			write(fd_in, &c, 1);
+		while (read(file_fd, &c, 1) > 0)
+			write(fd, &c, 1);
 	}
-	close(fd_in2);
+	close(file_fd);
 	return (0);
 }
 
-char *ft_heredoc(char *str)
+char *ft_heredoc(char *str, int fd_in)
 {
 	char	*line;
-	int		fd;
-	char	*new_line;
 
-	fd = open(".heredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
-	if (fd == -1)
+	if (fd_in == -1)
 		return (NULL);
 	while (1)
 	{
@@ -248,12 +245,9 @@ char *ft_heredoc(char *str)
 			return (NULL);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
-		new_line = ft_strjoin(line, "\n");
-		ft_fprintf(fd, "%s", new_line);
-		free(line);
+		ft_fprintf(fd_in, "%s\n", line);
+		write(fd_in, line, ft_strlen(line));
 	}
 	safe_free((void **)&line);
-	safe_free((void **)&new_line);
-	close(fd);
 	return (".heredoc");
 }

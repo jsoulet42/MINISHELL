@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 11:20:46 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/21 13:45:24 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	prompt_cmd(void)
 	char	*line;
 	char	*line2;
 	int		i;
+	int 	fd[2];
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -58,15 +59,14 @@ static int	prompt_cmd(void)
 		return (free(line2), 1);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
+	fd[0] = dup(g_shell_data->in);
+	fd[1] = dup(g_shell_data->out);
 	i = 0;
 	while (g_shell_data->t[i + 1])
 	{
-		ft_fprintf(2, "while: i = %d\n", i);
-		piper(g_shell_data->env, g_shell_data->t[i++]);
+		piper(g_shell_data->env, g_shell_data->t[i++], fd);
 	}
-	ft_fprintf(2, "sortie: i = %d\n", i);
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
-	ft_fprintf(2, "apres exec_last\n");
 	dup2(g_shell_data->in, STDIN_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
