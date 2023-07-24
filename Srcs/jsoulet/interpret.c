@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/24 11:56:44 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:10:35 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,8 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 			cmd_struct->command[0]);
 		return ;
 	}
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	signal(SIGINT, SIG_DFL);
-	signal(SIGTERM, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	execve(path, cmd_struct->command, env_to_str_tab(env));
 }
 
@@ -180,7 +179,6 @@ void piper(t_env *env, t_rinity *cmd_struct)
 		fd_in = STDIN_FILENO;
 	if (pid == 0)
 	{
-//		signal(SIGINT, sig_handler);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
@@ -188,7 +186,9 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
-//		signal(SIGINT, child_sig_handler);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL);
+		signal(SIGINT, parent_sig_handler);
+		signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], fd_in);

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 22:56:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:09:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 		execve(path, cmd_struct->command, env_to_str_tab(env));
 	}
 	else
 	{
+		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 		signal(SIGINT, parent_sig_handler);
 		signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
