@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 11:35:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 22:54:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		get_dollar_value(char **to_set, char *to_search, t_env *env);
 char	*expand_dollars(char *str, t_env *env);
 
 /* Srcs/hnogared/signals.c */
-void	sig_handler(int signal);
-void	child_sig_handler(int signal);
+void	main_sig_handler(int signal);
+void	parent_sig_handler(int signal);
 
 #endif
