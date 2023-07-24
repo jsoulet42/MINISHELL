@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 15:20:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:58:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	init_data(char **envp)
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	g_shell_data->commande = NULL;
+	set_termios_mode(TERMIOS_MUTE_CTRL);
 	return (0);
 }
 
@@ -90,7 +91,12 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	}
 	pid = fork();
 	if (pid == 0)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 		execve(path, cmd_struct->command, env_to_str_tab(env));
+	}
 	else
 		waitpid(pid, NULL, 0);
 }
@@ -108,9 +114,11 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		signal(SIGINT, sig_handler);
+		set_termios_mode(TERMIOS_MUTE_CTRL);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	free_data(g_shell_data);
 	return (0);
 }

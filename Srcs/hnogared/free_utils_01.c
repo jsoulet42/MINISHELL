@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 17:32:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:56:29 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	free_and_exit(void)
 	exit_code = 0;
 	/* TODO implement exit code inside g_shell_data */
 //	exit_code = g_shell_data->exit_code;
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	free_data(g_shell_data);
 	exit(exit_code);
 }

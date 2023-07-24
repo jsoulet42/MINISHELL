@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 13:06:26 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:35:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,10 @@
 # define SH_DISORDERED	0
 # define SH_ORDERED		1
 
+/* Termios setup modes */
+# define TERMIOS_UNMUTE_CTRL	0
+# define TERMIOS_MUTE_CTRL		1
+
 /* Comparative macros */
 # define SH_SET(dst, src)	__typeof__ (src) dst = (src)
 # define SH_MAX(a, b)	({SH_SET(_a, a); SH_SET(_b, b); _a > _b ? _a : _b;})
@@ -78,7 +82,8 @@ char	*ft_free_strcat(char **dest, char *src, int start, int end);
 char	**order_str_tab(char **str_tab, char limit);
 void	print_str_tab(char **str_tab);
 
-/* Srcs/hnogared/prompt_01.c */
+/* Srcs/hnogared/display_01.c */
+int		set_termios_mode(int mode);
 char	*prompt(t_env *env);
 
 /* Srcs/hnogared/init_environment_01.c */
@@ -103,5 +108,6 @@ char	*expand_dollars(char *str, t_env *env);
 
 /* Srcs/hnogared/signals.c */
 void	sig_handler(int signal);
+void	child_sig_handler(int signal);
 
 #endif

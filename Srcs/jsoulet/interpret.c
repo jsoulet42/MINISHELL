@@ -6,11 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/07/21 14:11:55 by hnogared         ###   ########.fr       */
-=======
-/*   Updated: 2023/07/21 15:11:55 by jsoulet          ###   ########.fr       */
->>>>>>> f1538ae50d123580523fa79012081a48a9234c02
+/*   Updated: 2023/07/24 11:56:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +114,14 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 	path = get_path(cmd_struct->command[0], env);
 	if (!path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd_struct->command[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
+			cmd_struct->command[0]);
+		return ;
 	}
-	else
-		execve(path, cmd_struct->command, env_to_str_tab(env));
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
+	execve(path, cmd_struct->command, env_to_str_tab(env));
 }
 
 char *get_path(char *cmd, t_env *env)
@@ -182,6 +180,7 @@ void piper(t_env *env, t_rinity *cmd_struct)
 		fd_in = STDIN_FILENO;
 	if (pid == 0)
 	{
+//		signal(SIGINT, sig_handler);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
@@ -189,6 +188,7 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
+//		signal(SIGINT, child_sig_handler);
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], fd_in);
@@ -206,11 +206,7 @@ int create_fd_in(char **file_in, char **type_in, int t_fd_in)
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
-<<<<<<< HEAD
-			ft_heredoc(file_in[i], fd_in);
-=======
 			ft_heredoc(file_in[i], t_fd_in);
->>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
 			append_file_content(file_in[i], t_fd_in);
 		else
@@ -241,21 +237,12 @@ int append_file_content(char *file, int fd)
 	return (0);
 }
 
-<<<<<<< HEAD
 int	ft_heredoc(char *str, int fd)
 {
 	char	*line;
 
 	if (fd == -1)
 		return (1);
-=======
-char *ft_heredoc(char *str, int fd_in)
-{
-	char	*line;
-
-	if (fd_in == -1)
-		return (NULL);
->>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 	while (1)
 	{
 		line = readline("> ");
@@ -263,17 +250,9 @@ char *ft_heredoc(char *str, int fd_in)
 			return (0);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break;
-<<<<<<< HEAD
 		ft_fprintf(fd, "%s\n", line);
 		free(line);
 	}
 	safe_free((void **)&line);
 	return (0);
-=======
-		ft_fprintf(fd_in, "%s\n", line);
-		free(line);
-	}
-	safe_free((void **)&line);
-	return (".heredoc");
->>>>>>> f1538ae50d123580523fa79012081a48a9234c02
 }

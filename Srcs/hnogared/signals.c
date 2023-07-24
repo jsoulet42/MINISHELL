@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 13:59:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:18:41 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	sig_handler(int signal)
 {
-	if (signal == SIGINT)
+	if (getpid() != 0 && signal == SIGINT)
 	{
 		ft_fprintf(STDERR_FILENO, "\n");
 		rl_replace_line("", 0);
@@ -23,4 +23,9 @@ void	sig_handler(int signal)
 	}
 	if (signal == SIGTERM)
 		free_and_exit();
+}
+
+void	child_sig_handler(int signal)
+{
+	signal++;
 }
