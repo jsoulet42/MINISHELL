@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:09:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:21:27 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
-		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 		signal(SIGINT, parent_sig_handler);
 		signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
@@ -114,11 +113,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
+	set_termios_mode(TERMIOS_MUTE_CTRL);
 	while (1)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
-		set_termios_mode(TERMIOS_MUTE_CTRL);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}

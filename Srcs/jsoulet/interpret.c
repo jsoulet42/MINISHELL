@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/24 23:10:35 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:21:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
-		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 		signal(SIGINT, parent_sig_handler);
 		signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);

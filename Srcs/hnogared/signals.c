@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:11:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:20:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	main_sig_handler(int signal)
 void	parent_sig_handler(int signal)
 {
 	if (signal == SIGINT)
-		ft_fprintf(STDERR_FILENO, "\n");
+		ft_fprintf(STDERR_FILENO, "\b^C\n");
 	if (signal == SIGQUIT)
-		ft_fprintf(STDERR_FILENO, "Quit\n");
+		ft_fprintf(STDERR_FILENO, "\b^\\Quit\n");
 }
