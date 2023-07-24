@@ -179,7 +179,7 @@ re:	screen binclean fclean all
 
 # Display rules ******************* #
 screen:
-ifdef $(YES)
+ifdef $(FANCY)
 	@clear
 	@$(call put_screen)
 endif
@@ -201,19 +201,25 @@ define terminal_disp
 endef
 
 define put_screen
-	$(call put_screen_width)
-	$(call put_screen_height)
-	$(call put_screen_width)
+	$(call put_screen_width, "/", "=", "\\")
+	$(call put_screen_width, "|", " ", "|")
+	$(call put_screen_width, "\\", "=", "/")
 endef
 
 define put_screen_width
-	@echo -n "/";							\
+	$(eval left_char = $(1))
+	$(eval mid_char = $(2))
+	$(eval right_char = $(3))
+	@sh_left_char=$(left_char);						\
+	sh_mid_char=$(mid_char);							\
+	sh_right_char=$(right_char);						\
+	echo -n "$${sh_left_char}";				\
 	i=1;									\
 	while [ $${i} -lt $$(( $(SCREEN_W) - 1 )) ]; do		\
-		echo -n "=";		\
+		echo -n "$${sh_mid_char}";		\
 		i=$$(expr $$i + 1);										\
 	done;		\
-	echo "\\"
+	echo "$${sh_right_char}"
 endef
 
 # **************************************************************************** #
