@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 13:06:26 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:52:50 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	free_and_exit(void);
 char	*ft_strjoin_plus(char *dest, char *src);
 char	*ft_free_strcat(char **dest, char *src, int start, int end);
 char	**order_str_tab(char **str_tab, char limit);
-void	print_str_tab(char **str_tab);
 
 /* Srcs/hnogared/prompt_01.c */
 char	*prompt(t_env *env);

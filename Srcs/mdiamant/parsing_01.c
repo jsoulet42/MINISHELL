@@ -3,14 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/21 17:31:29 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/25 16:43:58 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+char *prev_line(char *line, int i);
+
 
 t_rinity	**ft_parsing(char *argv)
 {
@@ -23,6 +26,8 @@ t_rinity	**ft_parsing(char *argv)
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
+	line = prev_line(line, 0);
+	ft_fprintf(2, "line : [%s]\n", line);
 	sparse(g_shell_data->par, line);
 	check_line(g_shell_data->par);
 	free(line);
@@ -30,7 +35,34 @@ t_rinity	**ft_parsing(char *argv)
 	print_t_rinity(t);
 	return (t);
 }
+char *prev_line(char *line, int i)
+{
+	char *res;
+	char *tmp;
 
+	while (line[i] && line[i] != '\"' && line[i] != '\'')
+		i++;
+	i++;
+	while (line[i] && line[i] != '\"' && line[i] != '\'')
+		i++;
+	i++;
+	if (!line[i])
+		return (line);
+	if (line[i] != ' ' && line[i] != '\t' && line[i] != '\v')
+	{
+		if (line[i] == '\"' || line[i] == '\'')
+			i += 1;
+		res = ft_substr(line, 0, i - 2);
+		tmp = ft_substr(line, i , ft_strlen(line) - i);
+		free(line);
+		line = ft_strjoin(res, tmp);
+		free(res);
+		free(tmp);
+	}
+	line = prev_line(line, i);
+	return (line);
+
+}
 void	print_t_par(t_par **p)
 {
 	int	i;
@@ -301,7 +333,7 @@ char	**create_file_out(t_par **p, int i)
 	{
 		if (p[i]->type == 4)
 		{
-			// new = str_tab_add_neo(new, ft_heredoc(p[i + 1]));
+			new = str_tab_add_neo(new, p[i + 1]->str);
 			i++;
 		}
 		if (p[i]->type == 3)
@@ -427,8 +459,8 @@ void	print_t_rinity(t_rinity **t)
 	i = 0;
 	while (t[i])
 	{
-		len = ft_fprintf(2, " ________________________________________________") - 6;
-		ft_fprintf(2, "\n|                                                |\n");
+		len = ft_fprintf(2, " _____________________________________________________") - 6;
+		ft_fprintf(2, "\n|                                                     |\n");
 		j = ft_fprintf(2, "|\tLa commande est : ");
 		j += print_strstr(t[i]->command);
 		pw(len - j);
@@ -447,7 +479,7 @@ void	print_t_rinity(t_rinity **t)
 		j = ft_fprintf(2, "|\tkafka    : ");
 		j += print_strstr(t[i]->kafka);
 		pw(len - j);
-		ft_fprintf(2, "|________________________________________________|\n\n");
+		ft_fprintf(2, "|_____________________________________________________|\n\n");
 		i++;
 	}
 }

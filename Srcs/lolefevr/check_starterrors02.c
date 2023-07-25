@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_starterrors02.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:51:18 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/13 19:04:36 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:00:23 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	unknown_command()
 {
 	printf("Error : Unknown command type \n");
-	return (1);
+	return (1);// apel du builtin exit.
 }
 
 int viveldop(int gel, char *str, int *i)
@@ -53,7 +53,7 @@ int error_pipe(char *str)
 	if (((str[i] == '|') || str[i] == '>') || str[i] == '<')
 	{
 		printf("Error : False redirection\n");
-		return (1);
+		return (1);// apel du builtin exit.
 	}
 	return (0);
 }
