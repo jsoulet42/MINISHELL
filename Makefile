@@ -78,8 +78,12 @@ ifndef $(SCREEN_W)
 SCREEN_W	=	70
 endif
 ifndef $(SCREEN_H)
-SCREEN_H	=	40
+SCREEN_H	=	25
 endif
+
+SCREEN_R_OFFSET	=	20
+
+SCREEN_BORDER	=	"╔" "═" "╗" "║" "╚" "═" "╝"
 
 # **************************************************************************** #
 
@@ -179,9 +183,10 @@ re:	screen binclean fclean all
 
 # Display rules ******************* #
 screen:
-ifdef $(FANCY)
+ifndef $(FANCY)
 	@clear
 	@$(call put_screen)
+	@$(call put_keyboard)
 endif
 
 # **************************************************************************** #
@@ -201,25 +206,63 @@ define terminal_disp
 endef
 
 define put_screen
-	$(call put_screen_width, "/", "=", "\\")
-	$(call put_screen_width, "|", " ", "|")
-	$(call put_screen_width, "\\", "=", "/")
+	$(eval top_l = $(word 1, $(SCREEN_BORDER)))
+	$(eval top = $(word 2, $(SCREEN_BORDER)))
+	$(eval top_r = $(word 3, $(SCREEN_BORDER)))
+	$(eval side = $(word 4, $(SCREEN_BORDER)))
+	$(eval bot_l = $(word 5, $(SCREEN_BORDER)))
+	$(eval bot = $(word 6, $(SCREEN_BORDER)))
+	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
+	$(call put_box_width, $(top_l), $(top), $(top_r),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2), 0)
+	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
+	@echo -n "\e[2C"
+	$(call put_box_width, $(top_l), $(top), $(top_r), $(SCREEN_W))
+	$(call put_vertical_line, $(side), $(SCREEN_H),	2)
+	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
+	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
+	@echo -n "\e[$(SCREEN_H)B\e[2C"
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(SCREEN_W))
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
 endef
 
-define put_screen_width
+define put_keyboard
+	$(call put_box_width, $(top_l), $(top), $(top_r),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+endef
+
+define put_box_width
 	$(eval left_char = $(1))
 	$(eval mid_char = $(2))
 	$(eval right_char = $(3))
-	@sh_left_char=$(left_char);						\
-	sh_mid_char=$(mid_char);							\
-	sh_right_char=$(right_char);						\
-	echo -n "$${sh_left_char}";				\
-	i=1;									\
-	while [ $${i} -lt $$(( $(SCREEN_W) - 1 )) ]; do		\
-		echo -n "$${sh_mid_char}";		\
-		i=$$(expr $$i + 1);										\
-	done;		\
-	echo "$${sh_right_char}"
+	$(eval width = $(4))
+	@echo -n "$(left_char)";					\
+	i=1;										\
+	while [ $$i -lt $$(( $(width) - 1 )) ]; do	\
+		echo -n "$(mid_char)";					\
+		i=$$(expr $$i + 1);						\
+	done;										\
+	echo "$(right_char)"
+endef
+
+define put_vertical_line
+	$(eval border = $(1))
+	$(eval height = $(2))
+	$(eval r_offset = $(3))
+	@i=0;								\
+	while [ $$i -lt $(height) ]; do		\
+		if [ $(r_offset) -gt 0 ]; then	\
+			echo -n "\e[$(r_offset)C";	\
+		fi;								\
+		echo "$(border)";				\
+		i=$$(expr $$i + 1);				\
+	done;								\
+	echo -n "\e[$(height)A"
 endef
 
 # **************************************************************************** #
