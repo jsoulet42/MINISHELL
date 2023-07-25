@@ -6,11 +6,31 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 14:13:27 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:04:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+int	ft_strccmp(const char *str1, const char *str2, char limit)
+{
+	int	i;
+
+	if (!str1 || !str2)
+		return (0);
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] != limit && str2[i] != limit)
+	{
+		if (str1[i] != str2[i])
+			return ((unsigned char) str1[i] - (unsigned char) str2[i]);
+		i++;
+	}
+	if (str1[i] && str1[i] != limit)
+		return ((unsigned char) str1[i]);
+	if (str2[i] && str2[i] != limit)
+		return (- (unsigned char) str2[i]);
+	return (0);
+}
 
 char	*ft_strjoin_plus(char *dest, char *src)
 {
@@ -39,7 +59,6 @@ char	*ft_free_strcat(char **dest, char *src, int start, int end)
 
 char	**order_str_tab(char **str_tab, char limit)
 {
-	int		len;
 	int		id[2];
 	char	*temp;
 
@@ -49,9 +68,7 @@ char	**order_str_tab(char **str_tab, char limit)
 	id[1] = 1;
 	while (str_tab[id[0] + 1])
 	{
-		len = SH_MIN(ft_strchr(str_tab[id[0]], limit) - str_tab[id[0]],
-				ft_strchr(str_tab[id[1]], limit) - str_tab[id[1]]) + 1;
-		if (ft_strncmp(str_tab[id[0]], str_tab[id[1]], len) > 0)
+		if (ft_strccmp(str_tab[id[0]], str_tab[id[1]], limit) > 0)
 		{
 			temp = str_tab[id[0]];
 			str_tab[id[0]] = str_tab[id[1]];

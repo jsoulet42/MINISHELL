@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:39:18 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/25 10:05:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
 
 /* Srcs/hnogared/utils_01.c */
+int		ft_strccmp(const char *str1, const char *str2, char limit);
 char	*ft_strjoin_plus(char *dest, char *src);
 char	*ft_free_strcat(char **dest, char *src, int start, int end);
 char	**order_str_tab(char **str_tab, char limit);
