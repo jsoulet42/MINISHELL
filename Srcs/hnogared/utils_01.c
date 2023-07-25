@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 14:13:27 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:06:15 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ft_free_strcat(char **dest, char *src, int start, int end)
 	return (*dest);
 }
 
-char	**order_str_tab(char **str_tab, char limit)
+/*char	**order_str_tab(char **str_tab, char limit)
 {
 	int		len;
 	int		id[2];
@@ -64,7 +64,7 @@ char	**order_str_tab(char **str_tab, char limit)
 		id[1] = id[0] + 1;
 	}
 	return (str_tab);
-}
+}*/
 
 void	print_str_tab(char **str_tab)
 {

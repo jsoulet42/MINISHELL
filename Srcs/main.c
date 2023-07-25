@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/25 19:14:04 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/25 22:15:19 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,6 @@ int main(int argc, char **argv, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
-	while (1)
-	{
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}
@@ -148,3 +146,4 @@ int main(int argc, char **argv, char **envp)
 	free_data(g_shell_data);
 	return (0);
 }
+
