@@ -74,11 +74,15 @@ RM			=	rm -rf
 ifndef $(SLEEP)
 SLEEP		=	0
 endif
+
 ifndef $(SCREEN_W)
 SCREEN_W	=	70
 endif
 ifndef $(SCREEN_H)
 SCREEN_H	=	25
+endif
+ifndef $(FANCY)
+FANCY		=	0
 endif
 
 SCREEN_R_OFFSET	=	20
@@ -183,10 +187,11 @@ re:	screen binclean fclean all
 
 # Display rules ******************* #
 screen:
-ifndef $(FANCY)
+ifneq ($(FANCY), 0)
 	@clear
 	@$(call put_screen)
 	@$(call put_keyboard)
+	@echo -n "\e[s\e[3;4f"
 endif
 
 # **************************************************************************** #
@@ -197,8 +202,11 @@ define terminal_disp
 	@sh_message=$(message);										\
 	i=1;														\
 	echo -n "makefile@minishell $$> ";							\
-	while [ $${i} -le $${#sh_message} ]; do						\
+	while [ $$i -le $${#sh_message} ]; do						\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";	\
+		if [ $$i -eq $$(( $(SCREEN_W) - 24 )) ]; then			\
+			echo -n "\n\e[3C";											\
+		fi;														\
 		i=$$(expr $$i + 1);										\
 		sleep $(SLEEP);											\
 	done;														\
@@ -233,7 +241,7 @@ define put_keyboard
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
 	$(call put_vertical_line, $(side), 3, 0)
-	$(call put_vertical_line, $(side), 3,
+	$(call put_vertical_line, $(side), 3,	\
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
 	@echo -n "\e[3B"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
