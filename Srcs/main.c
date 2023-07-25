@@ -6,13 +6,13 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:21:27 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:14:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-t_shell	*g_shell_data;
+t_shell *g_shell_data;
 
 /*int	count_cmd(t_par **par)
 {
@@ -30,9 +30,9 @@ t_shell	*g_shell_data;
 	return (j);
 }*/
 
-int	init_data(char **envp)
+int init_data(char **envp)
 {
-	g_shell_data = (t_shell *) ft_calloc(sizeof(t_shell), 1);
+	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
 		return (1);
 	init_env(&g_shell_data->env, envp);
@@ -43,16 +43,16 @@ int	init_data(char **envp)
 	return (0);
 }
 
-static int	prompt_cmd(void)
+static int prompt_cmd(void)
 {
-	char	*line;
-	char	*line2;
-	int		i;
-	//int 	fd[2];
+	char *line;
+	char *line2;
+	int i;
+	// int 	fd[2];
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
-		return (line2 = line, safe_free((void **) &line), !line2);
+		return (line2 = line, safe_free((void **)&line), !line2);
 	add_history(line);
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
@@ -60,30 +60,31 @@ static int	prompt_cmd(void)
 		return (free(line2), 1);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
-	//fd[0] = dup(g_shell_data->in);
-	//fd[1] = dup(g_shell_data->out);
+	// fd[0] = dup(g_shell_data->in);
+	// fd[1] = dup(g_shell_data->out);
 	i = 0;
 	while (g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
 	dup2(g_shell_data->in, STDIN_FILENO);
+	dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
 }
 
-void	exec_last(t_env *env, t_rinity *cmd_struct)
+void exec_last(t_env *env, t_rinity *cmd_struct)
 {
-	char	*path;
-	pid_t	pid;
-	int		fd_in;
+	char *path;
+	pid_t pid;
 
-	if (!cmd_struct)
-		return ;
 	path = get_path(cmd_struct->command[0], env);
-	fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in, 1);
-	if (fd_in != -1)
-		dup2(fd_in, STDIN_FILENO);
-	if (!path)
+	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
+		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
+		ft_export(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
+		ft_unset(cmd_struct->command, &env);
+	else if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
@@ -94,20 +95,40 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	{
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
+		redirect(cmd_struct, 0);
+		redirect(cmd_struct, 1);
 		execve(path, cmd_struct->command, env_to_str_tab(env));
 	}
 	else
 	{
 		signal(SIGINT, parent_sig_handler);
 		signal(SIGQUIT, parent_sig_handler);
+		dup2(g_shell_data->out, STDOUT_FILENO);
 		waitpid(pid, NULL, 0);
 	}
 }
 
+/*int verif_in_out(t_rinity *cmd_struct, int *fd_in, int *fd_out)
+{
+	if (cmd_struct->file_in && cmd_struct->type_in)
+	{
+		*fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in);
+		if (*fd_in == -1)
+			return (-1);
+	}
+	if (cmd_struct->file_out && cmd_struct->type_out)
+	{
+		*fd_out = create_fd_out(cmd_struct->file_out, cmd_struct->type_out);
+		if (*fd_out == -1)
+			return (-1);
+	}
+	return (0);
+}*/
+
 /*
  * SIGQUIT -> Ctrl-\ signal which needs to be ignored
  */
-int	main(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
@@ -118,6 +139,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
+	while (1)
+	{
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}

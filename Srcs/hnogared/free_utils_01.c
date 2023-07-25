@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
 /*   Updated: 2023/07/24 11:56:29 by hnogared         ###   ########.fr       */

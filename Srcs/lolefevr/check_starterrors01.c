@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_starterrors01.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:49:37 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/13 18:42:54 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/25 17:00:53 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	error_quote(char *str)
 	if (squote + dquote > 0)
 	{
 		printf("Error : quote not closed\n");
-		return (1);
+		return (1); // apel du builtin exit.
 	}
 	return (0);
 }
