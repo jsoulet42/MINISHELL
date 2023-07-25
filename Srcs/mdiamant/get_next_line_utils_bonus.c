@@ -6,13 +6,13 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 10:51:30 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/18 14:58:24 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/21 15:00:28 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	ft_strlen_gnl(const char *src)
+int	ft_strgnl(const char *src)
 {
 	int	len;
 
@@ -79,7 +79,7 @@ void	clean_stack(t_gnl **stack)
 		i++;
 	if (last->content[i] == '\n')
 		i++;
-	temp->content = malloc(sizeof(char) * (ft_strlen_gnl(last->content + i) + 1));
+	temp->content = malloc(sizeof(char) * (ft_strgnl(last->content + i) + 1));
 	if (!temp->content)
 		return ;
 	while (last->content[i] != '\0')

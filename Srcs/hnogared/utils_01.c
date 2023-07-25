@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 11:57:57 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/20 14:13:27 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strjoin_plus(char *dest, char *src)
 	return (ft_strjoin(dest, src));
 }
 
-char	*ft_concat(char **dest, char *src, int start, int end)
+char	*ft_free_strcat(char **dest, char *src, int start, int end)
 {
 	char	*temp;
 	char	*temp2;
@@ -69,7 +69,11 @@ char	**order_str_tab(char **str_tab, char limit)
 void	print_str_tab(char **str_tab)
 {
 	if (!str_tab)
+	{
+		ft_fprintf(2, "NULL\n");
 		return ;
+	}
 	while (*str_tab)
-		printf("[%s]\n", *str_tab++);
+		ft_fprintf(2, "[%s] ", *str_tab++);
+	ft_fprintf(2, "\n");
 }
