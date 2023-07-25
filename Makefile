@@ -1,15 +1,24 @@
 # **************************************************************************** #
+#                                                                              #
 #    MINISHELL MAKEFILE                                                        #
+#                                                                              #
 # **************************************************************************** #
 
-# Files variables ***************** #
+# **************************************************************************** #
+#    Variables                                                                 #
+# **************************************************************************** #
+# Files variables ************************************************************ #
+
+## Executable name
 NAME		=	minishell
 
+## Builtins names
 ECHO_NAME	=	echo
 ENV_NAME	=	env
 PWD_NAME	=	pwd
 CD_NAME		=	cd
 
+## Paths to all source files
 VPATH		=	Srcs:			\
 				Srcs/builtins:	\
 				Srcs/mdiamant:	\
@@ -17,6 +26,7 @@ VPATH		=	Srcs:			\
 				Srcs/hnogared:	\
 				Srcs/jsoulet
 
+## Source files names
 SRCS		=	main.c						\
 				parsing_01.c				\
 				error_exit_01.c				\
@@ -37,39 +47,55 @@ SRCS		=	main.c						\
 				get_next_line_utils_bonus.c	\
 				signals.c
 
+## Builtins sources directory
 BUILTINS_DIR=	Srcs/builtins
+## Builtins source names
 ECHO_SRCS	=	ft_echo_01.c
 ENV_SRCS	=	ft_env.c
 PWD_SRCS	=	ft_pwd.c
 CD_SRCS		=	ft_cd.c
 
+## Builtins binaries directory
 BIN_DIR		=	bin
+## Builtins binaries names
 ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
 ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
 PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
 CD_BIN		=	$(addprefix $(BIN_DIR)/, $(CD_NAME))
 
+## Object files directory
 OBJS_DIR	=	Objs
+## Object files names
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
 ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
 PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
 CD_OBJS		=	$(addprefix $(OBJS_DIR)/, $(CD_SRCS:.c=.o))
 
-# Compilation variables *********** #
+# **************************************************************************** #
+# Compilation variables ****************************************************** #
+
+## Compilator
 CC			=	gcc
+## Compilation flags
 CFLAGS		=	-Wall -Werror -Wextra
 
+## Header files directory
 INCL_DIR	=	Includes
 
+## Libraries files directory
 LIBS_DIR	=	Libs
+## Libraries files names
 LIBS		=	-lft -lncurses -lreadline
 
+## Define macros
 DEFINES		=	-D_GNU_SOURCE
 
-# Files management variables ****** #
+# **************************************************************************** #
+# File management variables ************************************************** #
 RM			=	rm -rf
 
+# **************************************************************************** #
 # Display variables *************** #
 ifndef $(SLEEP)
 SLEEP		=	0
@@ -199,18 +225,21 @@ endif
 # Display functions *************** #
 define terminal_disp
 	$(eval message = $(1))
-	@sh_message=$(message);										\
-	i=1;														\
-	echo -n "makefile@minishell $$> ";							\
-	while [ $$i -le $${#sh_message} ]; do						\
-		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";	\
-		if [ $$i -eq $$(( $(SCREEN_W) - 24 )) ]; then			\
-			echo -n "\n\e[3C";											\
-		fi;														\
-		i=$$(expr $$i + 1);										\
-		sleep $(SLEEP);											\
-	done;														\
-	echo
+	@sh_message=$(message);													\
+	i=1;																	\
+	echo -n "makefile@minishell $$> ";										\
+	while [ $$i -le $${#sh_message} ]; do									\
+		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";				\
+		if [ $(FANCY) -ne 0 ] && [ $$i -eq $$(( $(SCREEN_W) - 24 )) ]; then	\
+			echo -n "\n\e[3C";												\
+		fi;																	\
+		i=$$(expr $$i + 1);													\
+		sleep $(SLEEP);														\
+	done
+	@echo
+	@if [ $(FANCY) -ne 0 ]; then	\
+		echo -n "\e[3C";			\
+	fi
 endef
 
 define put_screen
@@ -258,8 +287,8 @@ define put_box_width
 	while [ $$i -lt $$(( $(width) - 1 )) ]; do	\
 		echo -n "$(mid_char)";					\
 		i=$$(expr $$i + 1);						\
-	done;										\
-	echo "$(right_char)"
+	done
+	@echo "$(right_char)"
 endef
 
 define put_vertical_line
@@ -273,8 +302,8 @@ define put_vertical_line
 		fi;								\
 		echo "$(border)";				\
 		i=$$(expr $$i + 1);				\
-	done;								\
-	echo -n "\e[$(height)A"
+	done
+	@echo -n "\e[$(height)A"
 endef
 
 # **************************************************************************** #
