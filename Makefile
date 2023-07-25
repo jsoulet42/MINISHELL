@@ -220,7 +220,7 @@ define put_screen
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
 	@echo -n "\e[2C"
 	$(call put_box_width, $(top_l), $(top), $(top_r), $(SCREEN_W))
-	$(call put_vertical_line, $(side), $(SCREEN_H),	2)
+	$(call put_vertical_line, $(side), $(SCREEN_H), 2)
 	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
 	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
 	@echo -n "\e[$(SCREEN_H)B\e[2C"
@@ -232,6 +232,10 @@ endef
 define put_keyboard
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+	$(call put_vertical_line, $(side), 3, 0)
+	$(call put_vertical_line, $(side), 3,
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
+	@echo -n "\e[3B"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
 endef
