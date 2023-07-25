@@ -120,29 +120,23 @@ GREEN_FG	=	"\\e[92m"
 
 ## Fancy display only
 ### Minishell startup ascii art
-MINISHELL_ASCII	=	":::   :::  :::  :::   :::  :::  :::::::::  :::   :::  :::::::::  :::        :::"\
-					"\\e[B\\e[80D:+:+ +:+:  +:+  :+:+  :+:  +:+  :+:        +:+   +:+  :+:        +:+        :+:"\
-					"\\e[B\\e[80D+:+@+:+@+  :+:  +:+@+ +:+  :+:  +@+        :+:   @+:  +:+        :+@        +:+"\
-					"\\e[B\\e[80D@+@ : @+@  +@+  @+@ :+:+@  +@+  @+@+:+:+@  +@+@+@+:+  @+@+@      +:+        @+@"\
-					"\\e[B\\e[80D+@+   +@+  @+@  +@+  @+@+  @+@        +@+  @+@   @+@  +@+        @+@        +@+"\
-					"\\e[B\\e[80D@@@   @@@  @@@  @@@   @@@  @@@  @@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
-
 MINI_ASCII		=	":::   :::  :::  :::   :::  :::"\
-                 	"\\n\\e[3C:+:+ +:+:  +:+  :+:+  :+:  +:+"\
-                 	"\\n\\e[3C+:+@+:+@+  :+:  +:+@+ +:+  :+:"\
-                 	"\\n\\e[3C@+@ : @+@  +@+  @+@ :+:+@  +@+"\
-                 	"\\n\\e[3C+@+   +@+  @+@  +@+  @+@+  @+@"\
-                 	"\\n\\e[3C@@@   @@@  @@@  @@@   @@@  @@@"
+                 	"\\e[B\\e[31D:+:+ +:+:  +:+  :+:+  :+:  +:+"\
+                 	"\\e[B\\e[31D+:+@+:+@+  :+:  +:+@+ +:+  :+:"\
+                 	"\\e[B\\e[31D@+@ : @+@  +@+  @+@ :+:+@  +@+"\
+                 	"\\e[B\\e[31D+@+   +@+  @+@  +@+  @+@+  @+@"\
+                 	"\\e[B\\e[31D@@@   @@@  @@@  @@@   @@@  @@@"
 
 SHELL_ASCII		=	":::::::::  :::   :::  :::::::::  :::        :::"\
-                    "\\n\\e[3C:+:        +:+   +:+  :+:        +:+        :+:"\
-                    "\\n\\e[3C+@+        :+:   @+:  +:+        :+@        +:+"\
-                    "\\n\\e[3C@+@+:+:+@  +@+@+@+:+  @+@+@      +:+        @+@"\
-                    "\\n\\e[3C      +@+  @+@   @+@  +@+        @+@        +@+"\
-                    "\\n\\e[3C@@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
+                    "\\e[B\\e[48D:+:        +:+   +:+  :+:        +:+        :+:"\
+                    "\\e[B\\e[48D+@+        :+:   @+:  +:+        :+@        +:+"\
+                    "\\e[B\\e[48D@+@+:+:+@  +@+@+@+:+  @+@+@      +:+        @+@"\
+                    "\\e[B\\e[48D      +@+  @+@   @+@  +@+        @+@        +@+"\
+                    "\\e[B\\e[48D@@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
 
 ### Width and height of the virtual computer's screen
 SCREEN_W	=	70
+
 SCREEN_H	=	20
 
 ### Virtual computer screen offset from its right frame side
@@ -433,14 +427,26 @@ define put_vertical_line
 endef
 
 define play_startup
-	@if [ $(SCREEN_W) -eq 87 ]; then					\
+	@echo -n "$(TEXT_COLOR)";							\
+	if [ $(SCREEN_W) -eq 87 ]; then						\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
-		echo $(MINISHELL_ASCII);						\
+		echo -n $(MINI_ASCII);							\
+		echo -n "\e[5A\e[2C";							\
+		echo -n $(SHELL_ASCII);							\
 	elif [ $(SCREEN_W) -gt 87 ]; then					\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
 		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 43)C";	\
-		echo $(MINISHELL_ASCII);						\
+		echo -n $(MINI_ASCII);							\
+		echo -n "\e[5A\e[2C";							\
+		echo -n $(SHELL_ASCII);							\
+	else												\
+		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 6)B";		\
+		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 16)C";	\
+		echo $(MINI_ASCII);								\
+		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 24)C";	\
+		echo $(SHELL_ASCII);							\
 	fi
+	@echo -n "$(NC)"
 endef
 
 # **************************************************************************** #
