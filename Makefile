@@ -1,13 +1,10 @@
 # **************************************************************************** #
-#                                                                              #
-#    MINISHELL MAKEFILE                                                        #
-#                                                                              #
+#    VARIABLES                                                                 #
 # **************************************************************************** #
 
-# **************************************************************************** #
-#    Variables                                                                 #
-# **************************************************************************** #
-# Files variables ************************************************************ #
+# *************** #
+# Files variables #
+# *************** #
 
 ## Executable name
 NAME		=	minishell
@@ -72,12 +69,13 @@ ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
 PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
 CD_OBJS		=	$(addprefix $(OBJS_DIR)/, $(CD_SRCS:.c=.o))
 
-# **************************************************************************** #
-# Compilation variables ****************************************************** #
 
-## Compilator
+# ********************* #
+# Compilation variables #
+# ********************* #
+
+## Compilator and compilation flags
 CC			=	gcc
-## Compilation flags
 CFLAGS		=	-Wall -Werror -Wextra
 
 ## Header files directory
@@ -91,82 +89,132 @@ LIBS		=	-lft -lncurses -lreadline
 ## Define macros
 DEFINES		=	-D_GNU_SOURCE
 
-# **************************************************************************** #
-# File management variables ************************************************** #
+
+# ************************* #
+# File management variables #
+# ************************* #
+
+## Deletion method
 RM			=	rm -rf
 
-# **************************************************************************** #
-# Display variables *************** #
+
+# ***************** #
+# Display variables #
+# ***************** #
+
+## Text display delay between characters
 ifndef $(SLEEP)
 SLEEP		=	0
 endif
 
-ifndef $(SCREEN_W)
-SCREEN_W	=	70
-endif
-ifndef $(SCREEN_H)
-SCREEN_H	=	25
-endif
+## Disable fancy mode if not precised at launch
 ifndef $(FANCY)
 FANCY		=	0
 endif
 
+## Fancy display only
+### Width and height of the virtual computer
+ifndef $(SCREEN_W)
+SCREEN_W	=	70
+endif
+ifndef $(SCREEN_H)
+SCREEN_H	=	20
+endif
+
+### Virtual computer screen offset from its right border
 SCREEN_R_OFFSET	=	20
 
+### Characters for display of the virtual computer
 SCREEN_BORDER	=	"╔" "═" "╗" "║" "╚" "═" "╝"
 
+
+# **************************************************************************** #
+#    RULES                                                                     #
 # **************************************************************************** #
 
+## Main rule
 all:	screen builtins $(NAME)
 
-# Compilation rules *************** #
+
+# ********************** #
+# Main compilation rules #
+# ********************** #
+
+## Main executable compilation
 $(NAME):	screen $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
 
-builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
-
-$(ECHO_NAME):	$(ECHO_BIN)
-
-$(ENV_NAME):	$(ENV_BIN)
-
-$(PWD_NAME):	$(PWD_BIN)
-
-$(CD_NAME):		$(CD_BIN)
-
-$(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
-
-$(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
-	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
-
-$(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
-	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
-
-$(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
-	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(CD_NAME)'")
-
+## Object files compilation rules
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, "Compiled object file: '$@'")
 
+
+# ************************** #
+# Builtins compilation rules #
+# ************************** #
+
+## Builtins executables make rule
+builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
+
+## Echo builtin make
+$(ECHO_NAME):	$(ECHO_BIN)
+
+## Env builtin make
+$(ENV_NAME):	$(ENV_BIN)
+
+## Pwd builtin make
+$(PWD_NAME):	$(PWD_BIN)
+
+## Cd builtin make
+$(CD_NAME):		$(CD_BIN)
+
+## Echo builtin compilation
+$(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
+	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
+
+## Env builtin compilation
+$(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
+	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
+
+## Pwd builtin compilation
+$(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
+	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
+
+## Cd builtin compilation
+$(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
+	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
+	@$(call terminal_disp, "Compiled builtin binary: '$(CD_NAME)'")
+
+
+# **************************** #
+# Directories management rules #
+# **************************** #
+
+## Object files directory check
 $(OBJS_DIR): screen
 ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 0)
 	@mkdir $(OBJS_DIR)
 	@$(call terminal_disp, "Created objects directory '$(OBJS_DIR)/'")
 endif
 
+## Builtins binaries directory check
 $(BIN_DIR): screen
 ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 0)
 	@mkdir $(BIN_DIR)
 	@$(call terminal_disp, "Created binaries directory '$(BIN_DIR)/'")
 endif
 
-# File management rules *********** #
+
+# ******************** #
+# Files deletion rules #
+# ******************** #
+
+## Object files deletion
 clean: screen
 ifneq ($(shell ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l), 0)
 	@$(RM) $(OBJS_DIR)/*.o
@@ -175,6 +223,7 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'")
 endif
 
+## Object files and main executable deletion
 fclean:	screen clean
 ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(NAME);
@@ -183,6 +232,7 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(NAME)'")
 endif
 
+## Object files and builtins executables deletion
 binclean: screen clean
 ifneq ($(shell ls $(BIN_DIR) 2> /dev/null | wc -l), 0)
 	@$(RM) $(BIN_DIR)/*
@@ -191,6 +241,7 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)/*'")
 endif
 
+## Object files and builtins executables directories deletion
 dclean:	screen binclean
 ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(OBJS_DIR)
@@ -205,13 +256,26 @@ else
 	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)'")
 endif
 
+
+# ******************* #
+# Recompilation rules #
+# ******************* #
+
+## Builtins executables recompilation
 binre: screen binclean builtins
 
+## Main executable recompilation
 minishellre: screen fclean $(NAME)
 
+## Complete recompilation
 re:	screen binclean fclean all
 
-# Display rules ******************* #
+
+# ************* #
+# Display rules #
+# ************* #
+
+## Virtual computer display
 screen:
 ifneq ($(FANCY), 0)
 	@clear
@@ -220,9 +284,16 @@ ifneq ($(FANCY), 0)
 	@echo -n "\e[s\e[3;4f"
 endif
 
+
+# **************************************************************************** #
+#    FUNCTIONS                                                                 #
 # **************************************************************************** #
 
-# Display functions *************** #
+# ***************** #
+# Display functions #
+# ***************** #
+
+## Shell style character by character test display
 define terminal_disp
 	$(eval message = $(1))
 	@sh_message=$(message);													\
@@ -242,6 +313,7 @@ define terminal_disp
 	fi
 endef
 
+## Display of the virtual computer's screen
 define put_screen
 	$(eval top_l = $(word 1, $(SCREEN_BORDER)))
 	$(eval top = $(word 2, $(SCREEN_BORDER)))
@@ -266,17 +338,20 @@ define put_screen
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
 endef
 
+## Display of the virtual computer's keyboard
 define put_keyboard
+	@echo -n "\e[3C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
-	$(call put_vertical_line, $(side), 3, 0)
-	$(call put_vertical_line, $(side), 3,	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
-	@echo -n "\e[3B"
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6))
+	$(call put_vertical_line, $(side), 4, 3)
+	$(call put_vertical_line, $(side), 4,	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 4))
+	@echo -n "\e[4B\e[3C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6))
 endef
 
+## Display of the top/bottom of an ascii box
 define put_box_width
 	$(eval left_char = $(1))
 	$(eval mid_char = $(2))
@@ -291,6 +366,8 @@ define put_box_width
 	@echo "$(right_char)"
 endef
 
+## Display of a vertical line of characters at a specific column
+## Returns the cursor at the start of the line's location
 define put_vertical_line
 	$(eval border = $(1))
 	$(eval height = $(2))
