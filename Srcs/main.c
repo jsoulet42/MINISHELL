@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 17:07:16 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/20 17:09:18 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ void	exec_last(t_env *env, t_rinity *cmd_struct)
 	int		fd_in;
 	int		fd_out;
 
-	if (!cmd_struct)
-		return ;
-	if (cmd_struct->file_in && cmd_struct->type_in)
-			fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in);
-	if (cmd_struct->file_out && cmd_struct->type_out)
-		fd_out = create_fd_in(cmd_struct->file_out, cmd_struct->type_out);
-	path = get_path(cmd_struct->command[0], env);
-	if (!path)
+	path = get_path(g_shell_data->commande[0], env);
+	if (ft_strncmp(g_shell_data->commande[0], "cd", 2) == 0)
+		ft_cd(lentab(g_shell_data->commande), g_shell_data->commande, env);
+	else if (ft_strncmp(g_shell_data->commande[0], "export", 6) == 0)
+		ft_export(g_shell_data->commande, &env);
+	else if (ft_strncmp(g_shell_data->commande[0], "unset", 5) == 0)
+		ft_unset(g_shell_data->commande, &env);
+	else if (!path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);

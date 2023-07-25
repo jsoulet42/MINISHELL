@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   init_signal.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/19 16:33:42 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/07/18 13:27:25 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/18 13:37:42 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	signal_c(int signal)
 {
-	int	i;
-
-	(void)argc;
-	(void)argv;
-	if (!env)
-		return (1);
-	i = -1;
-	while (env[++i])
+	if (signal)
 	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
+		// tout free et faire une nouvelle ligne
 	}
-	return (0);
+}
+
+void	signal_d(int signal)
+{
+	if (signal)
+	{
+			// tout free est exit
+	}
+}
+
+void	init_signal(void)
+{
+	signal(SIGINT, signal_c);
+	signal(SIGTERM, signal_d);
+	signal(SIGQUIT, signal_d);
+	signal(SIGTSTP, signal_d);
 }
