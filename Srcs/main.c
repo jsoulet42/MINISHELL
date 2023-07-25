@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/25 17:08:05 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/25 19:14:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,19 @@ void exec_last(t_env *env, t_rinity *cmd_struct)
 	char *path;
 	pid_t pid;
 
-	if (!cmd_struct)
-		return;
 	path = get_path(cmd_struct->command[0], env);
-	if (!path)
-		return;
+	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
+		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
+		ft_export(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
+		ft_unset(cmd_struct->command, &env);
+	else if (!path)
+	{
+		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
+			cmd_struct->command[0]);
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -123,10 +131,10 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
-	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		signal(SIGINT, sig_handler);
+		//signal(SIGINT, sig_handler);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}

@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/21 14:20:09 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/19 16:41:44 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MDIAMANT_H
 # define MDIAMANT_H
 
-#include "get_next_line_bonus.h"
+# include "get_next_line_bonus.h"
 
 struct s_parsing
 {

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/25 17:06:39 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/25 19:12:24 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,18 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 	char *path;
 
 	path = get_path(cmd_struct->command[0], env);
-	if (!path)
-		return ;
+	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
+		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
+		ft_export(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
+		ft_unset(cmd_struct->command, &env);
+	else if (!path)
+	{
+		ft_putstr_fd("minishell: command not found: ", 2);
+		ft_putstr_fd(cmd_struct->command[0], 2);
+		ft_putstr_fd("\n", 2);
+	}
 	else
 		execve(path, cmd_struct->command, env_to_str_tab(env));
 }
