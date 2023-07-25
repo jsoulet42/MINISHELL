@@ -39,6 +39,7 @@ int init_data(char **envp)
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	g_shell_data->commande = NULL;
+	set_termios_mode(TERMIOS_MUTE_CTRL);
 	return (0);
 }
 
@@ -63,9 +64,7 @@ static int prompt_cmd(void)
 	// fd[1] = dup(g_shell_data->out);
 	i = 0;
 	while (g_shell_data->t[i + 1])
-	{
 		piper(g_shell_data->env, g_shell_data->t[i++]);
-	}
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
@@ -94,12 +93,16 @@ void exec_last(t_env *env, t_rinity *cmd_struct)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		redirect(cmd_struct, 0);
 		redirect(cmd_struct, 1);
 		execve(path, cmd_struct->command, env_to_str_tab(env));
 	}
 	else
 	{
+		signal(SIGINT, parent_sig_handler);
+		signal(SIGQUIT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
 		waitpid(pid, NULL, 0);
 	}
@@ -131,13 +134,17 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (init_data(envp))
 		return (1);
-	//signal(SIGQUIT, SIG_IGN);
+	set_termios_mode(TERMIOS_MUTE_CTRL);
 	while (1)
 	{
-		//signal(SIGINT, sig_handler);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, main_sig_handler);
+	while (1)
+	{
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
 	}
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	free_data(g_shell_data);
 	return (0);
 }

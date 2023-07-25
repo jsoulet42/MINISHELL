@@ -35,5 +35,4 @@ void	redirect(t_rinity *cmd_struct, int option);
 void	redirect_in(char **file_in, char **type_in);
 void	redirect_out(char **file_out, char **type_out);
 
-
 #endif

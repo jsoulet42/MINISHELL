@@ -118,12 +118,13 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 		ft_unset(cmd_struct->command, &env);
 	else if (!path)
 	{
-		ft_putstr_fd("minishell: command not found: ", 2);
-		ft_putstr_fd(cmd_struct->command[0], 2);
-		ft_putstr_fd("\n", 2);
+		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
+			cmd_struct->command[0]);
+		return ;
 	}
-	else
-		execve(path, cmd_struct->command, env_to_str_tab(env));
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	execve(path, cmd_struct->command, env_to_str_tab(env));
 }
 
 char *get_path(char *cmd, t_env *env)
@@ -190,6 +191,9 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
+		signal(SIGINT, parent_sig_handler);
+		signal(SIGQUIT, parent_sig_handler);
+		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		waitpid(pid, NULL, 0);
@@ -330,14 +334,13 @@ void	redirect_in(char **file_in, char **type_in)
 		file_fd = open(file, O_RDONLY);
 		if (file_fd == -1)
 		{
-			ft_putstr_fd("mishelle: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
+			ft_fprintf(STDERR_FILENO, "mishelle: `%s': No such file or directory\n");
 			return (1);
 		}
 	}
 	return (file_fd);
 }*/
+
 
 int	ft_heredoc(char *str)
 {
