@@ -112,20 +112,50 @@ ifndef $(FANCY)
 FANCY		=	0
 endif
 
-## Fancy display only
-### Width and height of the virtual computer
-ifndef $(SCREEN_W)
-SCREEN_W	=	70
-endif
-ifndef $(SCREEN_H)
-SCREEN_H	=	20
-endif
+## Color variables
+NC			=	"\\e[0m"
+BBLACK_FG	=	"\\e[96m"
+RED_FG		=	"\\e[91m"
+GREEN_FG	=	"\\e[92m"
 
-### Virtual computer screen offset from its right border
+## Fancy display only
+### Minishell startup ascii art
+MINISHELL_ASCII	=	":::   :::  :::  :::   :::  :::  :::::::::  :::   :::  :::::::::  :::        :::"\
+					"\\e[B\\e[80D:+:+ +:+:  +:+  :+:+  :+:  +:+  :+:        +:+   +:+  :+:        +:+        :+:"\
+					"\\e[B\\e[80D+:+@+:+@+  :+:  +:+@+ +:+  :+:  +@+        :+:   @+:  +:+        :+@        +:+"\
+					"\\e[B\\e[80D@+@ : @+@  +@+  @+@ :+:+@  +@+  @+@+:+:+@  +@+@+@+:+  @+@+@      +:+        @+@"\
+					"\\e[B\\e[80D+@+   +@+  @+@  +@+  @+@+  @+@        +@+  @+@   @+@  +@+        @+@        +@+"\
+					"\\e[B\\e[80D@@@   @@@  @@@  @@@   @@@  @@@  @@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
+
+MINI_ASCII		=	":::   :::  :::  :::   :::  :::"\
+                 	"\\n\\e[3C:+:+ +:+:  +:+  :+:+  :+:  +:+"\
+                 	"\\n\\e[3C+:+@+:+@+  :+:  +:+@+ +:+  :+:"\
+                 	"\\n\\e[3C@+@ : @+@  +@+  @+@ :+:+@  +@+"\
+                 	"\\n\\e[3C+@+   +@+  @+@  +@+  @+@+  @+@"\
+                 	"\\n\\e[3C@@@   @@@  @@@  @@@   @@@  @@@"
+
+SHELL_ASCII		=	":::::::::  :::   :::  :::::::::  :::        :::"\
+                    "\\n\\e[3C:+:        +:+   +:+  :+:        +:+        :+:"\
+                    "\\n\\e[3C+@+        :+:   @+:  +:+        :+@        +:+"\
+                    "\\n\\e[3C@+@+:+:+@  +@+@+@+:+  @+@+@      +:+        @+@"\
+                    "\\n\\e[3C      +@+  @+@   @+@  +@+        @+@        +@+"\
+                    "\\n\\e[3C@@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
+
+### Width and height of the virtual computer's screen
+SCREEN_W	=	70
+SCREEN_H	=	20
+
+### Virtual computer screen offset from its right frame side
 SCREEN_R_OFFSET	=	20
 
 ### Characters for display of the virtual computer
 SCREEN_BORDER	=	"╔" "═" "╗" "║" "╚" "═" "╝"
+
+### Computer parts colors
+FRAME_COLOR		=	$(NC)
+KB_COLOR		=	$(NC)
+SCREEN_COLOR	=	$(GREEN_FG)
+TEXT_COLOR		=	$(GREEN_FG)
 
 
 # **************************************************************************** #
@@ -143,12 +173,12 @@ all:	screen builtins $(NAME)
 ## Main executable compilation
 $(NAME):	screen $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
-	@$(call terminal_disp, "Compiled executable: '$@'")
+	@$(call terminal_disp, "Compiled executable: '$@'", $(TEXT_COLOR))
 
 ## Object files compilation rules
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled object file: '$@'")
+	@$(call terminal_disp, "Compiled object file: '$@'", $(TEXT_COLOR))
 
 
 # ************************** #
@@ -173,22 +203,26 @@ $(CD_NAME):		$(CD_BIN)
 ## Echo builtin compilation
 $(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
 	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
+	@$(call terminal_disp,	\
+		"Compiled builtin binary: '$(ECHO_NAME)'", $(TEXT_COLOR))
 
 ## Env builtin compilation
 $(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
 	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
+	@$(call terminal_disp,	\
+		"Compiled builtin binary: '$(ENV_NAME)'", $(TEXT_COLOR))
 
 ## Pwd builtin compilation
 $(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
 	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
+	@$(call terminal_disp,	\
+		"Compiled builtin binary: '$(PWD_NAME)'", $(TEXT_COLOR))
 
 ## Cd builtin compilation
 $(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
 	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(CD_NAME)'")
+	@$(call terminal_disp,	\
+		"Compiled builtin binary: '$(CD_NAME)'", $(TEXT_COLOR))
 
 
 # **************************** #
@@ -199,14 +233,16 @@ $(CD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
 $(OBJS_DIR): screen
 ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 0)
 	@mkdir $(OBJS_DIR)
-	@$(call terminal_disp, "Created objects directory '$(OBJS_DIR)/'")
+	@$(call terminal_disp,	\
+		"Created objects directory '$(OBJS_DIR)/'", $(TEXT_COLOR))
 endif
 
 ## Builtins binaries directory check
 $(BIN_DIR): screen
 ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 0)
 	@mkdir $(BIN_DIR)
-	@$(call terminal_disp, "Created binaries directory '$(BIN_DIR)/'")
+	@$(call terminal_disp,	\
+		"Created binaries directory '$(BIN_DIR)/'", $(TEXT_COLOR))
 endif
 
 
@@ -218,42 +254,49 @@ endif
 clean: screen
 ifneq ($(shell ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l), 0)
 	@$(RM) $(OBJS_DIR)/*.o
-	@$(call terminal_disp, "Removed object files")
+	@$(call terminal_disp, "Removed object files", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'")
+	@$(call terminal_disp,	\
+		"make: Nothing to be done for '$(RM) $(OBJS_DIR)/*.o'", $(TEXT_COLOR))
 endif
 
 ## Object files and main executable deletion
 fclean:	screen clean
 ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(NAME);
-	@$(call terminal_disp, "Removed executable file")
+	@$(call terminal_disp, "Removed executable file", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(NAME)'")
+	@$(call terminal_disp,	\
+		"make: Nothing to be done for '$(RM) $(NAME)'", $(TEXT_COLOR))
 endif
 
 ## Object files and builtins executables deletion
 binclean: screen clean
 ifneq ($(shell ls $(BIN_DIR) 2> /dev/null | wc -l), 0)
 	@$(RM) $(BIN_DIR)/*
-	@$(call terminal_disp, "Removed builtin executable files")
+	@$(call terminal_disp, "Removed builtin executable files", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)/*'")
+	@$(call terminal_disp,	\
+		"make: Nothing to be done for '$(RM) $(BIN_DIR)/*'", $(TEXT_COLOR))
 endif
 
 ## Object files and builtins executables directories deletion
 dclean:	screen binclean
 ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(OBJS_DIR)
-	@$(call terminal_disp, "Removed objects directory '$(OBJS_DIR)/'")
+	@$(call terminal_disp,	\
+		"Removed objects directory '$(OBJS_DIR)/'", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(OBJS_DIR)'")
+	@$(call terminal_disp,	\
+		"make: Nothing to be done for '$(RM) $(OBJS_DIR)'", $(TEXT_COLOR))
 endif
 ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 1)
 	@$(RM) $(BIN_DIR)
-	@$(call terminal_disp, "Removed objects directory '$(BIN_DIR)/'")
+	@$(call terminal_disp,	\
+		"Removed objects directory '$(BIN_DIR)/'", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, "make: Nothing to be done for '$(RM) $(BIN_DIR)'")
+	@$(call terminal_disp,	\
+		"make: Nothing to be done for '$(RM) $(BIN_DIR)'", $(TEXT_COLOR))
 endif
 
 
@@ -282,6 +325,8 @@ ifneq ($(FANCY), 0)
 	@$(call put_screen)
 	@$(call put_keyboard)
 	@echo -n "\e[s\e[3;4f"
+	$(call play_startup)
+	@echo -n "\e[s\e[3;4f"
 endif
 
 
@@ -296,9 +341,10 @@ endif
 ## Shell style character by character test display
 define terminal_disp
 	$(eval message = $(1))
+	$(eval color = $(2))
 	@sh_message=$(message);													\
 	i=1;																	\
-	echo -n "makefile@minishell $$> ";										\
+	echo -n "$(color)makefile@minishell $$> ";										\
 	while [ $$i -le $${#sh_message} ]; do									\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";				\
 		if [ $(FANCY) -ne 0 ] && [ $$i -eq $$(( $(SCREEN_W) - 24 )) ]; then	\
@@ -307,7 +353,7 @@ define terminal_disp
 		i=$$(expr $$i + 1);													\
 		sleep $(SLEEP);														\
 	done
-	@echo
+	@echo "$(NC)"
 	@if [ $(FANCY) -ne 0 ]; then	\
 		echo -n "\e[3C";			\
 	fi
@@ -323,32 +369,33 @@ define put_screen
 	$(eval bot = $(word 6, $(SCREEN_BORDER)))
 	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
-	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2), 0)
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1))
+		0, $(FRAME_COLOR))
+	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1), $(FRAME_COLOR))
 	@echo -n "\e[2C"
-	$(call put_box_width, $(top_l), $(top), $(top_r), $(SCREEN_W))
-	$(call put_vertical_line, $(side), $(SCREEN_H), 2)
-	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
-	$(call put_vertical_line, $(side), $(SCREEN_H),	$(shell expr $(SCREEN_W) + 1))
+	$(call put_box_width, $(top_l), $(top), $(top_r), $(SCREEN_W), $(SCREEN_COLOR))
+	$(call put_vertical_line, $(side), $(SCREEN_H), 2, $(SCREEN_COLOR))
+	$(call put_vertical_line, $(side), $(SCREEN_H),	\
+		$(shell expr $(SCREEN_W) + 1), $(SCREEN_COLOR))
 	@echo -n "\e[$(SCREEN_H)B\e[2C"
-	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(SCREEN_W))
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(SCREEN_W), $(SCREEN_COLOR))
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)))
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 endef
 
 ## Display of the virtual computer's keyboard
 define put_keyboard
 	@echo -n "\e[3C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6))
-	$(call put_vertical_line, $(side), 4, 3)
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6), $(KB_COLOR))
+	$(call put_vertical_line, $(side), 4, 3, $(KB_COLOR))
 	$(call put_vertical_line, $(side), 4,	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 4))
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 4), $(KB_COLOR))
 	@echo -n "\e[4B\e[3C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6))
+		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6), $(KB_COLOR))
 endef
 
 ## Display of the top/bottom of an ascii box
@@ -357,13 +404,14 @@ define put_box_width
 	$(eval mid_char = $(2))
 	$(eval right_char = $(3))
 	$(eval width = $(4))
-	@echo -n "$(left_char)";					\
+	$(eval color = $(5))
+	@echo -n "$(color)$(left_char)$(NC)";		\
 	i=1;										\
 	while [ $$i -lt $$(( $(width) - 1 )) ]; do	\
-		echo -n "$(mid_char)";					\
+		echo -n "$(color)$(mid_char)$(NC)";		\
 		i=$$(expr $$i + 1);						\
 	done
-	@echo "$(right_char)"
+	@echo "$(color)$(right_char)$(NC)"
 endef
 
 ## Display of a vertical line of characters at a specific column
@@ -372,15 +420,27 @@ define put_vertical_line
 	$(eval border = $(1))
 	$(eval height = $(2))
 	$(eval r_offset = $(3))
+	$(eval color = $(4))
 	@i=0;								\
 	while [ $$i -lt $(height) ]; do		\
 		if [ $(r_offset) -gt 0 ]; then	\
 			echo -n "\e[$(r_offset)C";	\
 		fi;								\
-		echo "$(border)";				\
+		echo "$(color)$(border)$(NC)";	\
 		i=$$(expr $$i + 1);				\
 	done
 	@echo -n "\e[$(height)A"
+endef
+
+define play_startup
+	@if [ $(SCREEN_W) -eq 87 ]; then					\
+		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
+		echo $(MINISHELL_ASCII);						\
+	elif [ $(SCREEN_W) -gt 87 ]; then					\
+		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
+		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 43)C";	\
+		echo $(MINISHELL_ASCII);						\
+	fi
 endef
 
 # **************************************************************************** #
