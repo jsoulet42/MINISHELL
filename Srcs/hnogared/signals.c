@@ -6,13 +6,13 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 13:59:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/24 23:20:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void	sig_handler(int signal)
+void	main_sig_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
@@ -23,4 +23,12 @@ void	sig_handler(int signal)
 	}
 	if (signal == SIGTERM)
 		free_and_exit();
+}
+
+void	parent_sig_handler(int signal)
+{
+	if (signal == SIGINT)
+		ft_fprintf(STDERR_FILENO, "\b^C\n");
+	if (signal == SIGQUIT)
+		ft_fprintf(STDERR_FILENO, "\b^\\Quit\n");
 }

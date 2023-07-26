@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 15:16:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:13:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
 	if (!var || !arg)
 		return (SH_ERROR);
 	temp = ft_strchr(arg, '=' * (mode == SH_OVERWRITE)
-			+ '+' * (mode != SH_OVERWRITE)); 
+			+ '+' * (mode != SH_OVERWRITE));
 	if (temp)
 		var_name = ft_substr(arg, 0, (char *) temp - arg);
 	else
@@ -146,8 +146,8 @@ int	ft_export(char **argv, t_env **env)
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
-	if (!argv[1])
-		return (print_env(*env, SH_ORDERED), SH_SUCCESS);
+	/*if (!argv[1])
+		return (print_env(*env, SH_ORDERED), SH_SUCCESS);*/
 	while (*(++argv))
 	{
 		expanded = expand_dollars(*argv, *env);
