@@ -103,18 +103,15 @@ RM			=	rm -rf
 # ***************** #
 
 ## Text display delay between characters
-ifndef $(SLEEP)
 SLEEP		=	0
-endif
 
 ## Disable fancy mode if not precised at launch
-ifndef $(FANCY)
 FANCY		=	0
-endif
 
 ## Color variables
 NC			=	"\\e[0m"
-BBLACK_FG	=	"\\e[96m"
+INVIS_FG	=	"\\e[7:49m"
+BLACK_BG	=	"\\e[100m"
 RED_FG		=	"\\e[91m"
 GREEN_FG	=	"\\e[92m"
 
@@ -318,9 +315,9 @@ ifneq ($(FANCY), 0)
 	@clear
 	@$(call put_screen)
 	@$(call put_keyboard)
-	@echo -n "\e[s\e[3;4f"
+	@echo -n "\e[3;4f\e[s"
 	$(call play_startup)
-	@echo -n "\e[s\e[3;4f"
+	@echo -n "\e[u"
 endif
 
 
@@ -377,6 +374,9 @@ define put_screen
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(SCREEN_W), $(SCREEN_COLOR))
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
 		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
+	@echo -n "\e[s\e[3;4f"
+	$(call put_square, $(BLACK_BG), $(SCREEN_W), $(SCREEN_H))
+	@echo -n "\e[u"
 endef
 
 ## Display of the virtual computer's keyboard
@@ -426,8 +426,32 @@ define put_vertical_line
 	@echo -n "\e[$(height)A"
 endef
 
+define put_square
+	$(eval color = $(1))
+	$(eval width = $(2))
+	$(eval height = $(3))
+	@y=0;	\
+	while [ $$y -lt $(height) ]; do		\
+		x=0;							\
+		echo -n "$(color)";				\
+		while [ $$x -lt $(width) ]; do	\
+			echo -n " ";				\
+			x=$$(expr $$x + 1);			\
+		done;							\
+		echo -n "$(NC)\e[B\e[$${x}D";	\
+		y=$$(expr $$y + 1);				\
+	done
+endef
+
 define play_startup
-	@echo -n "$(TEXT_COLOR)";							\
+	$(call put_makefile_ascii, $(TEXT_COLOR))
+	@sleep $$(expr 1 + $(SLEEP))
+	$(call put_makefile_ascii, $(INVIS_FG))
+endef
+
+define put_makefile_ascii
+	$(eval color = $(1))
+	@echo -n "\e[s$(color)";							\
 	if [ $(SCREEN_W) -eq 87 ]; then						\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
 		echo -n $(MINI_ASCII);							\
@@ -446,7 +470,7 @@ define play_startup
 		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 24)C";	\
 		echo $(SHELL_ASCII);							\
 	fi
-	@echo -n "$(NC)"
+	@echo -n "$(NC)\e[u"
 endef
 
 # **************************************************************************** #
