@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 11:52:49 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 09:33:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ typedef struct s_shell
 	t_par		**par;
 	t_env		*env;
 	t_rinity	**t;
-	char		**commande;
 	int 		in;
 	int 		out;
 	int 		fd[2];
+	char		*path;
 }				t_shell;
 
 extern t_shell *g_shell_data;

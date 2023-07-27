@@ -6,29 +6,13 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/25 22:15:19 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:45 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
 t_shell *g_shell_data;
-
-/*int	count_cmd(t_par **par)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (par[i])
-	{
-		if (par[i]->command_elem_id == 1)
-			j++;
-		i++;
-	}
-	return (j);
-}*/
 
 int init_data(char **envp)
 {
@@ -38,7 +22,6 @@ int init_data(char **envp)
 	init_env(&g_shell_data->env, envp);
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
-	g_shell_data->commande = NULL;
 	set_termios_mode(TERMIOS_MUTE_CTRL);
 	return (0);
 }
@@ -48,7 +31,6 @@ static int prompt_cmd(void)
 	char *line;
 	char *line2;
 	int i;
-	// int 	fd[2];
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -60,12 +42,11 @@ static int prompt_cmd(void)
 		return (free(line2), 1);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
-	// fd[0] = dup(g_shell_data->in);
-	// fd[1] = dup(g_shell_data->out);
 	i = 0;
 	while (g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
+	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
@@ -74,17 +55,16 @@ static int prompt_cmd(void)
 
 void exec_last(t_env *env, t_rinity *cmd_struct)
 {
-	char *path;
 	pid_t pid;
 
-	path = get_path(cmd_struct->command[0], env);
+	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
 		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
 		ft_unset(cmd_struct->command, &env);
-	else if (!path)
+	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
@@ -97,7 +77,7 @@ void exec_last(t_env *env, t_rinity *cmd_struct)
 		signal(SIGQUIT, SIG_DFL);
 		redirect(cmd_struct, 0);
 		redirect(cmd_struct, 1);
-		execve(path, cmd_struct->command, env_to_str_tab(env));
+		execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
 	}
 	else
 	{
@@ -107,23 +87,6 @@ void exec_last(t_env *env, t_rinity *cmd_struct)
 		waitpid(pid, NULL, 0);
 	}
 }
-
-/*int verif_in_out(t_rinity *cmd_struct, int *fd_in, int *fd_out)
-{
-	if (cmd_struct->file_in && cmd_struct->type_in)
-	{
-		*fd_in = create_fd_in(cmd_struct->file_in, cmd_struct->type_in);
-		if (*fd_in == -1)
-			return (-1);
-	}
-	if (cmd_struct->file_out && cmd_struct->type_out)
-	{
-		*fd_out = create_fd_out(cmd_struct->file_out, cmd_struct->type_out);
-		if (*fd_out == -1)
-			return (-1);
-	}
-	return (0);
-}*/
 
 /*
  * SIGQUIT -> Ctrl-\ signal which needs to be ignored
@@ -141,9 +104,7 @@ int main(int argc, char **argv, char **envp)
 		signal(SIGINT, main_sig_handler);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	}
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
-	free_data(g_shell_data);
 	return (0);
 }
-

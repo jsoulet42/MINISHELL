@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/25 16:43:58 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:21:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_rinity	**ft_parsing(char *argv)
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	line = prev_line(line, 0);
+	//line = prev_line(line, 0);
 	ft_fprintf(2, "line : [%s]\n", line);
 	sparse(g_shell_data->par, line);
 	check_line(g_shell_data->par);
@@ -127,6 +127,8 @@ int	verifquote(char *argv)
 	return (0);
 }
 
+int g_debug_free_t_par = 1;
+
 void	free_t_par(t_par **p)
 {
 	int	i;
@@ -139,6 +141,7 @@ void	free_t_par(t_par **p)
 		i++;
 	}
 	free(p);
+	p = NULL;
 }
 
 int	calc_type(char *str)
@@ -384,27 +387,27 @@ char	**str_tab_add_neo(char **str, char *add)
 		new = (char **)malloc(sizeof(char *) * 2);
 		if (!new)
 			return (NULL);
-		new[0] = ft_strdup(add);
+		new[0] = add;
 		if (!new[0])
 			return (NULL);
 		new[1] = NULL;
 		return (new);
 	}
 	i = strstr_len(str);
+
 	new = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new)
 		return (NULL);
 	i = 0;
 	while (str[i])
 	{
-		new[i] = ft_strdup(str[i]);
+		new[i] = str[i];
 		if (!new[i])
 			return (NULL);
-		free(str[i]);
 		i++;
 	}
 	free(str);
-	new[i] = ft_strdup(add);
+	new[i] = add;
 	new[i + 1] = NULL;
 	return (new);
 }

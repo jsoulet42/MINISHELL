@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 11:56:29 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/27 14:10:45 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	safe_free(void **ptr_addr)
 	*ptr_addr = NULL;
 }
 
-void	free_str_tab(char **str_tab)
+void	free_str_tab(void **str_tab)
 {
 	int	i;
 
@@ -37,8 +37,11 @@ void	free_data(t_shell *shell_data)
 {
 	if (shell_data->env)
 		free_env(&shell_data->env);
-	if (shell_data->par)
+	/*if (shell_data->par)
+	{
 		free_t_par(shell_data->par);
+		shell_data->par = NULL;
+	}*/
 	safe_free((void **) &shell_data);
 	rl_clear_history();
 }
@@ -46,11 +49,21 @@ void	free_data(t_shell *shell_data)
 void	free_and_exit(void)
 {
 	int	exit_code;
+	//int i;
 
+	//i = 0;
 	exit_code = 0;
 	/* TODO implement exit code inside g_shell_data */
 //	exit_code = g_shell_data->exit_code;
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	//safe_free((void **)&g_shell_data->t);
+	/*while (g_shell_data->t[i])
+	{
+		free(g_shell_data->t[i++]->kafka);
+	}*/
+	free(g_shell_data->t[0]->kafka);
+	free_str_tab((void **)g_shell_data->t);
+	safe_free((void **)&g_shell_data->path);
 	free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	exit(exit_code);
 }

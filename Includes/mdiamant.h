@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/19 16:41:44 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/26 15:59:54 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ struct s_par //t_rinity: file.txt < cat file
 	char	**type_in; // << <
 	char	**type_out;// >> >
 	char	**kafka;// char ** qui contient >> << < >
-	char	**commande;
 	char	*file;
 	int		quote_type;
 };
