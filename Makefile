@@ -360,20 +360,22 @@ define put_screen
 	$(eval bot = $(word 6, $(SCREEN_BORDER)))
 	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
+		$(shell expr $(SCREEN_W) + 4 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
 		0, $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 1), $(FRAME_COLOR))
+		$(shell expr $(SCREEN_W) + 3 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	@echo -n "\e[2C"
-	$(call put_box_width, $(top_l), $(top), $(top_r), $(SCREEN_W), $(SCREEN_COLOR))
+	$(call put_box_width, $(top_l), $(top), $(top_r),	\
+		$(shell expr $(SCREEN_W) + 2), $(SCREEN_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H), 2, $(SCREEN_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H),	\
-		$(shell expr $(SCREEN_W) + 1), $(SCREEN_COLOR))
+		$(shell expr $(SCREEN_W) + 3), $(SCREEN_COLOR))
 	@echo -n "\e[$(SCREEN_H)B\e[2C"
-	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(SCREEN_W), $(SCREEN_COLOR))
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
+		$(shell expr $(SCREEN_W) + 2), $(SCREEN_COLOR))
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
+		$(shell expr $(SCREEN_W) + 4 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	@echo -n "\e[s\e[3;4f"
 	$(call put_square, $(BLACK_BG), $(SCREEN_W), $(SCREEN_H))
 	@echo -n "\e[u"
@@ -400,12 +402,14 @@ define put_box_width
 	$(eval width = $(4))
 	$(eval color = $(5))
 	@echo -n "$(color)$(left_char)$(NC)";		\
-	i=1;										\
-	while [ $$i -lt $$(( $(width) - 1 )) ]; do	\
-		echo -n "$(color)$(mid_char)$(NC)";		\
+	line="$(left_chat)";						\
+	i=2;										\
+	while [ $$i -lt $(width) ]; do				\
+		line="$$line$(mid_char)";				\
 		i=$$(expr $$i + 1);						\
-	done
-	@echo "$(color)$(right_char)$(NC)"
+	done;										\
+	line="$$line$(right_char)";					\
+	echo "$(color)$$line$(NC)"
 endef
 
 ## Display of a vertical line of characters at a specific column
@@ -430,16 +434,16 @@ define put_square
 	$(eval color = $(1))
 	$(eval width = $(2))
 	$(eval height = $(3))
-	@y=0;	\
-	while [ $$y -lt $(height) ]; do		\
-		x=0;							\
-		echo -n "$(color)";				\
-		while [ $$x -lt $(width) ]; do	\
-			echo -n " ";				\
-			x=$$(expr $$x + 1);			\
-		done;							\
-		echo -n "$(NC)\e[B\e[$${x}D";	\
-		y=$$(expr $$y + 1);				\
+	@line=" ";												\
+	x=1;													\
+	while [ $$x -lt $(width) ]; do							\
+		line="$$line ";										\
+		x=$$(expr $$x + 1);									\
+	done;													\
+	y=0;													\
+	while [ $$y -lt $(height) ]; do							\
+		echo -n "$(color)$${line}$(NC)\e[B\e[$(width)D";	\
+		y=$$(expr $$y + 1);									\
 	done
 endef
 
