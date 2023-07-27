@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 14:10:45 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:41:57 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,21 +49,20 @@ void	free_data(t_shell *shell_data)
 void	free_and_exit(void)
 {
 	int	exit_code;
-	//int i;
 
-	//i = 0;
 	exit_code = 0;
+	ft_fprintf(2,"entrée dans free_and_exit\n");
 	/* TODO implement exit code inside g_shell_data */
 //	exit_code = g_shell_data->exit_code;
-	//safe_free((void **)&g_shell_data->t);
-	/*while (g_shell_data->t[i])
+	if (g_shell_data && g_shell_data->t && g_shell_data->t[0]
+		&& g_shell_data->t[0]->kafka)
 	{
-		free(g_shell_data->t[i++]->kafka);
-	}*/
-	free(g_shell_data->t[0]->kafka);
-	free_str_tab((void **)g_shell_data->t);
-	safe_free((void **)&g_shell_data->path);
-	free_data(g_shell_data);
+		safe_free((void **)&g_shell_data->t[0]->kafka);
+		safe_free((void **)&g_shell_data->t[0]->kafka[0]);
+		safe_free((void **)&g_shell_data->path);
+	}
+	if (g_shell_data)
+		free_data(g_shell_data);
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	exit(exit_code);
 }
