@@ -110,7 +110,7 @@ FANCY		=	0
 
 ## Color variables
 NC			=	"\\e[0m"
-INVIS_FG	=	"\\e[7:49m"
+INVIS_FG	=	"\\e[90m\\e[100m"
 RED_FG		=	"\\e[91m"
 GREEN_FG	=	"\\e[92m"
 BLACK_BG	=	"\\e[100m"
@@ -136,8 +136,9 @@ SCREEN_W	=	70
 
 SCREEN_H	=	20
 
-### Virtual computer screen offset from its right frame side
-SCREEN_R_OFFSET	=	20
+### Virtual computer screen offset from its left and right frame sides
+L_OFFSET	=	20
+R_OFFSET	=	20
 
 ### Characters for display of the virtual computer
 SCREEN_BORDER	=	"╔" "═" "╗" "║" "╚" "═" "╝"
@@ -315,7 +316,7 @@ ifneq ($(FANCY), 0)
 	@clear
 	@$(call put_screen)
 	@$(call put_keyboard)
-	@echo -n "\e[3;4f\e[s"
+	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 2)f\e[s"
 	$(call play_startup)
 	@echo -n "\e[u"
 endif
@@ -335,7 +336,7 @@ define terminal_disp
 	$(eval color = $(2))
 	@sh_message=$(message);													\
 	i=1;																	\
-	echo -n "$(color)makefile@minishell $$> ";										\
+	echo -n "$(color)makefile@minishell $$> ";								\
 	while [ $$i -le $${#sh_message} ]; do									\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";				\
 		if [ $(FANCY) -ne 0 ] && [ $$i -eq $$(( $(SCREEN_W) - 24 )) ]; then	\
@@ -359,24 +360,23 @@ define put_screen
 	$(eval bot_l = $(word 5, $(SCREEN_BORDER)))
 	$(eval bot = $(word 6, $(SCREEN_BORDER)))
 	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
-	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + 4 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
+	$(eval frame_w = $(shell expr $(SCREEN_W) + 2 + $(L_OFFSET) + $(R_OFFSET)))
+	$(call put_box_width, $(top_l), $(top), $(top_r), $(frame_w), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
 		0, $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),	\
-		$(shell expr $(SCREEN_W) + 3 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
-	@echo -n "\e[2C"
+		$(shell expr $(frame_w) - 1), $(FRAME_COLOR))
+	@echo -n "\e[$(L_OFFSET)C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
 		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
-	$(call put_vertical_line, $(side), $(SCREEN_H), 2, $(FRAME_COLOR))
+	$(call put_vertical_line, $(side), $(SCREEN_H), $(L_OFFSET), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H),	\
-		$(shell expr $(SCREEN_W) + 3), $(FAME_COLOR))
-	@echo -n "\e[$(SCREEN_H)B\e[2C"
+		$(shell expr $(L_OFFSET) + 1 + $(SCREEN_W)), $(FAME_COLOR))
+	@echo -n "\e[$(SCREEN_H)B\e[$(L_OFFSET)C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
 		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
-	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + 4 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
-	@echo -n "\e[s\e[3;4f"
+	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(frame_w), $(FRAME_COLOR))
+	@echo -n "\e[s\e[3;$(shell expr $(L_OFFSET) + 2)f"
 	$(call put_square, $(SCREEN_COLOR), $(SCREEN_W), $(SCREEN_H))
 	@echo -n "\e[u"
 endef
@@ -385,13 +385,13 @@ endef
 define put_keyboard
 	@echo -n "\e[3C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6), $(KB_COLOR))
+		$(shell expr $(frame_w) - 6), $(KB_COLOR))
 	$(call put_vertical_line, $(side), 4, 3, $(KB_COLOR))
 	$(call put_vertical_line, $(side), 4,	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 4), $(KB_COLOR))
+		$(shell expr $(frame_w) - 4), $(KB_COLOR))
 	@echo -n "\e[4B\e[3C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + $(SCREEN_R_OFFSET) - 6), $(KB_COLOR))
+		$(shell expr $(frame_w) - 6), $(KB_COLOR))
 endef
 
 ## Display of the top/bottom of an ascii box
@@ -456,12 +456,12 @@ endef
 define put_makefile_ascii
 	$(eval color = $(1))
 	@echo -n "\e[s$(color)";							\
-	if [ $(SCREEN_W) -eq 87 ]; then						\
+	if [ $(SCREEN_W) -eq 85 ]; then						\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
 		echo -n $(MINI_ASCII);							\
 		echo -n "\e[5A\e[2C";							\
 		echo -n $(SHELL_ASCII);							\
-	elif [ $(SCREEN_W) -gt 87 ]; then					\
+	elif [ $(SCREEN_W) -gt 85 ]; then					\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 3)B";		\
 		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 43)C";	\
 		echo -n $(MINI_ASCII);							\
@@ -470,8 +470,8 @@ define put_makefile_ascii
 	else												\
 		echo -n "\e[$$(expr $(SCREEN_H) / 2 - 6)B";		\
 		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 16)C";	\
-		echo $(MINI_ASCII);								\
-		echo -n "\e[$$(expr $(SCREEN_W) / 2 - 24)C";	\
+		echo -n $(MINI_ASCII)"\e[B";					\
+		echo -n "\e[40D";	\
 		echo $(SHELL_ASCII);							\
 	fi
 	@echo -n "$(NC)\e[u"
