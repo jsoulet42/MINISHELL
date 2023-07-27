@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/25 19:12:24 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 09:35:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,6 @@ char **create_commande(t_par **par, int i)
 
 	if (!par)
 		return (NULL);
-	if (g_shell_data->commande != NULL)
-	{
-		free(g_shell_data->commande);
-		g_shell_data->commande = NULL;
-	}
 	while (par[i] && par[i]->type >= 2 && par[i]->type <= 5)
 		i += 2;
 	len = commande_len(par + i);
@@ -107,16 +102,14 @@ int next_good_commande(t_par **par, int i)
 }
 void execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
-	char *path;
-
-	path = get_path(cmd_struct->command[0], env);
+	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
 		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
 		ft_unset(cmd_struct->command, &env);
-	else if (!path)
+	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
@@ -124,7 +117,7 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 	}
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	execve(path, cmd_struct->command, env_to_str_tab(env));
+	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
 }
 
 char *get_path(char *cmd, t_env *env)
@@ -255,92 +248,6 @@ void	redirect_in(char **file_in, char **type_in)
 		i++;
 	}
 }
-
-/*void close_and_dup_fd(int *fd_in, int *fd_out, int *fd)
-{
-	if (*fd_in == -1)
-		dup2(fd[0], STDIN_FILENO);
-	if (*fd_in)
-		dup2(*fd_in, STDIN_FILENO);
-	if (*fd_out == -1)
-		dup2(fd[1], STDOUT_FILENO);
-	if (*fd_out)
-		dup2(*fd_out, STDOUT_FILENO);
-}*/
-
-/*int create_fd_in(char **file_in, char **type_in)
-{
-	int	i;
-	int	fd_in;
-
-	i = 0;
-	if (!file_in || !type_in)
-		return (-1);
-	while (file_in[i])
-	{
-		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
-			fd_in = ft_heredoc(file_in[i]);
-		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
-			fd_in = open(file_in[i], O_RDONLY);
-		i++;
-	}
-}*/
-
-/*int create_fd_out(char **file_out, char **type_out)
-{
-	int	i;
-	int	fd_out;
-
-	i = 0;
-	if (!file_out || !type_out)
-		return (-1);
-	while (file_out[i])
-	{
-		if (type_out[i] && ft_strncmp(type_out[i], ">>", 3) == 0)
-			fd_out = append_file_out_content(file_out[i], 1);
-		else if (type_out[i] && ft_strncmp(type_out[i], ">", 2) == 0)
-			fd_out = append_file_out_content(file_out[i], 2);
-		else
-			return (-1);
-		i++;
-	}
-	return (fd_out);
-}*/
-
-/*int append_file_out_content(char *file, int option)
-{
-	int file_fd;
-	if (file)
-	{
-		if (option == 1)
-			file_fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else if (option == 2)
-			file_fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (file_fd == -1)
-		{
-			ft_putstr_fd("mishelle: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-			return (1);
-		}
-	}
-}*/
-
-/*int append_file_content(char *file)
-{
-	int file_fd;
-	if (file)
-	{
-		file_fd = open(file, O_RDONLY);
-		if (file_fd == -1)
-		{
-			ft_fprintf(STDERR_FILENO, "mishelle: `%s': No such file or directory\n");
-			return (1);
-		}
-	}
-	return (file_fd);
-}*/
-
 
 int	ft_heredoc(char *str)
 {
