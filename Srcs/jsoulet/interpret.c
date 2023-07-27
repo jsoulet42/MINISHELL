@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/27 09:35:04 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 13:01:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char *get_path(char *cmd, t_env *env)
 		return (NULL);
 	path = ft_split(var, ':');
 	path_cmd = get_path_cmd(path, cmd);
-	free_str_tab(path);
+	free_str_tab((void **)path);
 	if (!path_cmd)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n", cmd);

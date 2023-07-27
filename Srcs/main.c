@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 09:51:28 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:28:45 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,7 @@ int main(int argc, char **argv, char **envp)
 		signal(SIGINT, main_sig_handler);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	}
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
-	free_data(g_shell_data);
 	return (0);
 }
-

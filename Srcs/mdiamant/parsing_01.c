@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/26 17:17:44 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 14:21:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ void	free_t_par(t_par **p)
 	}
 	free(p);
 	p = NULL;
-	ft_fprintf(2, "\nLa fonction free_t_par a ete appelee %d fois\n", g_debug_free_t_par++);
 }
 
 int	calc_type(char *str)
@@ -395,6 +394,7 @@ char	**str_tab_add_neo(char **str, char *add)
 		return (new);
 	}
 	i = strstr_len(str);
+
 	new = (char **)malloc(sizeof(char *) * (i + 2));
 	if (!new)
 		return (NULL);
