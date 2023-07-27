@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 16:41:57 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 18:03:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	free_and_exit(void)
 	{
 		safe_free((void **)&g_shell_data->t[0]->kafka);
 		safe_free((void **)&g_shell_data->t[0]->kafka[0]);
+		free_str_tab((void **)g_shell_data->t);
 		safe_free((void **)&g_shell_data->path);
 	}
 	if (g_shell_data)
