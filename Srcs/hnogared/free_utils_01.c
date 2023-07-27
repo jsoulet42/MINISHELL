@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/21 16:14:38 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/27 09:36:47 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,11 @@ void	free_data(t_shell *shell_data)
 {
 	if (shell_data->env)
 		free_env(&shell_data->env);
-	if (shell_data->par)
+	/*if (shell_data->par)
+	{
 		free_t_par(shell_data->par);
+		shell_data->par = NULL;
+	}*/
 	safe_free((void **) &shell_data);
 	rl_clear_history();
 }
@@ -50,6 +53,9 @@ void	free_and_exit(void)
 	exit_code = 0;
 	/* TODO implement exit code inside g_shell_data */
 //	exit_code = g_shell_data->exit_code;
+	safe_free((void **)&g_shell_data->t);
+	safe_free((void **)&g_shell_data->path);
 	free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	exit(exit_code);
 }

@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/20 17:11:46 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/25 19:23:49 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-/*
+
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int	i;
@@ -26,7 +26,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-}*/
+}
 
 int change_directory(const char *path)
 {
@@ -38,7 +38,7 @@ int change_directory(const char *path)
 		return (-1);
     }
 }
-/*
+
 char	*go_home(char **env)
 {
 	char	*home;
@@ -47,9 +47,17 @@ char	*go_home(char **env)
 
 	j = 0;
 	i = -1;
+
 	while (env[++i])
+	{
 		if (ft_strncmp(env[i], "HOME=", 5) == 0)
 			break ;
+		else
+		{
+			ft_printf("HOME not set\n");
+			return (NULL);
+		}
+	}
 	while (env[i][5 + j])
 		j++;
 	home = malloc(sizeof(char) * j + 1);
@@ -60,7 +68,7 @@ char	*go_home(char **env)
 		j++;
 	}
 	return (home);
-}*/
+}
 
 void ft_cd(int argc, char **argv, t_env *env)
 {

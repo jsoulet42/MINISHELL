@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils_02.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 01:10:07 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/25 22:10:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 	free(temp);
 	if (!env_var->display)
 		return (NULL);
-	return (env_var); 
+	return (env_var);
 }
 
 /* Function to display an environment's linked list of variables on terminal
@@ -139,7 +139,7 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
  * @param t_env *env_list	-> pointer to the environment to display
  * @param int mode			-> display mode of the environment
  */
-void	print_env(t_env *env_list, int mode)
+/*void	print_env(t_env *env_list, int mode)
 {
 	char	*check;
 	char	**temp;
@@ -166,4 +166,4 @@ void	print_env(t_env *env_list, int mode)
 		printf("%s%c%c\n", *temp++, mode, mode);
 	}
 	free_str_tab(str_env);
-}
+}*/

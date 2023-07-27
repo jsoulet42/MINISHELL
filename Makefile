@@ -36,7 +36,8 @@ SRCS		=	main.c					\
 				get_next_line_utils_bonus.c \
 				lentab.c				\
 				ft_cd.c					\
-				ft_unset.c
+				ft_unset.c				\
+				signals.c
 
 BUILTINS_DIR=	Srcs/builtins
 ECHO_SRCS	=	ft_echo_01.c

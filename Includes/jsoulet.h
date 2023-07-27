@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   jsoulet.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/19 15:47:17 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/25 18:57:18 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,15 @@ char	*get_path(char *cmd, t_env *env);
 char	*get_path_cmd(char **path, char *cmd);
 void	piper(t_env *env, t_rinity *cmd_struct);
 void	exec_last(t_env *env, t_rinity *cmd_struct);
-int		create_fd_in(char **file_in, char **type_in);
-int		append_file_content(char *file_in);
 int		ft_heredoc(char *str);
+/*int	create_fd_in(char **file_in, char **type_in);
+int		append_file_content(char *file_in);
+int		append_file_out_content(char *file, int option);
+int		create_fd_out(char **file_out, char **type_out);
+int		verif_in_out(t_rinity *cmd_struct, int *fd_in, int *fd_out);
+void	close_and_dup_fd(int *fd_in, int *fd_out, int *fd);*/
+void	redirect(t_rinity *cmd_struct, int option);
+void	redirect_in(char **file_in, char **type_in);
+void	redirect_out(char **file_out, char **type_out);
 
 #endif

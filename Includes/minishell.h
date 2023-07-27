@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 17:36:43 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 09:33:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ typedef struct s_shell
 	t_par		**par;
 	t_env		*env;
 	t_rinity	**t;
-	char		**commande;
 	int 		in;
 	int 		out;
 	int 		fd[2];
+	char		*path;
 }				t_shell;
 
 extern t_shell *g_shell_data;
@@ -77,5 +77,8 @@ int		doublquote(char *str);
 
 /*-----------------Srcs/lolefevr/simplquote_01.c-----------------*/
 int		simplquote(char *str);
+
+void	print_str_tab(char **str_tab);
+
 
 #endif
