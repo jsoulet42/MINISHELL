@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_002.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:30:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/27 15:17:24 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:12:34 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*prev_line(char *line, int i);
 int		find_next_char(char *str, char *c);
 
-char *cas_specifique_01(char *line, int i)
+/*char *cas_specifique_01(char *line, int i)
 {
 	char	*res;
 	char	*tmp;
@@ -29,8 +29,8 @@ char *cas_specifique_01(char *line, int i)
 	free(line);
 	return (res);
 
-}
-char *prev_line(char *line, int i)
+}*/
+/*char *prev_line(char *line, int i)
 {
 	char	*res;
 	char	*tmp;
@@ -87,9 +87,9 @@ char *prev_line(char *line, int i)
 	}
 	line = prev_line(line, i);
 	return (line);
-}
+}*/
 
-int	find_next_char(char *str, char *c)
+/*int	find_next_char(char *str, char *c)
 {
 	int	i;
 	int j;
@@ -107,4 +107,4 @@ int	find_next_char(char *str, char *c)
 		i++;
 	}
 	return (i);
-}
+}*/
