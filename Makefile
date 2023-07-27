@@ -111,9 +111,9 @@ FANCY		=	0
 ## Color variables
 NC			=	"\\e[0m"
 INVIS_FG	=	"\\e[7:49m"
-BLACK_BG	=	"\\e[100m"
 RED_FG		=	"\\e[91m"
 GREEN_FG	=	"\\e[92m"
+BLACK_BG	=	"\\e[100m"
 
 ## Fancy display only
 ### Minishell startup ascii art
@@ -145,8 +145,8 @@ SCREEN_BORDER	=	"╔" "═" "╗" "║" "╚" "═" "╝"
 ### Computer parts colors
 FRAME_COLOR		=	$(NC)
 KB_COLOR		=	$(NC)
-SCREEN_COLOR	=	$(GREEN_FG)
-TEXT_COLOR		=	$(GREEN_FG)
+SCREEN_COLOR	=	$(BLACK_BG)
+TEXT_COLOR		=	$(GREEN_FG)$(BLACK_BG)
 
 
 # **************************************************************************** #
@@ -367,17 +367,17 @@ define put_screen
 		$(shell expr $(SCREEN_W) + 3 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	@echo -n "\e[2C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),	\
-		$(shell expr $(SCREEN_W) + 2), $(SCREEN_COLOR))
-	$(call put_vertical_line, $(side), $(SCREEN_H), 2, $(SCREEN_COLOR))
+		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
+	$(call put_vertical_line, $(side), $(SCREEN_H), 2, $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H),	\
-		$(shell expr $(SCREEN_W) + 3), $(SCREEN_COLOR))
+		$(shell expr $(SCREEN_W) + 3), $(FAME_COLOR))
 	@echo -n "\e[$(SCREEN_H)B\e[2C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
-		$(shell expr $(SCREEN_W) + 2), $(SCREEN_COLOR))
+		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),	\
 		$(shell expr $(SCREEN_W) + 4 + $(SCREEN_R_OFFSET)), $(FRAME_COLOR))
 	@echo -n "\e[s\e[3;4f"
-	$(call put_square, $(BLACK_BG), $(SCREEN_W), $(SCREEN_H))
+	$(call put_square, $(SCREEN_COLOR), $(SCREEN_W), $(SCREEN_H))
 	@echo -n "\e[u"
 endef
 
