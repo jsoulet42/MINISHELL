@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/28 12:43:12 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:46:59 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_rinity	**ft_parsing(char *argv)
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	//fusion_arg(&line, 0);
-	//ft_fprintf(2, "\nline : [%s]\n", line);
+	fusion_arg_02(&line);
+	ft_fprintf(2, "line : %s\n", line);
 	sparse(g_shell_data->par, line);
 	check_line(g_shell_data->par);
 	free(line);

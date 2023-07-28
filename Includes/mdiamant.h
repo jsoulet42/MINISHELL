@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/28 11:37:16 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/28 19:11:14 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,11 @@ int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
 
 /* Srcs/mdiamant/parsing_02.c */
+
+void		fusion_arg_02(char **line);
+
 void		fusion_arg(char **line, int i);
-int			find_next_char(char *str, char *c);
+int			find_next_char(const char *str, const char c);
 int			ft_iswhitespace(char *str, int i);
 int			ft_isdol(char *str, int beg, int end);
 
