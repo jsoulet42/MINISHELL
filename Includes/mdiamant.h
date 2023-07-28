@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/26 15:59:54 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/28 11:37:16 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,13 @@ char		**str_tab_add_neo(char **str, char *add);
 int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
 
+/* Srcs/mdiamant/parsing_02.c */
+void		fusion_arg(char **line, int i);
+int			find_next_char(char *str, char *c);
+int			ft_iswhitespace(char *str, int i);
+int			ft_isdol(char *str, int beg, int end);
 
 
-
-void	error_exit(char *str);
+void		error_exit(char *str);
 
 #endif

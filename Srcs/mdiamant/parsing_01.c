@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/27 16:15:38 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/28 12:43:12 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,42 +26,14 @@ t_rinity	**ft_parsing(char *argv)
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	//line = prev_line(line, 0);
-	//ft_fprintf(2, "line : [%s]\n", line);
+	//fusion_arg(&line, 0);
+	//ft_fprintf(2, "\nline : [%s]\n", line);
 	sparse(g_shell_data->par, line);
 	check_line(g_shell_data->par);
 	free(line);
 	t = t_rinity_init(g_shell_data->par);
 	print_t_rinity(t);
 	return (t);
-}
-char *prev_line(char *line, int i)
-{
-	char *res;
-	char *tmp;
-
-	while (line[i] && line[i] != '\"' && line[i] != '\'')
-		i++;
-	i++;
-	while (line[i] && line[i] != '\"' && line[i] != '\'')
-		i++;
-	i++;
-	if (!line[i])
-		return (line);
-	if (line[i] != ' ' && line[i] != '\t' && line[i] != '\v')
-	{
-		if (line[i] == '\"' || line[i] == '\'')
-			i += 1;
-		res = ft_substr(line, 0, i - 2);
-		tmp = ft_substr(line, i , ft_strlen(line) - i);
-		free(line);
-		line = ft_strjoin(res, tmp);
-		free(res);
-		free(tmp);
-	}
-	line = prev_line(line, i);
-	return (line);
-
 }
 void	print_t_par(t_par **p)
 {
