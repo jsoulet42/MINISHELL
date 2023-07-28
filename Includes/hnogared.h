@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 13:03:32 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/28 09:02:20 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	safe_free(void **ptr_addr);
 void	free_str_tab(void **str_tab);
 void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
+void	free_trinity(void);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);
