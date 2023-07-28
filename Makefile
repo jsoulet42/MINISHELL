@@ -395,7 +395,7 @@ put_keyboard:
 define play_startup
 	@echo -en "\e[A\e[s"
 	$(call put_makefile_ascii, $(TEXT_COLOR), $(used_screenw), $(used_screenh))
-	@sleep $$(expr 1 + $(SLEEP))
+	@sleep $$(( 1 + $(SLEEP) ))
 	@echo -en "\e[u"
 	$(call put_makefile_ascii, $(INVIS_FG), $(used_screenw), $(used_screenh))
 	@echo -en "\e[u\e[B"
@@ -417,17 +417,17 @@ define terminal_disp
 	i=1;																	\
 	j=23;																	\
 	while [ $$i -le $$len ]; do												\
-		echo -en "$$(echo $${sh_message} | cut -c $${i}-$${i})";				\
+		echo -en "$$(echo $${sh_message} | cut -c $${i}-$${i})";			\
 		if [ $(FANCY) -ne 0 ] && [ $$j -eq $(width) ] && [ $$i -ne $$len ];	\
 		then																\
 			echo -en "\e[B\e[$${j}D";										\
-			j=23;															\
+			j=0;															\
 		fi;																	\
 		i=$$(( $$i + 1 ));													\
 		j=$$(( $$j + 1 ));													\
 		sleep $(SLEEP);														\
 	done;																	\
-	echo -e "$(NC)";															\
+	echo -e "$(NC)";														\
 	if [ $(FANCY) -ne 0 ]; then												\
 		echo -en "\e[$$(( 2 + $(used_loffset) ))C";							\
 	fi
@@ -445,7 +445,7 @@ define put_box_width
 	i=2;										\
 	while [ $$i -lt $(width) ]; do				\
 		line="$$line$(mid_char)";				\
-		i=$$(expr $$i + 1);						\
+		i=$$(( $$i + 1 ));						\
 	done;										\
 	line="$$line$(right_char)";					\
 	echo -e "$(color)$$line$(NC)"
@@ -458,15 +458,15 @@ define put_vertical_line
 	$(eval height = $(2))
 	$(eval r_offset = $(3))
 	$(eval color = $(4))
-	@i=0;								\
-	while [ $$i -lt $(height) ]; do		\
-		if [ $(r_offset) -gt 0 ]; then	\
-			echo -en "\e[$(r_offset)C";	\
-		fi;								\
+	@i=0;									\
+	while [ $$i -lt $(height) ]; do			\
+		if [ $(r_offset) -gt 0 ]; then		\
+			echo -en "\e[$(r_offset)C";		\
+		fi;									\
 		echo -e "$(color)$(border)$(NC)";	\
-		i=$$(expr $$i + 1);				\
-	done
-	@echo -en "\e[$(height)A"
+		i=$$(( $$i + 1 ));					\
+	done;									\
+	echo -en "\e[$(height)A"
 endef
 
 ## Print a square of a given color
@@ -478,13 +478,13 @@ define put_square
 	x=1;											\
 	while [ $$x -lt $(width) ]; do					\
 		line="$$line ";								\
-		x=$$(expr $$x + 1);							\
+		x=$$(( $$x + 1 ));							\
 	done;											\
 	square="$$line\e[B\e[$(width)D";				\
 	y=1;											\
 	while [ $$y -lt $(height) ]; do					\
 		square="$$square$$line\e[B\e[$(width)D";	\
-		y=$$(expr $$y + 1);							\
+		y=$$(( $$y + 1 ));							\
 	done;											\
 	echo -en "$(color)$$square$(NC)"
 endef
