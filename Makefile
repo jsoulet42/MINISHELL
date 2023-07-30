@@ -6,11 +6,6 @@
 # Files variables #
 # *************** #
 
-#MAKECMDGOALS
-
-#ifneq ($(words $(MAKECMDGOALS)),1)
-#.DEFAULT_GOAL = all
-
 ## Executable name
 NAME		=	minishell
 
@@ -120,6 +115,16 @@ RED_FG		=	"\\e[91m"
 GREEN_FG	=	"\\e[92m"
 BLACK_BG	=	"\\e[100m"
 
+## Progress bar variables
+### Touch
+PROG_CHAR	=	"\#"
+UNPROG_CHAR	=	" "
+### Don't touch
+TASKS		=	0
+PROGRESS	=	0
+CURR_CMD	=	""
+PROG_BAR	=	""
+
 ## Fancy display only
 ### Minishell startup ascii art
 MINI_ASCII		=	":::   :::  :::  :::   :::  :::"\
@@ -128,7 +133,6 @@ MINI_ASCII		=	":::   :::  :::  :::   :::  :::"\
                  	"\\e[B\\e[31D@+@ : @+@  +@+  @+@ :+:+@  +@+"\
                  	"\\e[B\\e[31D+@+   +@+  @+@  +@+  @+@+  @+@"\
                  	"\\e[B\\e[31D@@@   @@@  @@@  @@@   @@@  @@@"
-
 SHELL_ASCII		=	":::::::::  :::   :::  :::::::::  :::        :::"\
                     "\\e[B\\e[48D:+:        +:+   +:+  :+:        +:+        :+:"\
                     "\\e[B\\e[48D+@+        :+:   @+:  +:+        :+@        +:+"\
@@ -138,7 +142,6 @@ SHELL_ASCII		=	":::::::::  :::   :::  :::::::::  :::        :::"\
 
 ### Width and height of the virtual computer's screen
 SCREEN_W	=	70
-
 SCREEN_H	=	20
 
 ### Virtual computer screen offset from its left and right frame sides
@@ -156,12 +159,13 @@ ifneq ($(FANCY), 0)
 TEXT_COLOR		=	$(GREEN_FG)$(BLACK_BG)
 endif
 
+
 # **************************************************************************** #
 #    RULES                                                                     #
 # **************************************************************************** #
 
 ## Main rule
-all:	computer get_cdm_load builtins $(NAME)
+all:	computer builtins $(NAME)
 
 
 # ********************** #
@@ -169,16 +173,19 @@ all:	computer get_cdm_load builtins $(NAME)
 # ********************** #
 
 ## Main executable compilation
-$(NAME):	computer $(OBJS_DIR) $(OBJS)
+$(NAME):	computer init_progress-$(NAME) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled executable: '$@'", $(TEXT_COLOR))
+	@$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
 
 ## Object files compilation rules
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled object file: '$@'", $(TEXT_COLOR))
+	@$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
+	@$(call put_loading)
 
 
 # ************************** #
@@ -186,7 +193,8 @@ $(OBJS_DIR)/%.o:	%.c
 # ************************** #
 
 ## Builtins executables make rule
-builtins:	computer $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
+builtins:	computer init_progress-builtins $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
+#	@echo "$(TASKS)"
 
 ## Echo builtin make
 $(ECHO_NAME):	$(ECHO_BIN)
@@ -317,28 +325,18 @@ minishellre: computer fclean $(NAME)
 re:	computer binclean fclean all
 
 
-# ************* #
-# Display rules #
-# ************* #
+# ********************* #
+# Data management rules #
+# ********************* #
 
-get_cdm_load:
-ifneq ($(words $(MAKECMDGOALS)),1)
-	$(eval cmd = "all")
-else
-	$(eval cmd = "$(MAKECMDGOALS)")
-endif
+init_progress-%:
+	$(eval PROGRESS = 0)
 ifndef CALL_MAKE
-	$(eval LOAD = $(shell $(MAKE) -n $(cmd) CALL_MAKE=0 | grep -o '$(CC)\|$(RM)\|mkdir' | wc -l))
+	$(eval PROG_BAR = "")
+	$(eval CURR_CMD = $(word 2, $(subst -, ,$@)))
+	$(eval TASKS = $(shell $(MAKE) -n $(CURR_CMD) CALL_MAKE=0\
+		| grep -o '$(CC)\|$(RM)\|mkdir' | wc -l))
 endif
-
-## Virtual computer display
-ifneq ($(FANCY), 0)
-computer:	put_screen put_keyboard
-	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f"
-	$(call play_startup)
-	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f\e[s"
-endif
-
 
 ## Cap screen width/height and l/r offset values to a minimum
 ## Get ascii characters for the computer drawing and calculate frame width
@@ -360,6 +358,25 @@ check_values:
 	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
 	$(eval frame_w =\
 		$(shell expr $(SCREEN_W) + 4 + $(L_OFFSET) + $(R_OFFSET)))
+
+
+# ************* #
+# Display rules #
+# ************* #
+
+#ifneq ($(words $(MAKECMDGOALS)),1)
+#	$(eval cmd = "all")
+#else
+#	$(eval cmd = "$(MAKECMDGOALS)")
+#endif
+
+## Virtual computer display
+ifneq ($(FANCY), 0)
+computer:	put_screen put_keyboard
+	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f"
+	$(call play_startup)
+	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f\e[s"
+endif
 
 ## Display the virtual computer's screen
 put_screen:	check_values
@@ -405,6 +422,10 @@ put_keyboard:	check_values
 # Display functions #
 # ***************** #
 
+define put_loading
+	$(eval PROG_BAR += $(shell exp $(SCREEN_W)))
+endef
+
 define play_startup
 	@echo -n "\e[A\e[s"
 	$(call put_makefile_ascii, $(TEXT_COLOR), $(SCREEN_W), $(SCREEN_H))
@@ -442,7 +463,7 @@ define terminal_disp
 	done;																	\
 	echo "$(NC)";															\
 	if [ $(FANCY) -ne 0 ]; then												\
-		echo -n "\e[$$(( 2 + $(L_OFFSET) ))C";							\
+		echo -n "\e[$$(( 2 + $(L_OFFSET) ))C";								\
 	fi
 endef
 
