@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 14:28:45 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/28 14:43:06 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static int prompt_cmd(void)
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
+	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
@@ -104,7 +105,7 @@ int main(int argc, char **argv, char **envp)
 		signal(SIGINT, main_sig_handler);
 		if (prompt_cmd())
 			return (free_data(g_shell_data), 1);
-		set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	}
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	return (0);
 }

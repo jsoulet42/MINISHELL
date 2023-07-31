@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   doublquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 13:56:24 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/12 19:10:36 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/28 16:34:02 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
