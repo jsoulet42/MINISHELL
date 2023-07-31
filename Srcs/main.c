@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/29 15:09:21 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/28 14:43:06 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ static int prompt_cmd(char **envp)
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
 	if (check_starterrors(line2) > 0)
-		return (free(line2), 0);
+		return (free(line2), 1);
+	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
@@ -115,7 +116,5 @@ int main(int argc, char **argv, char **envp)
 		envp = env_update(envp, g_shell_data);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
-	free_data(g_shell_data);
 	return (0);
 }
-
