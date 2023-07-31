@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/26 15:59:54 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:29:00 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ char		**create_kafka(t_par **p, int i);
 char		**str_tab_add_neo(char **str, char *add);
 int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
+
+char *prev_line(char *line, int i);
 
 
 

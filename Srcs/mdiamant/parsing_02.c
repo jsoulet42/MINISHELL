@@ -1,21 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_002.c                                      :+:      :+:    :+:   */
+/*   parsing_02.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 15:30:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/27 15:17:24 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/27 16:28:35 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-char	*prev_line(char *line, int i);
 int		find_next_char(char *str, char *c);
 
-char *cas_specifique_01(char *line, int i)
+/*char *cas_specifique_01(char *line, int i)
 {
 	char	*res;
 	char	*tmp;
@@ -29,7 +28,7 @@ char *cas_specifique_01(char *line, int i)
 	free(line);
 	return (res);
 
-}
+}*/
 char *prev_line(char *line, int i)
 {
 	char	*res;

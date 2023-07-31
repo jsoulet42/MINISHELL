@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:09:47 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/27 14:21:27 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 16:32:11 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
-char *prev_line(char *line, int i);
-
 
 t_rinity	**ft_parsing(char *argv)
 {
@@ -34,34 +31,6 @@ t_rinity	**ft_parsing(char *argv)
 	t = t_rinity_init(g_shell_data->par);
 	print_t_rinity(t);
 	return (t);
-}
-char *prev_line(char *line, int i)
-{
-	char *res;
-	char *tmp;
-
-	while (line[i] && line[i] != '\"' && line[i] != '\'')
-		i++;
-	i++;
-	while (line[i] && line[i] != '\"' && line[i] != '\'')
-		i++;
-	i++;
-	if (!line[i])
-		return (line);
-	if (line[i] != ' ' && line[i] != '\t' && line[i] != '\v')
-	{
-		if (line[i] == '\"' || line[i] == '\'')
-			i += 1;
-		res = ft_substr(line, 0, i - 2);
-		tmp = ft_substr(line, i , ft_strlen(line) - i);
-		free(line);
-		line = ft_strjoin(res, tmp);
-		free(res);
-		free(tmp);
-	}
-	line = prev_line(line, i);
-	return (line);
-
 }
 void	print_t_par(t_par **p)
 {

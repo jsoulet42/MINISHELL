@@ -18,6 +18,8 @@ VPATH		=	Srcs:			\
 
 SRCS		=	main.c					\
 				parsing_01.c			\
+				parsing_02.c			\
+				parsing_03.c			\
 				error_exit_01.c			\
 				doublquote_01.c			\
 				simplquote_01.c			\
