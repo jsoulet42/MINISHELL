@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 15:28:48 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/17 15:32:23 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/29 03:24:05 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,23 @@ int	lentab(char **tableau)
 	while(tableau[++i])
 		i = i;
 	return (i);
+}
+char	**env_update(char **envp, t_shell *env)
+{
+	t_env	*found;
+	t_env	*found2;
+	int	i;
+
+	i = 0;
+	found = get_env_var(env->env, "OLDPWD");
+	found2 = get_env_var(env->env, "PWD");
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PWD=", 4) == 0)
+			envp[i] = found2->name;
+		if (ft_strncmp(envp[i], "OLDPWD=", 7) == 0)
+			envp[i] = found->name;
+		i++;
+	}
+	return (envp);
 }

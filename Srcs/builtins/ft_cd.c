@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/25 19:23:49 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/29 16:29:48 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,46 +39,37 @@ int change_directory(const char *path)
     }
 }
 
-char	*go_home(char **env)
+void	update_pwd(char *oldpwd, char *pwd, t_env *env)
 {
-	char	*home;
-	int		i;
-	int		j;
+	t_env	*found;
+	t_env	*found2;
+	char	*str;
+	char	*str2;
 
-	j = 0;
-	i = -1;
-
-	while (env[++i])
-	{
-		if (ft_strncmp(env[i], "HOME=", 5) == 0)
-			break ;
-		else
-		{
-			ft_printf("HOME not set\n");
-			return (NULL);
-		}
-	}
-	while (env[i][5 + j])
-		j++;
-	home = malloc(sizeof(char) * j + 1);
-	j = 0;
-	while (env[i][5 + j])
-	{
-		home[j] = env[i][5 + j];
-		j++;
-	}
-	return (home);
+	str = ft_strjoin("OLDPWD=", oldpwd);
+	str2 = ft_strjoin("PWD=", pwd);
+	found = get_env_var(env, "OLDPWD");
+	found2 = get_env_var(env, "PWD");
+	found->name = str;
+	found2->name = str2;
 }
 
 void ft_cd(int argc, char **argv, t_env *env)
 {
 	int		changedir;
 	char	*home;
+	char	*oldpwd;
+	char	*pwd;
 
+	oldpwd = malloc(sizeof(char) * 512);
+	pwd = malloc(sizeof(char) * 512);
+	getcwd(oldpwd, 512);
+	home = ft_getenv(env, "HOME");
+	if (!home)
+		ft_printf("HOME not set");
 	changedir = 42;
-	if (argc < 2)
+	if ((argc < 2 ) || (argv[1][0] == '~'))
 	{
-		home = ft_getenv(env, "HOME");
 		if (home)
 			changedir = change_directory(home);
 	}
@@ -86,4 +77,8 @@ void ft_cd(int argc, char **argv, t_env *env)
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
+	getcwd(pwd, 512);
+	update_pwd(oldpwd, pwd, env);
+	free(oldpwd);
+	free(pwd);
 }

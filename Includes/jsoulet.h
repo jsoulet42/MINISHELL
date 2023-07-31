@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   jsoulet.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
 /*   Updated: 2023/07/31 14:16:50 by jsoulet          ###   ########.fr       */
@@ -23,7 +23,7 @@ void	execute_cmd(t_env *env, t_rinity *cmd_struct);
 char	*get_path(char *cmd, t_env *env);
 char	*get_path_cmd(char **path, char *cmd);
 void	piper(t_env *env, t_rinity *cmd_struct);
-void	exec_last(t_env *env, t_rinity *cmd_struct);
+void	exec_last(t_env *env, t_rinity *cmd_struct, char **envp);
 int		ft_heredoc(char *str);
 void	redirect(t_rinity *cmd_struct, int option);
 void	redirect_in(char **file_in, char **type_in);

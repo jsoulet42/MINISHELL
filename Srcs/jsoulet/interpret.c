@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
 /*   Updated: 2023/07/27 13:01:07 by jsoulet          ###   ########.fr       */
@@ -109,14 +109,16 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
 		ft_unset(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
+		ft_exit();
+	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
+		ft_env(env_to_str_tab(env));
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
 		return ;
 	}
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
 }
 
@@ -184,8 +186,8 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
-		signal(SIGINT, parent_sig_handler);
-		signal(SIGQUIT, parent_sig_handler);
+	//	signal(SIGINT, parent_sig_handler);
+	//	signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);

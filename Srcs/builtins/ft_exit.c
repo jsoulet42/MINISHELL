@@ -1,37 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_signal.c                                      :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/18 13:27:25 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/27 16:28:31 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/07/27 12:59:56 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/27 14:30:28 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-/*
-void	signal_c(int signal)
-{
-	if (signal)
-	{
-		// tout free et faire une nouvelle ligne
-	}
-}
 
-void	signal_d(int signal)
+void ft_exit()
 {
-	if (signal)
-	{
-			// tout free est exit
-	}
+	safe_free((void **)&g_shell_data->t);
+	safe_free((void **)&g_shell_data->path);
+	free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	exit(EXIT_SUCCESS);
 }
-
-void	init_signal(void)
-{
-	signal(SIGINT, signal_c);
-	signal(SIGTERM, signal_d);
-	signal(SIGQUIT, signal_d);
-	signal(SIGTSTP, signal_d);
-}*/
