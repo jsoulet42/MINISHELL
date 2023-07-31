@@ -165,8 +165,7 @@ endif
 # **************************************************************************** #
 
 ## Main rule
-all:	computer builtins $(NAME)
-
+all:	builtins $(NAME)
 
 # ********************** #
 # Main compilation rules #
@@ -177,14 +176,14 @@ $(NAME):	computer init_progress-$(NAME) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled executable: '$@'", $(TEXT_COLOR))
-	@$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
+	@$(eval PROGRESS = $(shell echo $$(( $(PROGRESS) + 1 ))))
 
 ## Object files compilation rules
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled object file: '$@'", $(TEXT_COLOR))
-	@$(eval PROGRESS = $(shell expr $(PROGRESS) + 1))
+	@$(eval PROGRESS = $(shell echo $$(( $(PROGRESS) + 1 ))))
 	@$(call put_loading)
 
 
@@ -209,25 +208,25 @@ $(PWD_NAME):	$(PWD_BIN)
 $(CD_NAME):		$(CD_BIN)
 
 ## Echo builtin compilation
-$(ECHO_BIN):	computer $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
+$(ECHO_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
 	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled builtin binary: '$(ECHO_NAME)'", $(TEXT_COLOR))
 
 ## Env builtin compilation
-$(ENV_BIN):	computer $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
+$(ENV_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
 	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled builtin binary: '$(ENV_NAME)'", $(TEXT_COLOR))
 
 ## Pwd builtin compilation
-$(PWD_BIN):	computer $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
+$(PWD_BIN):	$(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
 	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled builtin binary: '$(PWD_NAME)'", $(TEXT_COLOR))
 
 ## Cd builtin compilation
-$(CD_BIN):	computer $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
+$(CD_BIN):	$(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
 	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Compiled builtin binary: '$(CD_NAME)'", $(TEXT_COLOR))
@@ -238,16 +237,16 @@ $(CD_BIN):	computer $(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
 # **************************** #
 
 ## Object files directory check
-$(OBJS_DIR): computer
-ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 0)
+$(OBJS_DIR):
+ifeq ($(shell [ -d "$(OBJS_DIR)" ] && echo 0 || echo 1), 1)
 	@mkdir $(OBJS_DIR)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Created objects directory '$(OBJS_DIR)/'", $(TEXT_COLOR))
 endif
 
 ## Builtins binaries directory check
-$(BIN_DIR): computer
-ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 0)
+$(BIN_DIR):
+ifeq ($(shell [ -d "$(BIN_DIR)" ] && echo 0 || echo 1), 1)
 	@mkdir $(BIN_DIR)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Created binaries directory '$(BIN_DIR)/'", $(TEXT_COLOR))
@@ -259,7 +258,7 @@ endif
 # ******************** #
 
 ## Object files deletion
-clean: computer
+clean:	computer
 ifneq ($(shell ls $(OBJS_DIR)/*.o 2> /dev/null | wc -l), 0)
 	@$(RM) $(OBJS_DIR)/*.o
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
@@ -271,12 +270,12 @@ endif
 
 ## Object files and main executable deletion
 fclean:	computer clean
-ifeq ($(shell if [ -f "$(NAME)" ]; then echo 1; else echo 0; fi), 1)
-	@$(RM) $(NAME);
+ifeq ($(shell [ -f "$(NAME)" ] && echo 0 || echo 1), 0)
+	@$(RM) $(NAME)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Removed executable file", $(TEXT_COLOR))
 else
-	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
+	$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"make: Nothing to be done for '$(RM) $(NAME)'", $(TEXT_COLOR))
 endif
 
@@ -293,7 +292,7 @@ endif
 
 ## Object files and builtins executables directories deletion
 dclean:	computer binclean
-ifeq ($(shell if [ -d "$(OBJS_DIR)" ]; then echo 1; else echo 0; fi), 1)
+ifeq ($(shell [ -d "$(OBJS_DIR)" ] && echo 0 || echo 1), 0)
 	@$(RM) $(OBJS_DIR)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Removed objects directory '$(OBJS_DIR)/'", $(TEXT_COLOR))
@@ -301,7 +300,7 @@ else
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"make: Nothing to be done for '$(RM) $(OBJS_DIR)'", $(TEXT_COLOR))
 endif
-ifeq ($(shell if [ -d "$(BIN_DIR)" ]; then echo 1; else echo 0; fi), 1)
+ifeq ($(shell [ -d "$(BIN_DIR)" ] && echo 0 || echo 1), 0)
 	@$(RM) $(BIN_DIR)
 	@$(call terminal_disp, $(SCREEN_W), $(SCREEN_H),\
 		"Removed objects directory '$(BIN_DIR)/'", $(TEXT_COLOR))
@@ -357,7 +356,7 @@ check_values:
 	$(eval bot = $(word 6, $(SCREEN_BORDER)))
 	$(eval bot_r = $(word 7, $(SCREEN_BORDER)))
 	$(eval frame_w =\
-		$(shell expr $(SCREEN_W) + 4 + $(L_OFFSET) + $(R_OFFSET)))
+		$(shell echo $$(( $(SCREEN_W) + 4 + $(L_OFFSET) + $(R_OFFSET) ))))
 
 
 # ************* #
@@ -373,31 +372,31 @@ check_values:
 ## Virtual computer display
 ifneq ($(FANCY), 0)
 computer:	put_screen put_keyboard
-	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f"
+	@echo -n "\e[3;$(shell echo $$(( $(L_OFFSET) + 3 )))f"
 	$(call play_startup)
-	@echo -n "\e[3;$(shell expr $(L_OFFSET) + 3)f\e[s"
+	@echo -n "\e[3;$(shell echo $$(( $(L_OFFSET) + 3 )))f\e[s"
 endif
 
 ## Display the virtual computer's screen
 put_screen:	check_values
 	@clear
 	$(call put_box_width, $(top_l), $(top), $(top_r), $(frame_w), $(FRAME_COLOR))
-	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),\
+	$(call put_vertical_line, $(side), $(shell echo $$(( $(SCREEN_H) + 2 ))),\
 		0, $(FRAME_COLOR))
-	$(call put_vertical_line, $(side), $(shell expr $(SCREEN_H) + 2),\
-		$(shell expr $(frame_w) - 1), $(FRAME_COLOR))
-	@echo -n "\e[$(shell expr $(L_OFFSET) + 1)C"
+	$(call put_vertical_line, $(side), $(shell echo $$(( $(SCREEN_H) + 2 ))),\
+		$(shell echo $$(( $(frame_w) - 1 ))), $(FRAME_COLOR))
+	@echo -n "\e[$(shell echo $$(( $(L_OFFSET) + 1 )))C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),\
-		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
+		$(shell echo $$(( $(SCREEN_W) + 2 ))), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H),\
-		$(shell expr $(L_OFFSET) + 1), $(FRAME_COLOR))
+		$(shell echo $$(( $(L_OFFSET) + 1 ))), $(FRAME_COLOR))
 	$(call put_vertical_line, $(side), $(SCREEN_H),\
-		$(shell expr $(L_OFFSET) + 2 + $(SCREEN_W)), $(FAME_COLOR))
-	@echo -n "\e[$(SCREEN_H)B\e[$(shell expr $(L_OFFSET) + 1)C"
+		$(shell echo $$(( $(L_OFFSET) + 2 + $(SCREEN_W) ))), $(FAME_COLOR))
+	@echo -n "\e[$(SCREEN_H)B\e[$(shell echo $$(( $(L_OFFSET) + 1 )))C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),\
-		$(shell expr $(SCREEN_W) + 2), $(FRAME_COLOR))
+		$(shell echo $$(( $(SCREEN_W) + 2 ))), $(FRAME_COLOR))
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r), $(frame_w), $(FRAME_COLOR))
-	@echo -n "\e[s\e[3;$(shell expr $(L_OFFSET) + 3)f"
+	@echo -n "\e[s\e[3;$(shell echo $$(( $(L_OFFSET) + 3 )))f"
 	$(call put_square, $(SCREEN_COLOR), $(SCREEN_W), $(SCREEN_H))
 	@echo -n "\e[u"
 
@@ -405,13 +404,13 @@ put_screen:	check_values
 put_keyboard:	check_values
 	@echo -n "\e[3C"
 	$(call put_box_width, $(top_l), $(top), $(top_r),\
-		$(shell expr $(frame_w) - 6), $(KB_COLOR))
+		$(shell echo $$(( $(frame_w) - 6 ))), $(KB_COLOR))
 	$(call put_vertical_line, $(side), 2, 3, $(KB_COLOR))
 	$(call put_vertical_line, $(side), 2,\
-		$(shell expr $(frame_w) - 4), $(KB_COLOR))
+		$(shell echo $$(( $(frame_w) - 4 ))), $(KB_COLOR))
 	@echo -n "\e[2B\e[3C"
 	$(call put_box_width, $(bot_l), $(bot), $(bot_r),\
-		$(shell expr $(frame_w) - 6), $(KB_COLOR))
+		$(shell echo $$(( $(frame_w) - 6 ))), $(KB_COLOR))
 
 
 # **************************************************************************** #
@@ -422,9 +421,9 @@ put_keyboard:	check_values
 # Display functions #
 # ***************** #
 
-define put_loading
-	$(eval PROG_BAR += $(shell exp $(SCREEN_W)))
-endef
+#define put_loading
+#	$(eval PROG_BAR += $(shell exp $(SCREEN_W)))
+#endef
 
 define play_startup
 	@echo -n "\e[A\e[s"
