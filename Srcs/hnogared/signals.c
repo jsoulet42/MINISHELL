@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:20:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/29 12:57:15 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	main_sig_handler(int signal)
 		free_and_exit();
 }
 
+void	second_sig_handler(int signal)
+{
+	(void)signal;
+}
 void	parent_sig_handler(int signal)
 {
 	if (signal == SIGINT)

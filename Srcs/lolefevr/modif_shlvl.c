@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_signal.c                                      :+:      :+:    :+:   */
+/*   modif_shlvl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/18 13:27:25 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/27 16:28:31 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/07/28 11:01:30 by lolefevr          #+#    #+#             */
+/*   Updated: 2023/07/28 11:54:50 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-/*
-void	signal_c(int signal)
-{
-	if (signal)
-	{
-		// tout free et faire une nouvelle ligne
-	}
-}
 
-void	signal_d(int signal)
+void	new_shlvl(char *env)
 {
-	if (signal)
-	{
-			// tout free est exit
-	}
-}
+	int	sh_atoi;
 
-void	init_signal(void)
+	sh_atoi = ft_atoi(env + 6);
+	printf("%d\n", sh_atoi);
+	if (sh_atoi <= 9)
+		*(env + 6) += 1;
+}
+void	modif_shlvl(char **env)
 {
-	signal(SIGINT, signal_c);
-	signal(SIGTERM, signal_d);
-	signal(SIGQUIT, signal_d);
-	signal(SIGTSTP, signal_d);
-}*/
+	int	i;
+
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+		{
+			new_shlvl(env[i]);
+			break;
+		}
+		i++;
+	}
+	printf("%s\n", env[i]);
+}

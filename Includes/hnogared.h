@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:39:18 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/29 12:57:45 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,6 @@ char	*expand_dollars(char *str, t_env *env);
 /* Srcs/hnogared/signals.c */
 void	main_sig_handler(int signal);
 void	parent_sig_handler(int signal);
+void	second_sig_handler(int signal);
 
 #endif
