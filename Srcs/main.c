@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/28 14:43:06 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:47:40 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
+		return (1);
+	if (!envp)
 		return (1);
 	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
@@ -33,6 +35,8 @@ static int prompt_cmd(char **envp)
 	char *line2;
 	int i;
 
+	if (!envp)
+		return (1);
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
 		return (line2 = line, safe_free((void **)&line), !line2);
@@ -70,7 +74,12 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
 		ft_exit();
 	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
-		ft_env(envp);
+	{
+		if (!*envp)
+			ft_env(env_to_str_tab(g_shell_data->env));
+		else
+			ft_env(envp);
+	}
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
@@ -113,7 +122,8 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (prompt_cmd(envp))
 			return (free_data(g_shell_data), 1);
-		envp = env_update(envp, g_shell_data);
+		if (envp)
+			envp = env_update(envp, g_shell_data);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	return (0);

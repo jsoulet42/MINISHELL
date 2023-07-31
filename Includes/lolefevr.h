@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lolefevr.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:05:36 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/29 03:34:29 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:48:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
