@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 11:01:30 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/28 11:54:50 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:29:13 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ void	modif_shlvl(char **env)
 	int	i;
 
 	i = 0;
+	if (!*env)
+		return ;
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)

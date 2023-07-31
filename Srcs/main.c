@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/29 15:09:21 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:39:57 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
 		ft_exit();
 	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
-		ft_env(envp);
+	{
+		if (!*envp)
+			ft_env(env_to_str_tab(g_shell_data->env));
+		else
+			ft_env(envp);
+	}
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
