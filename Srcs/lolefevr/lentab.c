@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lentab.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 15:28:48 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/29 03:24:05 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 15:42:45 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ char	**env_update(char **envp, t_shell *env)
 	int	i;
 
 	i = 0;
+	if (!envp)
+		return (NULL);
 	found = get_env_var(env->env, "OLDPWD");
 	found2 = get_env_var(env->env, "PWD");
 	while (envp[i])
