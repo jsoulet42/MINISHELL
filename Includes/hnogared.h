@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/31 16:48:52 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/31 18:07:05 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@
 # define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
-# define START_PWD		"PWD=/"
-# define START_OLDPWD	"OLDPWD=/"
+# define START_PWD		"PWD="
+# define START_OLDPWD	"OLDPWD="
 # define START_SHLVL	"SHLVL=2"
-# define START_HOME		"HOME=/"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0

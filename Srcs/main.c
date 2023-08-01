@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/31 16:47:40 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 12:22:22 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_shell *g_shell_data;
 
-int init_data(char **envp)
+int	init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)

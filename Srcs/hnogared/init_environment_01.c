@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/31 16:10:29 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 12:43:29 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,58 @@ t_env	*init_env(t_env **env_list, char **envp)
 	if (!ft_getenv(*env_list, "NAME") && ft_export(
 			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "HOME") && ft_export(
-			(char *[]){"export", START_HOME, NULL}, env_list) == SH_ERROR)
-		return (NULL);
 	if (!ft_getenv(*env_list, "SHLVL") && ft_export(
 			(char *[]){"export", START_SHLVL, NULL}, env_list) == SH_ERROR)
 		return (NULL);
 	if(!ft_getenv(*env_list, "PWD") && ft_export(
-			(char *[]){"export", START_PWD, NULL}, env_list) == SH_ERROR)
+			(char *[]){"export", modif_pwd(), NULL}, env_list) == SH_ERROR)
 		return (NULL);
 	if (!ft_getenv(*env_list, "OLDPWD") && ft_export(
-			(char *[]){"export", START_OLDPWD, NULL}, env_list) == SH_ERROR)
+			(char *[]){"export", modif_pwd2(), NULL}, env_list) == SH_ERROR)
 		return (NULL);
 	return (*env_list);
+}
+
+char	*modif_pwd(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
+		return (NULL);
+	tmp_pwd = ft_strjoin("PWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
+}
+
+char *ft_pwd2(void)
+{
+	char *pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	return (pwd);
+}
+
+char	*modif_pwd2(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
+		return (NULL);
+	tmp_pwd = ft_strjoin("OLDPWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
 }
