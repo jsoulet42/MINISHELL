@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/29 12:57:45 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:48:52 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@
 # define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
+# define START_PWD		"PWD=/"
+# define START_OLDPWD	"OLDPWD=/"
+# define START_SHLVL	"SHLVL=2"
+# define START_HOME		"HOME=/"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
@@ -72,9 +76,10 @@ int		ft_unset(char **argv, t_env **env);
 
 /* Srcs/hnogared/free_utils_01.c */
 void	safe_free(void **ptr_addr);
-void	free_str_tab(char **str_tab);
+void	free_str_tab(void **str_tab);
 void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
+void	free_trinity(void);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);

@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/31 16:39:57 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:56:27 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
+		return (1);
+	if (!envp)
 		return (1);
 	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
@@ -33,6 +35,8 @@ static int prompt_cmd(char **envp)
 	char *line2;
 	int i;
 
+	if (!envp)
+		return (1);
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
 		return (line2 = line, safe_free((void **)&line), !line2);
@@ -40,7 +44,8 @@ static int prompt_cmd(char **envp)
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
 	if (check_starterrors(line2) > 0)
-		return (free(line2), 0);
+		return (free(line2), 1);
+	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
@@ -117,10 +122,9 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (prompt_cmd(envp))
 			return (free_data(g_shell_data), 1);
-		envp = env_update(envp, g_shell_data);
+		if (envp)
+			envp = env_update(envp, g_shell_data);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
-	free_data(g_shell_data);
 	return (0);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 09:31:05 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/13 10:46:51 by mdiamant         ###   ########.fr       */
+/*   Updated: 2023/07/28 09:13:09 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define OPERANDS_COUNT 12
 
-# define OPERANDS "| || & && $ $$ < > \\ ' \" << >>"
+# define OPERANDS "| || & && < > \\ ' \" << >>"
 
 # define PIPE "|"
 # define AND "&&"

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/19 02:14:43 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 09:36:47 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/28 14:43:18 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,24 @@ void	safe_free(void **ptr_addr)
 	*ptr_addr = NULL;
 }
 
-void	free_str_tab(char **str_tab)
+void	free_str_tab(void **str_tab)
 {
 	int	i;
 
 	if (!str_tab)
 		return ;
+	if (!*str_tab)
+	{
+		free(str_tab);
+		str_tab = NULL;
+		return ;
+	}
 	i = 0;
 	while (str_tab[i])
-		free(str_tab[i++]);
+	{
+		free(str_tab[i]);
+		str_tab[i++] = NULL;
+	}
 	free(str_tab);
 	str_tab = NULL;
 }
@@ -51,11 +60,31 @@ void	free_and_exit(void)
 	int	exit_code;
 
 	exit_code = 0;
-	/* TODO implement exit code inside g_shell_data */
-//	exit_code = g_shell_data->exit_code;
-	safe_free((void **)&g_shell_data->t);
-	safe_free((void **)&g_shell_data->path);
-	free_data(g_shell_data);
+	free_trinity();
+	if (g_shell_data)
+		free_data(g_shell_data);
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	exit(exit_code);
+}
+
+void	free_trinity(void)
+{
+	int	i;
+
+	i = 0;
+	if (g_shell_data && g_shell_data->t && g_shell_data->t[0])
+	{
+		while (g_shell_data->t[i])
+		{
+			safe_free((void **)&g_shell_data->t[i]->command);
+			safe_free((void **)&g_shell_data->t[i]->kafka);
+			safe_free((void **)&g_shell_data->t[i]->file_in);
+			safe_free((void **)&g_shell_data->t[i]->file_out);
+			safe_free((void **)&g_shell_data->t[i]->type_in);
+			safe_free((void **)&g_shell_data->t[i++]->type_out);
+		}
+		free_str_tab((void **)g_shell_data->t);
+		safe_free((void **)&g_shell_data->path);
+	}
+	return ;
 }

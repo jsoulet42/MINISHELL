@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mdiamant.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/26 15:59:54 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/31 12:32:57 by mdiamant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,17 @@ void		print_t_par(t_par **p);
 int			get_skip_count(const char *str);
 t_rinity	**ft_parsing(char *argv);
 int			is_quote(char *argv);
+int			is_quote_zero(char *argv);
 int			verifquote(char *argv);
 void		free_t_par(t_par **p);
 int			is_operand(const char *str);
-int			count_arg(const char *argv);
+int			count_arg(const char *argv, int i);
 int			strstr_len(char **str);
 void		print_t_rinity(t_rinity **t);
 int			count_cmd(t_par **par);
 t_rinity	**t_rinity_init(t_par **p);
+char		**new_neo(char *add);
+
 
 char		**create_type_in(t_par **p, int i);
 char		**create_type_out(t_par **p, int i);
@@ -58,9 +61,13 @@ char		**str_tab_add_neo(char **str, char *add);
 int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
 
+/* Srcs/mdiamant/parsing_02.c */
+
+void		fusion_arg(char **line);
+int			find_next_char(const char *str, const char c);
 
 
 
-void	error_exit(char *str);
+void		error_exit(char *str);
 
 #endif

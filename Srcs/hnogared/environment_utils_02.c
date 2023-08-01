@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/25 22:10:04 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/27 12:59:58 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**env_to_str_tab(t_env *env_list)
 	{
 		envp[i++] = ft_strdup(start->display);
 		if (!envp[i - 1])
-			return (free_str_tab(envp), NULL);
+			return (free_str_tab((void **)&envp), NULL);
 		start = start->next;
 	}
 	return (envp);
@@ -165,5 +165,5 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 		mode = '"' * (check && !*(check + 1));
 		printf("%s%c%c\n", *temp++, mode, mode);
 	}
-	free_str_tab(str_env);
+	free_str_tab((void **)str_env);
 }*/

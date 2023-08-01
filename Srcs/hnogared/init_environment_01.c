@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment_01.c                                   :+:      :+:    :+:   */
+/*   init_environment_01.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: me <marvin@42.fr>                          +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/20 12:11:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/07/31 16:10:29 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,18 @@ t_env	*init_env(t_env **env_list, char **envp)
 		return (NULL);
 	if (!ft_getenv(*env_list, "NAME") && ft_export(
 			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*env_list, "HOME") && ft_export(
+			(char *[]){"export", START_HOME, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*env_list, "SHLVL") && ft_export(
+			(char *[]){"export", START_SHLVL, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if(!ft_getenv(*env_list, "PWD") && ft_export(
+			(char *[]){"export", START_PWD, NULL}, env_list) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*env_list, "OLDPWD") && ft_export(
+			(char *[]){"export", START_OLDPWD, NULL}, env_list) == SH_ERROR)
 		return (NULL);
 	return (*env_list);
 }
