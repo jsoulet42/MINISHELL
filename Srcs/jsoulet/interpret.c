@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/31 16:50:03 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 11:44:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void piper(t_env *env, t_rinity *cmd_struct)
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		//waitpid(pid, NULL, 0);
 	}
 }
 

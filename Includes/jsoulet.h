@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   jsoulet.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/31 14:16:50 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 12:47:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ int		ft_heredoc(char *str);
 void	redirect(t_rinity *cmd_struct, int option);
 void	redirect_in(char **file_in, char **type_in);
 void	redirect_out(char **file_out, char **type_out);
+char	*ft_pwd2(void);
+char	*modif_pwd();
+char	*modif_pwd2();
 
 #endif
