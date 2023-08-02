@@ -22,6 +22,9 @@
 # define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
+# define START_PWD		"PWD="
+# define START_OLDPWD	"OLDPWD="
+# define START_SHLVL	"SHLVL=2"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0
@@ -88,7 +91,7 @@ void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
 void	free_env(t_env **env_list);
 
 /* Srcs/hnogared/environment_utils_02.c */
-char	**env_to_str_tab(t_env *env_list);
+char	**env_to_str_tab(t_env **env_list);
 t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
 void	print_env(t_env *env_list, int mode);
@@ -100,6 +103,7 @@ char	*expand_dollars(char *str, t_env *env);
 /* Srcs/hnogared/signals.c */
 void	main_sig_handler(int signal);
 void	parent_sig_handler(int signal);
+void	second_sig_handler(int signal);
 
 
 #endif

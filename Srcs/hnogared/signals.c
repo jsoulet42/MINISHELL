@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 void	main_sig_handler(int signal)
@@ -13,6 +14,10 @@ void	main_sig_handler(int signal)
 		free_and_exit();
 }
 
+void	second_sig_handler(int signal)
+{
+	(void)signal;
+}
 void	parent_sig_handler(int signal)
 {
 	if (signal == SIGINT)

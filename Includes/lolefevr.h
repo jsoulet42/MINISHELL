@@ -1,3 +1,4 @@
+
 #ifndef LOLEFEVR_H
 # define LOLEFEVR_H
 
@@ -14,11 +15,15 @@ void	simplequote( int *i, char *str);
 int		viveldop(int gel, char *str, int *i);
 int		unknown_command();
 int		change_directory(const char *path);
-char	*go_home(char **env);
-void	ft_cd(int argc, char **argv, t_env *env);
+t_env	*ft_cd(int argc, char **argv, t_env **env);
 int		lentab(char **tableau);
-void	signal_c(int signal);
-void	signal_d(int signal);
-void	init_signal(void);
+void	modif_shlvl(char **env);
+void	new_shlvl(char *env);
+void	ft_exit();
+char	**env_update(char **envp, t_shell *env);
+t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env);
+int		ft_env(t_env *env);
+void	ft_pwd();
+int		ft_echo(int argc, char **argv);
 
 #endif

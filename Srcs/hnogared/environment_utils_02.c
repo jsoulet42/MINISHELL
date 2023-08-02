@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 /* Function to return a shell environment's data as a strings array
@@ -5,19 +6,22 @@
  * @param t_env *env_list	-> pointer to the list to convert
  * @return char **			-> pointer to the converted strings array
  */
-char	**env_to_str_tab(t_env *env_list)
+char	**env_to_str_tab(t_env **env_list)
 {
 	int		i;
 	char	**envp;
 	t_env	*start;
+	t_env	*temp;
+
 
 	if (!env_list)
 		return (NULL);
-	start = env_list;
+	start = *env_list;
+	temp = *env_list;
 	i = 0;
-	while (env_list)
+	while (temp)
 	{
-		env_list = env_list->next;
+		temp = temp->next;
 		i++;
 	}
 	envp = (char **) ft_calloc((i + 1), sizeof(char *));

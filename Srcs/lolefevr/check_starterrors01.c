@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 void	error_dquote(char *str, int *dquote, int *i)

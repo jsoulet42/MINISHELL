@@ -1,5 +1,6 @@
-#include "../../Includes/minishell.h"
 
+#include "../../Includes/minishell.h"
+/*
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int	i;
@@ -14,7 +15,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-}
+}*/
 
 int change_directory(const char *path)
 {
@@ -27,51 +28,51 @@ int change_directory(const char *path)
     }
 }
 
-char	*go_home(char **env)
+t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env)
 {
-	char	*home;
-	int		i;
-	int		j;
+	t_env	*found;
+	t_env	*test;
 
-	j = 0;
-	i = -1;
-
-	while (env[++i])
-	{
-		if (ft_strncmp(env[i], "HOME=", 5) == 0)
-			break ;
-		else
-		{
-			ft_printf("HOME not set\n");
-			return (NULL);
-		}
-	}
-	while (env[i][5 + j])
-		j++;
-	home = malloc(sizeof(char) * j + 1);
-	j = 0;
-	while (env[i][5 + j])
-	{
-		home[j] = env[i][5 + j];
-		j++;
-	}
-	return (home);
+	found = g_shell_data->env;
+	found = get_env_var(found, "PWD");
+	found->value = pwd;
+	found = get_env_var(found, "OLDPWD");
+	found->value = oldpwd;
+	test = *env;
+	test = get_env_var(test, "PWD");
+	return (*env);
 }
 
-void ft_cd(int argc, char **argv, t_env *env)
+t_env *ft_cd(int argc, char **argv, t_env **env)
 {
 	int		changedir;
 	char	*home;
+	char	*oldpwd;
+	char	*pwd;
+	t_env	*envi;
+	t_env	*envtest;
 
+	envtest = *env;
+	envi = *env;
+	oldpwd = malloc(sizeof(char) * 512);
+	pwd = malloc(sizeof(char) * 512);
+	getcwd(oldpwd, 512);
+	home = ft_getenv(envi, "HOME");
 	changedir = 42;
-	if (argc < 2)
+	if ((argc < 2 ) || (argv[1][0] == '~'))
 	{
-		home = ft_getenv(env, "HOME");
 		if (home)
 			changedir = change_directory(home);
+		else
+		{
+			ft_printf("HOME not set");
+			return (*env);
+		}
 	}
 	else
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
+	envtest = update_pwd(oldpwd, getcwd(pwd, 512), env);
+	return (envtest);
 }

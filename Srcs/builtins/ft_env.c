@@ -1,18 +1,21 @@
+
 #include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+int	ft_env(t_env	*env)
 {
-	int	i;
-
-	(void)argc;
-	(void)argv;
-	if (!env)
-		return (1);
-	i = -1;
-	while (env[++i])
+	t_env	*temp;
+	int	len;
+	temp = env;
+	while (temp)
 	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
+		if (temp->name)
+			printf("%s", temp->name);
+		len = strlen(temp->name);
+		if (temp->name[len] != '=')
+			printf("=");
+		if (temp->value)
+			printf("%s\n", temp->value);
+		temp = temp->next;
 	}
 	return (0);
 }

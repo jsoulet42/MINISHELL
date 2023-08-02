@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 static t_env	*get_default_env(char **envp)
@@ -42,14 +43,70 @@ static t_env	*complete_env_path(t_env **env_list)
 
 t_env	*init_env(t_env **env_list, char **envp)
 {
-	*env_list = get_default_env(envp);
-	if (!complete_env_path(env_list))
-		return (free_env(env_list), NULL);
-	if (!ft_getenv(*env_list, "LOGNAME") && ft_export(
-			(char *[]){"export", START_LOGNAME, NULL}, env_list) == SH_ERROR)
+	t_env	**temp;
+
+	temp = env_list;
+	*temp = get_default_env(envp);
+	if (!complete_env_path(temp))
+		return (free_env(temp), NULL);
+	if (!ft_getenv(*temp, "LOGNAME") && ft_export(
+			(char *[]){"export", START_LOGNAME, NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "NAME") && ft_export(
-			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
+	if (!ft_getenv(*temp, "NAME") && ft_export(
+			(char *[]){"export", START_NAME, NULL}, temp) == SH_ERROR)
 		return (NULL);
-	return (*env_list);
+	if (!ft_getenv(*temp, "SHLVL") && ft_export(
+			(char *[]){"export", START_SHLVL, NULL}, temp) == SH_ERROR)
+		return (NULL);
+	if(!ft_getenv(*temp, "PWD") && ft_export(
+			(char *[]){"export", modif_pwd(), NULL}, temp) == SH_ERROR)
+		return (NULL);
+	if (!ft_getenv(*temp, "OLDPWD") && ft_export(
+			(char *[]){"export", modif_pwd2(), NULL}, temp) == SH_ERROR)
+		return (NULL);
+	return (*temp);
+}
+
+char	*modif_pwd(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
+		return (NULL);
+	tmp_pwd = ft_strjoin("PWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
+}
+
+char *ft_pwd2(void)
+{
+	char *pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	return (pwd);
+}
+
+char	*modif_pwd2(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
+		return (NULL);
+	tmp_pwd = ft_strjoin("OLDPWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
 }

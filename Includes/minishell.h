@@ -1,3 +1,4 @@
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -44,6 +45,7 @@ typedef struct s_shell
 	int 		out;
 	int 		fd[2];
 	char		*path;
+	char		*pwd;
 }				t_shell;
 
 extern t_shell *g_shell_data;
@@ -53,7 +55,6 @@ extern t_shell *g_shell_data;
 # include "lolefevr.h"
 # include "jsoulet.h"
 # include "hnogared.h"
-
 
 /*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
 int		doublquote(char *str);

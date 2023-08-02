@@ -1,3 +1,4 @@
+
 #include "../../Includes/hnogared.h"
 
 /* Function to put the current argument's error message on the standard error
@@ -134,8 +135,15 @@ int	ft_export(char **argv, t_env **env)
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
-	/*if (!argv[1])
+/*	if (!argv[1])
 		return (print_env(*env, SH_ORDERED), SH_SUCCESS);*/
+	if (argv[2])
+		return (1);/*
+	if (ft_strncmp(g_shell_data->env->name, "PATH", 4) == 0)
+	{
+		if (ft_strncmp(argv[1], "PATH", 4) == 0)
+			return (0);
+	}*/
 	while (*(++argv))
 	{
 		expanded = expand_dollars(*argv, *env);

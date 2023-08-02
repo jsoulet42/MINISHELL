@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 void	print_str_tab_echo(char **str_tab)
@@ -15,7 +16,7 @@ void	print_str_tab_echo(char **str_tab)
 	}
 }
 
-void ft_echo(char **str, int option)
+void ft_echo2(char **str, int option)
 {
 	if (!str[0] && option == 1)
 		return ;
@@ -28,7 +29,7 @@ void ft_echo(char **str, int option)
 		print_str_tab_echo(str);
 }
 
-int	main(int argc, char **argv)
+int	ft_echo(int argc, char **argv)
 {
 	int	i;
 
@@ -45,12 +46,12 @@ int	main(int argc, char **argv)
 			while (argv[1][i] && argv[1][i] == 'n')
 				i++;
 			if (argv[1][i] == '\0')
-				ft_echo(argv + 2, 1);
+				ft_echo2(argv + 2, 1);
 			else
-				ft_echo(argv + 1, 0);
+				ft_echo2(argv + 1, 0);
 		}
 	}
 	else
-		ft_echo(argv + 1, 0);
+		ft_echo2(argv + 1, 0);
 	return (0);
 }

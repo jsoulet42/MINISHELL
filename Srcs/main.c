@@ -1,12 +1,16 @@
+
 #include "../Includes/minishell.h"
 
 t_shell *g_shell_data;
 
-int init_data(char **envp)
+int	init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
 		return (1);
+/*	if (!envp)
+		return (1);*/
+	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
@@ -14,12 +18,14 @@ int init_data(char **envp)
 	return (0);
 }
 
-static int prompt_cmd(void)
+static int prompt_cmd(char **envp)
 {
 	char	*line;
 	char	*line2;
 	int		i;
 
+	if (!envp)
+		return (1);
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
 		return (line2 = line, safe_free((void **)&line), !line2);
@@ -34,7 +40,7 @@ static int prompt_cmd(void)
 	i = 0;
 	while (g_shell_data->t && g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
-	exec_last(g_shell_data->env, g_shell_data->t[i]);
+	exec_last(g_shell_data->env, g_shell_data->t[i], envp);
 	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
@@ -42,38 +48,50 @@ static int prompt_cmd(void)
 	return (0);
 }
 
-void exec_last(t_env *env, t_rinity *cmd_struct)
+void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 {
 	pid_t pid;
 
+	(void)envp;
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
-		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
 		ft_unset(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
+		ft_exit();
+	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
+		ft_env(g_shell_data->env);
+	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
+		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
+	else if (ft_strncmp(cmd_struct->command[0], "./minishell", 11) == 0)
+		execve("./minishell", cmd_struct->command, env_to_str_tab(&env));
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
 		return ;
 	}
-	pid = fork();
-	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		signal(SIGQUIT, SIG_DFL);
-		redirect(cmd_struct, 0);
-		redirect(cmd_struct, 1);
-		execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
-	}
 	else
 	{
-		signal(SIGINT, parent_sig_handler);
-		signal(SIGQUIT, parent_sig_handler);
-		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
+		pid = fork();
+		if (pid == 0)
+		{
+			redirect(cmd_struct, 0);
+			redirect(cmd_struct, 1);
+			execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
+		}
+		else
+		{
+			signal(SIGINT, second_sig_handler);
+			dup2(g_shell_data->out, STDOUT_FILENO);
+			waitpid(pid, NULL, 0);
+			signal(SIGINT, main_sig_handler);
+		}
 	}
 }
 
@@ -84,15 +102,20 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	t_shell	*test;
+
+	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, main_sig_handler);
+	signal(SIGINT, main_sig_handler);
 	if (init_data(envp))
 		return (1);
 	set_termios_mode(TERMIOS_MUTE_CTRL);
 	while (1)
 	{
-		signal(SIGQUIT, SIG_IGN);
-		signal(SIGINT, main_sig_handler);
-		if (prompt_cmd())
+		if (prompt_cmd(envp))
 			return (free_data(g_shell_data), 1);
+		test = g_shell_data;
+		envp = env_update(envp, test);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	return (0);

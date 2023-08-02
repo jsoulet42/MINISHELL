@@ -1,5 +1,6 @@
-#include "../../Includes/minishell.h"
 
+#include "../../Includes/minishell.h"
+/*
 void	signal_c(int signal)
 {
 	if (signal)
@@ -22,4 +23,4 @@ void	init_signal(void)
 	signal(SIGTERM, signal_d);
 	signal(SIGQUIT, signal_d);
 	signal(SIGTSTP, signal_d);
-}
+}*/

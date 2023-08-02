@@ -1,9 +1,10 @@
+
 #include "../../Includes/minishell.h"
 
 int	unknown_command()
 {
 	printf("Error : Unknown command type \n");
-	return (1);// apel du builtin exit.
+	return (1);
 }
 
 int	viveldop(int gel, char *str, int *i)
@@ -41,7 +42,7 @@ int	error_pipe(char *str)
 	if (((str[i] == '|') || str[i] == '>') || str[i] == '<')
 	{
 		printf("Error : False redirection\n");
-		return (1);// apel du builtin exit.
+		return (1);
 	}
 	return (0);
 }

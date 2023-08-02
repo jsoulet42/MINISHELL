@@ -1,3 +1,4 @@
+
 #include "../../Includes/minishell.h"
 
 int	next_good_commande(t_par **par, int i);
@@ -91,20 +92,26 @@ void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
-		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
 		ft_unset(cmd_struct->command, &env);
+	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
+		ft_exit();
+	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
+		ft_env(g_shell_data->env);
+	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
+		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
 		return ;
 	}
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
+	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
 }
 
 char	*get_path(char *cmd, t_env *env)
@@ -119,10 +126,6 @@ char	*get_path(char *cmd, t_env *env)
 	path = ft_split(var, ':');
 	path_cmd = get_path_cmd(path, cmd);
 	free_str_tab((void **)path);
-	if (!path_cmd)
-	{
-		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n", cmd);
-	}
 	return (path_cmd);
 }
 
@@ -171,12 +174,12 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 	}
 	else
 	{
-		signal(SIGINT, parent_sig_handler);
-		signal(SIGQUIT, parent_sig_handler);
+	//	signal(SIGINT, parent_sig_handler);
+	//	signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		waitpid(pid, NULL, 0);
+		//waitpid(pid, NULL, 0);
 	}
 }
 
