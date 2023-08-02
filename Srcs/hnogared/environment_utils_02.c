@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 12:59:58 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 12:00:21 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_env	*get_env_var(t_env *env_list, char *var_name)
  * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return int				-> status code of the function
  */
-static int	update_env_value(t_env *env_var, char *value, int mode)
+int	update_env_value(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
 

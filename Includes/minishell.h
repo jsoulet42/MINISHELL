@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/01 12:12:44 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 12:01:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,5 @@ int		doublquote(char *str);
 int		simplquote(char *str);
 
 void	print_str_tab(char **str_tab);
-
 
 #endif
