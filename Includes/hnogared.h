@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hnogared.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/31 18:07:05 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 19:14:06 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
 void	free_env(t_env **env_list);
 
 /* Srcs/hnogared/environment_utils_02.c */
-char	**env_to_str_tab(t_env *env_list);
+char	**env_to_str_tab(t_env **env_list);
 t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
 void	print_env(t_env *env_list, int mode);

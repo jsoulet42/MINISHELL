@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/31 16:12:30 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:07:03 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
+/*
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	int	i;
@@ -26,7 +26,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		i++;
 	}
 	return (((unsigned char *)s1)[i] - ((unsigned char *)s2)[i]);
-}
+}*/
 
 int change_directory(const char *path)
 {
@@ -39,46 +39,51 @@ int change_directory(const char *path)
     }
 }
 
-void	update_pwd(char *oldpwd, char *pwd, t_env *env)
+t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env)
 {
 	t_env	*found;
-	t_env	*found2;
-	char	*str;
-	char	*str2;
+	t_env	*test;
 
-	str = ft_strjoin("OLDPWD=", oldpwd);
-	str2 = ft_strjoin("PWD=", pwd);
-	found = get_env_var(env, "OLDPWD");
-	found2 = get_env_var(env, "PWD");
-	found->name = str;
-	found2->name = str2;
+	found = g_shell_data->env;
+	found = get_env_var(found, "PWD");
+	found->value = pwd;
+	found = get_env_var(found, "OLDPWD");
+	found->value = oldpwd;
+	test = *env;
+	test = get_env_var(test, "PWD");
+	return (*env);
 }
 
-void ft_cd(int argc, char **argv, t_env *env)
+t_env *ft_cd(int argc, char **argv, t_env **env)
 {
 	int		changedir;
 	char	*home;
 	char	*oldpwd;
 	char	*pwd;
+	t_env	*envi;
+	t_env	*envtest;
 
+	envtest = *env;
+	envi = *env;
 	oldpwd = malloc(sizeof(char) * 512);
 	pwd = malloc(sizeof(char) * 512);
 	getcwd(oldpwd, 512);
-	home = ft_getenv(env, "HOME");
-	if (!home)
-		ft_printf("HOME not set");
+	home = ft_getenv(envi, "HOME");
 	changedir = 42;
 	if ((argc < 2 ) || (argv[1][0] == '~'))
 	{
 		if (home)
 			changedir = change_directory(home);
+		else
+		{
+			ft_printf("HOME not set");
+			return (*env);
+		}
 	}
 	else
 		changedir = change_directory(argv[1]);
 	if (changedir == 0)
 		printf("Répertoire changé avec succès.\n");
-	getcwd(pwd, 512);
-	update_pwd(oldpwd, pwd, env);
-	free(oldpwd);
-	free(pwd);
+	envtest = update_pwd(oldpwd, getcwd(pwd, 512), env);
+	return (envtest);
 }
