@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/28 14:43:06 by mdiamant         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../Includes/minishell.h"
 
 t_shell *g_shell_data;
@@ -28,9 +16,9 @@ int init_data(char **envp)
 
 static int prompt_cmd(void)
 {
-	char *line;
-	char *line2;
-	int i;
+	char	*line;
+	char	*line2;
+	int		i;
 
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
@@ -44,7 +32,7 @@ static int prompt_cmd(void)
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
-	while (g_shell_data->t[i + 1])
+	while (g_shell_data->t && g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
 	exec_last(g_shell_data->env, g_shell_data->t[i]);
 	safe_free((void **)&g_shell_data->path);

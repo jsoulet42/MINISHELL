@@ -24,7 +24,7 @@ SRCS		=	main.c					\
 				parsing_05.c			\
 				parsing_06.c			\
 				parsing_07.c			\
-				error_exit_01.c			\
+				parsing_08.c			\
 				doublquote_01.c			\
 				simplquote_01.c			\
 				display_01.c			\
@@ -33,10 +33,14 @@ SRCS		=	main.c					\
 				environment_utils_02.c	\
 				environment_utils_03.c	\
 				free_utils_01.c			\
+				free_utils_02.c			\
 				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
 				interpret.c				\
+				interpret_01.c			\
+				interpret_02.c			\
+				interpret_03.c			\
 				ft_export.c				\
 				get_next_line_bonus.c	\
 				get_next_line_utils_bonus.c \

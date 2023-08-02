@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   lolefevr.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 11:05:36 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/20 17:08:30 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef LOLEFEVR_H
 # define LOLEFEVR_H
 
@@ -27,7 +15,7 @@ int		viveldop(int gel, char *str, int *i);
 int		unknown_command();
 int		change_directory(const char *path);
 char	*go_home(char **env);
-void 	ft_cd(int argc, char **argv, t_env *env);
+void	ft_cd(int argc, char **argv, t_env *env);
 int		lentab(char **tableau);
 void	signal_c(int signal);
 void	signal_d(int signal);

@@ -1,24 +1,12 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   interpret.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/07/27 13:01:07 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
-int next_good_commande(t_par **par, int i);
+int	next_good_commande(t_par **par, int i);
 
 /*si il y a plusieur operateur de suite on print une erreur
 	et on return le print de l'erreur*/
-int check_line(t_par **par)
+int	check_line(t_par **par)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (par[i])
@@ -40,10 +28,10 @@ int check_line(t_par **par)
 	return (0);
 }
 
-int commande_len(t_par **par)
+int	commande_len(t_par **par)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	if (!par)
 		return (-1);
@@ -51,8 +39,6 @@ int commande_len(t_par **par)
 	len = 0;
 	while (par[i] && par[i]->type == 1)
 		i++;
-	/*if (par[i]->type >= 2 && par[i]->type <= 5)
-		i +=2;*/
 	while (par[i + len] && par[i + len]->type != 1)
 		len++;
 	return (len);
@@ -61,11 +47,11 @@ int commande_len(t_par **par)
 /* on met dans un char **la prochaine commande a execve
 	 et si cette fonction return NULL c'est qu'il n'y a plus de commande
 		et donc que le programme doit s'arreter */
-char **create_commande(t_par **par, int i)
+char	**create_commande(t_par **par, int i)
 {
-	int j;
-	int len;
-	char **commande;
+	int		j;
+	int		len;
+	char	**commande;
 
 	if (!par)
 		return (NULL);
@@ -88,7 +74,7 @@ char **create_commande(t_par **par, int i)
 	return (commande);
 }
 
-int next_good_commande(t_par **par, int i)
+int	next_good_commande(t_par **par, int i)
 {
 	int res;
 
@@ -100,7 +86,8 @@ int next_good_commande(t_par **par, int i)
 	}
 	return (res);
 }
-void execute_cmd(t_env *env, t_rinity *cmd_struct)
+
+void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
@@ -120,7 +107,7 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
 }
 
-char *get_path(char *cmd, t_env *env)
+char	*get_path(char *cmd, t_env *env)
 {
 	char *var;
 	char **path;
@@ -139,11 +126,11 @@ char *get_path(char *cmd, t_env *env)
 	return (path_cmd);
 }
 
-char *get_path_cmd(char **path, char *cmd)
+char	*get_path_cmd(char **path, char *cmd)
 {
-	int i;
-	char *path_cmd;
-	char *tmp;
+	int		i;
+	char	*path_cmd;
+	char	*tmp;
 
 	i = 0;
 	while (path[i])
@@ -163,10 +150,10 @@ char *get_path_cmd(char **path, char *cmd)
 	return (NULL);
 }
 
-void piper(t_env *env, t_rinity *cmd_struct)
+void	piper(t_env *env, t_rinity *cmd_struct)
 {
-	int fd[2];
-	pid_t pid;
+	int		fd[2];
+	pid_t	pid;
 
 	if (pipe(fd) == -1)
 		return;

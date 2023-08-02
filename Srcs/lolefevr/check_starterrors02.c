@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_starterrors02.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 16:51:18 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/25 17:00:23 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
 int	unknown_command()
@@ -18,14 +6,14 @@ int	unknown_command()
 	return (1);// apel du builtin exit.
 }
 
-int viveldop(int gel, char *str, int *i)
+int	viveldop(int gel, char *str, int *i)
 {
 	if (str[*(i) + 1] == gel)
 		return (1);
 	return (0);
 }
 
-int error_gen(char *str, int i)
+int	error_gen(char *str, int i)
 {
 	while (str[i])
 	{
@@ -42,7 +30,7 @@ int error_gen(char *str, int i)
 	return (0);
 }
 
-int error_pipe(char *str)
+int	error_pipe(char *str)
 {
 	int	i;
 

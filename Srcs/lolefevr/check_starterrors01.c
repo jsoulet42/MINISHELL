@@ -1,18 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_starterrors01.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 16:49:37 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/25 17:00:53 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
-void error_dquote(char *str, int *dquote, int *i)
+void	error_dquote(char *str, int *dquote, int *i)
 {
 	*dquote = 1;
 	(*i)++;
@@ -25,7 +13,7 @@ void error_dquote(char *str, int *dquote, int *i)
 	}
 }
 
-void error_squote(char *str, int *squote, int *i)
+void	error_squote(char *str, int *squote, int *i)
 {
 	*squote = 1;
 	(*i)++;
@@ -37,6 +25,7 @@ void error_squote(char *str, int *squote, int *i)
 		(*i)++;
 	}
 }
+
 int	error_quote(char *str)
 {
 	int	dquote;
@@ -58,17 +47,19 @@ int	error_quote(char *str)
 	if (squote + dquote > 0)
 	{
 		printf("Error : quote not closed\n");
-		return (1); // apel du builtin exit.
+		return (1);
 	}
 	return (0);
 }
-void dblequote(int *i, char *str)
+
+void	dblequote(int *i, char *str)
 {
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 34)
 		(*i)++;
 }
-void simplequote( int *i, char *str)
+
+void	simplequote( int *i, char *str)
 {
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 39)

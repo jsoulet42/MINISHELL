@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hnogared.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/28 09:02:20 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef HNOGARED_H
 # define HNOGARED_H
 
@@ -77,6 +65,9 @@ void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
 void	free_trinity(void);
 
+/* Srcs/hnogared/free_utils_02.c */
+void	free_and_return(void);
+
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);
 char	*ft_free_strcat(char **dest, char *src, int start, int end);
@@ -109,5 +100,6 @@ char	*expand_dollars(char *str, t_env *env);
 /* Srcs/hnogared/signals.c */
 void	main_sig_handler(int signal);
 void	parent_sig_handler(int signal);
+
 
 #endif
