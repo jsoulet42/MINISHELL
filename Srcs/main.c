@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 15:20:48 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
@@ -31,9 +20,9 @@ int	init_data(char **envp)
 
 static int prompt_cmd(char **envp)
 {
-	char *line;
-	char *line2;
-	int i;
+	char	*line;
+	char	*line2;
+	int		i;
 
 	if (!envp)
 		return (1);
@@ -49,7 +38,7 @@ static int prompt_cmd(char **envp)
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
-	while (g_shell_data->t[i + 1])
+	while (g_shell_data->t && g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
 	exec_last(g_shell_data->env, g_shell_data->t[i], envp);
 	safe_free((void **)&g_shell_data->path);

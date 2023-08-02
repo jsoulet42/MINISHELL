@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/18 16:21:45 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 17:14:49 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-# include "../../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 /* Function to delete a variable from its shell environment
  *

@@ -1,18 +1,7 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_starterrors01.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 16:49:37 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/27 12:42:23 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void error_dquote(char *str, int *dquote, int *i)
+void	error_dquote(char *str, int *dquote, int *i)
 {
 	*dquote = 1;
 	(*i)++;
@@ -25,7 +14,7 @@ void error_dquote(char *str, int *dquote, int *i)
 	}
 }
 
-void error_squote(char *str, int *squote, int *i)
+void	error_squote(char *str, int *squote, int *i)
 {
 	*squote = 1;
 	(*i)++;
@@ -37,6 +26,7 @@ void error_squote(char *str, int *squote, int *i)
 		(*i)++;
 	}
 }
+
 int	error_quote(char *str)
 {
 	int	dquote;
@@ -62,13 +52,15 @@ int	error_quote(char *str)
 	}
 	return (0);
 }
-void dblequote(int *i, char *str)
+
+void	dblequote(int *i, char *str)
 {
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 34)
 		(*i)++;
 }
-void simplequote( int *i, char *str)
+
+void	simplequote( int *i, char *str)
 {
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 39)

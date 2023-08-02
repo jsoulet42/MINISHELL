@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_05.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/31 12:26:34 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/31 12:32:41 by mdiamant         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
 int	calc_type(char *str)
@@ -50,8 +38,6 @@ int	calc_size_type(char *str)
 		}
 		size = i;
 	}
-	if (size == 0)
-		error_exit("error size = 0 // fonction : calc_size_type // erno ");
 	return (size);
 }
 
@@ -99,7 +85,9 @@ int	get_skip_count(const char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\v')
+	if (!str)
+		return (0);
+	while ((str[i] > 8 && str[i] < 14) || str[i] == 32 || str[i] == 127)
 		i++;
 	return (i);
 }
