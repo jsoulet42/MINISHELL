@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:19:05 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/27 09:33:07 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/01 12:12:44 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ typedef struct s_shell
 	int 		out;
 	int 		fd[2];
 	char		*path;
+	char		*pwd;
 }				t_shell;
 
 extern t_shell *g_shell_data;
@@ -70,7 +71,6 @@ extern t_shell *g_shell_data;
 # include "lolefevr.h"
 # include "jsoulet.h"
 # include "hnogared.h"
-
 
 /*-----------------Srcs/lolefevr/doublquote_01.c-----------------*/
 int		doublquote(char *str);

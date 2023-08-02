@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_environment_01.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/07/31 16:10:29 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 01:41:51 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,70 @@ static t_env	*complete_env_path(t_env **env_list)
 
 t_env	*init_env(t_env **env_list, char **envp)
 {
-	*env_list = get_default_env(envp);
-	if (!complete_env_path(env_list))
-		return (free_env(env_list), NULL);
-	if (!ft_getenv(*env_list, "LOGNAME") && ft_export(
-			(char *[]){"export", START_LOGNAME, NULL}, env_list) == SH_ERROR)
+	t_env	**temp;
+
+	temp = env_list;
+	*temp = get_default_env(envp);
+	if (!complete_env_path(temp))
+		return (free_env(temp), NULL);
+	if (!ft_getenv(*temp, "LOGNAME") && ft_export(
+			(char *[]){"export", START_LOGNAME, NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "NAME") && ft_export(
-			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
+	if (!ft_getenv(*temp, "NAME") && ft_export(
+			(char *[]){"export", START_NAME, NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "HOME") && ft_export(
-			(char *[]){"export", START_HOME, NULL}, env_list) == SH_ERROR)
+	if (!ft_getenv(*temp, "SHLVL") && ft_export(
+			(char *[]){"export", START_SHLVL, NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "SHLVL") && ft_export(
-			(char *[]){"export", START_SHLVL, NULL}, env_list) == SH_ERROR)
+	if(!ft_getenv(*temp, "PWD") && ft_export(
+			(char *[]){"export", modif_pwd(), NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if(!ft_getenv(*env_list, "PWD") && ft_export(
-			(char *[]){"export", START_PWD, NULL}, env_list) == SH_ERROR)
+	if (!ft_getenv(*temp, "OLDPWD") && ft_export(
+			(char *[]){"export", modif_pwd2(), NULL}, temp) == SH_ERROR)
 		return (NULL);
-	if (!ft_getenv(*env_list, "OLDPWD") && ft_export(
-			(char *[]){"export", START_OLDPWD, NULL}, env_list) == SH_ERROR)
+	return (*temp);
+}
+
+char	*modif_pwd(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
 		return (NULL);
-	return (*env_list);
+	tmp_pwd = ft_strjoin("PWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
+}
+
+char *ft_pwd2(void)
+{
+	char *pwd;
+
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (NULL);
+	return (pwd);
+}
+
+char	*modif_pwd2(void)
+{
+	char *pwd;
+	char *tmp_pwd;
+
+
+	pwd = ft_pwd2();
+	if (!pwd)
+		return (NULL);
+	tmp_pwd = ft_strjoin("OLDPWD=", pwd);
+	free(pwd);
+	pwd = NULL;
+	if (!tmp_pwd)
+		return (NULL);
+	return (tmp_pwd);
 }

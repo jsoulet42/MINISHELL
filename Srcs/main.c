@@ -6,7 +6,7 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/31 16:56:27 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/08/02 15:20:48 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 t_shell *g_shell_data;
 
-int init_data(char **envp)
+int	init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
 		return (1);
-	if (!envp)
-		return (1);
+/*	if (!envp)
+		return (1);*/
 	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
 	g_shell_data->in = dup(STDIN_FILENO);
@@ -66,7 +66,7 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 	(void)envp;
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
-		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
@@ -74,12 +74,13 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
 		ft_exit();
 	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
-	{
-		if (!*envp)
-			ft_env(env_to_str_tab(g_shell_data->env));
-		else
-			ft_env(envp);
-	}
+		ft_env(g_shell_data->env);
+	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
+		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
+	else if (ft_strncmp(cmd_struct->command[0], "./minishell", 11) == 0)
+		execve("./minishell", cmd_struct->command, env_to_str_tab(&env));
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
@@ -93,7 +94,7 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 		{
 			redirect(cmd_struct, 0);
 			redirect(cmd_struct, 1);
-			execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
+			execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
 		}
 		else
 		{
@@ -112,8 +113,10 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
+	t_shell	*test;
 
 	signal(SIGQUIT, SIG_IGN);
+	//signal(SIGQUIT, main_sig_handler);
 	signal(SIGINT, main_sig_handler);
 	if (init_data(envp))
 		return (1);
@@ -122,8 +125,8 @@ int main(int argc, char **argv, char **envp)
 	{
 		if (prompt_cmd(envp))
 			return (free_data(g_shell_data), 1);
-		if (envp)
-			envp = env_update(envp, g_shell_data);
+		test = g_shell_data;
+		envp = env_update(envp, test);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	return (0);
