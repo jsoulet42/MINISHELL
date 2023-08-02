@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 12:00:21 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:31:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,22 @@
  * @param t_env *env_list	-> pointer to the list to convert
  * @return char **			-> pointer to the converted strings array
  */
-char	**env_to_str_tab(t_env *env_list)
+char	**env_to_str_tab(t_env **env_list)
 {
 	int		i;
 	char	**envp;
 	t_env	*start;
+	t_env	*temp;
+
 
 	if (!env_list)
 		return (NULL);
-	start = env_list;
+	start = *env_list;
+	temp = *env_list;
 	i = 0;
-	while (env_list)
+	while (temp)
 	{
-		env_list = env_list->next;
+		temp = temp->next;
 		i++;
 	}
 	envp = (char **) ft_calloc((i + 1), sizeof(char *));

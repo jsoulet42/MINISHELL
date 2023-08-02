@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interpret.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/01 11:44:27 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 13:59:26 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
-		ft_cd(lentab(cmd_struct->command), cmd_struct->command, env);
+		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
 		ft_export(cmd_struct->command, &env);
 	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
@@ -112,14 +112,18 @@ void execute_cmd(t_env *env, t_rinity *cmd_struct)
 	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
 		ft_exit();
 	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
-		ft_env(env_to_str_tab(env));
+		ft_env(g_shell_data->env);
+	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
+		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
 	else if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
 		return ;
 	}
-	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(env));
+	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
 }
 
 char *get_path(char *cmd, t_env *env)

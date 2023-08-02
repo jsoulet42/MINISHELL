@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 15:27:47 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/02 15:36:04 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 # define PROMPT_BUFFER	255
 
 /* Startup environment variables */
-# define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
 # define START_PWD		"PWD="
@@ -100,7 +99,7 @@ void	del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
 void	free_env(t_env **env_list);
 
 /* Srcs/hnogared/environment_utils_02.c */
-char	**env_to_str_tab(t_env *env_list);
+char	**env_to_str_tab(t_env **env_list);
 t_env	*get_env_var(t_env *env_list, char *var_name);
 t_env	*update_env_var(t_env *env_var, char *value, int mode);
 void	print_env(t_env *env_list, int mode);

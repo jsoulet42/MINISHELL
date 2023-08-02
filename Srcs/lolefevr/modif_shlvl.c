@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modif_shlvl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/28 11:01:30 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/31 15:48:17 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/07/31 16:57:34 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
