@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 15:59:01 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 15:30:17 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
@@ -31,9 +20,9 @@ int	init_data(char **envp)
 
 static int prompt_cmd(char **envp)
 {
-	char *line;
-	char *line2;
-	int i;
+	char	*line;
+	char	*line2;
+	int		i;
 
 	if (!envp)
 		return (1);
@@ -49,7 +38,7 @@ static int prompt_cmd(char **envp)
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	i = 0;
-	while (g_shell_data->t[i + 1])
+	while (g_shell_data->t && g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
 	exec_last(g_shell_data->env, g_shell_data->t[i], envp);
 	safe_free((void **)&g_shell_data->path);
@@ -59,12 +48,8 @@ static int prompt_cmd(char **envp)
 	return (0);
 }
 
-void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
+int verif_builtin(t_rinity *cmd_struct, t_env *env)
 {
-	pid_t pid;
-
-	(void)envp;
-	g_shell_data->path = get_path(cmd_struct->command[0], env);
 	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
 		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
@@ -77,7 +62,15 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 		ft_env(g_shell_data->env);
 	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
 		ft_pwd();
-	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
+	else if (verif_builtin_2(cmd_struct, env))
+		return (1);
+	else
+		return (0);
+}
+
+int verif_builtin_2(t_rinity *cmd_struct, t_env *env)
+{
+	if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
 		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
 	else if (ft_strncmp(cmd_struct->command[0], "./minishell", 11) == 0)
 		execve("./minishell", cmd_struct->command, env_to_str_tab(&env));
@@ -85,8 +78,42 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->command[0]);
-		return ;
+		return (1);
 	}
+	return (0);
+}
+
+void redirect_echo(t_rinity *cmd_struct)
+{
+	pid_t pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		redirect(cmd_struct, 0);
+		redirect(cmd_struct, 1);
+		execve("bin/./echo", cmd_struct->command, env_to_str_tab(&g_shell_data->env));
+	}
+	else
+	{
+		signal(SIGINT, second_sig_handler);
+		dup2(g_shell_data->out, STDOUT_FILENO);
+		waitpid(pid, NULL, 0);
+		signal(SIGINT, main_sig_handler);
+	}
+}
+
+void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
+{
+	pid_t	pid;
+	int		stop;
+
+	(void)envp;
+	g_shell_data->path = get_path(cmd_struct->command[0], env);
+	if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0 && cmd_struct->file_in && cmd_struct->file_out)
+		redirect_echo(cmd_struct);
+	else if (verif_builtin(cmd_struct, env))
+		return ;
 	else
 	{
 		pid = fork();

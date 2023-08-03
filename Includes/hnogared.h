@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hnogared.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 15:36:04 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef HNOGARED_H
 # define HNOGARED_H
@@ -78,6 +67,9 @@ void	free_str_tab(void **str_tab);
 void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
 void	free_trinity(void);
+
+/* Srcs/hnogared/free_utils_02.c */
+void	free_and_return(void);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);
