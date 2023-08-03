@@ -64,5 +64,4 @@ int		simplquote(char *str);
 
 void	print_str_tab(char **str_tab);
 
-
 #endif

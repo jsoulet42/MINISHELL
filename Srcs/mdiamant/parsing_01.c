@@ -37,6 +37,7 @@ static t_rinity	*t_rinity_init_utils(t_par **p, int len)
 	t->file_out = NULL;
 	t->kafka = NULL;
 	t->command = create_commande(p, len);
+	t->builtin = agent_smith(t->command[0]);
 	t->type_in = create_type_in(p, len);
 	t->type_out = create_type_out(p, len);
 	t->file_in = create_file_in(p, len);
