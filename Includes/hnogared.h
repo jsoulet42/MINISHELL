@@ -1,3 +1,4 @@
+
 #ifndef HNOGARED_H
 # define HNOGARED_H
 
@@ -19,7 +20,6 @@
 # define PROMPT_BUFFER	255
 
 /* Startup environment variables */
-# define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
 # define START_PWD		"PWD="
@@ -104,6 +104,5 @@ char	*expand_dollars(char *str, t_env *env);
 void	main_sig_handler(int signal);
 void	parent_sig_handler(int signal);
 void	second_sig_handler(int signal);
-
 
 #endif

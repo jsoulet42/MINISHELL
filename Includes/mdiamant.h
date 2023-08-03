@@ -17,6 +17,7 @@ struct s_par
 	char	**type_out;
 	char	**kafka;
 	int		quote_type;
+	int		builtin;
 };
 
 int			calc_size_type(char *str);
