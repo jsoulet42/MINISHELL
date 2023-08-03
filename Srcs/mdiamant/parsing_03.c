@@ -89,7 +89,6 @@ void	print_t_par(t_par **p)
 		ft_fprintf(2, "p[%d] :", i);
 		ft_fprintf(2, " str : '%s' // ", p[i]->str);
 		ft_fprintf(2, "type : %d // ", p[i]->type);
-		ft_fprintf(2, "quote_type : %d //\n", p[i]->quote_type);
 		i++;
 	}
 }
