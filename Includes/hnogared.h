@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hnogared.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 16:44:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/01 19:14:06 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef HNOGARED_H
 # define HNOGARED_H
@@ -31,7 +20,6 @@
 # define PROMPT_BUFFER	255
 
 /* Startup environment variables */
-# define START_PATH		"PATH=./bin:"
 # define START_LOGNAME	"LOGNAME=guest"
 # define START_NAME		"NAME=mishelle"
 # define START_PWD		"PWD="
@@ -79,6 +67,9 @@ void	free_str_tab(void **str_tab);
 void	free_data(t_shell *shell_data);
 void	free_and_exit(void);
 void	free_trinity(void);
+
+/* Srcs/hnogared/free_utils_02.c */
+void	free_and_return(void);
 
 /* Srcs/hnogared/utils_01.c */
 char	*ft_strjoin_plus(char *dest, char *src);

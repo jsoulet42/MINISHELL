@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   check_starterrors02.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 16:51:18 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/27 12:42:58 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
@@ -18,14 +7,14 @@ int	unknown_command()
 	return (1);
 }
 
-int viveldop(int gel, char *str, int *i)
+int	viveldop(int gel, char *str, int *i)
 {
 	if (str[*(i) + 1] == gel)
 		return (1);
 	return (0);
 }
 
-int error_gen(char *str, int i)
+int	error_gen(char *str, int i)
 {
 	while (str[i])
 	{
@@ -42,7 +31,7 @@ int error_gen(char *str, int i)
 	return (0);
 }
 
-int error_pipe(char *str)
+int	error_pipe(char *str)
 {
 	int	i;
 

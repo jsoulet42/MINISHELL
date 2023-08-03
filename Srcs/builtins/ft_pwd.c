@@ -6,14 +6,16 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 15:06:11 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/02 12:26:26 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:50:27 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void	ft_pwd()
+int	main(int argc, char **argv)
 {
+	(void)argc;
+	(void)argv;
     char buffer[512];
 
     if (getcwd(buffer, sizeof(buffer)) != NULL)
@@ -21,6 +23,7 @@ void	ft_pwd()
 	else
 	{
         perror("Erreur lors de l'appel à getcwd");
-        return ;
+        return (1);
     }
+	return (0);
 }

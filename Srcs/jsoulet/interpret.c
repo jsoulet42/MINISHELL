@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   interpret.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 10:30:07 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/02 13:59:26 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
@@ -51,8 +40,6 @@ int commande_len(t_par **par)
 	len = 0;
 	while (par[i] && par[i]->type == 1)
 		i++;
-	/*if (par[i]->type >= 2 && par[i]->type <= 5)
-		i +=2;*/
 	while (par[i + len] && par[i + len]->type != 1)
 		len++;
 	return (len);
@@ -100,28 +87,15 @@ int next_good_commande(t_par **par, int i)
 	}
 	return (res);
 }
+
 void execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
-	if (ft_strncmp(cmd_struct->command[0], "cd", 2) == 0)
-		env = ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
-	else if (ft_strncmp(cmd_struct->command[0], "export", 6) == 0)
-		ft_export(cmd_struct->command, &env);
-	else if (ft_strncmp(cmd_struct->command[0], "unset", 5) == 0)
-		ft_unset(cmd_struct->command, &env);
-	else if (ft_strncmp(cmd_struct->command[0], "exit", 4) == 0)
-		ft_exit();
-	else if (ft_strncmp(cmd_struct->command[0], "env", 3) == 0)
-		ft_env(g_shell_data->env);
-	else if (ft_strncmp(cmd_struct->command[0], "pwd", 3) == 0)
-		ft_pwd();
-	else if (ft_strncmp(cmd_struct->command[0], "echo", 4) == 0)
-		ft_echo(lentab(cmd_struct->command), cmd_struct->command);
-	else if (!g_shell_data->path)
+	if (!g_shell_data->path)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
-			cmd_struct->command[0]);
-		return ;
+				   cmd_struct->command[0]);
+		return;
 	}
 	execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
 }
@@ -170,6 +144,8 @@ void piper(t_env *env, t_rinity *cmd_struct)
 	int fd[2];
 	pid_t pid;
 
+	if (cmd_struct->builtin >= 0 && cmd_struct->builtin <= 3)
+		return;
 	if (pipe(fd) == -1)
 		return;
 	pid = fork();
@@ -182,27 +158,37 @@ void piper(t_env *env, t_rinity *cmd_struct)
 		close(fd[0]);
 		if (!cmd_struct->file_out)
 			dup2(fd[1], STDOUT_FILENO);
-		execute_cmd(env, cmd_struct);
+		if (cmd_struct->builtin > 3)
+			execute_builtin2(cmd_struct, cmd_struct->builtin, env);
+		else
+			execute_cmd(env, cmd_struct);
 	}
 	else
 	{
-	//	signal(SIGINT, parent_sig_handler);
-	//	signal(SIGQUIT, parent_sig_handler);
 		waitpid(pid, NULL, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
-		//waitpid(pid, NULL, 0);
 	}
 }
 
-void	redirect_out(char **file_out, char **type_out)
+void execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 {
-	int	i;
-	int	fd_out;
+	if (builtin == 5)
+		execve("bin/./echo", cmd_struct->command, env_to_str_tab(&env));
+	else if (builtin == 6)
+		execve("bin/./pwd", cmd_struct->command, env_to_str_tab(&env));
+	else if (builtin == 4)
+		execve("bin/./env", cmd_struct->command, env_to_str_tab(&env));
+}
+
+void redirect_out(char **file_out, char **type_out)
+{
+	int i;
+	int fd_out;
 
 	i = 0;
 	if (!file_out || !type_out)
-		return ;
+		return;
 	while (file_out[i])
 	{
 		if (type_out[i] && ft_strncmp(type_out[i], ">>", 3) == 0)
@@ -219,7 +205,7 @@ void	redirect_out(char **file_out, char **type_out)
 	}
 }
 
-void	redirect(t_rinity *cmd_struct, int option)
+void redirect(t_rinity *cmd_struct, int option)
 {
 	if (!option)
 		redirect_in(cmd_struct->file_in, cmd_struct->type_in);
@@ -227,14 +213,14 @@ void	redirect(t_rinity *cmd_struct, int option)
 		redirect_out(cmd_struct->file_out, cmd_struct->type_out);
 }
 
-void	redirect_in(char **file_in, char **type_in)
+void redirect_in(char **file_in, char **type_in)
 {
-	int	i;
-	int	fd_in;
+	int i;
+	int fd_in;
 
 	i = 0;
 	if (!file_in || !type_in)
-		return ;
+		return;
 	while (file_in[i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
@@ -251,10 +237,10 @@ void	redirect_in(char **file_in, char **type_in)
 	}
 }
 
-int	ft_heredoc(char *str)
+int ft_heredoc(char *str)
 {
-	char	*line;
-	int		fd[2];
+	char *line;
+	int fd[2];
 
 	if (pipe(fd) == -1)
 		return (-1);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_02.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/26 15:30:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/31 12:19:15 by mdiamant         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
 static char	*strdupm(char const *s, int start, int end)
@@ -66,8 +54,9 @@ static char	**ft_split_02(char const *s, char *c, int i, int j)
 		{
 			tmp = s[i];
 			start = ++i;
-			i = i + find_next_char(s + i, tmp);
-			tabl[j++] = strdupm(s, start, i - 1);
+			i += find_next_char(s + i, tmp);
+			if (s[start - 1])
+				tabl[j++] = ft_split_utils(s, i, start);
 		}
 		start = i;
 		while (!ft_strchr(c, s[i]) && s[i])
@@ -77,6 +66,29 @@ static char	**ft_split_02(char const *s, char *c, int i, int j)
 	}
 	tabl[j] = NULL;
 	return (tabl);
+}
+
+char	*ft_split_utils(const char *s, int i, int start)
+{
+	char	*res;
+	char	*tmp;
+
+	res = strdupm(s, start, i - 1);
+	if (start > 1 && ft_is_whitespace(s[start - 2]) == 0)
+	{
+		tmp = ft_strdup(res);
+		free(res);
+		res = ft_strjoin_plus("\"", tmp);
+		free(tmp);
+	}
+	if (ft_is_whitespace(s[i]) == 0)
+	{
+		tmp = ft_strdup(res);
+		free(res);
+		res = ft_strjoin_plus(tmp, "\"");
+		free(tmp);
+	}
+	return (res);
 }
 
 void	fusion_arg(char **line)
@@ -103,20 +115,4 @@ void	fusion_arg(char **line)
 		i++;
 	}
 	free(res);
-}
-
-int	find_next_char(const char *str, const char c)
-{
-	int	i;
-
-	if (!*str)
-		return (0);
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i + 1);
-		i++;
-	}
-	return (i);
 }

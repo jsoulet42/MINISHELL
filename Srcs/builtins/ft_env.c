@@ -6,12 +6,12 @@
 /*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/02 14:43:02 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/08/03 13:48:05 by lolefevr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
-
+/*
 int	ft_env(t_env	*env)
 {
 	t_env	*temp;
@@ -28,5 +28,18 @@ int	ft_env(t_env	*env)
 			printf("%s\n", temp->value);
 		temp = temp->next;
 	}
+	return (0);
+}*/
+int	main(int argc, char **argv, char **env)
+{
+	int	i;
+
+	(void)argc;
+	(void)argv;
+	if (!env)
+		return (1);
+	i = -1;
+	while (env[++i])
+		printf("%s\n", env[i]);
 	return (0);
 }

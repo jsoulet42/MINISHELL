@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   jsoulet.h                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 16:26:37 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/01 12:47:04 by jsoulet          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef JSOULET_H
 # define JSOULET_H
@@ -31,5 +20,9 @@ void	redirect_out(char **file_out, char **type_out);
 char	*ft_pwd2(void);
 char	*modif_pwd();
 char	*modif_pwd2();
+void	execute_builtin(t_rinity *cmd_struct, int builtin);
+int		execute_first_builtin(t_rinity *cmd_struct, int builtin);
+int		agent_smith(char *cmd);
+void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env);
 
 #endif

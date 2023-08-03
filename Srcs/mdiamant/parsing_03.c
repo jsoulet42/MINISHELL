@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parsing_03.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 16:10:21 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/31 12:52:36 by mdiamant         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
 static void	print_t_rinity_02(t_rinity **t, int i, int j, int len);
@@ -54,6 +42,8 @@ void	print_t_rinity(t_rinity **t)
 	int	len;
 
 	i = 0;
+	if (!t)
+		return ;
 	while (t[i])
 	{
 		len = ft_fprintf(2, " _________________________");
@@ -99,7 +89,6 @@ void	print_t_par(t_par **p)
 		ft_fprintf(2, "p[%d] :", i);
 		ft_fprintf(2, " str : '%s' // ", p[i]->str);
 		ft_fprintf(2, "type : %d // ", p[i]->type);
-		ft_fprintf(2, "quote_type : %d //\n", p[i]->quote_type);
 		i++;
 	}
 }

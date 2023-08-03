@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   mdiamant.h                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:28:43 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/31 12:32:57 by mdiamant         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef MDIAMANT_H
 # define MDIAMANT_H
 
@@ -19,18 +7,17 @@ struct s_parsing
 {
 	char	*str;
 	int		type;
-	int		quote_type;
 };
-struct s_par //t_rinity: file.txt < cat file
+struct s_par
 {
 	char	**command;
 	char	**file_in;
 	char	**file_out;
-	char	**type_in; // << <
-	char	**type_out;// >> >
-	char	**kafka;// char ** qui contient >> << < >
-	char	*file;
+	char	**type_in;
+	char	**type_out;
+	char	**kafka;
 	int		quote_type;
+	int		builtin;
 };
 
 int			calc_size_type(char *str);
@@ -62,12 +49,23 @@ int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
 
 /* Srcs/mdiamant/parsing_02.c */
+/* Srcs/mdiamant/parsing_03.c */
+/* Srcs/mdiamant/parsing_04.c */
+/* Srcs/mdiamant/parsing_05.c */
+/* Srcs/mdiamant/parsing_06.c */
+/* Srcs/mdiamant/parsing_07.c */
+/* Srcs/mdiamant/parsing_08.c */
+int		ft_is_whitespace(char str);
+char	*ft_split_utils(const char *s, int i, int start);
+
+
+
+/* Srcs/mdiamant/parsing_09.c */
 
 void		fusion_arg(char **line);
 int			find_next_char(const char *str, const char c);
 
 
 
-void		error_exit(char *str);
 
 #endif

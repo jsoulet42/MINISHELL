@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   environment_utils_01.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 14:57:26 by hnogared         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../../Includes/minishell.h"
 
 /* Function to retrieve a variable's value inside a shell's environment

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 12:17:03 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/02 15:07:03 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/08/03 16:35:24 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env)
 	return (*env);
 }
 
-t_env *ft_cd(int argc, char **argv, t_env **env)
+t_env *ft_cd(int argc ,char **argv, t_env **env)
 {
 	int		changedir;
 	char	*home;

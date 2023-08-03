@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   init_environment_01.c                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 11:37:36 by me                #+#    #+#             */
-/*   Updated: 2023/08/02 01:41:51 by lolefevr         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
@@ -32,7 +21,7 @@ static t_env	*get_default_env(char **envp)
 	return (env_list);
 }
 
-static t_env	*complete_env_path(t_env **env_list)
+/*static t_env	*complete_env_path(t_env **env_list)
 {
 	char	*temp;
 	char	*value;
@@ -50,7 +39,7 @@ static t_env	*complete_env_path(t_env **env_list)
 	ft_export((char *[]){"export", temp, NULL}, env_list);
 	free(temp);
 	return (*env_list);
-}
+}*/
 
 t_env	*init_env(t_env **env_list, char **envp)
 {
@@ -58,8 +47,8 @@ t_env	*init_env(t_env **env_list, char **envp)
 
 	temp = env_list;
 	*temp = get_default_env(envp);
-	if (!complete_env_path(temp))
-		return (free_env(temp), NULL);
+	/*if (!complete_env_path(temp))
+		return (free_env(temp), NULL);*/
 	if (!ft_getenv(*temp, "LOGNAME") && ft_export(
 			(char *[]){"export", START_LOGNAME, NULL}, temp) == SH_ERROR)
 		return (NULL);
