@@ -55,14 +55,9 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect(cd, 0);
-		redirect(cd, 1);
-		if (builtin == 5)
-			execve("bin/./echo", cd->cmd, env_to_str_tab(&g_shell_data->env));
-		if (builtin == 6)
-			execve("bin/./pwd", cd->cmd, env_to_str_tab(&g_shell_data->env));
-		if (builtin == 4)
-			execve("bin/./env", cd->cmd, env_to_str_tab(&g_shell_data->env));
+		continue_child_builtin(cd, builtin);
+		ft_fprintf(2, "apres continue_child_builtin\n");
+		exit(0);
 	}
 	else
 	{
@@ -71,4 +66,18 @@ void	execute_builtin(t_rinity *cd, int builtin)
 		waitpid(pid, NULL, 0);
 		signal(SIGINT, main_sig_handler);
 	}
+}
+
+void	continue_child_builtin(t_rinity *cd, int builtin)
+{
+	redirect(cd, 0);
+	redirect(cd, 1);
+	if (builtin == 5)
+		ft_echo(lentab(cd->cmd), cd->cmd);
+	else if (builtin == 6)
+		ft_pwd(lentab(cd->cmd), cd->cmd);
+	else if (builtin == 4)
+		ft_env(lentab(cd->cmd), cd->cmd, env_to_str_tab(&g_shell_data->env));
+	else
+		return ;
 }

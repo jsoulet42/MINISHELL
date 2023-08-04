@@ -47,24 +47,18 @@ SRCS		=	main.c					\
 				ft_cd.c					\
 				ft_unset.c				\
 				ft_exit.c				\
+				ft_echo_01.c				\
+				ft_pwd.c				\
+				ft_env.c				\
 				modif_shlvl.c			\
 				signals.c
 
 BUILTINS_DIR=	Srcs/builtins
-ECHO_SRCS	=	ft_echo_01.c
-ENV_SRCS	=	ft_env.c
-PWD_SRCS	=	ft_pwd.c
 
 BIN_DIR		=	bin
-ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
-ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
-PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
-ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
-PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
 
 
 # Compilation variables *********** #
@@ -100,28 +94,6 @@ all:	screen builtins $(NAME)
 $(NAME):	screen $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
-
-builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN)
-
-$(ECHO_NAME):	$(ECHO_BIN)
-
-$(ENV_NAME):	$(ENV_BIN)
-
-$(PWD_NAME):	$(PWD_BIN)
-
-$(ECHO_NAME):	$(ECHO_BIN)
-
-$(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
-
-$(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
-	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
-
-$(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
-	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
