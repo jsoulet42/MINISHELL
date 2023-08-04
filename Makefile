@@ -36,7 +36,10 @@ SRCS		=	main.c					\
 				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
-				interpret.c				\
+				interpret_01.c				\
+				interpret_02.c			\
+				interpret_03.c			\
+				interpret_04.c			\
 				ft_export.c				\
 				get_next_line_bonus.c	\
 				get_next_line_utils_bonus.c \

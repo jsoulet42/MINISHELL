@@ -1,15 +1,12 @@
-
 #include "../Includes/minishell.h"
 
-t_shell *g_shell_data;
+t_shell	*g_shell_data;
 
 int	init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
 		return (1);
-/*	if (!envp)
-		return (1);*/
 	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
 	g_shell_data->in = dup(STDIN_FILENO);
@@ -18,11 +15,10 @@ int	init_data(char **envp)
 	return (0);
 }
 
-static int prompt_cmd(char **envp)
+static int	prompt_cmd(char **envp)
 {
 	char	*line;
 	char	*line2;
-	int		i;
 
 	if (!envp)
 		return (1);
@@ -34,14 +30,24 @@ static int prompt_cmd(char **envp)
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
-	ft_fprintf(2,"ok\n");
+	if (prompt_cmd_02(line2, envp))
+		return (1);
+	return (0);
+}
+
+int	prompt_cmd_02(char *line2, char **envp)
+{
+	int	i;
+
 	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
+	if (!g_shell_data->t)
+		return (1);
 	i = 0;
 	while (g_shell_data->t && g_shell_data->t[i + 1])
 		piper(g_shell_data->env, g_shell_data->t[i++]);
-	if (agent_smith(g_shell_data->t[i]->command[0]) != -1)
+	if (agent_smith(g_shell_data->t[i]->cmd[0]) != -1)
 		execute_builtin(g_shell_data->t[i], g_shell_data->t[i]->builtin);
 	else
 		exec_last(g_shell_data->env, g_shell_data->t[i], envp);
@@ -52,115 +58,42 @@ static int prompt_cmd(char **envp)
 	return (0);
 }
 
-int agent_smith(char *cmd)
-{
-	if (!ft_strncmp(cmd, "cd", 2))
-		return (0);
-	if (!ft_strncmp(cmd, "exit", 4))
-		return (1);
-	if (!ft_strncmp(cmd, "export", 6))
-		return (2);
-	if (!ft_strncmp(cmd, "unset", 5))
-		return (3);
-	if (!ft_strncmp(cmd, "env", 3))
-		return (4);
-	if (!ft_strncmp(cmd, "echo", 4))
-		return (5);
-	if (!ft_strncmp(cmd, "pwd", 3))
-		return (6);
-	return (-1);
-}
-void execute_builtin(t_rinity *cmd_struct, int builtin)
-{
-	pid_t pid;
-
-	if (execute_first_builtin(cmd_struct, builtin) == 1)
-		return ;
-	pid = fork();
-	if (pid == 0)
-	{
-		redirect(cmd_struct, 0);
-		redirect(cmd_struct, 1);
-		if (builtin == 5)
-			execve("bin/./echo", cmd_struct->command, env_to_str_tab(&g_shell_data->env));
-		if (builtin == 6)
-			execve("bin/./pwd", cmd_struct->command, env_to_str_tab(&g_shell_data->env));
-		if (builtin == 4)
-			execve("bin/./env", cmd_struct->command, env_to_str_tab(&g_shell_data->env));
-	}
-	else
-	{
-		signal(SIGINT, second_sig_handler);
-		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
-		signal(SIGINT, main_sig_handler);
-	}
-}
-
 int	execute_first_builtin(t_rinity *cmd_struct, int builtin)
 {
-		if (builtin == 1)
-		{
-			ft_exit(cmd_struct->command);
-			return (1);
-		}
-		else if (builtin == 2)
-		{
-			ft_export(cmd_struct->command, &g_shell_data->env);
-			return (1);
-		}
-		else if (builtin == 3)
-		{
-			ft_unset(cmd_struct->command, &g_shell_data->env);
-			return (1);
-		}
-		else if (builtin == 0)
-		{
-			ft_cd(lentab(cmd_struct->command), cmd_struct->command, &g_shell_data->env);
-			return (1);
-		}
-		else
-			return (0);
-}
-
-void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
-{
-	pid_t	pid;
-
-	(void)envp;
-	g_shell_data->path = get_path(cmd_struct->command[0], env);
-	if (!g_shell_data->path)
+	if (builtin == 1)
 	{
-		ft_fprintf(2, "minishell: %s: command not found\n", cmd_struct->command[0]);
-		return ;
+		ft_exit(cmd_struct->cmd);
+		return (1);
 	}
-	pid = fork();
-	if (pid == 0)
+	else if (builtin == 2)
 	{
-		redirect(cmd_struct, 0);
-		redirect(cmd_struct, 1);
-		execve(g_shell_data->path, cmd_struct->command, env_to_str_tab(&env));
+		ft_export(cmd_struct->cmd, &g_shell_data->env);
+		return (1);
+	}
+	else if (builtin == 3)
+	{
+		ft_unset(cmd_struct->cmd, &g_shell_data->env);
+		return (1);
+	}
+	else if (builtin == 0)
+	{
+		ft_cd(lentab(cmd_struct->cmd), cmd_struct->cmd, &g_shell_data->env);
+		return (1);
 	}
 	else
-	{
-		signal(SIGINT, second_sig_handler);
-		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
-		signal(SIGINT, main_sig_handler);
-	}
+		return (0);
 }
 
 /*
  * SIGQUIT -> Ctrl-\ signal which needs to be ignored
  */
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
 	t_shell	*test;
 
+	(void)argc;
+	(void)argv;
 	signal(SIGQUIT, SIG_IGN);
-	//signal(SIGQUIT, main_sig_handler);
 	signal(SIGINT, main_sig_handler);
 	if (init_data(envp))
 		return (1);
@@ -168,7 +101,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (prompt_cmd(envp))
-			continue;
+			continue ;
 		test = g_shell_data;
 		envp = env_update(envp, test);
 	}

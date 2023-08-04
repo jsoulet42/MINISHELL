@@ -59,7 +59,7 @@ void	free_trinity(void)
 	{
 		while (g_shell_data->t[i])
 		{
-			safe_free((void **)&g_shell_data->t[i]->command);
+			safe_free((void **)&g_shell_data->t[i]->cmd);
 			safe_free((void **)&g_shell_data->t[i]->kafka);
 			safe_free((void **)&g_shell_data->t[i]->file_in);
 			safe_free((void **)&g_shell_data->t[i]->file_out);
