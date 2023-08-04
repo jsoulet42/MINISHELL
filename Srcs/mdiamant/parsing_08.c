@@ -1,36 +1,6 @@
 #include "../../Includes/minishell.h"
 
-static int	tparlen(t_par **p);
-static t_par	**fusion_sparse(t_par **p);
-
-
-
-int	ft_is_whitespace(char str)
-{
-	if (!str)
-		return (0);
-	if ((str > 8 && str < 14) || str == 32 || str == 127)
-		return (0);
-	return (1);
-}
-
-int	find_next_char(const char *str, const char c)
-{
-	int	i;
-
-	if (!*str)
-		return (0);
-	i = 1;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (i + 1);
-		i++;
-	}
-	return (i);
-}
-
-static t_par	*sparse_utils_01(char *argv, int *i, int *size)
+t_par	*sparse_utils_01(char *argv, int *i, int *size)
 {
 	t_par	*p;
 
@@ -44,15 +14,13 @@ static t_par	*sparse_utils_01(char *argv, int *i, int *size)
 	else
 		p->str = ft_substr(argv, *i + 1, *size);
 	p->type = 0;
-
-
-	if(ft_is_whitespace(argv[*size + *i]))
+	if (ft_is_whitespace(argv[*size + *i + 2]))
 		p->fusion = 1;
 	*i += 2;
 	return (p);
 }
 
-static t_par	*sparse_utils_02(char *argv, int *i, int *size)
+t_par	*sparse_utils_02(char *argv, int *i, int *size)
 {
 	t_par	*p;
 
@@ -63,88 +31,80 @@ static t_par	*sparse_utils_02(char *argv, int *i, int *size)
 	*size = calc_size_type(argv + *i);
 	p->type = calc_type(argv + *i);
 	p->str = ft_substr(argv, *i, *size);
-	if (ft_is_whitespace(argv[*size + *i]))
+	if (ft_is_whitespace(argv[*size + *i]) && argv[*size + *i + 1] != '\0')
 		p->fusion = 1;
-
 	return (p);
 }
 
-t_par	**sparse(char *argv)
+char	*fusion_sparse_utils(t_par **p, int *i)
 {
-	int		i;
-	int		j;
-	int		size;
-	t_par	**p;
-	
+	char	*dest;
+	char	*tmp;
 
-	p = (t_par **) malloc(sizeof(t_par *) * (count_arg(argv, 0) + 1));
-	if (!p)
+	dest = ft_strdup(p[*i]->str);
+	if (!dest)
 		return (NULL);
-	i = 0;
-	j = 0;
-	while (argv[i])
+	while (p[*i] && p[*i]->fusion == 1 && p[*i + 1]->type == 0)
 	{
-		i += get_skip_count(argv + i);
-		if (is_quote(argv + i) != -1)
-			p[j++] = sparse_utils_01(argv, &i, &size);
-		else
-			p[j++] = sparse_utils_02(argv, &i, &size);
-		i += size;
+		if (p[*i + 1] && p[*i + 1]->type == 0)
+			tmp = ft_strjoin_plus(dest, p[*i + 1]->str);
+		if (dest)
+			free(dest);
+		dest = ft_strdup(tmp);
+		if (!dest)
+			return (NULL);
+		if (tmp)
+			free(tmp);
+		*i += 1;
 	}
-	p[j] = NULL;
-	return(fusion_sparse(p));
+	return (dest);
 }
 
-static t_par	**fusion_sparse(t_par **p)
+t_par	**fusion_sparse(t_par **p)
 {
 	t_par	**new;
 	int		i;
 	int		j;
 
-	new = (t_par **) malloc(sizeof(t_par *) * (tparlen(p) + 1));
+	new = t_par_init(tparlen(p));
 	if (!new)
 		return (NULL);
 	i = 0;
 	j = 0;
 	while (p[i])
 	{
-		new[j] = (t_par *) malloc(sizeof(t_par));
-		if (!new[j])
-			return (NULL);
-		if (p[i + 1] && p[i]->fusion == 1 && p[i]->type == 0 && p[i + 1]->type == 0)
-		{
-			new[j]->str = ft_strjoin(p[i]->str, p[i + 1]->str);
-			new[j]->type = 0;
-			new[j++]->fusion = p[i + 1]->fusion;
-			i++;
-		}
+		if (p[i + 1] && p[i]->fusion == 1 && p[i]->type == 0
+			&& p[i + 1]->type == 0)
+			new[j++]->str = fusion_sparse_utils(p, &i);
 		else
 		{
 			new[j]->str = ft_strdup(p[i]->str);
-			new[j]->type = p[i]->type;
-			new[j]->fusion = p[i]->fusion;
-			j++;
+			new[j++]->type = p[i]->type;
 		}
+		ft_fprintf(2, "new[%d]->str = %s\n", j - 1, new[j - 1]->str);
 		i++;
 	}
-	new[j] = NULL;
 	free_t_par(p);
 	return (new);
 }
 
-static int	tparlen(t_par **p)
+t_par	**t_par_init(int len)
 {
-	int	i;
-	int	res;
+	t_par	**p;
 
-	i = 0;
-	res = 0;
-	while (p[i + 1])
+	p = (t_par **) malloc(sizeof(t_par *) * (len + 1));
+	if (!p)
+		return (NULL);
+	p[len--] = NULL;
+	while (len >= 0)
 	{
-		if (p[i]->fusion == 1 && p[i]->type == 0 && p[i + 1]->type == 0)
-			res--;
-		res++;
-		i++;
+		p[len] = (t_par *) malloc(sizeof(t_par));
+		if (!p[len])
+			return (NULL);
+		p[len]->str = NULL;
+		p[len]->type = 0;
+		p[len]->fusion = 0;
+		len--;
 	}
-	return (res);
+	return (p);
 }

@@ -48,6 +48,12 @@ char		**create_kafka(t_par **p, int i);
 char		**str_tab_add_neo(char **str, char *add);
 int			real_cmd(t_par **par);
 int			next_pipe(t_par **p, int i);
+int			tparlen(t_par **p);
+t_par		**fusion_sparse(t_par **p);
+char		*fusion_sparse_utils(t_par **p, int *i);
+t_par		*sparse_utils_01(char *argv, int *i, int *size);
+t_par		*sparse_utils_02(char *argv, int *i, int *size);
+t_par	**t_par_init(int len);
 
 /* Srcs/mdiamant/parsing_02.c */
 /* Srcs/mdiamant/parsing_03.c */
@@ -57,23 +63,12 @@ int			next_pipe(t_par **p, int i);
 /* Srcs/mdiamant/parsing_07.c */
 /* Srcs/mdiamant/parsing_08.c */
 int		ft_is_whitespace(char str);
-char	*ft_split_utils(const char *s, int i, int start);
+
 
 
 
 /* Srcs/mdiamant/parsing_09.c */
 
-void		fusion_arg(char **line);
-int			find_next_char(const char *str, const char c);
-void		ft_supprchar(char **str, int i);
-
-void	easy_quote_utils(char **str);
-void	fusion_utils(char **line);
-void	ft_addchar(char **str, int i, char *c);
-
-int		easy_quote(char **line);
-int		hard_quote_01(char **line);
-int		hard_quote_02(char **line);
 
 
 

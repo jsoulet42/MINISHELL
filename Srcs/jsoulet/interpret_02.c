@@ -17,7 +17,7 @@ void	redirect_out(char **file_out, char **type_out)
 		}
 		else if (type_out[i] && ft_strncmp(type_out[i], ">", 2) == 0)
 		{
-			fd_out = open(file_out[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			fd_out = open(file_out[i], O_TRUNC | O_WRONLY | O_CREAT, 0644);
 			dup2(fd_out, STDOUT_FILENO);
 		}
 		i++;

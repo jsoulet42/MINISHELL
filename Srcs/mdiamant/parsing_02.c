@@ -1,145 +1,70 @@
 #include "../../Includes/minishell.h"
 
-void	fusion_arg(char **line)
+int	ft_is_whitespace(char str)
 {
-	int i;
+	if (!str)
+		return (0);
+	if ((str > 8 && str < 14) || str == 32 || str == 127 || str == 0)
+		return (0);
+	return (1);
+}
 
+int	find_next_char(const char *str, const char c)
+{
+	int	i;
+
+	if (!*str)
+		return (0);
 	i = 1;
-	easy_quote_utils(line);
-	while (i != 0)
+	while (str[i])
 	{
-		i = 0;
-		i += easy_quote(line);
-		i += hard_quote_01(line);
-		i += hard_quote_02(line);
-	}
-}
-
-int	hard_quote_01(char **line)
-{
-	int	i;
-	int	res;
-	int	start;
-
-	i = 0;
-	res = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '\"' && i > 1 && ft_is_whitespace((*line)[i - 1]) != 0)
-		{
-			start = i - 1;
-			ft_supprchar(line, i);
-			while (start >= 0 && ft_is_whitespace((*line)[start]) != 0)
-				start--;
-			ft_addchar(line, start, "\"");
-			while ((*line)[i] && (*line)[i] != '\"')
-				i++;
-			res = 1;
-		}
-		else if ((*line)[i] == '\"' && ft_is_whitespace((*line)[i - 1]) == 0)
-		{
-			i++;
-			while ((*line)[i] && (*line)[i] != '\"')
-				i++;
-		}
+		if (str[i] == c)
+			return (i + 1);
 		i++;
 	}
-	return (res);
+	return (i);
 }
 
-int	hard_quote_02(char **line)
+t_par	**sparse(char *argv)
+{
+	int		i;
+	int		j;
+	int		size;
+	t_par	**p;
+
+	p = (t_par **) malloc(sizeof(t_par *) * (count_arg(argv, 0) + 1));
+	if (!p)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (argv[i])
+	{
+		i += get_skip_count(argv + i);
+		if (is_quote(argv + i) != -1)
+			p[j++] = sparse_utils_01(argv, &i, &size);
+		else
+			p[j++] = sparse_utils_02(argv, &i, &size);
+		i += size;
+	}
+	p[j] = NULL;
+	return (fusion_sparse(p));
+}
+
+int	tparlen(t_par **p)
 {
 	int	i;
 	int	res;
 
 	i = 0;
 	res = 0;
-	while ((*line)[i])
+	while (p[i])
 	{
-		if((*line)[i] == '\'')
-			i += is_quote(*line + i) + 1;
-		if ((*line)[i] == '\"')
-		{
-			i += is_quote(*line + i) + 1;
-			if (ft_is_whitespace((*line)[i + 1]) != 0)
-			{
-				ft_supprchar(line, i);
-				while ((*line)[i] && ft_is_whitespace((*line)[i]) != 0)
-					i++;
-				ft_addchar(line, i, "\"");
-				res = 1;
-			}
-		}
+		if (p[i + 1] && p[i]->fusion == 1 && p[i]->type == 0
+			&& p[i + 1]->type == 0)
+			res--;
+		res++;
 		i++;
 	}
+	ft_fprintf(2, "tparlen = %d\n", res);
 	return (res);
-}
-
-int	easy_quote(char **line)
-{
-	int		i;
-	int		res;
-
-	i = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '\"' && (*line)[i + 1] == '\"')
-		{
-			ft_supprchar(line, i);
-			ft_supprchar(line, i);
-			i -=2;
-			res = 1;
-		}
-		i++;
-	}
-	return (res);
-}
-
-void	easy_quote_utils(char **line)
-{
-	int		i;
-	int		tmp;
-
-	i = 0;
-	while ((*line)[i])
-	{
-		if ((*line)[i] == '\"')
-			i += is_quote_zero(*line + i) + 1;
-		if ((*line)[i] == '\'')
-		{
-			tmp = i;
-			i += is_quote_zero(*line + i);
-			(*line)[tmp] = '\"';
-			(*line)[i] = '\"';
-		}
-		i++;
-	}
-}
-
-void	ft_supprchar(char **str, int i)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp1 = ft_substr(*str, 0, i);
-	tmp2 = ft_substr(*str, i + 1, ft_strlen(*str));
-	free(*str);
-	*str = ft_strjoin(tmp1, tmp2);
-	free(tmp1);
-	free(tmp2);
-}
-
-void	ft_addchar(char **str, int i, char *c)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp2 = ft_substr(*str, 0, i + 1);
-	tmp1 = ft_strjoin_plus(tmp2, c);
-	free(tmp2);
-	tmp2 = ft_substr(*str, i + ft_strlen(c), ft_strlen(*str));
-	free(*str);
-		*str = ft_strjoin(tmp1, tmp2);
-	free(tmp1);
-	free(tmp2);
 }

@@ -3,7 +3,7 @@
 t_rinity	**ft_parsing(char *argv)
 {
 	char		*line;
-	char 		*line2;
+	char		*line2;
 	t_rinity	**t;
 
 	line2 = ft_strtrim(argv, " ");
