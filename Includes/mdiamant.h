@@ -23,7 +23,7 @@ struct s_par
 
 int			calc_size_type(char *str);
 int			calc_type(char *str);
-void		sparse(t_par **p, char *argv);
+t_par		**sparse(char *argv);
 void		print_t_par(t_par **p);
 int			get_skip_count(const char *str);
 t_rinity	**ft_parsing(char *argv);

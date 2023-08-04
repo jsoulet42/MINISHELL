@@ -1,5 +1,10 @@
 #include "../../Includes/minishell.h"
 
+static int	tparlen(t_par **p);
+static t_par	**fusion_sparse(t_par **p);
+
+
+
 int	ft_is_whitespace(char str)
 {
 	if (!str)
@@ -39,6 +44,10 @@ static t_par	*sparse_utils_01(char *argv, int *i, int *size)
 	else
 		p->str = ft_substr(argv, *i + 1, *size);
 	p->type = 0;
+
+
+	if(ft_is_whitespace(argv[*size + *i]))
+		p->fusion = 1;
 	*i += 2;
 	return (p);
 }
@@ -54,16 +63,23 @@ static t_par	*sparse_utils_02(char *argv, int *i, int *size)
 	*size = calc_size_type(argv + *i);
 	p->type = calc_type(argv + *i);
 	p->str = ft_substr(argv, *i, *size);
-	//if (argv[*size + 1])
+	if (ft_is_whitespace(argv[*size + *i]))
+		p->fusion = 1;
+
 	return (p);
 }
 
-void	sparse(t_par **p, char *argv)
+t_par	**sparse(char *argv)
 {
-	int	i;
-	int	j;
-	int	size;
+	int		i;
+	int		j;
+	int		size;
+	t_par	**p;
+	
 
+	p = (t_par **) malloc(sizeof(t_par *) * (count_arg(argv, 0) + 1));
+	if (!p)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (argv[i])
@@ -76,4 +92,59 @@ void	sparse(t_par **p, char *argv)
 		i += size;
 	}
 	p[j] = NULL;
+	return(fusion_sparse(p));
+}
+
+static t_par	**fusion_sparse(t_par **p)
+{
+	t_par	**new;
+	int		i;
+	int		j;
+
+	new = (t_par **) malloc(sizeof(t_par *) * (tparlen(p) + 1));
+	if (!new)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (p[i])
+	{
+		new[j] = (t_par *) malloc(sizeof(t_par));
+		if (!new[j])
+			return (NULL);
+		if (p[i + 1] && p[i]->fusion == 1 && p[i]->type == 0 && p[i + 1]->type == 0)
+		{
+			new[j]->str = ft_strjoin(p[i]->str, p[i + 1]->str);
+			new[j]->type = 0;
+			new[j++]->fusion = p[i + 1]->fusion;
+			i++;
+		}
+		else
+		{
+			new[j]->str = ft_strdup(p[i]->str);
+			new[j]->type = p[i]->type;
+			new[j]->fusion = p[i]->fusion;
+			j++;
+		}
+		i++;
+	}
+	new[j] = NULL;
+	free_t_par(p);
+	return (new);
+}
+
+static int	tparlen(t_par **p)
+{
+	int	i;
+	int	res;
+
+	i = 0;
+	res = 0;
+	while (p[i + 1])
+	{
+		if (p[i]->fusion == 1 && p[i]->type == 0 && p[i + 1]->type == 0)
+			res--;
+		res++;
+		i++;
+	}
+	return (res);
 }

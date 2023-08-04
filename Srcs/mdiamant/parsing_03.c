@@ -84,6 +84,8 @@ void	print_t_par(t_par **p)
 	int	i;
 
 	i = 0;
+	if (!p)
+		return ;
 	while (p[i])
 	{
 		ft_fprintf(2, "p[%d] :", i);
