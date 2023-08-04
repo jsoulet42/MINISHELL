@@ -32,8 +32,9 @@ static t_par	*sparse_utils_01(char *argv, int *i, int *size)
 	p = (t_par *) malloc(sizeof(t_par));
 	if (!p)
 		return (NULL);
+	p->fusion = 0;
 	*size = is_quote(argv + *i);
-	if (size == 0)
+	if (*size == 0)
 		p->str = ft_strdup("\0");
 	else
 		p->str = ft_substr(argv, *i + 1, *size);
@@ -49,9 +50,11 @@ static t_par	*sparse_utils_02(char *argv, int *i, int *size)
 	p = (t_par *) malloc(sizeof(t_par));
 	if (!p)
 		return (NULL);
+	p->fusion = 0;
 	*size = calc_size_type(argv + *i);
 	p->type = calc_type(argv + *i);
 	p->str = ft_substr(argv, *i, *size);
+	//if (argv[*size + 1])
 	return (p);
 }
 

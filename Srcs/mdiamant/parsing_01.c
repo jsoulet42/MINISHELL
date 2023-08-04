@@ -4,18 +4,25 @@ t_rinity	**ft_parsing(char *argv)
 {
 	int			res;
 	char		*line;
+	char 		*line2;
 	t_rinity	**t;
 
-	line = ft_strtrim(argv, " ");
-	res = count_arg(line, 0);
+	line2 = ft_strtrim(argv, " ");
+	res = count_arg(line2, 0);
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	fusion_arg(&line);
-	ft_fprintf(2, "fusion : %s\n", line);
+	line = expand_dollars(line2, g_shell_data->env);
+	//line = ft_strdup(line2);
+	ft_fprintf(2, "expand : %s\n", line);
+	free(line2);
+	//fusion_arg(&line);
+	//ft_fprintf(2, "fusion : %s\n", line);
 	sparse(g_shell_data->par, line);
-	check_line(g_shell_data->par);
+	print_t_par(g_shell_data->par);
 	free(line);
+	if (check_line(g_shell_data->par))
+		return (NULL);
 	t = t_rinity_init(g_shell_data->par);
 	if (!t)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
@@ -30,14 +37,14 @@ static t_rinity	*t_rinity_init_utils(t_par **p, int len)
 	t = (t_rinity *) malloc(sizeof(t_rinity));
 	if (!t)
 		ft_putstr_fd("malloc error // init_t_rinity\n", 2);
-	t->command = NULL;
+	t->cmd = NULL;
 	t->type_in = NULL;
 	t->type_out = NULL;
 	t->file_in = NULL;
 	t->file_out = NULL;
 	t->kafka = NULL;
-	t->command = create_commande(p, len);
-	t->builtin = agent_smith(t->command[0]);
+	t->cmd = create_commande(p, len);
+	t->builtin = agent_smith(t->cmd[0]);
 	t->type_in = create_type_in(p, len);
 	t->type_out = create_type_out(p, len);
 	t->file_in = create_file_in(p, len);

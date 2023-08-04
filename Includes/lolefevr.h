@@ -12,7 +12,7 @@ void	error_squote(char *str, int *squote, int *i);
 void	error_dquote(char *str, int *dquote, int *i);
 void	dblequote(int *i, char *str);
 void	simplequote( int *i, char *str);
-int	viveldop(int gel, char *str, int *i);
+int	viveldop(char gel, char *str, int *i);
 int	unknown_command();
 int	change_directory(const char *path);
 t_env	*ft_cd(int argc, char **argv, t_env **env);
@@ -22,8 +22,8 @@ void	new_shlvl(char *env);
 void	ft_exit();
 char	**env_update(char **envp, t_shell *env);
 t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env);
-//int	env(t_env *env);
-//void	pwd();
-//int	echo(int argc, char **argv);
+int		ft_env(int argc, char **argv, char **env);
+int		ft_pwd(int argc, char **argv);
+int		ft_echo(int argc, char **argv);
 
 #endif

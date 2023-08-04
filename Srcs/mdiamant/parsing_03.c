@@ -51,7 +51,7 @@ void	print_t_rinity(t_rinity **t)
 		ft_fprintf(2, "\n|");
 		pw(len + 5, ' ');
 		j = ft_fprintf(2, "|\tLa commande est : ");
-		j += print_strstr(t[i]->command);
+		j += print_strstr(t[i]->cmd);
 		pw(len - j, ' ');
 		j = ft_fprintf(2, "|\ttype_in  : ");
 		j += print_strstr(t[i]->type_in);
@@ -87,8 +87,9 @@ void	print_t_par(t_par **p)
 	while (p[i])
 	{
 		ft_fprintf(2, "p[%d] :", i);
-		ft_fprintf(2, " str : '%s' // ", p[i]->str);
-		ft_fprintf(2, "type : %d // ", p[i]->type);
+		ft_fprintf(2, " str : [%s] // ", p[i]->str);
+		ft_fprintf(2, "type : [%d] // ", p[i]->type);
+		ft_fprintf(2, "fusion : [%d]\n", p[i]->fusion);
 		i++;
 	}
 }

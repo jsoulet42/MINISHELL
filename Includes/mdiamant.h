@@ -7,10 +7,11 @@ struct s_parsing
 {
 	char	*str;
 	int		type;
+	int		fusion;
 };
 struct s_par
 {
-	char	**command;
+	char	**cmd;
 	char	**file_in;
 	char	**file_out;
 	char	**type_in;
@@ -64,6 +65,16 @@ char	*ft_split_utils(const char *s, int i, int start);
 
 void		fusion_arg(char **line);
 int			find_next_char(const char *str, const char c);
+void		ft_supprchar(char **str, int i);
+
+void	easy_quote_utils(char **str);
+void	fusion_utils(char **line);
+void	ft_addchar(char **str, int i, char *c);
+
+int		easy_quote(char **line);
+int		hard_quote_01(char **line);
+int		hard_quote_02(char **line);
+
 
 
 
