@@ -7,6 +7,7 @@ struct s_parsing
 {
 	char	*str;
 	int		type;
+	int		fusion;
 };
 struct s_par
 {

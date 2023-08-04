@@ -19,7 +19,7 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 
 char	*expand_dollars(char *str, t_env *env)
 {
-	int		id[2];
+	int		id[3];
 	char	*res;
 	char	*temp;
 
@@ -28,8 +28,13 @@ char	*expand_dollars(char *str, t_env *env)
 	res = NULL;
 	id[0] = -1;
 	id[1] = 0;
+	id[2] = 0;
 	while (str[++id[0]])
 	{
+		if (str[id[0]] == '\"')
+			id[2]++;
+		if(str[id[0]] == '\'' && !(id[2] % 2))
+			id[0] += is_quote_zero(str + id[0]);
 		if (str[id[0]] != '$')
 			continue ;
 		if (id[0] != id[1] && !ft_free_strcat(&res, str, id[1], id[0]))
@@ -44,3 +49,15 @@ char	*expand_dollars(char *str, t_env *env)
 		return (NULL);
 	return (res);
 }
+/*
+echo $USERNAME $USERNAME
+
+while (line[i])
+{
+if line[i] = '
+i += is_quote(line + i)
+if line[i] = $
+expende_dollars(line + i)
+}
+
+*/

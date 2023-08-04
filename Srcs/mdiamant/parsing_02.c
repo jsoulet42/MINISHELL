@@ -5,6 +5,7 @@ void	fusion_arg(char **line)
 	int i;
 
 	i = 1;
+	easy_quote_utils(line);
 	while (i != 0)
 	{
 		i = 0;
@@ -28,7 +29,6 @@ int	hard_quote_01(char **line)
 		{
 			start = i - 1;
 			ft_supprchar(line, i);
-
 			while (start >= 0 && ft_is_whitespace((*line)[start]) != 0)
 				start--;
 			ft_addchar(line, start, "\"");
@@ -46,7 +46,7 @@ int	hard_quote_01(char **line)
 	}
 	return (res);
 }
-// "123"456
+
 int	hard_quote_02(char **line)
 {
 	int	i;
@@ -56,6 +56,8 @@ int	hard_quote_02(char **line)
 	res = 0;
 	while ((*line)[i])
 	{
+		if((*line)[i] == '\'')
+			i += is_quote(*line + i) + 1;
 		if ((*line)[i] == '\"')
 		{
 			i += is_quote(*line + i) + 1;
@@ -73,27 +75,11 @@ int	hard_quote_02(char **line)
 	return (res);
 }
 
-void	fusion_utils(char **line)
-{
-	int		i;
-
-	i = 0;
-	while ((*line)[i])
-	{
-		if (i > 1 && (*line)[i] == '\"' && ft_is_whitespace((*line)[i - 2]) != 0)
-		{
-			ft_supprchar(line, i--);
-		}
-		i++;
-	}
-}
-
 int	easy_quote(char **line)
 {
 	int		i;
 	int		res;
 
-	easy_quote_utils(line);
 	i = 0;
 	while ((*line)[i])
 	{
@@ -117,11 +103,14 @@ void	easy_quote_utils(char **line)
 	i = 0;
 	while ((*line)[i])
 	{
+		if ((*line)[i] == '\"')
+			i += is_quote_zero(*line + i) + 1;
 		if ((*line)[i] == '\'')
 		{
 			tmp = i;
-			i += is_quote(*line + i);
+			i += is_quote_zero(*line + i);
 			(*line)[tmp] = '\"';
+			(*line)[i] = '\"';
 		}
 		i++;
 	}
