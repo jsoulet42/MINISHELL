@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_01.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 14:04:38 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/02 22:46:41 by lolefevr         ###   ########.fr       */
+/*   Updated: 2023/08/04 22:17:25 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void ft_echo2(char **str, int option)
 
 }
 
-int	main(int argc, char **argv)
+int	ft_echo(int argc, char **argv)
 {
 	int i;
 
