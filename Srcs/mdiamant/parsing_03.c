@@ -87,8 +87,9 @@ void	print_t_par(t_par **p)
 	while (p[i])
 	{
 		ft_fprintf(2, "p[%d] :", i);
-		ft_fprintf(2, " str : '%s' // ", p[i]->str);
-		ft_fprintf(2, "type : %d // ", p[i]->type);
+		ft_fprintf(2, " str : [%s] // ", p[i]->str);
+		ft_fprintf(2, "type : [%d] // ", p[i]->type);
+		ft_fprintf(2, "fusion : [%d]\n", p[i]->fusion);
 		i++;
 	}
 }

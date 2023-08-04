@@ -32,7 +32,7 @@ int	calc_size_type(char *str)
 	{
 		while (str[i])
 		{
-			if (is_operand(str + i) || str[i] == ' ' || str[i] == '\t')
+			if (is_operand(str + i) || !ft_is_whitespace(str[i]))
 				break ;
 			i++;
 		}
@@ -71,7 +71,7 @@ int	count_arg(const char *argv, int i)
 
 int	is_operand(const char *str)
 {
-	if (ft_strchr(OPERANDS, *str) != NULL && *str != ' ' && *str)
+	if (*str && ft_strchr(OPERANDS, *str) != NULL && *str != ' ')
 	{
 		if (str[0] == str[1])
 			return (2);

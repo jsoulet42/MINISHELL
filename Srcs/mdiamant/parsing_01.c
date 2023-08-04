@@ -4,18 +4,24 @@ t_rinity	**ft_parsing(char *argv)
 {
 	int			res;
 	char		*line;
+	char 		*line2;
 	t_rinity	**t;
 
-	line = ft_strtrim(argv, " ");
-	res = count_arg(line, 0);
+	line2 = ft_strtrim(argv, " ");
+	res = count_arg(line2, 0);
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	fusion_arg(&line);
-	ft_fprintf(2, "fusion : %s\n", line);
+	line = expand_dollars(line2, g_shell_data->env);
+	//line = ft_strdup(line2);
+	ft_fprintf(2, "expand : %s\n", line);
+	free(line2);
+	//fusion_arg(&line);
+	//ft_fprintf(2, "fusion : %s\n", line);
 	sparse(g_shell_data->par, line);
-	check_line(g_shell_data->par);
+	print_t_par(g_shell_data->par);
 	free(line);
+	check_line(g_shell_data->par);
 	t = t_rinity_init(g_shell_data->par);
 	if (!t)
 		ft_fprintf(2, "malloc error // ft_parsing\n");

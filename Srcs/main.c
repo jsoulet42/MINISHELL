@@ -34,6 +34,7 @@ static int prompt_cmd(char **envp)
 	free(line);
 	if (check_starterrors(line2) > 0)
 		return (free(line2), 1);
+	ft_fprintf(2,"ok\n");
 	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
@@ -128,6 +129,11 @@ void exec_last(t_env *env, t_rinity *cmd_struct, char **envp)
 
 	(void)envp;
 	g_shell_data->path = get_path(cmd_struct->command[0], env);
+	if (!g_shell_data->path)
+	{
+		ft_fprintf(2, "minishell: %s: command not found\n", cmd_struct->command[0]);
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
@@ -162,7 +168,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		if (prompt_cmd(envp))
-			return (free_data(g_shell_data), 1);
+			continue;
 		test = g_shell_data;
 		envp = env_update(envp, test);
 	}

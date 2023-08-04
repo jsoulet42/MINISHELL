@@ -7,7 +7,7 @@ int	unknown_command()
 	return (1);
 }
 
-int	viveldop(int gel, char *str, int *i)
+int	viveldop(char gel, char *str, int *i)
 {
 	if (str[*(i) + 1] == gel)
 		return (1);
@@ -51,6 +51,5 @@ int	check_starterrors(char *str)
 {
 	if (error_quote(str) || error_gen(str, 0) || error_pipe(str))
 		return (1);
-	else
-		return (0);
+	return (0);
 }
