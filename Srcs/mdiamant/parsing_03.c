@@ -51,7 +51,7 @@ void	print_t_rinity(t_rinity **t)
 		ft_fprintf(2, "\n|");
 		pw(len + 5, ' ');
 		j = ft_fprintf(2, "|\tLa commande est : ");
-		j += print_strstr(t[i]->command);
+		j += print_strstr(t[i]->cmd);
 		pw(len - j, ' ');
 		j = ft_fprintf(2, "|\ttype_in  : ");
 		j += print_strstr(t[i]->type_in);

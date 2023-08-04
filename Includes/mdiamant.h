@@ -11,7 +11,7 @@ struct s_parsing
 };
 struct s_par
 {
-	char	**command;
+	char	**cmd;
 	char	**file_in;
 	char	**file_out;
 	char	**type_in;

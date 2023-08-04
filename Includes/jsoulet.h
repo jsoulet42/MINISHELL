@@ -24,5 +24,8 @@ void	execute_builtin(t_rinity *cmd_struct, int builtin);
 int		execute_first_builtin(t_rinity *cmd_struct, int builtin);
 int		agent_smith(char *cmd);
 void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env);
+void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env);
+int		prompt_cmd_02(char *line2, char **envp);
+int		next_good_commande(t_par **par, int i);
 
 #endif
