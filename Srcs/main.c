@@ -62,7 +62,7 @@ int	execute_first_builtin(t_rinity *cmd_struct, int builtin)
 {
 	if (builtin == 1)
 	{
-		ft_exit(cmd_struct->cmd);
+		ft_exit();
 		return (1);
 	}
 	else if (builtin == 2)
