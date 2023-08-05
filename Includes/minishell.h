@@ -4,17 +4,17 @@
 
 # include "libft.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <sys/stat.h>
-#include <dirent.h>
-#include <string.h>
-#include <sys/types.h>
-#include <termios.h>
-#include <errno.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <sys/stat.h>
+# include <dirent.h>
+# include <string.h>
+# include <sys/types.h>
+# include <termios.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -32,23 +32,24 @@
 
 # include "minishell_macros.h"
 
-typedef struct s_parsing t_par;
-typedef struct s_env t_env;
-typedef struct s_par t_rinity;
+typedef struct s_parsing	t_par;
+typedef struct s_env		t_env;
+typedef struct s_par		t_rinity;
 
 typedef struct s_shell
 {
-	t_par		**par;
-	t_env		*env;
-	t_rinity	**t;
-	int 		in;
-	int 		out;
-	int 		fd[2];
-	char		*path;
-	char		*pwd;
+	t_par			**par;
+	t_env			*env;
+	t_rinity		**t;
+	int				in;
+	int				out;
+	int				fd[2];
+	int				exit_code;
+	char			*path;
+	char			*pwd;
 }				t_shell;
 
-extern t_shell *g_shell_data;
+extern t_shell				*g_shell_data;
 
 # include "mdiamant.h"
 # include "hnogared.h"

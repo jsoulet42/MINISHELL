@@ -1,4 +1,3 @@
-
 #include "../../Includes/minishell.h"
 
 int	lentab(char **tableau)
@@ -6,16 +5,17 @@ int	lentab(char **tableau)
 	int	i;
 
 	i = -1;
-	while(tableau[++i])
+	while (tableau[++i])
 		i = i;
 	return (i);
 }
+
 char	**env_update(char **envp, t_shell *env)
 {
 	t_env	*found;
 	t_env	*found2;
 	t_shell	*temp;
-	int	i;
+	int		i;
 
 	temp = env;
 	i = 0;

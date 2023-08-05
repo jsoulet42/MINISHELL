@@ -8,6 +8,11 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 	if (!to_search || !env)
 		return (0);
 	i = 1;
+	if (to_search[i] == '?')
+	{
+		*to_set = ft_itoa(g_shell_data->exit_code);
+		return (2);
+	}
 	while (to_search[i] && ft_isalnum(to_search[i]))
 		i++;
 	var_name = ft_substr(to_search, 1, i - 1);

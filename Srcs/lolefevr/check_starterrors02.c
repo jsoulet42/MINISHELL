@@ -1,7 +1,6 @@
-
 #include "../../Includes/minishell.h"
 
-int	unknown_command()
+int	unknown_command(void)
 {
 	printf("Error : Unknown command type \n");
 	return (1);
@@ -36,7 +35,6 @@ int	error_pipe(char *str)
 	int	i;
 
 	i = 0;
-
 	while (str[i + 1] != 0)
 		i++;
 	if (((str[i] == '|') || str[i] == '>') || str[i] == '<')

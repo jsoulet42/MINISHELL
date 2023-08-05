@@ -2,7 +2,7 @@
 
 void	fusion_arg(char **line)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	easy_quote_utils(line);

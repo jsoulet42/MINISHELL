@@ -1,6 +1,6 @@
 #include "../../Includes/minishell.h"
 
-int simplquote(char *str)
+int	simplquote(char *str)
 {
 	int	i;
 

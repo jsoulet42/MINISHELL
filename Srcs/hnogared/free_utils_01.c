@@ -42,7 +42,7 @@ void	free_and_exit(void)
 {
 	int	exit_code;
 
-	exit_code = 0;
+	exit_code = g_shell_data->exit_code;
 	free_trinity();
 	if (g_shell_data)
 		free_data(g_shell_data);

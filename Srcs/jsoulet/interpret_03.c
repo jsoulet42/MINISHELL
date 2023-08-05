@@ -59,6 +59,7 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 	else
 	{
 		waitpid(pid, NULL, 0);
+		g_shell_data->exit_code = 0;
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 	}
@@ -79,10 +80,10 @@ void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env)
 
 void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 {
-	if (builtin == 5)
+	if (builtin == 5 && ft_strlen(cmd_struct->cmd[0]) == 4)
 		ft_echo(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	else if (builtin == 6)
+	else if (builtin == 6 && ft_strlen(cmd_struct->cmd[0]) == 3)
 		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	else if (builtin == 4)
+	else if (builtin == 4 && ft_strlen(cmd_struct->cmd[0]) == 3)
 		ft_env(lentab(cmd_struct->cmd), cmd_struct->cmd, env_to_str_tab(&env));
 }

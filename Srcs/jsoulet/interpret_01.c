@@ -90,7 +90,8 @@ void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
 			cmd_struct->cmd[0]);
-		exit(127);
+		g_shell_data->exit_code = 127;
+		exit (0);
 	}
 	execve(g_shell_data->path, cmd_struct->cmd, env_to_str_tab(&env));
 }

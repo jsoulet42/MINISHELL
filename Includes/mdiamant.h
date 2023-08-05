@@ -38,8 +38,6 @@ void		print_t_rinity(t_rinity **t);
 int			count_cmd(t_par **par);
 t_rinity	**t_rinity_init(t_par **p);
 char		**new_neo(char *add);
-
-
 char		**create_type_in(t_par **p, int i);
 char		**create_type_out(t_par **p, int i);
 char		**create_file_in(t_par **p, int i);
@@ -56,27 +54,17 @@ int			next_pipe(t_par **p, int i);
 /* Srcs/mdiamant/parsing_06.c */
 /* Srcs/mdiamant/parsing_07.c */
 /* Srcs/mdiamant/parsing_08.c */
-int		ft_is_whitespace(char str);
-char	*ft_split_utils(const char *s, int i, int start);
-
-
-
+int			ft_is_whitespace(char str);
+char		*ft_split_utils(const char *s, int i, int start);
 /* Srcs/mdiamant/parsing_09.c */
-
 void		fusion_arg(char **line);
 int			find_next_char(const char *str, const char c);
 void		ft_supprchar(char **str, int i);
-
-void	easy_quote_utils(char **str);
-void	fusion_utils(char **line);
-void	ft_addchar(char **str, int i, char *c);
-
-int		easy_quote(char **line);
-int		hard_quote_01(char **line);
-int		hard_quote_02(char **line);
-
-
-
-
+void		easy_quote_utils(char **str);
+void		fusion_utils(char **line);
+void		ft_addchar(char **str, int i, char *c);
+int			easy_quote(char **line);
+int			hard_quote_01(char **line);
+int			hard_quote_02(char **line);
 
 #endif

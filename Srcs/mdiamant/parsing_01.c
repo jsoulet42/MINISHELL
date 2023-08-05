@@ -4,7 +4,7 @@ t_rinity	**ft_parsing(char *argv)
 {
 	int			res;
 	char		*line;
-	char 		*line2;
+	char		*line2;
 	t_rinity	**t;
 
 	line2 = ft_strtrim(argv, " ");
@@ -19,7 +19,7 @@ t_rinity	**ft_parsing(char *argv)
 	//fusion_arg(&line);
 	//ft_fprintf(2, "fusion : %s\n", line);
 	sparse(g_shell_data->par, line);
-	print_t_par(g_shell_data->par);
+	//print_t_par(g_shell_data->par);
 	free(line);
 	if (check_line(g_shell_data->par))
 		return (NULL);
