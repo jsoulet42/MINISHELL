@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_03.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:23:15 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:20:15 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 static void	print_t_rinity_02(t_rinity **t, int i, int j, int len);
@@ -77,19 +89,4 @@ static void	print_t_rinity_02(t_rinity **t, int i, int j, int len)
 	pw(len - j, ' ');
 	ft_fprintf(2, "|______________________________");
 	ft_fprintf(2, "_______________________|\n\n");
-}
-
-void	print_t_par(t_par **p)
-{
-	int	i;
-
-	i = 0;
-	while (p[i])
-	{
-		ft_fprintf(2, "p[%d] :", i);
-		ft_fprintf(2, " str : [%s] // ", p[i]->str);
-		ft_fprintf(2, "type : [%d] // ", p[i]->type);
-		ft_fprintf(2, "fusion : [%d]\n", p[i]->fusion);
-		i++;
-	}
 }

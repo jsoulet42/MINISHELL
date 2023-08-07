@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   environment_utils_02.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:14:05 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:35:15 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
@@ -13,7 +24,6 @@ char	**env_to_str_tab(t_env **env_list)
 	t_env	*start;
 	t_env	*temp;
 
-
 	if (!env_list)
 		return (NULL);
 	start = *env_list;
@@ -27,6 +37,14 @@ char	**env_to_str_tab(t_env **env_list)
 	envp = (char **) ft_calloc((i + 1), sizeof(char *));
 	if (!envp)
 		return (NULL);
+	envp = env_to_str_tab_02(envp, start);
+	return (envp);
+}
+
+char	**env_to_str_tab_02(char **envp, t_env *start)
+{
+	int	i;
+
 	i = 0;
 	while (start)
 	{
@@ -122,40 +140,3 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 		return (NULL);
 	return (env_var);
 }
-
-/* Function to display an environment's linked list of variables on terminal
- * following a given mode
- * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
- * mode(SH_ORDERED)		-> display all variables in alphabetical order
- *
- * @param t_env *env_list	-> pointer to the environment to display
- * @param int mode			-> display mode of the environment
- */
-/*void	print_env(t_env *env_list, int mode)
-{
-	char	*check;
-	char	**temp;
-	char	**str_env;
-
-	if (mode == SH_DISORDERED)
-	{
-		while (env_list)
-		{
-			printf("%s\n", env_list->display);
-			env_list = env_list->next;
-		}
-		return ;
-	}
-	str_env = env_to_str_tab(env_list);
-	if (!str_env)
-		return ;
-	order_str_tab(str_env, '=');
-	temp = str_env;
-	while (*temp)
-	{
-		check = ft_strchr(*temp, '=');
-		mode = '"' * (check && !*(check + 1));
-		printf("%s%c%c\n", *temp++, mode, mode);
-	}
-	free_str_tab((void **)str_env);
-}*/

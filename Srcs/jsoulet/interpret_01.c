@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpret_01.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:16:13 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
-/*si il y a plusieur operateur de suite on print une erreur
-	et on return le print de l'erreur*/
 int	check_line(t_par **par)
 {
 	int	i;

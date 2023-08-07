@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 03:10:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/02 15:03:41 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/08/07 13:10:28 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:30:40 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/hnogared.h"
+#include "../../Includes/minishell.h"
 
 /* Function to put the current argument's error message on the standard error
  *
@@ -146,15 +146,8 @@ int	ft_export(char **argv, t_env **env)
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
-/*	if (!argv[1])
-		return (print_env(*env, SH_ORDERED), SH_SUCCESS);*/
 	if (argv[2])
-		return (1);/*
-	if (ft_strncmp(g_shell_data->env->name, "PATH", 4) == 0)
-	{
-		if (ft_strncmp(argv[1], "PATH", 4) == 0)
-			return (0);
-	}*/
+		return (1);
 	while (*(++argv))
 	{
 		expanded = expand_dollars(*argv, *env);

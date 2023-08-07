@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/27 12:59:56 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/06 00:49:00 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:35:00 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void ft_exit(void)
+void	ft_exit(void)
 {
 	free_trinity();
 	safe_free((void **)&g_shell_data->path);

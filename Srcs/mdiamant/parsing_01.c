@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_01.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:20:13 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 t_rinity	**ft_parsing(char *argv)
@@ -13,20 +25,14 @@ t_rinity	**ft_parsing(char *argv)
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
 	line = expand_dollars(line2, g_shell_data->env);
-	//line = ft_strdup(line2);
-	ft_fprintf(2, "expand : %s\n", line);
 	free(line2);
-	//fusion_arg(&line);
-	//ft_fprintf(2, "fusion : %s\n", line);
 	sparse(g_shell_data->par, line);
-	//print_t_par(g_shell_data->par);
 	free(line);
 	if (check_line(g_shell_data->par))
 		return (NULL);
 	t = t_rinity_init(g_shell_data->par);
 	if (!t)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	print_t_rinity(t);
 	return (t);
 }
 
@@ -72,4 +78,17 @@ t_rinity	**t_rinity_init(t_par **p)
 	}
 	t[cmd] = NULL;
 	return (t);
+}
+
+void	ft_supprchar(char **str, int i)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	tmp1 = ft_substr(*str, 0, i);
+	tmp2 = ft_substr(*str, i + 1, ft_strlen(*str));
+	free(*str);
+	*str = ft_strjoin(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
 }

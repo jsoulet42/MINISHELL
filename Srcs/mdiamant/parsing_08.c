@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_08.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:25:23 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:25:25 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 int	ft_is_whitespace(char str)
@@ -54,7 +66,6 @@ static t_par	*sparse_utils_02(char *argv, int *i, int *size)
 	*size = calc_size_type(argv + *i);
 	p->type = calc_type(argv + *i);
 	p->str = ft_substr(argv, *i, *size);
-	//if (argv[*size + 1])
 	return (p);
 }
 

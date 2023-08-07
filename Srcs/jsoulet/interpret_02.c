@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpret_02.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:01:46 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 void	redirect_out(char **file_out, char **type_out)
@@ -59,6 +71,7 @@ void	redirect_in(char **file_in, char **type_in)
 int	ft_heredoc(char *str)
 {
 	char	*line;
+	char	*line_temp;
 	int		fd[2];
 
 	if (pipe(fd) == -1)
@@ -70,10 +83,11 @@ int	ft_heredoc(char *str)
 			return (-1);
 		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
 			break ;
-		ft_fprintf(fd[1], "%s\n", line);
+		line_temp = expand_dollars(line, g_shell_data->env);
 		free(line);
+		ft_fprintf(fd[1], "%s\n", line_temp);
 	}
-	safe_free((void **)&line);
+	safe_free((void **)&line_temp);
 	close(fd[1]);
 	return (fd[0]);
 }

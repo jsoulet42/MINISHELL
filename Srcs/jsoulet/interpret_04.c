@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   interpret_04.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:52:46 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 void	exec_last(t_env *env, t_rinity *cmd, char **envp)
@@ -88,10 +100,3 @@ void	continue_child_builtin(t_rinity *cd, int builtin)
 	else
 		return ;
 }
-
-
-/* error a regler
-
-quand on echo $une variable a grande value du style PATH
-
-*/

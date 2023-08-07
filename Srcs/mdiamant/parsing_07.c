@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_07.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:25:02 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:15:32 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 void	free_t_par(t_par **p)
@@ -64,4 +76,19 @@ int	strstr_len(char **str)
 	while (str[i])
 		i++;
 	return (i);
+}
+
+void	ft_addchar(char **str, int i, char *c)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	tmp2 = ft_substr(*str, 0, i + 1);
+	tmp1 = ft_strjoin_plus(tmp2, c);
+	free(tmp2);
+	tmp2 = ft_substr(*str, i + ft_strlen(c), ft_strlen(*str));
+	free(*str);
+	*str = ft_strjoin(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
 }

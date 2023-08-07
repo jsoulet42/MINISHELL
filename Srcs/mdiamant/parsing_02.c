@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_02.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:22:41 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:21:45 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../Includes/minishell.h"
 
 void	fusion_arg(char **line)
@@ -10,36 +22,32 @@ void	fusion_arg(char **line)
 	{
 		i = 0;
 		i += easy_quote(line);
-		i += hard_quote_01(line);
+		i += hard_quote_01(line, 0, 0);
 		i += hard_quote_02(line);
 	}
 }
 
-int	hard_quote_01(char **line)
+int	hard_quote_01(char **l, int i, int res)
 {
-	int	i;
-	int	res;
 	int	start;
 
-	i = 0;
-	res = 0;
-	while ((*line)[i])
+	while ((*l)[i])
 	{
-		if ((*line)[i] == '\"' && i > 1 && ft_is_whitespace((*line)[i - 1]) != 0)
+		if ((*l)[i] == '\"' && i > 1 && ft_is_whitespace((*l)[i - 1]) != 0)
 		{
 			start = i - 1;
-			ft_supprchar(line, i);
-			while (start >= 0 && ft_is_whitespace((*line)[start]) != 0)
+			ft_supprchar(l, i);
+			while (start >= 0 && ft_is_whitespace((*l)[start]) != 0)
 				start--;
-			ft_addchar(line, start, "\"");
-			while ((*line)[i] && (*line)[i] != '\"')
+			ft_addchar(l, start, "\"");
+			while ((*l)[i] && (*l)[i] != '\"')
 				i++;
 			res = 1;
 		}
-		else if ((*line)[i] == '\"' && ft_is_whitespace((*line)[i - 1]) == 0)
+		else if ((*l)[i] == '\"' && ft_is_whitespace((*l)[i - 1]) == 0)
 		{
 			i++;
-			while ((*line)[i] && (*line)[i] != '\"')
+			while ((*l)[i] && (*l)[i] != '\"')
 				i++;
 		}
 		i++;
@@ -56,7 +64,7 @@ int	hard_quote_02(char **line)
 	res = 0;
 	while ((*line)[i])
 	{
-		if((*line)[i] == '\'')
+		if ((*line)[i] == '\'')
 			i += is_quote(*line + i) + 1;
 		if ((*line)[i] == '\"')
 		{
@@ -87,7 +95,7 @@ int	easy_quote(char **line)
 		{
 			ft_supprchar(line, i);
 			ft_supprchar(line, i);
-			i -=2;
+			i -= 2;
 			res = 1;
 		}
 		i++;
@@ -114,32 +122,4 @@ void	easy_quote_utils(char **line)
 		}
 		i++;
 	}
-}
-
-void	ft_supprchar(char **str, int i)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp1 = ft_substr(*str, 0, i);
-	tmp2 = ft_substr(*str, i + 1, ft_strlen(*str));
-	free(*str);
-	*str = ft_strjoin(tmp1, tmp2);
-	free(tmp1);
-	free(tmp2);
-}
-
-void	ft_addchar(char **str, int i, char *c)
-{
-	char	*tmp1;
-	char	*tmp2;
-
-	tmp2 = ft_substr(*str, 0, i + 1);
-	tmp1 = ft_strjoin_plus(tmp2, c);
-	free(tmp2);
-	tmp2 = ft_substr(*str, i + ft_strlen(c), ft_strlen(*str));
-	free(*str);
-		*str = ft_strjoin(tmp1, tmp2);
-	free(tmp1);
-	free(tmp2);
 }
