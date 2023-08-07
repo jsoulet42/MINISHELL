@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:47:40 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:12:54 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,16 @@ char	*get_path_cmd(char **path, char *cmd)
 	char	*path_cmd;
 	char	*tmp;
 
+	if (cmd[0] == '.' || cmd[0] == '/')
+	{
+		if (access(cmd, F_OK) == 0)
+			return (ft_strdup(cmd));
+		return (NULL);
+	}
 	i = 0;
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
+		tmp = ft_strjoin(path[i++], "/");
 		if (!tmp)
 			return (NULL);
 		path_cmd = ft_strjoin(tmp, cmd);
@@ -46,7 +52,6 @@ char	*get_path_cmd(char **path, char *cmd)
 		if (access(path_cmd, F_OK) == 0)
 			return (path_cmd);
 		free(path_cmd);
-		i++;
 	}
 	return (NULL);
 }
