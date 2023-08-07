@@ -10,11 +10,7 @@ ENV_NAME	=	env
 PWD_NAME	=	pwd
 
 VPATH		=	Srcs:			\
-				Srcs/builtins:	\
-				Srcs/mdiamant:	\
-				Srcs/lolefevr:	\
-				Srcs/hnogared:	\
-				Srcs/jsoulet
+				Srcs/builtins:
 
 SRCS		=	main.c					\
 				parsing_01.c			\

@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   free_utils_02.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:10:40 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:34:52 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:14:24 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:40:15 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int	ft_pwd(int argc, char **argv)
+void	free_and_return(void)
 {
-	char	buffer[512];
-
-	(void)argc;
-	(void)argv;
-	if (getcwd(buffer, sizeof(buffer)) != NULL)
-		printf("Le répertoire de travail actuel est : %s\n", buffer);
-	else
-	{
-		perror("Erreur lors de l'appel à getcwd");
-		return (1);
-	}
-	return (0);
+	free_trinity();
+	if (g_shell_data)
+		free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 }

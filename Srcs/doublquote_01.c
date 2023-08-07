@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   doublquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:10:40 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:34:52 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:17:08 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:39:48 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int	ft_pwd(int argc, char **argv)
+int	doublquote(char *str)
 {
-	char	buffer[512];
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	if (getcwd(buffer, sizeof(buffer)) != NULL)
-		printf("Le répertoire de travail actuel est : %s\n", buffer);
-	else
+	i = 0;
+	while (str[i])
 	{
-		perror("Erreur lors de l'appel à getcwd");
-		return (1);
+		if ((int)str[i] == 34)
+			return (i);
+		i++;
 	}
-	return (0);
+	return (-1);
 }

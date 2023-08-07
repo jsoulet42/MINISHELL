@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 14:04:38 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/08/04 22:17:25 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:10:12 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:31:34 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ void	print_str_tab_echo(char **str_tab)
 	}
 }
 
-
-void ft_echo2(char **str, int option)
+void	ft_echo2(char **str, int option)
 {
 	if (!str[0] && option == 1)
 		return ;
@@ -38,15 +37,12 @@ void ft_echo2(char **str, int option)
 		printf("\n");
 	}
 	else if (option == 1)
-	{
 		print_str_tab_echo(str);
-	}
-
 }
 
 int	ft_echo(int argc, char **argv)
 {
-	int i;
+	int	i;
 
 	i = 1;
 	if (argc == 1)

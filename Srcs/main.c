@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:00:35 by jsoulet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Includes/minishell.h"
 
 t_shell	*g_shell_data;
@@ -62,7 +74,7 @@ int	execute_first_builtin(t_rinity *cmd_struct, int builtin)
 {
 	if (builtin == 1)
 	{
-		ft_exit(cmd_struct->cmd);
+		ft_exit();
 		return (1);
 	}
 	else if (builtin == 2)
