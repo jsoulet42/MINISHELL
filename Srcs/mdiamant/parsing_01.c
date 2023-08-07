@@ -6,18 +6,16 @@ t_rinity	**ft_parsing(char *argv)
 	char		*line2;
 	t_rinity	**t;
 
-	line2 = ft_strtrim(argv, " ");
+	line2= ft_strtrim(argv, " ");
 	line = expand_dollars(line2, g_shell_data->env);
 	free(line2);
 	g_shell_data->par = sparse(line);
-	print_t_par(g_shell_data->par);
 	free(line);
 	if (check_line(g_shell_data->par))
 		return (NULL);
 	t = t_rinity_init(g_shell_data->par);
 	if (!t)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	print_t_rinity(t);
 	return (t);
 }
 

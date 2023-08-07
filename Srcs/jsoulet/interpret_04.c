@@ -56,7 +56,6 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	if (pid == 0)
 	{
 		continue_child_builtin(cd, builtin);
-		ft_fprintf(2, "apres continue_child_builtin\n");
 		exit(0);
 	}
 	else

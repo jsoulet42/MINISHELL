@@ -16,7 +16,6 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 		free(var_name);
 	return (i);
 }
-
 char	*expand_dollars(char *str, t_env *env)
 {
 	int		id[3];
@@ -41,7 +40,7 @@ char	*expand_dollars(char *str, t_env *env)
 			return (NULL);
 		id[1] = id[0];
 		id[1] += get_dollar_value(&temp, str + id[0], env);
-		if (temp && !ft_free_strcat(&res, temp, 0, id[1]))
+		if (temp && !ft_free_strcat(&res, temp, 0, ft_strlen(temp)))
 			return (NULL);
 		id[0] = id[1] - 1;
 	}

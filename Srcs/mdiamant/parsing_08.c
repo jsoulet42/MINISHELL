@@ -81,7 +81,6 @@ t_par	**fusion_sparse(t_par **p)
 			new[j]->str = ft_strdup(p[i]->str);
 			new[j++]->type = p[i]->type;
 		}
-		ft_fprintf(2, "new[%d]->str = %s\n", j - 1, new[j - 1]->str);
 		i++;
 	}
 	free_t_par(p);

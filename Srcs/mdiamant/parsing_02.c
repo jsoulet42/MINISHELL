@@ -65,6 +65,5 @@ int	tparlen(t_par **p)
 		res++;
 		i++;
 	}
-	ft_fprintf(2, "tparlen = %d\n", res);
 	return (res);
 }
