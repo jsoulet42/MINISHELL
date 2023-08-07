@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:23:15 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:20:15 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:41:48 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 static void	print_t_rinity_02(t_rinity **t, int i, int j, int len);
 

@@ -1,1 +1,0 @@
-/home/jsoulet/.local/bin:/home/jsoulet/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin:/home/jsoulet/.local/bin

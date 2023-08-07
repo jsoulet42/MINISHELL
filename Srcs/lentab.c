@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:35 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 13:17:36 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:40:49 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 int	lentab(char **tableau)
 {

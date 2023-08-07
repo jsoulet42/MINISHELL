@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils_02.c                                    :+:      :+:    :+:   */
+/*   simplquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:14:24 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:03:42 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:19:14 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:42:31 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-void	free_and_return(void)
+int	simplquote(char *str)
 {
-	free_trinity();
-	if (g_shell_data)
-		free_data(g_shell_data);
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if ((int)str[i] == 39)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

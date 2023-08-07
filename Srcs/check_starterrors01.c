@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:53 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 13:16:56 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:39:35 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 void	error_dquote(char *str, int *dquote, int *i)
 {

@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:09 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:05:15 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:40:27 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 static t_env	*get_default_env(char **envp)
 {

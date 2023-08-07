@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 16:41:34 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:47:56 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 {
@@ -21,7 +21,7 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 	if (!g_shell_data->path)
 	{
 		g_shell_data->exit_code = 127;
-		ft_fprintf(2, "minishell: %s : command not found 1\n", cmd->cmd[0]);
+		ft_fprintf(2, "minishell: %s : command not found \n", cmd->cmd[0]);
 		return ;
 	}
 	pid = fork();

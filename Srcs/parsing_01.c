@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:20:13 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:25:30 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 t_rinity	**ft_parsing(char *argv)
 {
@@ -26,6 +26,9 @@ t_rinity	**ft_parsing(char *argv)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
 	line = expand_dollars(line2, g_shell_data->env);
 	free(line2);
+	if (!line)
+		return (NULL);
+	fusion_arg(&line);
 	sparse(g_shell_data->par, line);
 	free(line);
 	if (check_line(g_shell_data->par))

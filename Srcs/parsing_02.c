@@ -6,17 +6,19 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:22:41 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:21:45 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 18:29:59 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 void	fusion_arg(char **line)
 {
 	int	i;
 
 	i = 1;
+	if (!(*line)[0])
+		return ;
 	easy_quote_utils(line);
 	while (i != 0)
 	{
@@ -89,9 +91,10 @@ int	easy_quote(char **line)
 	int		res;
 
 	i = 0;
+	res = 0;
 	while ((*line)[i])
 	{
-		if ((*line)[i] == '\"' && (*line)[i + 1] == '\"')
+		if ((*line)[i + 1] && (*line)[i] == '\"' && (*line)[i + 1] == '\"')
 		{
 			ft_supprchar(line, i);
 			ft_supprchar(line, i);
@@ -112,8 +115,8 @@ void	easy_quote_utils(char **line)
 	while ((*line)[i])
 	{
 		if ((*line)[i] == '\"')
-			i += is_quote_zero(*line + i) + 1;
-		if ((*line)[i] == '\'')
+			i += is_quote_zero(*line + i);
+		else if ((*line)[i] == '\'')
 		{
 			tmp = i;
 			i += is_quote_zero(*line + i);

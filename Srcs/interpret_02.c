@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:01:46 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/07 17:55:22 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 void	redirect_out(char **file_out, char **type_out)
 {
@@ -81,7 +81,8 @@ int	ft_heredoc(char *str)
 		line = readline("> ");
 		if (!line)
 			return (-1);
-		if (ft_strncmp(line, str, ft_strlen(str)) == 0)
+		if (ft_strncmp(line, str, ft_strlen(str)) == 0
+			&& ft_strlen(line) == ft_strlen(str))
 			break ;
 		line_temp = expand_dollars(line, g_shell_data->env);
 		free(line);
