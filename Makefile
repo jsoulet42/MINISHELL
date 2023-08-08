@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 19:13:19 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 20:22:42 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -361,24 +361,24 @@ define play_startup
 	@echo "$(INVIS_FG)                     $(NC)"
 endef
 
-
-	#		$(call put_square, $(SCREEN_COLOR), $(_screen_w), $(_screen_h))	\
-
-ifneq ($(FANCY), 0)
-define update_line_cnt
+define new_line
 	$(eval width = $(1))
 	$(eval height = $(2))
 	$(eval message = $(3))
 	$(eval message_len = $(shell echo $(PROMPT)$(message) | wc -c))
 	$(eval line_cnt = $(shell echo $$(( $(line_cnt)\
 		+ ($(message_len) / $(width) + 1) ))))
-ifeq ($(shell [ $(line_cnt) -ge $(height) ] && echo 0 || echo 1), 0)
-	@echo hello
-endif
-endef
-endif
+	@echo -n "\e[$$(( 2 + $(_l_offset) ))C";	\
+	if [ $(line_cnt) -ge $(height) ]; then	\
+		echo -n "\e[3;$$(( $(_l_offset) + 3 ))f\e[s";\
+		true $(call put_square, $(SCREEN_COLOR), $(width), $(height));	\
+		echo -n "\e[u";\
+		true $(eval line_cnt = 0);\
+	fi
 
-## Shell style character by character text display
+endef
+
+## Stylized character by character text display
 define terminal_disp
 	$(eval width = $(1))
 	$(eval height = $(2))
@@ -400,9 +400,9 @@ define terminal_disp
 		j=$$(( $$j + 1 ));													\
 		sleep $(SLEEP);														\
 	done;																	\
-	echo "$(NC)";															\
-	[ $(FANCY) -ne 0 ] && echo -n "\e[$$(( 2 + $(_l_offset) ))C" || true
-	$(call update_line_cnt, $(width), $(height), $(message))
+	echo "$(NC)"
+	$(if $(shell [ $(FANCY) -ne 0 ] && echo "true"),\
+		$(call new_line, $(width), $(height), $(message)))
 endef
 
 ## Display of the top/bottom of an ascii box
