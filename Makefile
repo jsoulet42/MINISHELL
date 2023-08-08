@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 15:16:38 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 19:13:19 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,41 +25,41 @@ NAME		=	minishell
 VPATH		=	Srcs:			\
 				Srcs/builtins:
 
-SRCS		=	main.c					\
-				parsing_01.c			\
-				parsing_02.c			\
-				parsing_03.c			\
-				parsing_04.c			\
-				parsing_05.c			\
-				parsing_06.c			\
-				parsing_07.c			\
-				parsing_08.c			\
-				doublquote_01.c			\
-				simplquote_01.c			\
-				display_01.c			\
-				init_environment_01.c	\
-				environment_utils_01.c	\
-				environment_utils_02.c	\
-				environment_utils_03.c	\
-				free_utils_01.c			\
-				utils_01.c				\
-				check_starterrors01.c	\
-				check_starterrors02.c	\
+SRCS		=	main.c						\
+				parsing_01.c				\
+				parsing_02.c				\
+				parsing_03.c				\
+				parsing_04.c				\
+				parsing_05.c				\
+				parsing_06.c				\
+				parsing_07.c				\
+				parsing_08.c				\
+				doublquote_01.c				\
+				simplquote_01.c				\
+				display_01.c				\
+				init_environment_01.c		\
+				environment_utils_01.c		\
+				environment_utils_02.c		\
+				environment_utils_03.c		\
+				free_utils_01.c				\
+				utils_01.c					\
+				check_starterrors01.c		\
+				check_starterrors02.c		\
 				interpret_01.c				\
-				interpret_02.c			\
-				interpret_03.c			\
-				interpret_04.c			\
-				ft_export.c				\
-				get_next_line_bonus.c	\
+				interpret_02.c				\
+				interpret_03.c				\
+				interpret_04.c				\
+				ft_export.c					\
+				get_next_line_bonus.c		\
 				get_next_line_utils_bonus.c \
-				lentab.c				\
-				ft_cd.c					\
-				ft_unset.c				\
-				ft_exit.c				\
+				lentab.c					\
+				ft_cd.c						\
+				ft_unset.c					\
+				ft_exit.c					\
 				ft_echo_01.c				\
-				ft_pwd.c				\
-				ft_env.c				\
-				modif_shlvl.c			\
+				ft_pwd.c					\
+				ft_env.c					\
+				modif_shlvl.c				\
 				signals.c
 
 ## Object files directory
@@ -100,6 +100,9 @@ RM			=	rm -rf
 # ***************** #
 # Display variables #
 # ***************** #
+
+## Makefile prompt
+PROMPT		=	"makefile@minishell $$> "
 
 ## Animations slowdown
 SLEEP		=	0
@@ -270,6 +273,7 @@ init_values:
 	$(eval max_prog_bar != printf "%$(_screen_w)s" | tr " " $(PROG_CHAR))
 	$(eval max_unprog_bar != printf "%$(_screen_w)s" | tr " " $(UNPROG_CHAR))
 	$(eval tasks = 0)
+	$(eval line_cnt = 0)
 
 
 # ************* #
@@ -357,6 +361,23 @@ define play_startup
 	@echo "$(INVIS_FG)                     $(NC)"
 endef
 
+
+	#		$(call put_square, $(SCREEN_COLOR), $(_screen_w), $(_screen_h))	\
+
+ifneq ($(FANCY), 0)
+define update_line_cnt
+	$(eval width = $(1))
+	$(eval height = $(2))
+	$(eval message = $(3))
+	$(eval message_len = $(shell echo $(PROMPT)$(message) | wc -c))
+	$(eval line_cnt = $(shell echo $$(( $(line_cnt)\
+		+ ($(message_len) / $(width) + 1) ))))
+ifeq ($(shell [ $(line_cnt) -ge $(height) ] && echo 0 || echo 1), 0)
+	@echo hello
+endif
+endef
+endif
+
 ## Shell style character by character text display
 define terminal_disp
 	$(eval width = $(1))
@@ -365,9 +386,9 @@ define terminal_disp
 	$(eval color = $(4))
 	@sh_message=$(message);													\
 	len=$${#sh_message};													\
-	echo -n "$(color)makefile@minishell $$> ";								\
+	echo -n $(color)$(PROMPT);												\
 	i=1;																	\
-	j=23;																	\
+	j=$$(echo $(PROMPT) | wc -c);											\
 	while [ $$i -le $$len ]; do												\
 		echo -n "$$(echo $${sh_message} | cut -c $${i}-$${i})";				\
 		if [ $(FANCY) -ne 0 ] && [ $$j -eq $(width) ] && [ $$i -ne $$len ];	\
@@ -380,9 +401,8 @@ define terminal_disp
 		sleep $(SLEEP);														\
 	done;																	\
 	echo "$(NC)";															\
-	if [ $(FANCY) -ne 0 ]; then												\
-		echo -n "\e[$$(( 2 + $(_l_offset) ))C";								\
-	fi
+	[ $(FANCY) -ne 0 ] && echo -n "\e[$$(( 2 + $(_l_offset) ))C" || true
+	$(call update_line_cnt, $(width), $(height), $(message))
 endef
 
 ## Display of the top/bottom of an ascii box
