@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/02 19:01:58 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 10:11:24 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,10 +114,10 @@ RM			=	rm -rf
 # Display variables #
 # ***************** #
 
-## Text display delay between characters
+## Animations slowdown
 SLEEP		=	0
 
-## Disable fancy mode if not specified at launch
+## Default fancy display (0 = OFF / > 0 = ON)
 FANCY		=	0
 
 ## Color variables
@@ -143,12 +143,8 @@ SHELL_ASCII		=	":::::::::  :::   :::  :::::::::  :::        :::"\
                     "\\e[B\\e[48D@@@@@@@@@  @@@   @@@  @@@@@@@@@  @@@@@@@@@  @@@@@@@@@"
 
 ### Width and height of the virtual computer's screen
-ifndef $(SCREEN_W)
 SCREEN_W	=	70
-endif
-ifndef $(SCREEN_H)
 SCREEN_H	=	20
-endif
 
 ### Virtual computer screen offset from its left and right frame sides
 L_OFFSET	=	5
@@ -165,7 +161,7 @@ ifneq ($(FANCY), 0)
 TEXT_COLOR		=	$(GREEN_FG)$(BLACK_BG)
 endif
 
-## Progress bar variables
+## Progress bar characters
 PROG_CHAR	=	"@"
 UNPROG_CHAR	=	" "
 
@@ -186,16 +182,16 @@ $(NAME):	init init_progress-$(NAME) $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"Compiled executable: '$@'", $(TEXT_COLOR))
-	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
-	$(call put_loading, $(progress), $(tasks), $(_screen_w))
+#	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
+#	$(call put_loading, $(progress), $(tasks), $(_screen_w), $(_screen_h))
 
 ## Object files compilation rules
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@
 	$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"Compiled object file: '$@'", $(TEXT_COLOR))
-	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
-	$(call put_loading, $(progress), $(tasks), $(_screen_w))
+#	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
+#	$(call put_loading, $(progress), $(tasks), $(_screen_w), $(_screen_h))
 
 
 # ************************** #
@@ -437,7 +433,10 @@ define put_loading
 	$(eval progress = $(1))
 	$(eval tasks = $(2))
 	$(eval width = $(3))
-	@printf "%.*s" $$(( $(progress) * $(width) / $(tasks) )) "$(max_prog_bar)"
+	$(eval height = $(4))
+	@echo -n "\e[$(height)B";														\
+	printf "%.*s\n" $$(( $(progress) * $(width) / $(tasks) )) "$(max_prog_bar)";	\
+	echo -n "\e[$(height)A"
 endef
 
 define play_startup
