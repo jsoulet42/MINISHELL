@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 11:52:08 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 12:18:46 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,6 @@
 
 ## Executable name
 NAME		=	minishell
-
-## Builtins names
-ECHO_NAME	=	echo
-ENV_NAME	=	env
-PWD_NAME	=	pwd
 
 ## Paths to all source files
 VPATH		=	Srcs:			\
@@ -67,14 +62,9 @@ SRCS		=	main.c					\
 				modif_shlvl.c			\
 				signals.c
 
-## Builtins sources directory
-BUILTINS_DIR=	Srcs/builtins
-
-## Builtins binaries directory
-BIN_DIR		=	bin
-
 ## Object files directory
 OBJS_DIR	=	Objs
+
 ## Object files names
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
@@ -192,50 +182,6 @@ $(OBJS_DIR)/%.o:	%.c
 #	$(call put_loading, $(progress), $(tasks), $(_screen_w), $(_screen_h))
 
 
-# ************************** #
-# Builtins compilation rules #
-# ************************** #
-
-## Builtins executables make rule
-builtins:	init init_progress-builtins $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN) $(CD_BIN)
-
-## Echo builtin make
-$(ECHO_NAME):	$(ECHO_BIN)
-
-## Env builtin make
-$(ENV_NAME):	$(ENV_BIN)
-
-## Pwd builtin make
-$(PWD_NAME):	$(PWD_BIN)
-
-## Cd builtin make
-$(CD_NAME):		$(CD_BIN)
-
-## Echo builtin compilation
-$(ECHO_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Compiled builtin binary: '$(ECHO_NAME)'", $(TEXT_COLOR))
-
-## Env builtin compilation
-$(ENV_BIN):	$(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
-	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Compiled builtin binary: '$(ENV_NAME)'", $(TEXT_COLOR))
-
-## Pwd builtin compilation
-$(PWD_BIN):	$(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
-	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Compiled builtin binary: '$(PWD_NAME)'", $(TEXT_COLOR))
-
-## Cd builtin compilation
-$(CD_BIN):	$(BIN_DIR) $(OBJS_DIR) $(CD_OBJS)
-	@$(CC) $(CFLAGS) $(CD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Compiled builtin binary: '$(CD_NAME)'", $(TEXT_COLOR))
-
-
 # **************************** #
 # Directories management rules #
 # **************************** #
@@ -246,14 +192,6 @@ ifeq ($(shell [ -d "$(OBJS_DIR)" ] && echo 0 || echo 1), 1)
 	@mkdir $(OBJS_DIR)
 	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"Created objects directory '$(OBJS_DIR)/'", $(TEXT_COLOR))
-endif
-
-## Builtins binaries directory check
-$(BIN_DIR):
-ifeq ($(shell [ -d "$(BIN_DIR)" ] && echo 0 || echo 1), 1)
-	@mkdir $(BIN_DIR)
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Created binaries directory '$(BIN_DIR)/'", $(TEXT_COLOR))
 endif
 
 
@@ -283,19 +221,8 @@ else
 		"make: Nothing to be done for '$(RM) $(NAME)'", $(TEXT_COLOR))
 endif
 
-## Object files and builtins executables deletion
-binclean: init clean
-ifneq ($(shell ls $(BIN_DIR) 2> /dev/null | wc -l), 0)
-	@$(RM) $(BIN_DIR)/*
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Removed builtin executable files", $(TEXT_COLOR))
-else
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"make: Nothing to be done for '$(RM) $(BIN_DIR)/*'", $(TEXT_COLOR))
-endif
-
 ## Object files and builtins executables directories deletion
-dclean:	init binclean
+dclean:	init
 ifeq ($(shell [ -d "$(OBJS_DIR)" ] && echo 0 || echo 1), 0)
 	@$(RM) $(OBJS_DIR)
 	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
@@ -304,28 +231,17 @@ else
 	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"make: Nothing to be done for '$(RM) $(OBJS_DIR)'", $(TEXT_COLOR))
 endif
-ifeq ($(shell [ -d "$(BIN_DIR)" ] && echo 0 || echo 1), 0)
-	@$(RM) $(BIN_DIR)
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"Removed objects directory '$(BIN_DIR)/'", $(TEXT_COLOR))
-else
-	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
-		"make: Nothing to be done for '$(RM) $(BIN_DIR)'", $(TEXT_COLOR))
-endif
 
 
 # ******************* #
 # Recompilation rules #
 # ******************* #
 
-## Builtins executables recompilation
-binre: init binclean builtins
-
 ## Main executable recompilation
 minishellre: init fclean $(NAME)
 
 ## Complete recompilation
-re:	init binclean fclean all
+re:	init fclean all
 
 
 # ********************* #
