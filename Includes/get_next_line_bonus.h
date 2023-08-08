@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/02 10:51:49 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/18 14:56:16 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/08/07 13:07:15 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:07:17 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ t_gnl	*lst_getlast(t_gnl *stack);
 int		chearch_endline(t_gnl *stack);
 void	generate_line(char **line, t_gnl *stack);
 void	free_stack(t_gnl *stack);
-int		ft_strlen_gnl(const char *s);
+int		ft_strgnl(const char *s);
 void	clean_stack(t_gnl **stack);
 
 #endif

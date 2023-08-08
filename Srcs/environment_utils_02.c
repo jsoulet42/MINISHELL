@@ -3,44 +3,54 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils_02.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 00:26:42 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 01:10:07 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:14:05 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:39:56 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 /* Function to return a shell environment's data as a strings array
  *
  * @param t_env *env_list	-> pointer to the list to convert
  * @return char **			-> pointer to the converted strings array
  */
-char	**env_to_str_tab(t_env *env_list)
+char	**env_to_str_tab(t_env **env_list)
 {
 	int		i;
 	char	**envp;
 	t_env	*start;
+	t_env	*temp;
 
 	if (!env_list)
 		return (NULL);
-	start = env_list;
+	start = *env_list;
+	temp = *env_list;
 	i = 0;
-	while (env_list)
+	while (temp)
 	{
-		env_list = env_list->next;
+		temp = temp->next;
 		i++;
 	}
 	envp = (char **) ft_calloc((i + 1), sizeof(char *));
 	if (!envp)
 		return (NULL);
+	envp = env_to_str_tab_02(envp, start);
+	return (envp);
+}
+
+char	**env_to_str_tab_02(char **envp, t_env *start)
+{
+	int	i;
+
 	i = 0;
 	while (start)
 	{
 		envp[i++] = ft_strdup(start->display);
 		if (!envp[i - 1])
-			return (free_str_tab(envp), NULL);
+			return (free_str_tab((void **)&envp), NULL);
 		start = start->next;
 	}
 	return (envp);
@@ -73,7 +83,7 @@ t_env	*get_env_var(t_env *env_list, char *var_name)
  * @param int mode			-> update mode (SH_OVERWRITE/SH_ADDBACK/SH_ADDFRONT)
  * @return int				-> status code of the function
  */
-static int	update_env_value(t_env *env_var, char *value, int mode)
+int	update_env_value(t_env *env_var, char *value, int mode)
 {
 	char	*temp;
 
@@ -128,42 +138,5 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 	free(temp);
 	if (!env_var->display)
 		return (NULL);
-	return (env_var); 
-}
-
-/* Function to display an environment's linked list of variables on terminal
- * following a given mode
- * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
- * mode(SH_ORDERED)		-> display all variables in alphabetical order
- *
- * @param t_env *env_list	-> pointer to the environment to display
- * @param int mode			-> display mode of the environment
- */
-void	print_env(t_env *env_list, int mode)
-{
-	char	*check;
-	char	**temp;
-	char	**str_env;
-
-	if (mode == SH_DISORDERED)
-	{
-		while (env_list)
-		{
-			printf("%s\n", env_list->display);
-			env_list = env_list->next;
-		}
-		return ;
-	}
-	str_env = env_to_str_tab(env_list);
-	if (!str_env)
-		return ;
-	order_str_tab(str_env, '=');
-	temp = str_env;
-	while (*temp)
-	{
-		check = ft_strchr(*temp, '=');
-		mode = '"' * (check && !*(check + 1));
-		printf("%s%c%c\n", *temp++, mode, mode);
-	}
-	free_str_tab(str_env);
+	return (env_var);
 }

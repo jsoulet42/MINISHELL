@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_01.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/14 01:47:41 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/25 10:04:42 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:15:25 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/08 11:59:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 int	ft_strccmp(const char *str1, const char *str2, char limit)
 {

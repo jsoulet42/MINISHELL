@@ -1,19 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_exit_01.c                                    :+:      :+:    :+:   */
+/*   free_utils_02.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 17:02:48 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/12 18:17:07 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/08/07 13:14:24 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:40:15 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-void	error_exit(char *str)
+void	free_and_return(void)
 {
-	perror(str);
-	exit(1);
+	free_trinity();
+	if (g_shell_data)
+		free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 }

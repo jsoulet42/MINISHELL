@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   modif_shlvl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:10:40 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:34:52 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:17:42 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:41:07 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int	ft_pwd(int argc, char **argv)
+void	new_shlvl(char *env)
 {
-	char	buffer[512];
+	int	sh_atoi;
 
-	(void)argc;
-	(void)argv;
-	if (getcwd(buffer, sizeof(buffer)) != NULL)
-		printf("Le répertoire de travail actuel est : %s\n", buffer);
-	else
+	sh_atoi = ft_atoi(env + 6);
+	if (sh_atoi <= 9)
+		*(env + 6) += 1;
+}
+
+void	modif_shlvl(char **env)
+{
+	int	i;
+
+	i = 0;
+	if (!*env)
+		return ;
+	while (env[i])
 	{
-		perror("Erreur lors de l'appel à getcwd");
-		return (1);
+		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
+		{
+			new_shlvl(env[i]);
+			break ;
+		}
+		i++;
 	}
-	return (0);
 }

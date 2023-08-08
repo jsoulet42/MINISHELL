@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/02 10:51:30 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/18 14:58:24 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/08/07 13:21:22 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:40:22 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int	ft_strlen_gnl(const char *src)
+int	ft_strgnl(const char *src)
 {
 	int	len;
 
@@ -79,7 +79,7 @@ void	clean_stack(t_gnl **stack)
 		i++;
 	if (last->content[i] == '\n')
 		i++;
-	temp->content = malloc(sizeof(char) * (ft_strlen_gnl(last->content + i) + 1));
+	temp->content = malloc(sizeof(char) * (ft_strgnl(last->content + i) + 1));
 	if (!temp->content)
 		return ;
 	while (last->content[i] != '\0')

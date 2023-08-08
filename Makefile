@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 10:11:24 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 11:52:08 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,61 +25,59 @@ NAME		=	minishell
 ECHO_NAME	=	echo
 ENV_NAME	=	env
 PWD_NAME	=	pwd
-CD_NAME		=	cd
 
 ## Paths to all source files
 VPATH		=	Srcs:			\
-				Srcs/builtins:	\
-				Srcs/mdiamant:	\
-				Srcs/lolefevr:	\
-				Srcs/hnogared:	\
-				Srcs/jsoulet
+				Srcs/builtins:
 
-## Source files names
-SRCS		=	main.c						\
-				parsing_01.c				\
-				error_exit_01.c				\
-				doublquote_01.c				\
-				simplquote_01.c				\
-				display_01.c				\
-				init_environment_01.c		\
-				environment_utils_01.c		\
-				environment_utils_02.c		\
-				environment_utils_03.c		\
-				free_utils_01.c				\
-				utils_01.c					\
-				check_starterrors01.c		\
-				check_starterrors02.c		\
-				interpret.c					\
-				ft_export.c					\
-				get_next_line_bonus.c		\
-				get_next_line_utils_bonus.c	\
+SRCS		=	main.c					\
+				parsing_01.c			\
+				parsing_02.c			\
+				parsing_03.c			\
+				parsing_04.c			\
+				parsing_05.c			\
+				parsing_06.c			\
+				parsing_07.c			\
+				parsing_08.c			\
+				doublquote_01.c			\
+				simplquote_01.c			\
+				display_01.c			\
+				init_environment_01.c	\
+				environment_utils_01.c	\
+				environment_utils_02.c	\
+				environment_utils_03.c	\
+				free_utils_01.c			\
+				utils_01.c				\
+				check_starterrors01.c	\
+				check_starterrors02.c	\
+				interpret_01.c				\
+				interpret_02.c			\
+				interpret_03.c			\
+				interpret_04.c			\
+				ft_export.c				\
+				get_next_line_bonus.c	\
+				get_next_line_utils_bonus.c \
+				lentab.c				\
+				ft_cd.c					\
+				ft_unset.c				\
+				ft_exit.c				\
+				ft_echo_01.c				\
+				ft_pwd.c				\
+				ft_env.c				\
+				modif_shlvl.c			\
 				signals.c
 
 ## Builtins sources directory
 BUILTINS_DIR=	Srcs/builtins
-## Builtins source names
-ECHO_SRCS	=	ft_echo_01.c
-ENV_SRCS	=	ft_env.c
-PWD_SRCS	=	ft_pwd.c
-CD_SRCS		=	ft_cd.c
 
 ## Builtins binaries directory
 BIN_DIR		=	bin
-## Builtins binaries names
-ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
-ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
-PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
-CD_BIN		=	$(addprefix $(BIN_DIR)/, $(CD_NAME))
 
 ## Object files directory
 OBJS_DIR	=	Objs
 ## Object files names
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
-ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
-PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
-CD_OBJS		=	$(addprefix $(OBJS_DIR)/, $(CD_SRCS:.c=.o))
+
 
 
 # ********************* #

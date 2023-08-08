@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/18 16:21:45 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/20 17:15:02 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:11:51 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:32:06 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 /* Function to delete a variable from its shell environment
  *

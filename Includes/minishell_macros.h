@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_macros.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 09:31:05 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/13 10:46:51 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:07:26 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 # define MINISHELL_MACROS_H
 
 # define OPERANDS_COUNT 12
-
-# define OPERANDS "| || & && $ $$ < > \\ ' \" << >>"
-
+# define OPERANDS "| || & && < > \\ ' \" << >>"
 # define PIPE "|"
 # define AND "&&"
 # define OR "||"

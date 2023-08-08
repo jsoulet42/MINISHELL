@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   doublquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 13:56:24 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/12 19:10:36 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/08/07 13:17:08 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:39:48 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int doublquote(char *str)
+int	doublquote(char *str)
 {
 	int	i;
 
@@ -23,6 +23,5 @@ int doublquote(char *str)
 			return (i);
 		i++;
 	}
-	//error !!
 	return (-1);
 }

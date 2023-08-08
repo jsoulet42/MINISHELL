@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   environment_utils_01.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 15:08:06 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/19 14:57:26 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:13:50 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:39:52 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 /* Function to retrieve a variable's value inside a shell's environment
  *
