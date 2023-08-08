@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 12:18:46 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/08 15:16:38 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,6 @@ OBJS_DIR	=	Objs
 
 ## Object files names
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-
 
 
 # ********************* #
@@ -181,6 +180,9 @@ $(OBJS_DIR)/%.o:	%.c
 #	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
 #	$(call put_loading, $(progress), $(tasks), $(_screen_w), $(_screen_h))
 
+## Complete recompilation
+re:	init fclean all
+
 
 # **************************** #
 # Directories management rules #
@@ -231,17 +233,6 @@ else
 	@$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"make: Nothing to be done for '$(RM) $(OBJS_DIR)'", $(TEXT_COLOR))
 endif
-
-
-# ******************* #
-# Recompilation rules #
-# ******************* #
-
-## Main executable recompilation
-minishellre: init fclean $(NAME)
-
-## Complete recompilation
-re:	init fclean all
 
 
 # ********************* #
