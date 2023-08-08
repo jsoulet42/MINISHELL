@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lentab.c                                           :+:      :+:    :+:   */
+/*   simplquote_01.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/17 15:28:48 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/17 15:32:23 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/08/07 13:19:14 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:42:31 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
-int	lentab(char **tableau)
+int	simplquote(char *str)
 {
 	int	i;
 
-	i = -1;
-	while(tableau[++i])
-		i = i;
-	return (i);
+	i = 0;
+	while (str[i])
+	{
+		if ((int)str[i] == 39)
+			return (i);
+		i++;
+	}
+	return (-1);
 }

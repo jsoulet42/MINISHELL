@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mdiamant <mdiamant@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/02 10:51:49 by mdiamant          #+#    #+#             */
-/*   Updated: 2023/07/21 15:00:50 by mdiamant         ###   ########.fr       */
+/*   Created: 2023/08/07 13:07:15 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:07:17 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

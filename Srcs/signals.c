@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/20 12:45:13 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 23:20:19 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:15:19 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:42:25 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 void	main_sig_handler(int signal)
 {
@@ -23,6 +23,11 @@ void	main_sig_handler(int signal)
 	}
 	if (signal == SIGTERM)
 		free_and_exit();
+}
+
+void	second_sig_handler(int signal)
+{
+	(void)signal;
 }
 
 void	parent_sig_handler(int signal)

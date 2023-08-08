@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   simplquote_01.c                                    :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/11 13:56:20 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/12 19:10:42 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 15:35:00 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int simplquote(char *str)
+void	ft_exit(void)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if ((int)str[i] == 39)
-			return (i);
-		i++;
-	}
-	//error
-	return (-1);
+	free_trinity();
+	safe_free((void **)&g_shell_data->path);
+	if (g_shell_data->env)
+		free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	exit(EXIT_SUCCESS);
 }

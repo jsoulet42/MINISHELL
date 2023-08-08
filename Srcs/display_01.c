@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/13 10:23:02 by hnogared          #+#    #+#             */
-/*   Updated: 2023/07/24 11:35:11 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:13:20 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 17:39:44 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../Includes/minishell.h"
+#include "../Includes/minishell.h"
 
 int	set_termios_mode(int mode)
 {

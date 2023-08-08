@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lolefevr <lolefevr@student.42perpignan.    +#+  +:+       +#+        */
+/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/12 11:56:06 by lolefevr          #+#    #+#             */
-/*   Updated: 2023/07/19 16:33:42 by lolefevr         ###   ########.fr       */
+/*   Created: 2023/08/07 13:09:46 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/08/07 13:09:50 by jsoulet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+int	ft_env(int argc, char **argv, char **env)
 {
 	int	i;
 
@@ -22,9 +22,6 @@ int	main(int argc, char **argv, char **env)
 		return (1);
 	i = -1;
 	while (env[++i])
-	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
-	}
+		printf("%s\n", env[i]);
 	return (0);
 }

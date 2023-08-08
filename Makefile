@@ -10,15 +10,17 @@ ENV_NAME	=	env
 PWD_NAME	=	pwd
 
 VPATH		=	Srcs:			\
-				Srcs/builtins:	\
-				Srcs/mdiamant:	\
-				Srcs/lolefevr:	\
-				Srcs/hnogared:	\
-				Srcs/jsoulet
+				Srcs/builtins:
 
 SRCS		=	main.c					\
 				parsing_01.c			\
-				error_exit_01.c			\
+				parsing_02.c			\
+				parsing_03.c			\
+				parsing_04.c			\
+				parsing_05.c			\
+				parsing_06.c			\
+				parsing_07.c			\
+				parsing_08.c			\
 				doublquote_01.c			\
 				simplquote_01.c			\
 				display_01.c			\
@@ -30,31 +32,29 @@ SRCS		=	main.c					\
 				utils_01.c				\
 				check_starterrors01.c	\
 				check_starterrors02.c	\
-				interpret.c				\
+				interpret_01.c				\
+				interpret_02.c			\
+				interpret_03.c			\
+				interpret_04.c			\
 				ft_export.c				\
 				get_next_line_bonus.c	\
 				get_next_line_utils_bonus.c \
 				lentab.c				\
 				ft_cd.c					\
-				ft_unset.c
+				ft_unset.c				\
+				ft_exit.c				\
+				ft_echo_01.c				\
+				ft_pwd.c				\
+				ft_env.c				\
+				modif_shlvl.c			\
+				signals.c
 
 BUILTINS_DIR=	Srcs/builtins
-ECHO_SRCS	=	ft_echo_01.c
-ENV_SRCS	=	ft_env.c
-PWD_SRCS	=	ft_pwd.c
-
 
 BIN_DIR		=	bin
-ECHO_BIN	=	$(addprefix $(BIN_DIR)/, $(ECHO_NAME))
-ENV_BIN		=	$(addprefix $(BIN_DIR)/, $(ENV_NAME))
-PWD_BIN		=	$(addprefix $(BIN_DIR)/, $(PWD_NAME))
-
 
 OBJS_DIR	=	Objs
 OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
-ECHO_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ECHO_SRCS:.c=.o))
-ENV_OBJS	=	$(addprefix $(OBJS_DIR)/, $(ENV_SRCS:.c=.o))
-PWD_OBJS	=	$(addprefix $(OBJS_DIR)/, $(PWD_SRCS:.c=.o))
 
 
 # Compilation variables *********** #
@@ -90,29 +90,6 @@ all:	screen builtins $(NAME)
 $(NAME):	screen $(OBJS_DIR) $(OBJS)
 	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	@$(call terminal_disp, "Compiled executable: '$@'")
-
-builtins:	screen $(ECHO_BIN) $(ENV_BIN) $(PWD_BIN)
-
-$(ECHO_NAME):	$(ECHO_BIN)
-
-$(ENV_NAME):	$(ENV_BIN)
-
-$(PWD_NAME):	$(PWD_BIN)
-
-
-
-$(ECHO_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ECHO_OBJS)
-	@$(CC) $(CFLAGS) $(ECHO_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ECHO_NAME)'")
-
-$(ENV_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(ENV_OBJS)
-	@$(CC) $(CFLAGS) $(ENV_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(ENV_NAME)'")
-
-$(PWD_BIN):	screen $(BIN_DIR) $(OBJS_DIR) $(PWD_OBJS)
-	@$(CC) $(CFLAGS) $(PWD_OBJS) -L $(LIBS_DIR) $(LIBS) -o $@
-	@$(call terminal_disp, "Compiled builtin binary: '$(PWD_NAME)'")
-
 
 $(OBJS_DIR)/%.o:	%.c
 	@$(CC) $(CFLAGS) $(DEFINES) -c $< -L $(LIBS_DIR) $(LIBS) -o $@

@@ -3,6 +3,15 @@
 		"stdio.h": "c",
 		"minishell.h": "c",
 		"signal.h": "c",
-		"mdiamant.h": "c"
+		"mdiamant.h": "c",
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"utility": "c",
+		"get_next_line_bonus.h": "c",
+		"types.h": "c",
+		"lolefevr.h": "c",
+		"hnogared.h": "c",
+		"minishell_macros.h": "c"
 	}
 }
