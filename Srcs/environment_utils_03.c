@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:01 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/14 20:40:29 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,41 @@ struct s_doll	init_doll(void)
 	doll.id[2] = 0;
 	doll.res = NULL;
 	return (doll);
+}
+
+/* Function to display an environment's linked list of variables on terminal
+ * following a given mode
+ * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
+ * mode(SH_ORDERED)		-> display all variables in alphabetical order
+ *
+ * @param t_env *env_list	-> pointer to the environment to display
+ * @param int mode			-> display mode of the environment
+ */
+void	print_env(t_env *env_list, int mode)
+{
+	char	*check;
+	char	**temp;
+	char	**str_env;
+
+	if (mode == SH_ORDERED)
+	{
+		str_env = order_str_tab(env_to_str_tab(&env_list), '=');
+		if (!str_env)
+			return ;
+		temp = str_env;
+		while (*temp)
+		{
+			check = ft_strchr(*temp, '=');
+			mode = '"' * (check && !*(check + 1));
+			if ((*temp)[0] != '_' || ((*temp)[1] && (*temp)[1] != '='))
+				printf("declare -x %s%c%c\n", *temp, mode, mode);
+			temp++;
+		}
+		return (free_str_tab((void **) str_env));
+	}
+	while (env_list)
+	{
+		printf("%s\n", env_list->display);
+		env_list = env_list->next;
+	}
 }

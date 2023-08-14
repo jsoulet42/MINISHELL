@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:46 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 13:09:50 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/14 20:03:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_env(int argc, char **argv, char **env)
 {
-	int	i;
+	int		i;
 
 	(void)argc;
 	(void)argv;
@@ -22,6 +22,9 @@ int	ft_env(int argc, char **argv, char **env)
 		return (1);
 	i = -1;
 	while (env[++i])
-		printf("%s\n", env[i]);
+	{
+		if (ft_strchr(env[i], '='))
+			printf("%s\n", env[i]);
+	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:28 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/08 11:58:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/14 20:32:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static int	check_arg(char *arg)
 		return (put_export_error(arg), -1);
 	while (arg[i] && arg[i] != '+' && arg[i] != '=')
 	{
-		if (!ft_isalnum(arg[i]))
+		if (!ft_isalnum(arg[i]) && arg[i] != '_')
 			return (put_export_error(arg), -1);
 		i++;
 	}
@@ -142,23 +142,18 @@ static int	export_var(char *arg, t_env **env, int mode)
 int	ft_export(char **argv, t_env **env)
 {
 	int		mode;
-	char	*expanded;
 
 	if (!argv || !*argv)
 		return (SH_ERROR);
-	if (argv[2])
-		return (1);
+	if (!argv[1])
+		return (print_env(*env, SH_ORDERED), SH_SUCCESS);
 	while (*(++argv))
 	{
-		expanded = expand_dollars(*argv, *env);
-		if (!expanded)
-			return (SH_ERROR);
-		mode = check_arg(expanded);
+		mode = check_arg(*argv);
 		if (mode == -2)
-			return (free(expanded), SH_ERROR);
-		if (mode > -1 && export_var(expanded, env, mode) == SH_ERROR)
-			return (free(expanded), SH_ERROR);
-		free(expanded);
+			return (SH_ERROR);
+		if (mode > -1 && export_var(*argv, env, mode) == SH_ERROR)
+			return (SH_ERROR);
 	}
 	return (SH_SUCCESS);
 }

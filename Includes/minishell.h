@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:36:43 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/14 20:44:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,33 +46,6 @@
 
 # include "minishell_macros.h"
 # include "get_next_line_bonus.h"
-
-/* Status codes for function returns */
-# define SH_SUCCESS	0
-# define SH_ERROR	1
-
-/* Prompt string buffer size */
-# define PROMPT_BUFFER	255
-
-/* Startup environment variables */
-# define START_LOGNAME	"LOGNAME=guest"
-# define START_NAME		"NAME=mishelle"
-# define START_PWD		"PWD="
-# define START_OLDPWD	"OLDPWD="
-# define START_SHLVL	"SHLVL=2"
-
-/* Environment variable update modes */
-# define SH_OVERWRITE	0
-# define SH_ADDBACK		1
-# define SH_ADDFRONT	2
-
-/* Environment display mode */
-# define SH_DISORDERED	0
-# define SH_ORDERED		1
-
-/* Termios setup modes */
-# define TERMIOS_UNMUTE_CTRL	0
-# define TERMIOS_MUTE_CTRL		1
 
 extern struct s_shell	*g_shell_data;
 
@@ -225,5 +198,7 @@ int				next_good_commande(t_par **par, int i);
 void			continue_child_builtin(t_rinity *cd, int builtin);
 char			**env_to_str_tab_02(char **envp, t_env *start);
 struct s_doll	init_doll(void);
+void			print_env(t_env *env_list, int mode);
+char			**order_str_tab(char **str_tab, char limit);
 
 #endif
