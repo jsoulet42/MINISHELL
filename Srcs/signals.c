@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:42:25 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 17:23:03 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,7 @@ void	main_sig_handler(int signal)
 		rl_redisplay();
 	}
 	if (signal == SIGTERM)
-		free_and_exit();
-}
-
-void	second_sig_handler(int signal)
-{
-	(void)signal;
+		ft_exit();
 }
 
 void	parent_sig_handler(int signal)

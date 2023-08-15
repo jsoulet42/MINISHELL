@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/15 10:38:24 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:23:16 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,6 @@ char	*prompt(t_env *env)
 		free(prompt);
 	}
 	if (!line)
-	{
-		ft_printf("mishelle: Exit o7\n");
-		free_and_exit();
-	}
+		ft_exit();
 	return (line);
 }

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:35:00 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 17:22:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_exit(void)
 {
-	free_trinity();
-	safe_free((void **)&g_shell_data->path);
-	if (g_shell_data->env)
-		free_data(g_shell_data);
+	free_data(g_shell_data);
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	ft_printf("mishelle: Exit o7\n");
 	exit(EXIT_SUCCESS);
 }

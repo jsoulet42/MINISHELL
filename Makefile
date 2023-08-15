@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/15 10:37:23 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/15 16:47:50 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ SRCS		=	main.c						\
 				ft_cd.c						\
 				ft_unset.c					\
 				ft_exit.c					\
-				ft_echo_01.c				\
+				ft_echo.c					\
 				ft_pwd.c					\
 				ft_env.c					\
 				modif_shlvl.c				\

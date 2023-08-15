@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:17 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:11 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 17:22:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,11 @@ void	free_str_tab(void **str_tab)
 
 void	free_data(t_shell *shell_data)
 {
+	free_trinity();
 	if (shell_data->env)
 		free_env(&shell_data->env);
 	safe_free((void **) &shell_data);
 	rl_clear_history();
-}
-
-void	free_and_exit(void)
-{
-	int	exit_code;
-
-	exit_code = g_shell_data->exit_code;
-	free_trinity();
-	if (g_shell_data)
-		free_data(g_shell_data);
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
-	exit(exit_code);
 }
 
 void	free_trinity(void)

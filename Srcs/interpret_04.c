@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 16:36:50 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:03:48 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	execute_builtin(t_rinity *cd, int builtin)
 {
 	pid_t	pid;
 
-	if (execute_first_builtin(cd, builtin) == 1)
+	if (execute_first_builtin(cd, builtin))
 		return ;
 	pid = fork();
 	if (pid == 0)

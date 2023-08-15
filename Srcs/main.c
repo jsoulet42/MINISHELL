@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:22:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 17:03:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,28 +72,15 @@ int	prompt_cmd_02(char *line2, char **envp)
 
 int	execute_first_builtin(t_rinity *cmd_struct, int builtin)
 {
-	if (builtin == 1)
-	{
-		ft_exit();
-		return (1);
-	}
-	else if (builtin == 2)
-	{
-		ft_export(cmd_struct->cmd, &g_shell_data->env);
-		return (1);
-	}
-	else if (builtin == 3)
-	{
-		ft_unset(cmd_struct->cmd, &g_shell_data->env);
-		return (1);
-	}
-	else if (builtin == 0)
-	{
+	if (builtin == 0)
 		ft_cd(lentab(cmd_struct->cmd), cmd_struct->cmd, &g_shell_data->env);
-		return (1);
-	}
-	else
-		return (0);
+	if (builtin == 1)
+		ft_exit();
+	if (builtin == 2)
+		ft_export(cmd_struct->cmd, &g_shell_data->env);
+	if (builtin == 3)
+		ft_unset(cmd_struct->cmd, &g_shell_data->env);
+	return (builtin >= 0 && builtin <= 3);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:44:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:56:29 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,20 +100,20 @@ void	print_env(t_env *env_list, int mode)
 		str_env = order_str_tab(env_to_str_tab(env_list), '=');
 		if (!str_env)
 			return ;
-		temp = str_env;
-		while (*temp)
+		temp = str_env - 1;
+		while (*(++temp))
 		{
 			check = ft_strchr(*temp, '=');
 			mode = '"' * (check && !*(check + 1));
 			if ((*temp)[0] != '_' || ((*temp)[1] && (*temp)[1] != '='))
 				printf("declare -x %s%c%c\n", *temp, mode, mode);
-			temp++;
 		}
 		return (free_str_tab((void **) str_env));
 	}
 	while (env_list)
 	{
-		printf("%s\n", env_list->display);
+		if (ft_strchr(env_list->display, '='))
+			printf("%s\n", env_list->display);
 		env_list = env_list->next;
 	}
 }
