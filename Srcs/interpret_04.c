@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 16:30:44 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:36:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,7 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		if (builtin == 7)
-			execve(cd->cmd[0], cd->cmd, env_to_str_tab(g_shell_data->env));
+		redirect_streams(cd);
 		continue_child_builtin(cd, builtin);
 		exit(0);
 	}
@@ -90,13 +89,16 @@ void	execute_builtin(t_rinity *cd, int builtin)
 
 void	continue_child_builtin(t_rinity *cd, int builtin)
 {
-	redirect_streams(cd);
+	char	**temp_env;
+
+	temp_env = env_to_str_tab(g_shell_data->env);
+	if (builtin == 4)
+		ft_env(lentab(cd->cmd), cd->cmd, temp_env);
 	if (builtin == 5)
 		ft_echo(lentab(cd->cmd), cd->cmd);
-	else if (builtin == 6)
+	if (builtin == 6)
 		ft_pwd(lentab(cd->cmd), cd->cmd);
-	else if (builtin == 4)
-		ft_env(lentab(cd->cmd), cd->cmd, env_to_str_tab(g_shell_data->env));
-	else
-		return ;
+	if (builtin == 7)
+		execve(cd->cmd[0], cd->cmd, temp_env);
+	free_str_tab((void **) temp_env);
 }
