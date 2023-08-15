@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:31 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:45:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,5 @@ void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 		g_shell_data->exit_code = 127;
 		exit (0);
 	}
-	execve(g_shell_data->path, cmd_struct->cmd, env_to_str_tab(&env));
+	execve(g_shell_data->path, cmd_struct->cmd, env_to_str_tab(env));
 }

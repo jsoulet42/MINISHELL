@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/14 21:01:38 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:44:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	print_env(t_env *env_list, int mode)
 
 	if (mode == SH_ORDERED)
 	{
-		str_env = order_str_tab(env_to_str_tab(&env_list), '=');
+		str_env = order_str_tab(env_to_str_tab(env_list), '=');
 		if (!str_env)
 			return ;
 		temp = str_env;

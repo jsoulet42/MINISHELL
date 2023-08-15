@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:41 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:52:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 
 void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env)
 {
-	redirect(cmd_struct, 0);
-	redirect(cmd_struct, 1);
+	redirect_streams(cmd_struct);
 	close(fd[0]);
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
@@ -102,5 +101,5 @@ void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 	else if (builtin == 6 && ft_strlen(cmd_struct->cmd[0]) == 3)
 		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
 	else if (builtin == 4 && ft_strlen(cmd_struct->cmd[0]) == 3)
-		ft_env(lentab(cmd_struct->cmd), cmd_struct->cmd, env_to_str_tab(&env));
+		ft_env(lentab(cmd_struct->cmd), cmd_struct->cmd, env_to_str_tab(env));
 }

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:47:56 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:53:13 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,28 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 {
 	pid_t	pid;
 
-	(void)envp;
 	g_shell_data->path = get_path(cmd->cmd[0], env);
 	if (!g_shell_data->path)
 	{
 		g_shell_data->exit_code = 127;
-		ft_fprintf(2, "minishell: %s : command not found \n", cmd->cmd[0]);
-		return ;
+		ft_fprintf(2, "mishelle: %s : command not found \n", cmd->cmd[0]);
+		return ((void) envp);
 	}
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect(cmd, 0);
-		redirect(cmd, 1);
-		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(&env));
+		redirect_streams(cmd);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(env));
 	}
 	else
 	{
-		signal(SIGINT, second_sig_handler);
+		signal(SIGQUIT, parent_sig_handler);
+		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
 		waitpid(pid, NULL, 0);
 		g_shell_data->exit_code = 0;
-		signal(SIGINT, main_sig_handler);
 	}
 }
 
@@ -71,32 +71,33 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	pid = fork();
 	if (pid == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		if (builtin == 7 && !strncmp(cd->cmd[0], "./minishell", 11)
 			&& ft_strlen(cd->cmd[0]) == 11)
-			execve(cd->cmd[0], cd->cmd, env_to_str_tab(&g_shell_data->env));
+			execve(cd->cmd[0], cd->cmd, env_to_str_tab(g_shell_data->env));
 		continue_child_builtin(cd, builtin);
 		exit(0);
 	}
 	else
 	{
-		signal(SIGINT, second_sig_handler);
+		signal(SIGQUIT, parent_sig_handler);
+		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
 		waitpid(pid, NULL, 0);
 		g_shell_data->exit_code = 0;
-		signal(SIGINT, main_sig_handler);
 	}
 }
 
 void	continue_child_builtin(t_rinity *cd, int builtin)
 {
-	redirect(cd, 0);
-	redirect(cd, 1);
+	redirect_streams(cd);
 	if (builtin == 5 && ft_strlen(cd->cmd[0]) == 4)
 		ft_echo(lentab(cd->cmd), cd->cmd);
 	else if (builtin == 6 && ft_strlen(cd->cmd[0]) == 3)
 		ft_pwd(lentab(cd->cmd), cd->cmd);
 	else if (builtin == 4 && ft_strlen(cd->cmd[0]) == 3)
-		ft_env(lentab(cd->cmd), cd->cmd, env_to_str_tab(&g_shell_data->env));
+		ft_env(lentab(cd->cmd), cd->cmd, env_to_str_tab(g_shell_data->env));
 	else
 		return ;
 }

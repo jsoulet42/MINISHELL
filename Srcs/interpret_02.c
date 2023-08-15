@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:55:22 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/15 15:51:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,10 @@ void	redirect_out(char **file_out, char **type_out)
 	}
 }
 
-void	redirect(t_rinity *cmd_struct, int option)
+void	redirect_streams(t_rinity *cmd_struct)
 {
-	if (!option)
-		redirect_in(cmd_struct->file_in, cmd_struct->type_in);
-	else
-		redirect_out(cmd_struct->file_out, cmd_struct->type_out);
+	redirect_in(cmd_struct->file_in, cmd_struct->type_in);
+	redirect_out(cmd_struct->file_out, cmd_struct->type_out);
 }
 
 void	redirect_in(char **file_in, char **type_in)

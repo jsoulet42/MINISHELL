@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:05 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/14 21:00:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:41:32 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,15 @@
  * @param t_env *env_list	-> pointer to the list to convert
  * @return char **			-> pointer to the converted strings array
  */
-char	**env_to_str_tab(t_env **env_list)
+char	**env_to_str_tab(t_env *env_list)
 {
 	int		i;
 	char	**envp;
-	t_env	*start;
 	t_env	*temp;
 
 	if (!env_list)
 		return (NULL);
-	start = *env_list;
-	temp = *env_list;
+	temp = env_list;
 	i = 0;
 	while (temp)
 	{
@@ -37,21 +35,13 @@ char	**env_to_str_tab(t_env **env_list)
 	envp = (char **) ft_calloc((i + 1), sizeof(char *));
 	if (!envp)
 		return (NULL);
-	envp = env_to_str_tab_02(envp, start);
-	return (envp);
-}
-
-char	**env_to_str_tab_02(char **envp, t_env *start)
-{
-	int	i;
-
 	i = 0;
-	while (start)
+	while (env_list)
 	{
-		envp[i++] = ft_strdup(start->display);
+		envp[i++] = ft_strdup(env_list->display);
 		if (!envp[i - 1])
 			return (free_str_tab((void **)&envp), NULL);
-		start = start->next;
+		env_list = env_list->next;
 	}
 	return (envp);
 }
