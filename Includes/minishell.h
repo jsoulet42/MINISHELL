@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:51:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 15:58:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void			free_env(t_env **env_list);
 
 /* Srcs/environment_utils_02.c */
 char			**env_to_str_tab(t_env *env_list);
-char			**env_to_str_tab_02(char **envp, t_env *start);
 t_env			*get_env_var(t_env *env_list, char *var_name);
 t_env			*update_env_var(t_env *env_var, char *value, int mode);
 

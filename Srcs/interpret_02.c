@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:51:20 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:16:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@ void	redirect_out(char **file_out, char **type_out)
 	}
 }
 
-void	redirect_streams(t_rinity *cmd_struct)
-{
-	redirect_in(cmd_struct->file_in, cmd_struct->type_in);
-	redirect_out(cmd_struct->file_out, cmd_struct->type_out);
-}
-
 void	redirect_in(char **file_in, char **type_in)
 {
 	int	i;
@@ -66,21 +60,29 @@ void	redirect_in(char **file_in, char **type_in)
 	}
 }
 
+void	redirect_streams(t_rinity *cmd_struct)
+{
+	redirect_in(cmd_struct->file_in, cmd_struct->type_in);
+	redirect_out(cmd_struct->file_out, cmd_struct->type_out);
+}
+
 int	ft_heredoc(char *str)
 {
+	int		len;
 	char	*line;
 	char	*line_temp;
 	int		fd[2];
 
 	if (pipe(fd) == -1)
 		return (-1);
+	len = ft_strlen(str);
+	line_temp = NULL;
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
 			return (-1);
-		if (ft_strncmp(line, str, ft_strlen(str)) == 0
-			&& ft_strlen(line) == ft_strlen(str))
+		if (ft_strncmp(line, str, len + 1) == 0)
 			break ;
 		line_temp = expand_dollars(line, g_shell_data->env);
 		free(line);
