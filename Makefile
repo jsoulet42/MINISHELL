@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/08 20:22:42 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/15 10:37:23 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,13 +36,13 @@ SRCS		=	main.c						\
 				parsing_08.c				\
 				doublquote_01.c				\
 				simplquote_01.c				\
-				display_01.c				\
-				init_environment_01.c		\
+				display.c					\
+				init_environment.c			\
 				environment_utils_01.c		\
 				environment_utils_02.c		\
 				environment_utils_03.c		\
 				free_utils_01.c				\
-				utils_01.c					\
+				utils.c						\
 				check_starterrors01.c		\
 				check_starterrors02.c		\
 				interpret_01.c				\
