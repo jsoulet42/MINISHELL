@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 16:16:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:21:45 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	redirect_in(char **file_in, char **type_in)
 		{
 			fd_in = open(file_in[i], O_RDONLY);
 			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
 		}
 		i++;
 	}

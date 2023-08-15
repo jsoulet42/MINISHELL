@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:53:13 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:30:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,21 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 
 int	agent_smith(char *cmd)
 {
-	if (!ft_strncmp(cmd, "cd", 2) && ft_strlen(cmd) == 2)
+	if (!ft_strncmp(cmd, "cd", 3))
 		return (0);
-	if (!ft_strncmp(cmd, "exit", 4) && ft_strlen(cmd) == 4)
+	if (!ft_strncmp(cmd, "exit", 5))
 		return (1);
-	if (!ft_strncmp(cmd, "export", 6) && ft_strlen(cmd) == 6)
+	if (!ft_strncmp(cmd, "export", 7))
 		return (2);
-	if (!ft_strncmp(cmd, "unset", 5) && ft_strlen(cmd) == 5)
+	if (!ft_strncmp(cmd, "unset", 6))
 		return (3);
-	if (!ft_strncmp(cmd, "env", 3) && ft_strlen(cmd) == 3)
+	if (!ft_strncmp(cmd, "env", 4))
 		return (4);
-	if (!ft_strncmp(cmd, "echo", 4) && ft_strlen(cmd) == 4)
+	if (!ft_strncmp(cmd, "echo", 5))
 		return (5);
-	if (!ft_strncmp(cmd, "pwd", 3) && ft_strlen(cmd) == 3)
+	if (!ft_strncmp(cmd, "pwd", 4))
 		return (6);
-	if (!ft_strncmp(cmd, "./minishell", 12) && ft_strlen(cmd) == 11)
+	if (!ft_strncmp(cmd, "./minishell", 12))
 		return (7);
 	return (-1);
 }
@@ -73,8 +73,7 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		if (builtin == 7 && !strncmp(cd->cmd[0], "./minishell", 11)
-			&& ft_strlen(cd->cmd[0]) == 11)
+		if (builtin == 7)
 			execve(cd->cmd[0], cd->cmd, env_to_str_tab(g_shell_data->env));
 		continue_child_builtin(cd, builtin);
 		exit(0);
@@ -92,11 +91,11 @@ void	execute_builtin(t_rinity *cd, int builtin)
 void	continue_child_builtin(t_rinity *cd, int builtin)
 {
 	redirect_streams(cd);
-	if (builtin == 5 && ft_strlen(cd->cmd[0]) == 4)
+	if (builtin == 5)
 		ft_echo(lentab(cd->cmd), cd->cmd);
-	else if (builtin == 6 && ft_strlen(cd->cmd[0]) == 3)
+	else if (builtin == 6)
 		ft_pwd(lentab(cd->cmd), cd->cmd);
-	else if (builtin == 4 && ft_strlen(cd->cmd[0]) == 3)
+	else if (builtin == 4)
 		ft_env(lentab(cd->cmd), cd->cmd, env_to_str_tab(g_shell_data->env));
 	else
 		return ;
