@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/16 12:55:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:19:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 	{
 		if (WIFEXITED(g_shell_data->exit_code))
 			*to_set = ft_itoa(WEXITSTATUS(g_shell_data->exit_code));
-		if (WIFSIGNALED(g_shell_data->exit_code))
+		else if (WIFSIGNALED(g_shell_data->exit_code))
 			*to_set = ft_itoa(WTERMSIG(g_shell_data->exit_code));
+		else
+			*to_set = ft_itoa(g_shell_data->exit_code);
 		return (2);
 	}
 	while (to_search[i] && ft_isalnum(to_search[i]))
@@ -87,7 +89,7 @@ struct s_doll	init_doll(void)
 /* Function to display an environment's linked list of variables on terminal
  * following a given mode
  * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
- * mode(SH_ORDERED)		-> display all variables in alphabetical order
+ * mode(SH_ORDERED)		-> display variables in alphabetical order the export way
  *
  * @param t_env *env_list	-> pointer to the environment to display
  * @param int mode			-> display mode of the environment

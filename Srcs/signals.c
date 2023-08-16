@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/16 12:45:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:13:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,5 @@ void	parent_sig_handler(int signal)
 	if (signal == SIGINT)
 		ft_fprintf(STDERR_FILENO, "\b^C\n");
 	if (signal == SIGQUIT)
-		ft_fprintf(STDERR_FILENO, "\b^\\Quit\n");
+		ft_fprintf(STDERR_FILENO, "\b^\\mishelle: quit\n");
 }
