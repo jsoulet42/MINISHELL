@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/16 11:25:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 13:23:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 	pid = fork();
 	if (pid == 0)
 	{
-		redirect_streams(cmd);
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		redirect_streams(cmd);
 		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(env));
 		exit(127);
 	}
