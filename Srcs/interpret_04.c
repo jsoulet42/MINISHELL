@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 17:03:48 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:25:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(env));
+		exit(127);
 	}
 	else
 	{
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
-		g_shell_data->exit_code = 0;
+		waitpid(pid, &g_shell_data->exit_code, 0);
 	}
 }
 

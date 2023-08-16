@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:52:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 11:28:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,12 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-	{
 		continue_child(cmd_struct, fd, env);
-		exit(0);
-	}
 	else
 	{
-		waitpid(pid, NULL, 0);
-		g_shell_data->exit_code = 0;
+		signal(SIGQUIT, parent_sig_handler);
+		signal(SIGINT, parent_sig_handler);
+		waitpid(pid, &g_shell_data->exit_code, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 	}
@@ -85,6 +83,8 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env)
 {
 	redirect_streams(cmd_struct);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	close(fd[0]);
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
@@ -92,14 +92,15 @@ void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env)
 		execute_builtin2(cmd_struct, cmd_struct->builtin, env);
 	else
 		execute_cmd(env, cmd_struct);
+	exit(127);
 }
 
 void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 {
-	if (builtin == 5 && ft_strlen(cmd_struct->cmd[0]) == 4)
-		ft_echo(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	else if (builtin == 6 && ft_strlen(cmd_struct->cmd[0]) == 3)
-		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	else if (builtin == 4 && ft_strlen(cmd_struct->cmd[0]) == 3)
+	if (builtin == 4)
 		ft_env(lentab(cmd_struct->cmd), cmd_struct->cmd, env_to_str_tab(env));
+	if (builtin == 5)
+		ft_echo(lentab(cmd_struct->cmd), cmd_struct->cmd);
+	if (builtin == 6)
+		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
 }
