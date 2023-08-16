@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 16:21:45 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/16 18:57:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,24 @@ void	redirect_in(char **file_in, char **type_in)
 	int	i;
 	int	fd_in;
 
-	i = 0;
 	if (!file_in || !type_in)
 		return ;
-	while (file_in[i])
+	i = -1;
+	while (file_in[++i])
 	{
 		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
 		{
 			fd_in = ft_heredoc(file_in[i]);
 			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
+			unlink("./.heredoc");
 		}
-		else if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
+		if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
 		{
 			fd_in = open(file_in[i], O_RDONLY);
 			dup2(fd_in, STDIN_FILENO);
 			close(fd_in);
 		}
-		i++;
 	}
 }
 
@@ -70,26 +71,27 @@ void	redirect_streams(t_rinity *cmd_struct)
 int	ft_heredoc(char *str)
 {
 	int		len;
+	int		heredoc_fd;
 	char	*line;
 	char	*line_temp;
-	int		fd[2];
 
-	if (pipe(fd) == -1)
-		return (-1);
 	len = ft_strlen(str);
 	line_temp = NULL;
+	heredoc_fd = open("./.heredoc" , O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	ft_fprintf(STDIN_FILENO, "\e[2J");
 	while (1)
 	{
 		line = readline("> ");
 		if (!line)
-			return (-1);
+			break ;
 		if (ft_strncmp(line, str, len + 1) == 0)
 			break ;
 		line_temp = expand_dollars(line, g_shell_data->env);
 		free(line);
-		ft_fprintf(fd[1], "%s\n", line_temp);
+		ft_fprintf(heredoc_fd, "%s\n", line_temp);
 	}
 	safe_free((void **)&line_temp);
-	close(fd[1]);
-	return (fd[0]);
+	close(heredoc_fd);
+	heredoc_fd = open("./.heredoc" , O_CREAT | O_RDONLY, 0644);
+	return (heredoc_fd);
 }
