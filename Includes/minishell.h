@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/16 13:38:52 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/20 19:58:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,9 @@ void			execute_cmd(t_env *env, t_rinity *cmd_struct);
 
 /* Srcs/interpret_02.c */
 int				ft_heredoc(char *str);
-void			redirect_in(char **file_in, char **type_in);
-void			redirect_out(char **file_out, char **type_out);
-void			redirect_streams(t_rinity *cmd_struct);
+int				redirect_in(char **file_in, char **type_in);
+int				redirect_out(char **file_out, char **type_out);
+int				redirect_streams(t_rinity *cmd_struct);
 
 /* Srcs/interpret_03.c */
 char			*get_path(char *cmd, t_env *env);

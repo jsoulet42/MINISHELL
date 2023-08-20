@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/20 18:57:28 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/20 20:03:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,39 +38,37 @@ static void	heredoc_read_write(char *stop, int fd)
 	safe_free((void **)&line_temp);
 }
 
-		//tmp = open("test", O_CREAT | O_WRONLY, 0644);
-
 int	ft_heredoc(char *str)
 {
-	int	fd[2];
-//	pid_t	pid;
+	int		fd[2];
+	pid_t	pid;
 
+	dup2(g_shell_data->in, STDIN_FILENO);
 	if (pipe(fd) < 0)
 		return (-1);
-//	pid = fork();
-//	if (pid == 0)
-//	{
-		dup2(g_shell_data->in, STDIN_FILENO);
+	pid = fork();
+	if (pid == 0)
+	{
 		heredoc_read_write(str, fd[1]);
-//		close(fd[0]);
+		close(fd[0]);
 		close(fd[1]);
-//		exit(0);
-//	}
-//	else
-//	{
-//		waitpid(pid, NULL, 0);
-//		close(fd[1]);
-//	}
+		exit(0);
+	}
+	else
+	{
+		waitpid(pid, NULL, 0);
+		close(fd[1]);
+	}
 	return (fd[0]);
 }
 
-void	redirect_out(char **file_out, char **type_out)
+int	redirect_out(char **file_out, char **type_out)
 {
 	int	i;
 	int	fd_out;
 
 	if (!file_out || !type_out)
-		return ;
+		return (SH_SUCCESS);
 	fd_out = -1;
 	i = -1;
 	while (file_out[++i])
@@ -82,41 +80,45 @@ void	redirect_out(char **file_out, char **type_out)
 		if (fd_out < 0)
 		{
 			perror("mishelle");
-			continue ;
+			break ;
 		}
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 		fd_out = -1;
 	}
+	return (errno);
 }
 
-void	redirect_in(char **file_in, char **type_in)
+int	redirect_in(char **file_in, char **type_in)
 {
 	int	i;
 	int	fd_in;
 
 	if (!file_in || !type_in)
-		return ;
-	fd_in = -1;
+		return (SH_SUCCESS);
 	i = -1;
-	while (file_in[++i])
+	errno = 0;
+	while (file_in[i + 1] && type_in[i + 1])
 	{
-		if (type_in[i] && ft_strncmp(type_in[i], "<<", 3) == 0)
+		i++;
+		fd_in = -1;
+		if (ft_strncmp(type_in[i], "<<", 3) == 0)
 			fd_in = ft_heredoc(file_in[i]);
-		if (type_in[i] && ft_strncmp(type_in[i], "<", 2) == 0)
+		if (errno == 0 && ft_strncmp(type_in[i], "<", 2) == 0)
 			fd_in = open(file_in[i], O_RDONLY, 0644);
 		if (fd_in < 0)
-		{
-			perror("mishelle");
 			continue ;
-		}
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
+	if (errno)
+		perror("mishelle");
+	return (errno);
 }
 
-void	redirect_streams(t_rinity *cmd_struct)
+int	redirect_streams(t_rinity *cmd_struct)
 {
-	redirect_in(cmd_struct->file_in, cmd_struct->type_in);
-	redirect_out(cmd_struct->file_out, cmd_struct->type_out);
+	if (redirect_in(cmd_struct->file_in, cmd_struct->type_in))
+		return (errno);
+	return (redirect_out(cmd_struct->file_out, cmd_struct->type_out));
 }
