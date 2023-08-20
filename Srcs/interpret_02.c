@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/20 18:32:40 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/20 18:57:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,25 @@ static void	heredoc_read_write(char *stop, int fd)
 int	ft_heredoc(char *str)
 {
 	int	fd[2];
-	pid_t	pid;
+//	pid_t	pid;
 
 	if (pipe(fd) < 0)
 		return (-1);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(STDIN_FILENO, fd[0]);
-		heredoc_read_write(str, STDIN_FILENO);
+//	pid = fork();
+//	if (pid == 0)
+//	{
+		dup2(g_shell_data->in, STDIN_FILENO);
+		heredoc_read_write(str, fd[1]);
+//		close(fd[0]);
 		close(fd[1]);
-		exit(0);
-	}
-	else
-	{
-		waitpid(pid, NULL, 0);
-		dup2(fd[1], STDIN_FILENO);
-		close(fd[0]);
-	}
-	return (STDIN_FILENO);
+//		exit(0);
+//	}
+//	else
+//	{
+//		waitpid(pid, NULL, 0);
+//		close(fd[1]);
+//	}
+	return (fd[0]);
 }
 
 void	redirect_out(char **file_out, char **type_out)
