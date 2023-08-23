@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/23 12:55:15 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:27:59 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	redirect_in(char **file_in, char **type_in)
 		close(fd_in);
 	}
 	if (errno)
-		perror("mishelle");
+		ft_perror("mishelle", file_in[i]);
 	return (errno);
 }
 

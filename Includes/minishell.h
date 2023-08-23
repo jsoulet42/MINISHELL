@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/20 21:08:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/23 13:40:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int				viveldop(char gel, char *str, int *i);
 /* Srcs/display.c */
 int				set_termios_mode(int mode);
 char			*prompt(t_env *env);
+void			ft_perror(char *prefix, char *prefix2);
 
 /* Srcs/doublquote_01.c */
 int				doublquote(char *str);
@@ -146,7 +147,6 @@ void			print_env(t_env *env_list, int mode);
 void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
 void			free_data(t_shell *shell_data);
-void			free_and_exit(void);
 void			free_trinity(void);
 
 /* Srcs/free_utils_02.c */
