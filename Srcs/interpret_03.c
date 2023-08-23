@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/20 20:03:32 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/21 15:16:56 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,17 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 	int		fd[2];
 	pid_t	pid;
 
-	if (cmd_struct->builtin >= 0 && cmd_struct->builtin <= 3)
-		return ;
 	if (pipe(fd) == -1)
 		return ;
 	pid = fork();
 	if (pid == -1)
 		return ;
 	if (pid == 0)
-		continue_child(cmd_struct, fd, env);
+	{
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
+		run_child(cmd_struct, fd, env);
+	}
 	else
 	{
 		signal(SIGQUIT, parent_sig_handler);
@@ -77,18 +79,21 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 		waitpid(pid, &g_shell_data->exit_code, 0);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 	}
 }
 
-void	continue_child(t_rinity *cmd_struct, int *fd, t_env *env)
+void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 {
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
-	if (redirect_streams(cmd_struct))
-		exit(1);
 	close(fd[0]);
+	if (redirect_streams(cmd_struct))
+	{
+		close(fd[1]);
+		exit(1);
+	}
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
+	close(fd[1]);
 	if (cmd_struct->builtin > 3)
 		execute_builtin2(cmd_struct, cmd_struct->builtin, env);
 	else
@@ -104,4 +109,5 @@ void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 		ft_echo(lentab(cmd_struct->cmd), cmd_struct->cmd);
 	if (builtin == 6)
 		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
+	exit(0);
 }

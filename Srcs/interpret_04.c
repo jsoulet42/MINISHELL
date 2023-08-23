@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/20 20:02:38 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/23 12:46:31 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,19 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 	if (!g_shell_data->path)
 	{
 		g_shell_data->exit_code = 127;
-		ft_fprintf(2, "mishelle: %s : command not found \n", cmd->cmd[0]);
+		ft_fprintf(2, "mishelle: %s : command not found\n", cmd->cmd[0]);
 		return ((void) envp);
+	}
+	if (redirect_streams(cmd))
+	{
+		g_shell_data->exit_code = 1;
+		return ;
 	}
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		if (redirect_streams(cmd))
-			exit(1);
 		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(env));
 		exit(127);
 	}
@@ -67,6 +70,11 @@ void	execute_builtin(t_rinity *cd, int builtin)
 {
 	pid_t	pid;
 
+	if (redirect_streams(cd))
+	{
+		g_shell_data->exit_code = 1;
+		return ;
+	}
 	if (execute_first_builtin(cd, builtin))
 		return ;
 	pid = fork();
@@ -74,7 +82,6 @@ void	execute_builtin(t_rinity *cd, int builtin)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		redirect_streams(cd);
 		continue_child_builtin(cd, builtin);
 		exit(0);
 	}
@@ -83,8 +90,7 @@ void	execute_builtin(t_rinity *cd, int builtin)
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, NULL, 0);
-		g_shell_data->exit_code = 0;
+		waitpid(pid, &g_shell_data->exit_code, 0);
 	}
 }
 
