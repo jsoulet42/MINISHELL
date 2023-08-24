@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/15 16:47:50 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/24 17:27:25 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,7 @@ SRCS		=	main.c						\
 				utils.c						\
 				check_starterrors01.c		\
 				check_starterrors02.c		\
+				ft_heredoc.c				\
 				interpret_01.c				\
 				interpret_02.c				\
 				interpret_03.c				\

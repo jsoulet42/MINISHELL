@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/23 13:40:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:27:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,9 @@ void			free_trinity(void);
 /* Srcs/free_utils_02.c */
 void			free_and_return(void);
 
+/* Srcs/ft_heredoc.c */
+int				ft_heredoc(char *str);
+
 /* Srcs/init_environment.c */
 char			*ft_pwd2(void);
 char			*modif_pwd(void);
@@ -166,7 +169,6 @@ char			**create_commande(t_par **par, int i);
 void			execute_cmd(t_env *env, t_rinity *cmd_struct);
 
 /* Srcs/interpret_02.c */
-int				ft_heredoc(char *str);
 int				redirect_in(char **file_in, char **type_in);
 int				redirect_out(char **file_out, char **type_out);
 int				redirect_streams(t_rinity *cmd_struct);
@@ -246,8 +248,8 @@ void			sparse(t_par **p, char *argv);
 
 /* Srcs/signals.c */
 void			main_sig_handler(int signal);
+void			heredoc_sig_handler(int signal);
 void			parent_sig_handler(int signal);
-void			second_sig_handler(int signal);
 
 /* Srcs/simplquote_01.c */
 int				simplquote(char *str);

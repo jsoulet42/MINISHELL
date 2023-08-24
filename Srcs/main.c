@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 17:03:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/24 17:57:45 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
-		set_termios_mode(TERMIOS_MUTE_CTRL);
 		if (prompt_cmd(envp))
 			continue ;
 		test = g_shell_data;
