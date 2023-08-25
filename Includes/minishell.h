@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/24 17:27:07 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:41:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,10 +174,10 @@ int				redirect_out(char **file_out, char **type_out);
 int				redirect_streams(t_rinity *cmd_struct);
 
 /* Srcs/interpret_03.c */
+int				piper(t_env *env, t_rinity *cmd_struct);
 char			*get_path(char *cmd, t_env *env);
 char			*get_path_cmd(char **path, char *cmd);
 void			execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env);
-void			piper(t_env *env, t_rinity *cmd_struct);
 void			run_child(t_rinity *cmd_struct, int *fd, t_env *env);
 
 /* Srcs/interpret_04.c */

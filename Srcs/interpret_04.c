@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/24 18:21:41 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:23:58 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 {
+	char	**str_env;
 	pid_t	pid;
 
 	g_shell_data->path = get_path(cmd->cmd[0], env);
 	if (!g_shell_data->path)
-	{
-		g_shell_data->exit_code = 127;
-		ft_fprintf(2, "mishelle: %s : command not found\n", cmd->cmd[0]);
 		return ((void) envp);
-	}
 	if (redirect_streams(cmd))
 	{
 		g_shell_data->exit_code = 1;
@@ -33,8 +30,11 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		execve(g_shell_data->path, cmd->cmd, env_to_str_tab(env));
-		exit(130);
+		str_env = env_to_str_tab(env);
+		execve(g_shell_data->path, cmd->cmd, str_env);
+		free_str_tab((void **)str_env);
+		ft_perror("mishelle", cmd->cmd[0]);
+		exit(errno);
 	}
 	else
 	{

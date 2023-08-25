@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/25 13:05:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:39:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ char	*get_path(char *cmd, t_env *env)
 	path = ft_split(var, ':');
 	path_cmd = get_path_cmd(path, cmd);
 	free_str_tab((void **)path);
+	g_shell_data->exit_code = errno;
 	errno = 0;
 	return (path_cmd);
 }
 
 char	*get_path_cmd(char **path, char *cmd)
 {
-	int		i;
 	char	*path_cmd;
 	char	*tmp;
 
@@ -38,12 +38,12 @@ char	*get_path_cmd(char **path, char *cmd)
 	{
 		if (access(cmd, F_OK | X_OK) == 0)
 			return (ft_strdup(cmd));
+		ft_perror("mishelle", cmd);
 		return (NULL);
 	}
-	i = 0;
-	while (path[i])
+	while (*path)
 	{
-		tmp = ft_strjoin(path[i++], "/");
+		tmp = ft_strjoin(*path++, "/");
 		if (!tmp)
 			return (NULL);
 		path_cmd = ft_strjoin(tmp, cmd);
@@ -54,19 +54,26 @@ char	*get_path_cmd(char **path, char *cmd)
 			return (path_cmd);
 		free(path_cmd);
 	}
+	ft_fprintf(2, "mishelle: %s: command not found\n", cmd);
 	return (NULL);
 }
 
-void	piper(t_env *env, t_rinity *cmd_struct)
+int	piper(t_env *env, t_rinity *cmd_struct)
 {
 	int		fd[2];
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		return ;
+	{
+		g_shell_data->exit_code = errno;
+		return (perror("mishelle"), SH_ERROR);
+	}
 	pid = fork();
 	if (pid == -1)
-		return ;
+	{
+		g_shell_data->exit_code = errno;
+		return (perror("mishelle"), SH_ERROR);
+	}
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -82,6 +89,7 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
+	return (g_shell_data->exit_code);
 }
 
 void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)

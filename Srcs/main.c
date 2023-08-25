@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/24 17:57:45 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:40:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static int	prompt_cmd(char **envp)
 int	prompt_cmd_02(char *line2, char **envp)
 {
 	int	i;
+	int	status_code;
 
 	free_trinity();
 	g_shell_data->t = ft_parsing(line2);
@@ -57,12 +58,16 @@ int	prompt_cmd_02(char *line2, char **envp)
 	if (!g_shell_data->t)
 		return (1);
 	i = 0;
-	while (g_shell_data->t && g_shell_data->t[i + 1])
-		piper(g_shell_data->env, g_shell_data->t[i++]);
-	if (agent_smith(g_shell_data->t[i]->cmd[0]) != -1)
-		execute_builtin(g_shell_data->t[i], g_shell_data->t[i]->builtin);
-	else
-		exec_last(g_shell_data->env, g_shell_data->t[i], envp);
+	status_code = 0;
+	while (!status_code && g_shell_data->t && g_shell_data->t[i + 1])
+		status_code = piper(g_shell_data->env, g_shell_data->t[i++]);
+	if (!status_code)
+	{
+		if (agent_smith(g_shell_data->t[i]->cmd[0]) != -1)
+			execute_builtin(g_shell_data->t[i], g_shell_data->t[i]->builtin);
+		else
+			exec_last(g_shell_data->env, g_shell_data->t[i], envp);
+	}
 	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);

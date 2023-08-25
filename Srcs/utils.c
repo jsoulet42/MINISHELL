@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 21:27:38 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/14 21:27:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:57:08 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int	ft_strccmp(const char *str1, const char *str2, char limit)
 char	*ft_strjoin_plus(char *dest, char *src)
 {
 	if (!dest || !src)
-		return (ft_strdup((void *)((uintptr_t)(void *) src * (1 && src)
-			+ (uintptr_t)(void *) dest * (1 && dest))));
+		return (ft_strdup((char *)((uintptr_t) src * (1 && src)
+				+ (uintptr_t) dest * (1 && dest))));
 	return (ft_strjoin(dest, src));
 }
 

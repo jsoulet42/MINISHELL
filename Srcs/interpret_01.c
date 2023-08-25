@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 16:03:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 17:20:13 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,14 @@ int	next_good_commande(t_par **par, int i)
 
 void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
+	char	**str_env;
+
 	g_shell_data->path = get_path(cmd_struct->cmd[0], env);
 	if (!g_shell_data->path)
-	{
-		ft_fprintf(STDERR_FILENO, "mishelle: command not found: `%s'\n",
-			cmd_struct->cmd[0]);
-		g_shell_data->exit_code = 127;
-		exit (0);
-	}
-	execve(g_shell_data->path, cmd_struct->cmd, env_to_str_tab(env));
+		exit(g_shell_data->exit_code);
+	str_env = env_to_str_tab(env);
+	execve(g_shell_data->path, cmd_struct->cmd, str_env);
+	ft_perror("mishelle", cmd_struct->cmd[0]);
+	free_str_tab((void **)str_env);
+	exit(errno);
 }
