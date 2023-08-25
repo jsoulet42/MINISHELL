@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/24 18:11:48 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/25 13:05:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 		execute_builtin2(cmd_struct, cmd_struct->builtin, env);
 	else
 		execute_cmd(env, cmd_struct);
-	exit(127);
+	exit(130);
 }
 
 void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
