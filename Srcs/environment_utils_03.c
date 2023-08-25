@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/16 13:19:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 01:29:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 		if (WIFEXITED(g_shell_data->exit_code))
 			*to_set = ft_itoa(WEXITSTATUS(g_shell_data->exit_code));
 		else if (WIFSIGNALED(g_shell_data->exit_code))
-			*to_set = ft_itoa(WTERMSIG(g_shell_data->exit_code));
+			*to_set = ft_itoa(128 + WTERMSIG(g_shell_data->exit_code));
 		else
 			*to_set = ft_itoa(g_shell_data->exit_code);
 		return (2);
