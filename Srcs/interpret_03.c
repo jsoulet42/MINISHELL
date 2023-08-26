@@ -6,56 +6,66 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 11:56:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:17:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-char	*get_path(char *cmd, t_env *env)
+static int	get_path_cmd(char **to_set, char **bin_paths, char *cmd)
 {
-	char	*var;
-	char	**path;
-	char	*path_cmd;
-
-	var = ft_getenv(env, "PATH");
-	if (!var)
-		return (NULL);
-	path = ft_split(var, ':');
-	path_cmd = get_path_cmd(path, cmd);
-	free_str_tab((void **)path);
-	g_shell_data->exit_code = errno;
-	errno = 0;
-	return (path_cmd);
-}
-
-char	*get_path_cmd(char **path, char *cmd)
-{
-	char	*path_cmd;
 	char	*tmp;
 
 	if (cmd[0] == '.' || cmd[0] == '/')
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (ft_strdup(cmd));
-		ft_perror("mishelle", cmd);
-		return (NULL);
+		if (access(cmd, F_OK | X_OK) != 0)
+			return (SH_ERROR);
+		*to_set = cmd;
+		return (SH_SUCCESS);
 	}
-	while (*path)
+	while (*bin_paths)
 	{
-		tmp = ft_strjoin(*path++, "/");
+		tmp = ft_strjoin(*bin_paths++, "/");
 		if (!tmp)
-			return (NULL);
-		path_cmd = ft_strjoin(tmp, cmd);
+			return (SH_ERROR);
+		*to_set = ft_strjoin(tmp, cmd);
 		free(tmp);
-		if (!path_cmd)
-			return (NULL);
-		if (access(path_cmd, F_OK | X_OK) == 0)
-			return (path_cmd);
-		free(path_cmd);
+		if (!*to_set)
+			return (SH_ERROR);
+		if (access(*to_set, F_OK | X_OK) == 0)
+			return (SH_SUCCESS);
+		free(*to_set);
+		*to_set = NULL;
 	}
-	ft_fprintf(2, "mishelle: %s: command not found\n", cmd);
-	return (NULL);
+	return (SH_ERROR + 1);
+}
+
+char	*get_path(char *cmd, t_env *env)
+{
+	int		status;
+	char	*cmd_path;
+	char	**bin_paths;
+
+	g_shell_data->exit_code = 0;
+	bin_paths = ft_split(ft_getenv(env, "PATH"), ':');
+	if (!bin_paths)
+		return (NULL);
+	cmd_path = NULL;
+	status = get_path_cmd(&cmd_path, bin_paths, cmd);
+	free_str_tab((void **)bin_paths);
+	if (errno == 13)
+		g_shell_data->exit_code = 126;
+	else
+		g_shell_data->exit_code = errno;
+	if (status == SH_ERROR)
+		ft_perror("mishelle", cmd);
+	if (status == SH_ERROR + 1)
+	{
+		ft_fprintf(2, "mishelle: %s: command not found\n", cmd);
+		g_shell_data->exit_code = 127;
+	}
+	errno = 0;
+	return (cmd_path);
 }
 
 int	piper(t_env *env, t_rinity *cmd_struct)

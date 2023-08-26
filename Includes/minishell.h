@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 11:49:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 16:10:59 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,7 +176,6 @@ int				redirect_streams(t_rinity *cmd_struct);
 /* Srcs/interpret_03.c */
 int				piper(t_env *env, t_rinity *cmd_struct);
 char			*get_path(char *cmd, t_env *env);
-char			*get_path_cmd(char **path, char *cmd);
 void			execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env);
 void			run_child(t_rinity *cmd_struct, int *fd, t_env *env);
 
@@ -199,7 +198,7 @@ int				prompt_cmd_02(char *line2, char **envp);
 void			modif_shlvl(char **env);
 void			new_shlvl(char *env);
 
-/* srcs/parsingi_01.c */
+/* srcs/parsing_01.c */
 t_rinity		**ft_parsing(char *argv);
 t_rinity		**t_rinity_init(t_par **p);
 void			ft_supprchar(char **str, int i);
