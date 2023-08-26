@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:15 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/26 17:51:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:08:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,9 @@ int	ft_heredoc(char *str)
 		get_exit_code(status_code, &g_shell_data->exit_code);
 	}
 	if (g_shell_data->exit_code)
+	{
+		ft_printf("dqdwdqwdqw\n");
 		return (close(fd[0]), -1);
+	}
 	return (fd[0]);
 }
