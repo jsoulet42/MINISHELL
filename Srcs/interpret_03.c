@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 18:11:22 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:17:10 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,3 @@ void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 		execute_cmd(env, cmd_struct);
 	exit(130);
 }
-/*
-void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
-{
-	if (builtin == 4)
-		ft_env(lentab(cmd_struct->cmd), cmd_struct->cmd, env_to_str_tab(env));
-	if (builtin == 5)
-		ft_echo(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	if (builtin == 6)
-		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
-	exit(0);
-}*/
