@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/25 17:39:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:56:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*get_path_cmd(char **path, char *cmd)
 
 int	piper(t_env *env, t_rinity *cmd_struct)
 {
+	int		status_code;
 	int		fd[2];
 	pid_t	pid;
 
@@ -84,12 +85,13 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 	{
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
-		waitpid(pid, &g_shell_data->exit_code, 0);
+		waitpid(pid, &status_code, 0);
+		get_exit_code(status_code, &g_shell_data->exit_code);
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	return (g_shell_data->exit_code);
+	return (status_code);
 }
 
 void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)

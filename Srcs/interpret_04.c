@@ -6,42 +6,46 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 01:25:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:50:14 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
+void	get_exit_code(int status_code, int *to_set)
+{
+	if (WIFEXITED(status_code))
+		*to_set = WEXITSTATUS(status_code);
+	else if (WIFSIGNALED(status_code))
+		*to_set = 128 + WTERMSIG(status_code);
+	else
+		*to_set = status_code;
+}
+
 void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 {
-	char	**str_env;
+	int		status_code;
 	pid_t	pid;
 
-	g_shell_data->path = get_path(cmd->cmd[0], env);
-	if (!g_shell_data->path)
-		return ((void) envp);
 	if (redirect_streams(cmd))
 	{
 		g_shell_data->exit_code = 1;
-		return ;
+		return ((void)envp);
 	}
 	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		str_env = env_to_str_tab(env);
-		execve(g_shell_data->path, cmd->cmd, str_env);
-		free_str_tab((void **)str_env);
-		ft_perror("mishelle", cmd->cmd[0]);
-		exit(errno);
+		execute_cmd(env, cmd);
 	}
 	else
 	{
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, &g_shell_data->exit_code, 0);
+		waitpid(pid, &status_code, 0);
+		get_exit_code(status_code, &g_shell_data->exit_code);
 	}
 }
 

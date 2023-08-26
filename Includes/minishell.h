@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/25 17:41:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 11:49:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ int				agent_smith(char *cmd);
 void			continue_child_builtin(t_rinity *cd, int builtin);
 void			exec_last(t_env *env, t_rinity *cmd_struct, char **envp);
 void			execute_builtin(t_rinity *cmd_struct, int builtin);
+void			get_exit_code(int status_code, int *to_set);
 
 /* Srcs/lentab.c */
 int				lentab(char **tableau);
