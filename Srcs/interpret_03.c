@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 17:56:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 18:11:22 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 	int		fd[2];
 	pid_t	pid;
 
+	if (redirect_streams(cmd_struct))
+		return (SH_ERROR);
 	if (pipe(fd) == -1)
 	{
 		g_shell_data->exit_code = errno;
@@ -109,11 +111,6 @@ void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 	int	builtin_check;
 
 	close(fd[0]);
-	if (redirect_streams(cmd_struct))
-	{
-		close(fd[1]);
-		exit(g_shell_data->exit_code);
-	}
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
