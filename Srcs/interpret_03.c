@@ -6,13 +6,13 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 16:17:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:56:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-static int	get_path_cmd(char **to_set, char **bin_paths, char *cmd)
+static int	get_cmd_path(char **to_set, char **bin_paths, char *cmd)
 {
 	char	*tmp;
 
@@ -51,7 +51,7 @@ char	*get_path(char *cmd, t_env *env)
 	if (!bin_paths)
 		return (NULL);
 	cmd_path = NULL;
-	status = get_path_cmd(&cmd_path, bin_paths, cmd);
+	status = get_cmd_path(&cmd_path, bin_paths, cmd);
 	free_str_tab((void **)bin_paths);
 	if (errno == 13)
 		g_shell_data->exit_code = 126;
@@ -106,22 +106,28 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 
 void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 {
+	int	builtin_check;
+
 	close(fd[0]);
 	if (redirect_streams(cmd_struct))
 	{
 		close(fd[1]);
-		exit(1);
+		exit(g_shell_data->exit_code);
 	}
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	if (cmd_struct->builtin > 3)
-		execute_builtin2(cmd_struct, cmd_struct->builtin, env);
+	builtin_check = agent_smith(cmd_struct->cmd[0]);
+	if (builtin_check > -1)
+	{
+		execute_builtin(cmd_struct, builtin_check);
+		exit(0);
+	}
 	else
 		execute_cmd(env, cmd_struct);
 	exit(130);
 }
-
+/*
 void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 {
 	if (builtin == 4)
@@ -131,4 +137,4 @@ void	execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env)
 	if (builtin == 6)
 		ft_pwd(lentab(cmd_struct->cmd), cmd_struct->cmd);
 	exit(0);
-}
+}*/

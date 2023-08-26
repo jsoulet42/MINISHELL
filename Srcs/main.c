@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 15:46:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:32:22 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,30 +62,12 @@ int	prompt_cmd_02(char *line2, char **envp)
 	while (!status_code && g_shell_data->t && g_shell_data->t[i + 1])
 		status_code = piper(g_shell_data->env, g_shell_data->t[i++]);
 	if (!status_code)
-	{
-		if (agent_smith(g_shell_data->t[i]->cmd[0]) != -1)
-			execute_builtin(g_shell_data->t[i], g_shell_data->t[i]->builtin);
-		else
-			exec_last(g_shell_data->env, g_shell_data->t[i], envp);
-	}
+		exec_last(g_shell_data->env, g_shell_data->t[i], envp);
 	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
 	free_t_par(g_shell_data->par);
 	return (0);
-}
-
-int	execute_first_builtin(t_rinity *cmd_struct, int builtin)
-{
-	if (builtin == 0)
-		ft_cd(lentab(cmd_struct->cmd), cmd_struct->cmd, &g_shell_data->env);
-	if (builtin == 1)
-		ft_exit();
-	if (builtin == 2)
-		ft_export(cmd_struct->cmd, &g_shell_data->env);
-	if (builtin == 3)
-		ft_unset(cmd_struct->cmd, &g_shell_data->env);
-	return (builtin >= 0 && builtin <= 3);
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:15 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/24 17:28:22 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:51:25 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,15 @@ static void	heredoc_write(char *stop, int *fd)
 
 int	ft_heredoc(char *str)
 {
+	int		status_code;
 	int		fd[2];
 	pid_t	pid;
 
 	dup2(g_shell_data->in, STDIN_FILENO);
-	if (pipe(fd) < 0)
-		return (-1);
+	if (pipe(fd) == -1)
+		return (perror("mishelle: here-document"), -1);
 	pid = fork();
-	if (pid < 0)
+	if (pid == -1)
 		return (perror("mishelle: here-document"), -1);
 	else if (pid == 0)
 	{
@@ -63,7 +64,8 @@ int	ft_heredoc(char *str)
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, heredoc_sig_handler);
 		close(fd[1]);
-		waitpid(pid, &g_shell_data->exit_code, 0);
+		waitpid(pid, &status_code, 0);
+		get_exit_code(status_code, &g_shell_data->exit_code);
 	}
 	if (g_shell_data->exit_code)
 		return (close(fd[0]), -1);

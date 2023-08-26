@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 16:10:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/26 17:34:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,12 @@ int				redirect_streams(t_rinity *cmd_struct);
 /* Srcs/interpret_03.c */
 int				piper(t_env *env, t_rinity *cmd_struct);
 char			*get_path(char *cmd, t_env *env);
-void			execute_builtin2(t_rinity *cmd_struct, int builtin, t_env *env);
 void			run_child(t_rinity *cmd_struct, int *fd, t_env *env);
 
 /* Srcs/interpret_04.c */
 int				agent_smith(char *cmd);
-void			continue_child_builtin(t_rinity *cd, int builtin);
+int				execute_builtin(t_rinity *cmd_struct, int builtin);
 void			exec_last(t_env *env, t_rinity *cmd_struct, char **envp);
-void			execute_builtin(t_rinity *cmd_struct, int builtin);
 void			get_exit_code(int status_code, int *to_set);
 
 /* Srcs/lentab.c */
@@ -191,7 +189,6 @@ int				lentab(char **tableau);
 char			**env_update(char **envp, t_shell *env);
 
 /* Srcs/main.c */
-int				execute_first_builtin(t_rinity *cmd_struct, int builtin);
 int				prompt_cmd_02(char *line2, char **envp);
 
 /* Srcs/modif_shlvl.c */
