@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:05 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 15:41:32 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 01:57:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,41 @@ t_env	*update_env_var(t_env *env_var, char *value, int mode)
 	if (!env_var->display)
 		return (NULL);
 	return (env_var);
+}
+
+/* Function to display an environment's linked list of variables on terminal
+ * following a given mode
+ * mode(SH_DISORDERED)	-> display only the variables with a value disorderly
+ * mode(SH_ORDERED)		-> display variables in alphabetical order the export way
+ *
+ * @param t_env *env_list	-> pointer to the environment to display
+ * @param int mode			-> display mode of the environment
+ */
+void	print_env(t_env *env_list, int mode)
+{
+	char	*check;
+	char	**temp;
+	char	**str_env;
+
+	if (mode == SH_ORDERED)
+	{
+		str_env = order_str_tab(env_to_str_tab(env_list), '=');
+		if (!str_env)
+			return ;
+		temp = str_env - 1;
+		while (*(++temp))
+		{
+			check = ft_strchr(*temp, '=');
+			mode = '"' * (check && !*(check + 1));
+			if ((*temp)[0] != '_' || ((*temp)[1] && (*temp)[1] != '='))
+				printf("declare -x %s%c%c\n", *temp, mode, mode);
+		}
+		return (free_str_tab((void **) str_env));
+	}
+	while (env_list)
+	{
+		if (ft_strchr(env_list->display, '='))
+			printf("%s\n", env_list->display);
+		env_list = env_list->next;
+	}
 }

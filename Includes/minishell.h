@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 17:34:28 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 02:00:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,9 @@ int				set_termios_mode(int mode);
 char			*prompt(t_env *env);
 void			ft_perror(char *prefix, char *prefix2);
 
+/* Srcs/dollar_handler.c */
+char			*expand_dollars(char *str, t_env *env);
+
 /* Srcs/doublquote_01.c */
 int				doublquote(char *str);
 
@@ -136,11 +139,6 @@ void			free_env(t_env **env_list);
 char			**env_to_str_tab(t_env *env_list);
 t_env			*get_env_var(t_env *env_list, char *var_name);
 t_env			*update_env_var(t_env *env_var, char *value, int mode);
-
-/* Srcs/environment_utils_03.c */
-int				get_dollar_value(char **to_set, char *to_search, t_env *env);
-char			*expand_dollars(char *str, t_env *env);
-struct s_doll	init_doll(void);
 void			print_env(t_env *env_list, int mode);
 
 /* Srcs/free_utils_01.c */
@@ -258,5 +256,10 @@ char			*ft_strjoin_plus(char *dest, char *src);
 char			**order_str_tab(char **str_tab, char limit);
 void			print_str_tab(char **str_tab);
 void			print_t_par(t_par **p);
+
+/* Srcs/utils_02.c */
+char			*ft_strchrnul(const char *str, int c);
+char			*join_str_tab(const char **str_tab);
+char			**ft_keep_split(char *str, char sep);
 
 #endif
