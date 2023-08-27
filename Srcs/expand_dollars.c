@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:02:53 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 01:55:51 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:07:51 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*start_expand_dollar(char *str, t_env *env)
 
 	if (!str || !env)
 		return (NULL);
-	if (str[1] == '?')
+	if (str[0] && str[1] == '?')
 	{
 		temp = str + 2;
 		res = ft_itoa(g_shell_data->exit_code);

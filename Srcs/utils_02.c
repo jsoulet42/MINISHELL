@@ -6,11 +6,27 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 01:51:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 16:30:04 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
+
+int	count_chars(const char *str, int c)
+{
+	int		count;
+	char	*temp;
+
+	if (!str)
+		return (0);
+	if (!c)
+		return (1);
+	temp = (char *)str;
+	count = 0;
+	while (*temp)
+		count += (*temp++ == c);
+	return (count);
+}
 
 char	*ft_strchrnul(const char *str, int c)
 {
