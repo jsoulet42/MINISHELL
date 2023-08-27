@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:02 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:42:03 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/27 22:42:24 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,12 @@ char	**str_tab_add_neo(char **str, char *add)
 	if (!str)
 		return (new_neo(add));
 	i = strstr_len(str);
-	new = (char **)malloc(sizeof(char *) * (i + 2));
+	new = (char **)ft_calloc(sizeof(char *), i + 2);
 	if (!new)
 		return (NULL);
-	i = 0;
-	while (str[i])
-	{
+	i = -1;
+	while (str[++i])
 		new[i] = str[i];
-		if (!new[i])
-			return (NULL);
-		i++;
-	}
 	free(str);
 	new[i] = add;
 	new[i + 1] = NULL;
@@ -56,12 +51,12 @@ char	**new_neo(char *add)
 {
 	char	**new;
 
+	if (!add)
+		return (NULL);
 	new = (char **)malloc(sizeof(char *) * 2);
 	if (!new)
 		return (NULL);
 	new[0] = add;
-	if (!new[0])
-		return (NULL);
 	new[1] = NULL;
 	return (new);
 }

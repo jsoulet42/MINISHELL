@@ -6,12 +6,12 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 16:30:04 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:43:55 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-
+/*
 int	count_chars(const char *str, int c)
 {
 	int		count;
@@ -26,6 +26,12 @@ int	count_chars(const char *str, int c)
 	while (*temp)
 		count += (*temp++ == c);
 	return (count);
+}
+*/
+
+int	ft_min(int a, int b)
+{
+	return ((a <= b) * a + (a > b) * b);
 }
 
 char	*ft_strchrnul(const char *str, int c)

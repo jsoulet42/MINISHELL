@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 16:18:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/27 23:25:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void			print_env(t_env *env_list, int mode);
 char			*expand_dollars(char *str, t_env *env);
 
 /* Srcs/expand_cmd.c */
-char			*expand_cmd(char *line, t_env *env);
+char			*expand_cmd(char *line, int mode, t_env *env);
 
 /* Srcs/free_utils_01.c */
 void			safe_free(void **ptr_addr);
@@ -261,7 +261,7 @@ void			print_str_tab(char **str_tab);
 void			print_t_par(t_par **p);
 
 /* Srcs/utils_02.c */
-int				count_chars(const char *str, int c);
+int				ft_min(int a, int b);
 char			*ft_strchrnul(const char *str, int c);
 char			*join_str_tab(const char **str_tab);
 char			**ft_keep_split(char *str, char sep);

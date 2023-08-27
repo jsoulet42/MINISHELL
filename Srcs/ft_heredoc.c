@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:15 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/26 18:31:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 00:02:22 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ static void	heredoc_write(char *stop, int *fd)
 {
 	int		len;
 	char	*line;
-	char	*line_temp;
+	char	*temp;
 
 	len = ft_strlen(stop);
-	line_temp = NULL;
 	while (1)
 	{
 		line = readline("> ");
@@ -31,11 +30,15 @@ static void	heredoc_write(char *stop, int *fd)
 		}
 		if (ft_strncmp(line, stop, len + 1) == 0)
 			break ;
-		line_temp = expand_dollars(line, g_shell_data->env);
+		temp = expand_cmd(line, SH_UNBOUND, g_shell_data->env);
 		free(line);
-		ft_fprintf(fd[1], "%s\n", line_temp);
+		if (!temp)
+			return ;
+		ft_fprintf(fd[1], "%s\n", temp);
+		free(temp);
 	}
-	safe_free((void **)&line_temp);
+	if (line)
+		free(line);
 }
 
 static int	herefork(pid_t pid, char *stop, int *fd)
