@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/28 09:11:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 15:26:51 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,5 @@ char	*expand_input(char *cmd, int mode, t_env *env)
 		return (NULL);
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
-	ft_printf("res = %s\n", res);
 	return (res);
 }
