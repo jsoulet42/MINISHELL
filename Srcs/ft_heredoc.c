@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:15 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/28 00:02:22 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 00:09:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	heredoc_write(char *stop, int *fd)
 		}
 		if (ft_strncmp(line, stop, len + 1) == 0)
 			break ;
-		temp = expand_cmd(line, SH_UNBOUND, g_shell_data->env);
+		temp = expand_input(line, SH_UNBOUND, g_shell_data->env);
 		free(line);
 		if (!temp)
 			return ;

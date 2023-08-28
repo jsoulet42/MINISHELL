@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 23:25:20 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 00:10:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,8 +141,8 @@ void			print_env(t_env *env_list, int mode);
 /* Srcs/expand_dollars.c */
 char			*expand_dollars(char *str, t_env *env);
 
-/* Srcs/expand_cmd.c */
-char			*expand_cmd(char *line, int mode, t_env *env);
+/* Srcs/expand_imput.c */
+char			*expand_input(char *line, int mode, t_env *env);
 
 /* Srcs/free_utils_01.c */
 void			safe_free(void **ptr_addr);

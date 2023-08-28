@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 23:44:04 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 09:11:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,18 @@ static char	**split_quotes_words(char *str, int mode, t_env *env)
 	return (res);
 }
 
-// TODO mode for '' and "" included or not (see bash heredoc)
-char	*expand_cmd(char *cmd, int mode, t_env *env)
+char	*expand_input(char *cmd, int mode, t_env *env)
 {
 	char	*res;
 	char	**quotes_split;
 
 	if (!cmd | !env)
 		return (NULL);
-//	if (check_quotes(cmd))
-//		return (NULL);
 	quotes_split = split_quotes_words(cmd, mode, env);
 	if (!quotes_split)
 		return (NULL);
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
+	ft_printf("res = %s\n", res);
 	return (res);
 }

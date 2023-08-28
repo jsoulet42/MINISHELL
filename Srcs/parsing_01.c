@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 23:38:29 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 09:13:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@ t_rinity	**ft_parsing(char *argv)
 	g_shell_data->par = (t_par **) malloc(sizeof(t_par *) * (res + 1));
 	if (!g_shell_data->par)
 		ft_fprintf(2, "malloc error // ft_parsing\n");
-	line = expand_cmd(line2, SH_QUOTE_BOUND, g_shell_data->env);
-//	line = expand_dollars(line2, g_shell_data->env);
+	line = expand_input(line2, SH_QUOTE_BOUND, g_shell_data->env);
 	free(line2);
 	if (!line)
 		return (NULL);
-//	fusion_arg(&line);
 	sparse(g_shell_data->par, line);
 	free(line);
 	if (check_line(g_shell_data->par))
