@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:24:21 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:41:55 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/29 17:03:18 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@ int	calc_type(char *str)
 {
 	if (str[0] == '|')
 		return (1);
-	else if (str[0] == '<' && str[1] != '<')
+	if (str[0] == '<' && str[1] != '<')
 		return (2);
-	else if (str[0] == '>' && str[1] != '>')
+	if (str[0] == '>' && str[1] != '>')
 		return (3);
-	else if (str[0] == '>' && str[1] == '>')
+	if (str[0] == '>' && str[1] == '>')
 		return (4);
-	else if (str[0] == '<' && str[1] == '<')
+	if (str[0] == '<' && str[1] == '<')
 		return (5);
-	else if (str[0] == ';')
+	if (str[0] == ';')
 		return (6);
-	else if (str[0] == '&')
+	if (str[0] == '&')
 		return (7);
 	return (0);
 }

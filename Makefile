@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/28 00:10:16 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/29 17:19:49 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,8 +43,9 @@ SRCS		=	main.c						\
 				expand_dollars.c			\
 				expand_input.c				\
 				free_utils_01.c				\
-				utils.c						\
+				utils_01.c					\
 				utils_02.c					\
+				utils_03.c					\
 				check_starterrors01.c		\
 				check_starterrors02.c		\
 				ft_heredoc.c				\

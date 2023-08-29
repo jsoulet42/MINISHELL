@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:50:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:32:36 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,7 +252,7 @@ void			parent_sig_handler(int signal);
 /* Srcs/simplquote_01.c */
 int				simplquote(char *str);
 
-/* Srcs/utils.c */
+/* Srcs/utils_01.c */
 int				ft_strccmp(const char *str1, const char *str2, char limit);
 char			*ft_free_strcat(char **dest, char *src, int start, int end);
 char			*ft_strjoin_plus(char *dest, char *src);
@@ -265,5 +265,8 @@ int				ft_min(int a, int b);
 char			*ft_strchrnul(const char *str, int c);
 char			*join_str_tab(const char **str_tab);
 char			**ft_keep_split(char *str, char sep);
+
+/* Srcs/utils_03.c */
+char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
 
 #endif

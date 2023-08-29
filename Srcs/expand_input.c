@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 15:57:07 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:38:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	get_word_len(char *str)
 	j = 0;
 	return (ft_min(simplequote(&i, str), doublequote(&j, str)));
 }
-
+/*
 static char	**split_quotes_words(char *str, t_env *env)
 {
 	int		len;
@@ -52,17 +52,70 @@ static char	**split_quotes_words(char *str, t_env *env)
 	}
 	return (res);
 }
+*/
 
+/*
+static int	is_operand2(char c)
+{
+	return (c == '|' || c == '>' || c == '<' || c == '&' || c == '\\' || c == ';');
+}
+
+static char	**split_operands(char *str)
+{
+	char	**res;
+
+	if (!str)
+		return (NULL);
+	res = NULL;
+	while (*str)
+	{
+		len = get_word_len(str);
+		word = ft_substr(str, 0, len);
+		if (!word)
+			return (free_str_tab((void **)res), NULL);
+		str += len;
+
+	}
+	return (res);
+}
+
+static char	*expand_word(char **word)
+{
+	char	*res;
+	char	*temp;
+
+	res = *word - 1;
+	while (*(++res))
+	{
+		if (is_operand(*res))
+		{
+			
+		}
+	}
+	return (*word);
+}
+*/
 char	*expand_input(char *cmd, t_env *env)
 {
+	//int		i;
 	char	*res;
 	char	**quotes_split;
 
 	if (!cmd | !env)
 		return (NULL);
-	quotes_split = split_quotes_words(cmd, env);
+//	quotes_split = split_quotes_words(cmd, env);
+	quotes_split = ft_fsplit(cmd, get_word_len);
 	if (!quotes_split)
 		return (NULL);
+/*	i = 0;
+	while (quotes_split[i])
+	{
+		if (quotes_split[i][0] != '\'' && quotes_split[i][0] != '"'
+			&& !expand_word(&quotes_split))
+			return (NULL);
+		i++;
+	}*/
+	print_str_tab(quotes_split);
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
 	return (res);

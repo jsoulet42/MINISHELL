@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:34:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 17:36:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,31 +27,7 @@ int	init_data(char **envp)
 	return (0);
 }
 
-static int	prompt_cmd(char **envp)
-{
-	char	*line;
-	char	*line2;
-
-	if (!envp)
-		return (1);
-	line = prompt(g_shell_data->env);
-	if (!line || !*line)
-		return (line2 = line, safe_free((void **)&line), !line2);
-	add_history(line);
-	line2 = ft_strtrim(line, " \t\n\v\f\r");
-	free(line);
-	if (check_starterrors(line2) > 0)
-	{
-		g_shell_data->exit_code = 1;
-		free(line2);
-		return (1);
-	}
-	if (prompt_cmd_02(line2, envp))
-		return (1);
-	return (0);
-}
-
-int	prompt_cmd_02(char *line2, char **envp)
+int	prompt_line_02(char *line2, char **envp)
 {
 	int	i;
 	int	status_code;
@@ -74,6 +50,30 @@ int	prompt_cmd_02(char *line2, char **envp)
 	return (0);
 }
 
+static int	prompt_line(char **envp)
+{
+	char	*line;
+	char	*line2;
+
+	if (!envp)
+		return (1);
+	line = prompt(g_shell_data->env);
+	if (!line || !*line)
+		return (line2 = line, safe_free((void **)&line), !line2);
+	add_history(line);
+	line2 = ft_strtrim(line, " \t\n\v\f\r");
+	free(line);
+	if (check_starterrors(line2) > 0)
+	{
+		g_shell_data->exit_code = 1;
+		free(line2);
+		return (1);
+	}
+	if (prompt_line_02(line2, envp))
+		return (1);
+	return (0);
+}
+
 /*
  * SIGQUIT -> Ctrl-\ signal which needs to be ignored
  */
@@ -89,7 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
-		if (prompt_cmd(envp))
+		if (prompt_line(envp))
 			continue ;
 		test = g_shell_data;
 		envp = env_update(envp, test);

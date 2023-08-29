@@ -6,28 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 23:43:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 16:05:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-/*
-int	count_chars(const char *str, int c)
-{
-	int		count;
-	char	*temp;
-
-	if (!str)
-		return (0);
-	if (!c)
-		return (1);
-	temp = (char *)str;
-	count = 0;
-	while (*temp)
-		count += (*temp++ == c);
-	return (count);
-}
-*/
 
 int	ft_min(int a, int b)
 {
