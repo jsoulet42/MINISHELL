@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:00 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:36:20 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:46:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	error_gen(char *str, int i)
 	while (str[i])
 	{
 		if (str[i] == 34)
-			dblequote(&i, str);
+			doublequote(&i, str);
 		if (str[i] == 39)
 			simplequote(&i, str);
 		if ((((str[i] == 92) || str[i] == 40) || str[i] == 59) || str[i] == 41)

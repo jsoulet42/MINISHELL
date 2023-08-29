@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/28 20:19:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:57:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 static int	get_word_len(char *str)
 {
-	if (*str == '\'' || *str == '"')
-		return ((uintptr_t)(ft_strchrnul(str + 1, *str) - str + 1));
-	return (ft_min((uintptr_t)(ft_strchrnul(str, '\'') - str),
-		(uintptr_t)(ft_strchrnul(str, '"') - str)));
+	int	i;
+	int	j;
+
+	i = 0;
+	if (*str == '\'')
+		return (simplequote(&i, str) + 1);
+	if (*str == '"')
+		return (doublequote(&i, str) + 1);
+	j = 0;
+	return (ft_min(simplequote(&i, str), doublequote(&j, str)));
 }
 
 static char	**split_quotes_words(char *str, t_env *env)

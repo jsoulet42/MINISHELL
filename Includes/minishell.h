@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:15:35 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:50:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,11 @@ t_env			*ft_cd(int argc, char **argv, t_env **env);
 t_env			*update_pwd(char *oldpwd, char *pwd, t_env **env);
 
 /* Srcs/check_starterrors01.c */
+int				doublequote(int *i, char *str);
+int				simplequote( int *i, char *str);
 unsigned char	error_quote(char *str);
 void			error_dquote(char *str, int *dquote, int *i);
 void			error_squote(char *str, int *squote, int *i);
-void			dblequote(int *i, char *str);
-void			simplequote( int *i, char *str);
 
 /* Srcs/check_starterrors02.c */
 int				check_starterrors(char *str);

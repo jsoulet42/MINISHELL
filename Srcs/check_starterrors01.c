@@ -6,24 +6,36 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:53 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:25:50 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:51:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-void	dblequote(int *i, char *str)
+int	doublequote(int *i, char *str)
 {
+	int	start;
+
+	if (!i || !str)
+		return (0);
+	start = *i;
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 34)
 		(*i)++;
+	return (*i - start);
 }
 
-void	simplequote( int *i, char *str)
+int	simplequote(int *i, char *str)
 {
+	int	start;
+
+	if (!i || !str)
+		return (0);
+	start = *i;
 	(*i)++;
 	while (str[*(i)] && str[*(i)] != 39)
 		(*i)++;
+	return (*i - start);
 }
 
 unsigned char	error_quote(char *str)
