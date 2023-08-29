@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 17:32:36 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:29:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,12 +261,13 @@ void			print_str_tab(char **str_tab);
 void			print_t_par(t_par **p);
 
 /* Srcs/utils_02.c */
-int				ft_min(int a, int b);
 char			*ft_strchrnul(const char *str, int c);
 char			*join_str_tab(const char **str_tab);
+char			*join_str_tab_mono(const char **str_tab);
 char			**ft_keep_split(char *str, char sep);
 
 /* Srcs/utils_03.c */
+int				ft_min(int a, int b);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
 
 #endif

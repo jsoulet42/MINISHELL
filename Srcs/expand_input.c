@@ -6,13 +6,13 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 17:38:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 21:50:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-static int	get_word_len(char *str)
+static int	quotes_word_len(char *str)
 {
 	int	i;
 	int	j;
@@ -25,98 +25,80 @@ static int	get_word_len(char *str)
 	j = 0;
 	return (ft_min(simplequote(&i, str), doublequote(&j, str)));
 }
-/*
-static char	**split_quotes_words(char *str, t_env *env)
-{
-	int		len;
-	char	*word;
-	char	**res;
 
-	if (!str || !env)
-		return (NULL);
-	res = NULL;
-	while (*str)
-	{
-		len = get_word_len(str);
-		word = ft_substr(str, 0, len);
-		if (!word)
-			return (free_str_tab((void **)res), NULL);
-		str += len;
-		if (word[0] != '\'' && ft_strchr(word, '$'))
-		{
-			res = str_tab_add_neo(res, expand_dollars(word, env));
-			free(word);
-		}
-		else
-			res = str_tab_add_neo(res, word);
-	}
-	return (res);
-}
-*/
-
-/*
-static int	is_operand2(char c)
+static int	ft_isoperand(char c)
 {
-	return (c == '|' || c == '>' || c == '<' || c == '&' || c == '\\' || c == ';');
+	char	to_find[2];
+
+	to_find[0] = c;
+	to_find[1] = 0;
+	return (ft_is_whitespace(c)
+		&& !ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
 }
 
-static char	**split_operands(char *str)
+static int	operands_word_len(char *str)
 {
-	char	**res;
+	int	first_type;
+	int	size;
 
-	if (!str)
-		return (NULL);
-	res = NULL;
-	while (*str)
-	{
-		len = get_word_len(str);
-		word = ft_substr(str, 0, len);
-		if (!word)
-			return (free_str_tab((void **)res), NULL);
-		str += len;
-
-	}
-	return (res);
+	if (!str || !*str)
+		return (0);
+	size = 1;
+	first_type = ft_isoperand(str[0]);
+	while (str[size] && first_type == ft_isoperand(str[size])
+		&& (first_type || str[0] == str[size]))
+		size++;
+	return (size);
 }
 
-static char	*expand_word(char **word)
+static char	*expand_word(char **word, t_env *env)
 {
-	char	*res;
 	char	*temp;
+	char	**operands_split;
 
-	res = *word - 1;
-	while (*(++res))
+	if (word && *word && *word[0] != '\'' && ft_strchr(*word, '$'))
 	{
-		if (is_operand(*res))
-		{
-			
-		}
+		temp = expand_dollars(*word, env);
+		if (!temp)
+			return (NULL);
+		free(*word);
+		*word = temp;
+	}
+	if (word && *word && *word[0] != '\'' && *word[0] != '"')
+	{
+		operands_split = ft_fsplit(*word, operands_word_len);
+		if (!operands_split)
+			return (NULL);
+		temp = join_str_tab_mono((const char **)operands_split);
+		free_str_tab((void **)operands_split);
+		if (!temp)
+			return (NULL);
+		free(*word);
+		*word = temp;
 	}
 	return (*word);
 }
-*/
+
 char	*expand_input(char *cmd, t_env *env)
 {
-	//int		i;
+	int		i;
 	char	*res;
 	char	**quotes_split;
 
 	if (!cmd | !env)
 		return (NULL);
-//	quotes_split = split_quotes_words(cmd, env);
-	quotes_split = ft_fsplit(cmd, get_word_len);
+	quotes_split = ft_fsplit(cmd, quotes_word_len);
 	if (!quotes_split)
 		return (NULL);
-/*	i = 0;
+	i = 0;
 	while (quotes_split[i])
 	{
-		if (quotes_split[i][0] != '\'' && quotes_split[i][0] != '"'
-			&& !expand_word(&quotes_split))
+		if (!expand_word(&quotes_split[i], env))
 			return (NULL);
 		i++;
-	}*/
-	print_str_tab(quotes_split);
+	}
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
+	ft_printf("%s\n", res);
 	return (res);
 }

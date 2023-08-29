@@ -6,11 +6,16 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 17:39:12 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 20:28:47 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
+
+int	ft_min(int a, int b)
+{
+	return ((a <= b) * a + (a > b) * b);
+}
 
 char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
 {
