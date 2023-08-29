@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 23:25:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 20:13:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,5 @@
 /* Termios setup modes */
 # define TERMIOS_UNMUTE_CTRL	0
 # define TERMIOS_MUTE_CTRL		1
-
-/* Dollar expansion mode */
-# define SH_UNBOUND				0
-# define SH_QUOTE_BOUND			1
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 18:17:10 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/28 17:07:03 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,19 @@ char	*get_path(char *cmd, t_env *env)
 
 	g_shell_data->exit_code = 0;
 	bin_paths = ft_split(ft_getenv(env, "PATH"), ':');
-	if (!bin_paths)
-		return (NULL);
 	cmd_path = NULL;
-	status = get_cmd_path(&cmd_path, bin_paths, cmd);
-	free_str_tab((void **)bin_paths);
-	if (errno == 13)
-		g_shell_data->exit_code = 126;
-	else
-		g_shell_data->exit_code = errno;
-	if (status == SH_ERROR)
-		ft_perror("mishelle", cmd);
-	if (status == SH_ERROR + 1)
+	if (bin_paths)
+	{
+		status = get_cmd_path(&cmd_path, bin_paths, cmd);
+		free_str_tab((void **)bin_paths);
+		if (errno == 13)
+			g_shell_data->exit_code = 126;
+		else
+			g_shell_data->exit_code = errno;
+		if (status == SH_ERROR)
+			ft_perror("mishelle", cmd);
+	}
+	if (!bin_paths || status == SH_ERROR + 1)
 	{
 		ft_fprintf(2, "mishelle: %s: command not found\n", cmd);
 		g_shell_data->exit_code = 127;

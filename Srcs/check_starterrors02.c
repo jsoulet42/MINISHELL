@@ -6,17 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:00 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:39:41 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:36:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-
-int	unknown_command(void)
-{
-	printf("Error : Unknown command type \n");
-	return (1);
-}
 
 int	viveldop(char gel, char *str, int *i)
 {
@@ -34,9 +28,9 @@ int	error_gen(char *str, int i)
 		if (str[i] == 39)
 			simplequote(&i, str);
 		if ((((str[i] == 92) || str[i] == 40) || str[i] == 59) || str[i] == 41)
-			return (unknown_command());
+			return (i);
 		if ((str[i] == '&' || str[i] == '|') && (viveldop(str[i], str, &i) > 0))
-			return (unknown_command());
+			return (i);
 		i++;
 	}
 	return (0);
@@ -50,16 +44,31 @@ int	error_pipe(char *str)
 	while (str[i + 1] != 0)
 		i++;
 	if (((str[i] == '|') || str[i] == '>') || str[i] == '<')
-	{
-		printf("Error : False redirection\n");
-		return (1);
-	}
+		return (i);
 	return (0);
 }
 
 int	check_starterrors(char *str)
 {
-	if (error_quote(str) || error_gen(str, 0) || error_pipe(str))
+	int	status;
+
+	status = (int)error_quote(str);
+	if (status)
+	{
+		ft_printf("mishelle: Unterminated quote `%c'\n", (unsigned char)status);
 		return (1);
+	}
+	status = error_gen(str, 0);
+	if (status)
+	{
+		printf("mishelle: Syntax error near unexpected `%c'\n", str[status]);
+		return (1);
+	}
+	status = error_pipe(str);
+	if (status)
+	{
+		printf("mishelle: Redirection error near `%c'\n", str[status]);
+		return (1);
+	}
 	return (0);
 }

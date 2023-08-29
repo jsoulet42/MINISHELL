@@ -6,12 +6,42 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:53 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:39:35 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/29 15:25:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
+void	dblequote(int *i, char *str)
+{
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 34)
+		(*i)++;
+}
+
+void	simplequote( int *i, char *str)
+{
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 39)
+		(*i)++;
+}
+
+unsigned char	error_quote(char *str)
+{
+	unsigned char	quote;
+
+	if (!str)
+		return (1);
+	quote = 0;
+	while (*str)
+	{
+		if ((*str == '\'' || *str == '"') && (quote == 0 || quote == *str))
+			quote = (quote == 0) * *str;
+		str++;
+	}
+	return (quote);
+}
+/*
 void	error_dquote(char *str, int *dquote, int *i)
 {
 	*dquote = 1;
@@ -63,17 +93,4 @@ int	error_quote(char *str)
 	}
 	return (0);
 }
-
-void	dblequote(int *i, char *str)
-{
-	(*i)++;
-	while (str[*(i)] && str[*(i)] != 34)
-		(*i)++;
-}
-
-void	simplequote( int *i, char *str)
-{
-	(*i)++;
-	while (str[*(i)] && str[*(i)] != 39)
-		(*i)++;
-}
+*/

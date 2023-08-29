@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 15:30:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:34:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,11 @@ static int	prompt_cmd(char **envp)
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
 	if (check_starterrors(line2) > 0)
-		return (free(line2), 1);
+	{
+		g_shell_data->exit_code = 1;
+		free(line2);
+		return (1);
+	}
 	if (prompt_cmd_02(line2, envp))
 		return (1);
 	return (0);
