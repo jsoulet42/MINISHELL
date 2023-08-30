@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/28 20:13:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:14:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_MACROS_H
 
 # define OPERANDS_COUNT 12
-# define OPERANDS "| || & && < > \\ ' \" << >>"
+# define OPERANDS "|:||:&:&&:<:>:\\:<<:>>"
 # define PIPE "|"
 # define AND "&&"
 # define OR "||"

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:23 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:42:20 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/29 22:07:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	ft_is_whitespace(char str)
 {
-	if (!str)
-		return (0);
-	if ((str > 8 && str < 14) || str == 32 || str == 127)
+	if (!str || (str > 8 && str < 14) || str == 32 || str == 127)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 21:50:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/29 22:14:54 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_isoperand(char c)
 
 	to_find[0] = c;
 	to_find[1] = 0;
-	return (ft_is_whitespace(c)
+	return (c != ':'
 		&& !ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
 }
 
@@ -99,6 +99,10 @@ char	*expand_input(char *cmd, t_env *env)
 	}
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
-	ft_printf("%s\n", res);
+	quotes_split = ft_fsplit(cmd, operands_word_len);
+	if (!quotes_split)
+		return (NULL);
+	print_str_tab(quotes_split);
+	free_str_tab((void **)quotes_split);
 	return (res);
 }

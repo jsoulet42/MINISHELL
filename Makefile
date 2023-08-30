@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/29 17:19:49 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/30 02:10:52 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -173,7 +173,7 @@ all:	init builtins $(NAME)
 
 ## Main executable compilation
 $(NAME):	init init_progress-$(NAME) $(OBJS_DIR) $(OBJS)
-	@$(CC) $(CFLAGS)  $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
+	@$(CC) $(CFLAGS) $(DEFINES) $(OBJS) -L $(LIBS_DIR) $(LIBS) -o $@ $(LDLIBS)
 	$(call terminal_disp, $(_screen_w), $(_screen_h),\
 		"Compiled executable: '$@'", $(TEXT_COLOR))
 #	$(eval progress = $(shell echo $$(( $(progress) + 1 ))))
