@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 21:44:12 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 16:51:10 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ char	**ft_keep_split(char *str, char sep)
 			continue ;
 		count = (uintptr_t)ft_strchrnul(str + 1, sep) - (uintptr_t)str;
 		*temp++ = ft_substr(str, 0, count);
-		if (!(temp - 1))
+		if (!*(temp - 1))
 			return (free_str_tab((void **)res), NULL);
 		str += count - 1;
 	}
