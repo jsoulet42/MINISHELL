@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/29 22:14:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 17:57:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	ft_isoperand(char c)
 
 	to_find[0] = c;
 	to_find[1] = 0;
-	return (c != ':'
+	return (c != ':' && c != '\'' && c != '"'
 		&& !ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
 }
 
@@ -79,6 +79,15 @@ static char	*expand_word(char **word, t_env *env)
 	return (*word);
 }
 
+static int	quotes_word_len2(char *str)
+{
+	int	test;
+
+	test = ft_isoperand(*str) || *str != '"' || *str != '\'';
+	ft_printf("%d : %c : is_ope(%d)\n", test, *str, ft_isoperand(*str));
+	return (quotes_word_len(str) * !test + operands_word_len(str) * test);
+}
+
 char	*expand_input(char *cmd, t_env *env)
 {
 	int		i;
@@ -94,12 +103,12 @@ char	*expand_input(char *cmd, t_env *env)
 	while (quotes_split[i])
 	{
 		if (!expand_word(&quotes_split[i], env))
-			return (NULL);
+			return (free_str_tab((void **)quotes_split), NULL);
 		i++;
 	}
 	res = join_str_tab((const char **)quotes_split);
 	free_str_tab((void **)quotes_split);
-	quotes_split = ft_fsplit(cmd, operands_word_len);
+	quotes_split = ft_fsplit(cmd, quotes_word_len2);
 	if (!quotes_split)
 		return (NULL);
 	print_str_tab(quotes_split);
