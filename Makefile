@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/30 02:10:52 by hnogared         ###   ########.fr        #
+#    Updated: 2023/08/31 15:43:38 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ SRCS		=	main.c						\
 				environment_utils_01.c		\
 				environment_utils_02.c		\
 				expand_dollars.c			\
-				expand_input.c				\
+				expand_line.c				\
 				free_utils_01.c				\
 				utils_01.c					\
 				utils_02.c					\

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/31 14:04:24 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:11:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				ft_env(int argc, char **argv, char **env);
 int				ft_export(char **argv, t_env **env);
 int				ft_pwd(int argc, char **argv);
 int				ft_unset(char **argv, t_env **env);
-void			ft_exit(void);
+int				ft_exit(int argc, char **argv);
 
 /* Srcs/builtins/ft_cd.c */
 int				change_directory(const char *path);
@@ -141,7 +141,7 @@ void			print_env(t_env *env_list, int mode);
 /* Srcs/expand_dollars.c */
 char			*expand_dollars(char *str, t_env *env);
 
-/* Srcs/expand_imput.c */
+/* Srcs/expand_line.c */
 char			**expand_line(char *line, t_env *env);
 
 /* Srcs/free_utils_01.c */
@@ -167,7 +167,7 @@ t_env			*init_env(t_env **env_list, char **envp);
 int				check_line_words(const char **line_tab);
 int				commande_len(t_par **par);
 int				next_good_commande(t_par **par, int i);
-char			**create_commande(char **line_tab, int cmd_len);
+char			**create_commande(t_par **par, int i);
 void			execute_cmd(t_env *env, t_rinity *cmd_struct);
 
 /* Srcs/interpret_02.c */

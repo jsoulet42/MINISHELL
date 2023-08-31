@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 21:01:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 16:08:08 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,22 @@
 static int	quotes_word_len(char *str)
 {
 	int	i;
-	int	j;
 
 	i = 0;
 	if (*str == '\'')
 		return (simplequote(&i, str) + 1);
 	if (*str == '"')
 		return (doublequote(&i, str) + 1);
-	j = 0;
-	return (ft_min(simplequote(&i, str), doublequote(&j, str)));
+	if (ft_strchr(" \t\n\v\f\r", *str))
+	{
+		while (ft_strchr(" \t\n\v\f\r", str[i]))
+			i++;
+		return (i);
+	}
+	while (!ft_strchr(" \t\n\v\f\r", str[i])
+		&& str[i] != '\'' && str[i] != '"')
+		i++;
+	return (i);
 }
 
 static int	operands_word_len(char *str)

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 21:03:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:05:40 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*prompt(t_env *env)
 		free(prompt);
 	}
 	if (!line)
-		ft_exit();
+		ft_exit(0, NULL);
 	return (line);
 }
 

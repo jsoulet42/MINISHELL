@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/30 22:44:05 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:22:25 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	init_data(char **envp)
 {
 	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
 	if (!g_shell_data)
-		return (1);
+		return (SH_ERROR);
 	modif_shlvl(envp);
 	init_env(&g_shell_data->env, envp);
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	set_termios_mode(TERMIOS_MUTE_CTRL);
-	return (0);
+	return (SH_SUCCESS);
 }
 
 int	prompt_line_02(char *line2, char **envp)
@@ -32,11 +32,10 @@ int	prompt_line_02(char *line2, char **envp)
 	int	i;
 	int	status_code;
 
-	free_trinity(g_shell_data->t);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	if (!g_shell_data->t)
-		return (1);
+		return (SH_ERROR);
 	i = 0;
 	status_code = 0;
 	while (!status_code && g_shell_data->t && g_shell_data->t[i + 1])
@@ -46,8 +45,8 @@ int	prompt_line_02(char *line2, char **envp)
 	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
-	free_t_par(g_shell_data->par);
-	return (0);
+	free_trinity(g_shell_data->t);
+	return (SH_SUCCESS);
 }
 
 static int	prompt_line(char **envp)
@@ -55,8 +54,8 @@ static int	prompt_line(char **envp)
 	char	*line;
 	char	*line2;
 
-	if (!envp)
-		return (1);
+	if (!envp || !*envp)
+		return (SH_ERROR);
 	line = prompt(g_shell_data->env);
 	if (!line || !*line)
 		return (line2 = line, safe_free((void **)&line), !line2);
@@ -67,11 +66,11 @@ static int	prompt_line(char **envp)
 	{
 		g_shell_data->exit_code = 1;
 		free(line2);
-		return (1);
+		return (SH_ERROR);
 	}
 	if (prompt_line_02(line2, envp))
-		return (1);
-	return (0);
+		return (SH_ERROR);
+	return (SH_SUCCESS);
 }
 
 /*

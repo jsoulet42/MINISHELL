@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/28 19:59:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 20:09:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	execute_builtin(t_rinity *cd, int builtin)
 	if (builtin == 0)
 		ft_cd(lentab(cd->cmd), cd->cmd, &g_shell_data->env);
 	if (builtin == 1)
-		ft_exit();
+		status = ft_exit(lentab(cd->cmd), cd->cmd);
 	if (builtin == 2)
 		status = ft_export(cd->cmd, &g_shell_data->env);
 	if (builtin == 3)
