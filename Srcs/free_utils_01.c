@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:17 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/15 17:22:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 22:44:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,31 +44,31 @@ void	free_str_tab(void **str_tab)
 
 void	free_data(t_shell *shell_data)
 {
-	free_trinity();
+	free_trinity(g_shell_data->t);
 	if (shell_data->env)
 		free_env(&shell_data->env);
 	safe_free((void **) &shell_data);
 	rl_clear_history();
 }
 
-void	free_trinity(void)
+void	free_trinity(t_rinity **t)
 {
 	int	i;
 
 	i = 0;
-	if (g_shell_data && g_shell_data->t && g_shell_data->t[0])
+	if (t && t[0])
 	{
-		while (g_shell_data->t[i])
+		while (t[i])
 		{
-			safe_free((void **)&g_shell_data->t[i]->cmd);
-			safe_free((void **)&g_shell_data->t[i]->kafka);
-			safe_free((void **)&g_shell_data->t[i]->file_in);
-			safe_free((void **)&g_shell_data->t[i]->file_out);
-			safe_free((void **)&g_shell_data->t[i]->type_in);
-			safe_free((void **)&g_shell_data->t[i]->type_out);
-			safe_free((void **)&g_shell_data->t[i++]);
+			safe_free((void **)&t[i]->cmd);
+			safe_free((void **)&t[i]->kafka);
+			safe_free((void **)&t[i]->file_in);
+			safe_free((void **)&t[i]->file_out);
+			safe_free((void **)&t[i]->type_in);
+			safe_free((void **)&t[i]->type_out);
+			safe_free((void **)&t[i++]);
 		}
-		free(g_shell_data->t);
+		free(t);
 		safe_free((void **)&g_shell_data->path);
 	}
 	return ;

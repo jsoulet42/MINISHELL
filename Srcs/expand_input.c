@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 17:57:52 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:01:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ static int	quotes_word_len(char *str)
 	return (ft_min(simplequote(&i, str), doublequote(&j, str)));
 }
 
-static int	ft_isoperand(char c)
-{
-	char	to_find[2];
-
-	to_find[0] = c;
-	to_find[1] = 0;
-	return (c != ':' && c != '\'' && c != '"'
-		&& !ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
-}
-
 static int	operands_word_len(char *str)
 {
 	int	first_type;
@@ -46,31 +36,32 @@ static int	operands_word_len(char *str)
 	size = 1;
 	first_type = ft_isoperand(str[0]);
 	while (str[size] && first_type == ft_isoperand(str[size])
-		&& (first_type || str[0] == str[size]))
+		&& (!first_type || str[0] == str[size]))
 		size++;
 	return (size);
+}
+
+static int	cmd_word_len(char *str)
+{
+	int	test;
+	int	q_word_len;
+	int	o_word_len;
+
+	q_word_len = quotes_word_len(str);
+	o_word_len = operands_word_len(str);
+	test = ft_isoperand(*str) || (*str != '"' && *str != '\'');
+	return (q_word_len * !test + ft_min(o_word_len, q_word_len) * test);
 }
 
 static char	*expand_word(char **word, t_env *env)
 {
 	char	*temp;
-	char	**operands_split;
 
-	if (word && *word && *word[0] != '\'' && ft_strchr(*word, '$'))
+	if (!word || !*word || !env)
+		return (NULL);
+	if (!ft_isoperand(*word[0]) && *word[0] != '\'' && ft_strchr(*word, '$'))
 	{
 		temp = expand_dollars(*word, env);
-		if (!temp)
-			return (NULL);
-		free(*word);
-		*word = temp;
-	}
-	if (word && *word && *word[0] != '\'' && *word[0] != '"')
-	{
-		operands_split = ft_fsplit(*word, operands_word_len);
-		if (!operands_split)
-			return (NULL);
-		temp = join_str_tab_mono((const char **)operands_split);
-		free_str_tab((void **)operands_split);
 		if (!temp)
 			return (NULL);
 		free(*word);
@@ -79,39 +70,28 @@ static char	*expand_word(char **word, t_env *env)
 	return (*word);
 }
 
-static int	quotes_word_len2(char *str)
-{
-	int	test;
-
-	test = ft_isoperand(*str) || *str != '"' || *str != '\'';
-	ft_printf("%d : %c : is_ope(%d)\n", test, *str, ft_isoperand(*str));
-	return (quotes_word_len(str) * !test + operands_word_len(str) * test);
-}
-
-char	*expand_input(char *cmd, t_env *env)
+char	**expand_line(char *line, t_env *env)
 {
 	int		i;
-	char	*res;
-	char	**quotes_split;
+	char	**line_split;
 
-	if (!cmd | !env)
+	if (!line | !env)
 		return (NULL);
-	quotes_split = ft_fsplit(cmd, quotes_word_len);
-	if (!quotes_split)
+	line_split = ft_fsplit(line, cmd_word_len);
+	if (!line_split)
 		return (NULL);
-	i = 0;
-	while (quotes_split[i])
+	i = -1;
+	while (line_split[++i])
 	{
-		if (!expand_word(&quotes_split[i], env))
-			return (free_str_tab((void **)quotes_split), NULL);
-		i++;
-	}
-	res = join_str_tab((const char **)quotes_split);
-	free_str_tab((void **)quotes_split);
-	quotes_split = ft_fsplit(cmd, quotes_word_len2);
-	if (!quotes_split)
+		if (expand_word(line_split + i, env))
+			continue ;
+		free_str_tab((void **)line_split);
 		return (NULL);
-	print_str_tab(quotes_split);
-	free_str_tab((void **)quotes_split);
-	return (res);
+	}
+	if (check_line_words((const char **)line_split))
+	{
+		free_str_tab((void **)line_split);
+		line_split = NULL;
+	}
+	return (line_split);
 }

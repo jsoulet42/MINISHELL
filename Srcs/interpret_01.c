@@ -6,12 +6,36 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 14:43:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 20:58:59 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
+int	check_line_words(const char **line_tab)
+{
+	int		test;
+	int		test2;
+	char	**temp;
+
+	if (!line_tab || !*line_tab)
+		return (SH_ERROR);
+	temp = (char **)line_tab - 1;
+	while (*(++temp))
+	{
+		test = ft_isoperand(**temp);
+		if (*(temp + 1))
+			test2 = ft_isoperand(*(temp + 1)[0]);
+		if (test && (!*(temp + 1) || test2))
+		{
+			printf("mishelle: syntax error bad operand `");
+			printf("%s'\n", *temp);
+			return (SH_ERROR);
+		}
+	}
+	return (SH_SUCCESS);
+}
+/*
 int	check_line(t_par **par)
 {
 	int	i;
@@ -33,7 +57,7 @@ int	check_line(t_par **par)
 	}
 	return (0);
 }
-
+*/
 int	commande_len(t_par **par)
 {
 	int	i;

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/23 13:31:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 21:03:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*prompt(t_env *env)
 	return (line);
 }
 
-void	ft_perror(char *prefix, char *prefix2)
+void	ft_perror(const char *prefix, const char *prefix2)
 {
 	char	empty[1];
 	char	colon[3];

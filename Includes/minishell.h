@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 20:29:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/31 14:04:24 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int				viveldop(char gel, char *str, int *i);
 /* Srcs/display.c */
 int				set_termios_mode(int mode);
 char			*prompt(t_env *env);
-void			ft_perror(char *prefix, char *prefix2);
+void			ft_perror(const char *prefix, const char *prefix2);
 
 /* Srcs/doublquote_01.c */
 int				doublquote(char *str);
@@ -142,13 +142,13 @@ void			print_env(t_env *env_list, int mode);
 char			*expand_dollars(char *str, t_env *env);
 
 /* Srcs/expand_imput.c */
-char			*expand_input(char *line, t_env *env);
+char			**expand_line(char *line, t_env *env);
 
 /* Srcs/free_utils_01.c */
 void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
 void			free_data(t_shell *shell_data);
-void			free_trinity(void);
+void			free_trinity(t_rinity **t);
 
 /* Srcs/free_utils_02.c */
 void			free_and_return(void);
@@ -163,10 +163,11 @@ char			*modif_pwd2(void);
 t_env			*init_env(t_env **env_list, char **envp);
 
 /* Srcs/interpret_01.c */
-int				check_line(t_par **par);
+//int				check_line(t_par **par);
+int				check_line_words(const char **line_tab);
 int				commande_len(t_par **par);
 int				next_good_commande(t_par **par, int i);
-char			**create_commande(t_par **par, int i);
+char			**create_commande(char **line_tab, int cmd_len);
 void			execute_cmd(t_env *env, t_rinity *cmd_struct);
 
 /* Srcs/interpret_02.c */
@@ -198,7 +199,7 @@ void			new_shlvl(char *env);
 
 /* srcs/parsing_01.c */
 t_rinity		**ft_parsing(char *argv);
-t_rinity		**t_rinity_init(t_par **p);
+t_rinity		**t_rinity_init(char **line_tab);
 void			ft_supprchar(char **str, int i);
 
 /* srcs/parsing_02.c */
@@ -212,24 +213,24 @@ void			fusion_arg(char **line);
 void			print_t_rinity(t_rinity **t);
 
 /* srcs/parsing_04.c */
-char			**create_file_in(t_par **p, int i);
-char			**create_file_out(t_par **p, int i);
-char			**create_kafka(t_par **p, int i);
-char			**create_type_in(t_par **p, int i);
-char			**create_type_out(t_par **p, int i);
+char			**create_file_in(char **line_tab);
+char			**create_file_out(char **line_tab);
+char			**create_kafka(char **line_tab);
+char			**create_type_in(char **line_tab);
+char			**create_type_out(char **line_tab);
 
 /* Srcs/parsing_05.c */
 int				calc_size_type(char *str);
 int				calc_type(char *str);
+int				is_operand(const char *str);
 int				count_arg(const char *argv, int i);
 int				get_skip_count(const char *str);
-int				is_operand(const char *str);
 
 /* Srcs/parsing_06.c */
 int				is_quote(char *argv);
 int				is_quote_zero(char *argv);
-int				next_pipe(t_par **p, int i);
-int				real_cmd(t_par **par);
+int				next_pipe(char **line_tab);
+int				real_cmd(char **line_tab);
 int				verifquote(char *argv);
 
 /* Srcs/parsing_07.c */
@@ -268,6 +269,7 @@ char			**ft_keep_split(char *str, char sep);
 
 /* Srcs/utils_03.c */
 int				ft_min(int a, int b);
+int				ft_isoperand(char c);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
 
 #endif

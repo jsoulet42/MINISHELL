@@ -6,86 +6,110 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:23:23 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:41:51 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/31 14:11:08 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-char	**create_type_out(t_par **p, int i)
+char	**create_type_out(char **line_tab)
 {
 	char	**new;
 
+	if (!line_tab || !*line_tab)
+		return (NULL);
 	new = NULL;
-	while (p[i] && p[i]->type != 1)
+	while (*line_tab && (*line_tab)[0] != '|')
 	{
-		if (p[i]->type == 3 || p[i]->type == 4)
-			new = str_tab_add_neo(new, p[i]->str);
-		i++;
-	}
-	return (new);
-}
-
-char	**create_type_in(t_par **p, int i)
-{
-	char	**new;
-
-	new = NULL;
-	while (p[i] && p[i]->type != 1)
-	{
-		if (p[i]->type == 2 || p[i]->type == 5)
-			new = str_tab_add_neo(new, p[i]->str);
-		i++;
-	}
-	return (new);
-}
-
-char	**create_file_out(t_par **p, int i)
-{
-	char	**new;
-
-	new = NULL;
-	while (p[i] && p[i]->type != 1)
-	{
-		if (p[i]->type == 4)
+		if (!ft_strncmp(*line_tab, ">", 2) || !ft_strncmp(*line_tab, ">>", 3))
 		{
-			new = str_tab_add_neo(new, p[i + 1]->str);
-			i++;
+			new = str_tab_add_neo(new, *line_tab);
+			if (!new)
+				break ;
 		}
-		if (p[i]->type == 3)
+		line_tab++;
+	}
+	return (new);
+}
+
+char	**create_type_in(char **line_tab)
+{
+	char	**new;
+
+	if (!line_tab || !*line_tab)
+		return (NULL);
+	new = NULL;
+	while (*line_tab && (*line_tab)[0] != '|')
+	{
+		if (!ft_strncmp(*line_tab, "<", 2) || !ft_strncmp(*line_tab, "<<", 3))
 		{
-			new = str_tab_add_neo(new, p[i + 1]->str);
-			i++;
+			new = str_tab_add_neo(new, *line_tab);
+			if (!new)
+				break ;
 		}
-		i++;
+		line_tab++;
 	}
 	return (new);
 }
 
-char	**create_file_in(t_par **p, int i)
+char	**create_file_out(char **line_tab)
 {
 	char	**new;
 
+	if (!line_tab || !*line_tab)
+		return (NULL);
 	new = NULL;
-	while (p[i] && p[i]->type != 1)
+	while (*line_tab && (*line_tab + 1)[0] != '|')
 	{
-		if (p[i]->type == 2 || p[i]->type == 5)
-			new = str_tab_add_neo(new, p[i + 1]->str);
-		i++;
+		if (!ft_strncmp(*line_tab, ">", 2) || !ft_strncmp(*line_tab, ">>", 3))
+		{
+			new = str_tab_add_neo(new, *(line_tab++ + 1));
+			if (!new)
+				break ;
+		}
+		line_tab++;
 	}
 	return (new);
 }
 
-char	**create_kafka(t_par **p, int i)
+char	**create_file_in(char **line_tab)
 {
 	char	**new;
 
+	if (!line_tab || !*line_tab)
+		return (NULL);
 	new = NULL;
-	while (p[i] && p[i]->type != 1)
+	while (*line_tab && (*line_tab + 1)[0] != '|')
 	{
-		if (p[i]->type >= 2 && p[i]->type <= 5)
-			new = str_tab_add_neo(new, p[i]->str);
-		i++;
+		if (!ft_strncmp(*line_tab, "<", 2) || !ft_strncmp(*line_tab, "<<", 3))
+		{
+			new = str_tab_add_neo(new, *(line_tab++ + 1));
+			if (!new)
+				break ;
+		}
+		line_tab++;
+	}
+	return (new);
+}
+
+char	**create_kafka(char **line_tab)
+{
+	char	**new;
+
+	if (!line_tab || !*line_tab)
+		return (NULL);
+	new = NULL;
+	while (*line_tab && (*line_tab + 1)[0] != '|')
+	{
+		if (!ft_strncmp(*line_tab, "<", 2) || !ft_strncmp(*line_tab, "<<", 3)
+			|| !ft_strncmp(*line_tab, ">", 2)
+			|| !ft_strncmp(*line_tab, ">>", 3))
+		{
+			new = str_tab_add_neo(new, *line_tab);
+			if (!new)
+				break ;
+		}
+		line_tab++;
 	}
 	return (new);
 }

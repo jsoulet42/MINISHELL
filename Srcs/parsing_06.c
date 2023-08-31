@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:24:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:41:58 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/08/30 21:59:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,36 +54,26 @@ int	verifquote(char *argv)
 	return (0);
 }
 
-int	next_pipe(t_par **p, int nb_cmd)
+int	next_pipe(char **line_tab)
 {
 	int	j;
-	int	res;
 
+	if (!line_tab)
+		return (0);
 	j = 0;
-	res = 0;
-	while (p[j] && res != nb_cmd + 1)
-	{
-		if (p[j]->type == 1)
-			res++;
-		j++;
-	}
-	if (p[j] && p[j]->type == 1)
+	while (line_tab[j] && line_tab[j][0] != '|')
 		j++;
 	return (j);
 }
 
-int	real_cmd(t_par **par)
+int	real_cmd(char **line_tab)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 1;
-	while (par[i])
-	{
-		if (par[i]->type == 1)
-			j++;
-		i++;
-	}
-	return (j);
+	if (!line_tab)
+		return (0);
+	i = 1;
+	while (*line_tab)
+		i += ((*line_tab++)[0] == '|');
+	return (i);
 }

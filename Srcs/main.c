@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 17:36:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 22:44:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	prompt_line_02(char *line2, char **envp)
 	int	i;
 	int	status_code;
 
-	free_trinity();
+	free_trinity(g_shell_data->t);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	if (!g_shell_data->t)

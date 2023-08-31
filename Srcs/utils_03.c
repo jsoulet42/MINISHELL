@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 04:15:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/08/30 19:53:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 int	ft_min(int a, int b)
 {
 	return ((a <= b) * a + (a > b) * b);
+}
+
+int	ft_isoperand(char c)
+{
+	char	to_find[2];
+
+	to_find[0] = c;
+	to_find[1] = 0;
+	return (c != ':'
+		&& ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
 }
 
 char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
