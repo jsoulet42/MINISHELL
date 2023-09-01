@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/30 17:54:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/02 00:27:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,6 @@
 /* Status codes for function returns */
 # define SH_SUCCESS	0
 # define SH_ERROR	1
-
-/* Prompt string buffer size */
-# define PROMPT_BUFFER	255
 
 /* Startup environment variables */
 # define START_LOGNAME	"LOGNAME=guest"

@@ -6,44 +6,34 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/31 20:11:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/02 00:24:31 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "libft.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <sys/wait.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <dirent.h>
-# include <string.h>
+
 # include <sys/types.h>
-# include <termios.h>
-# include <errno.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+
+# include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
-# include <sys/wait.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <dirent.h>
-# include <string.h>
-# include <sys/types.h>
+
+# include <term.h>
 # include <termios.h>
 # include <curses.h>
-# include <errno.h>
-# include <term.h>
-# include <readline/history.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-# include <fcntl.h>
 
+# include <fcntl.h>
+# include <errno.h>
+# include <signal.h>
+# include <dirent.h>
+
+# include "libft.h"
 # include "minishell_macros.h"
 # include "get_next_line_bonus.h"
 
@@ -148,7 +138,8 @@ char			**expand_line(char *line, t_env *env);
 void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
 void			free_data(t_shell *shell_data);
-void			free_trinity(t_rinity **t);
+void			free_trinity_struct(t_rinity *t);
+void			free_trinity_tab(t_rinity **t);
 
 /* Srcs/free_utils_02.c */
 void			free_and_return(void);
@@ -200,7 +191,6 @@ void			new_shlvl(char *env);
 /* srcs/parsing_01.c */
 t_rinity		**ft_parsing(char *argv);
 t_rinity		**t_rinity_init(char **line_tab);
-void			ft_supprchar(char **str, int i);
 
 /* srcs/parsing_02.c */
 int				easy_quote(char **line);
@@ -271,5 +261,6 @@ char			**ft_keep_split(char *str, char sep);
 int				ft_min(int a, int b);
 int				ft_isoperand(char c);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
+void			ft_supprchar(char **str, int i);
 
 #endif

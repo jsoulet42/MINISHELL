@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 19:53:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/01 17:19:56 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,17 @@ char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
 		res = str_tab_add_neo(res, word);
 	}
 	return (res);
+}
+
+void	ft_supprchar(char **str, int i)
+{
+	char	*tmp1;
+	char	*tmp2;
+
+	tmp1 = ft_substr(*str, 0, i);
+	tmp2 = ft_substr(*str, i + 1, ft_strlen(*str));
+	free(*str);
+	*str = ft_strjoin(tmp1, tmp2);
+	free(tmp1);
+	free(tmp2);
 }

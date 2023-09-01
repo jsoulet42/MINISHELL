@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/31 20:22:25 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/01 23:29:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	prompt_line_02(char *line2, char **envp)
 	int	i;
 	int	status_code;
 
+	free_trinity_tab(g_shell_data->t);
 	g_shell_data->t = ft_parsing(line2);
 	free(line2);
 	if (!g_shell_data->t)
@@ -45,7 +46,6 @@ int	prompt_line_02(char *line2, char **envp)
 	safe_free((void **)&g_shell_data->path);
 	dup2(g_shell_data->in, STDIN_FILENO);
 	dup2(g_shell_data->out, STDOUT_FILENO);
-	free_trinity(g_shell_data->t);
 	return (SH_SUCCESS);
 }
 

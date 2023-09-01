@@ -6,12 +6,63 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:31:34 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/02 00:20:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
+static int	index_after_option(char **argv)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	while (argv[i])
+	{
+		j = 0;
+		if (argv[i][j++] == '-')
+		{
+			while (argv[i][j] == 'n')
+				j++;
+			if (argv[i][j] && argv[i][j] != 'n')
+				return (i);
+		}
+		else
+			return (i);
+		i++;
+	}
+	return (0);
+}
+
+int	ft_echo(int argc, char **argv)
+{
+	int	i;
+	int	string_index;	
+
+	i = 1;
+	if (argc == 1)
+	{
+		ft_printf("\n");
+		return (0);
+	}
+	string_index = index_after_option(argv);
+	while (argc > 1 && argv[i])
+	{
+		if (i >= string_index)
+		{
+			ft_printf("%s", argv[i]);
+			if (i < argc - 1)
+				ft_printf(" ");
+		}
+		i++;
+	}
+	if (!(argc > 1 && string_index > 1))
+		ft_printf("\n");
+	return (0);
+}
+
+/*
 void	print_str_tab_echo(char **str_tab)
 {
 	if (!str_tab)
@@ -65,4 +116,4 @@ int	ft_echo(int argc, char **argv)
 	else
 		ft_echo2(argv + 1, 0);
 	return (0);
-}
+}*/
