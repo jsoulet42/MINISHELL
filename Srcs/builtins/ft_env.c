@@ -6,25 +6,30 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:46 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/14 20:03:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:44:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	ft_env(int argc, char **argv, char **env)
+int	ft_env(int argc, char **argv, t_env **env)
 {
-	int		i;
+	t_env	*temp;
 
-	(void)argc;
-	(void)argv;
 	if (!env)
-		return (1);
-	i = -1;
-	while (env[++i])
+		return (SH_ERROR);
+	if (argc > 1)
 	{
-		if (ft_strchr(env[i], '='))
-			printf("%s\n", env[i]);
+		ft_fprintf(STDERR_FILENO, "mishelle: env: too many arguments\n");
+		return (SH_ERROR);
 	}
-	return (0);
+	(void)argv;
+	temp = *env;
+	while (temp)
+	{
+		if (temp->value)
+			printf("%s\n", temp->display);
+		temp = temp->next;
+	}
+	return (SH_SUCCESS);
 }

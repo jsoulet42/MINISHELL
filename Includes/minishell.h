@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 14:50:37 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:39:47 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_shell
 
 /* Srcs/builtins */
 int				ft_echo(int argc, char **argv);
-int				ft_env(int argc, char **argv, char **env);
+int				ft_env(int argc, char **argv, t_env **env);
 int				ft_export(char **argv, t_env **env);
 int				ft_pwd(int argc, char **argv);
 int				ft_unset(char **argv, t_env **env);

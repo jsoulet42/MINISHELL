@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:11:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 15:44:56 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,29 +74,21 @@ int	agent_smith(char *cmd)
 
 int	execute_builtin(t_rinity *cd, int builtin)
 {
-	int		status;
-	char	**temp_env;
-
 	if (redirect_streams(cd))
-		return (1);
-	status = 0;
+		return (SH_ERROR);
 	if (builtin == 0)
-		ft_cd(lentab(cd->cmd), cd->cmd, &g_shell_data->env);
+		return (ft_cd(lentab(cd->cmd), cd->cmd, &g_shell_data->env));
 	if (builtin == 1)
-		status = ft_exit(lentab(cd->cmd), cd->cmd);
+		return (ft_exit(lentab(cd->cmd), cd->cmd));
 	if (builtin == 2)
-		status = ft_export(cd->cmd, &g_shell_data->env);
+		return (ft_export(cd->cmd, &g_shell_data->env));
 	if (builtin == 3)
-		status = ft_unset(cd->cmd, &g_shell_data->env);
+		return (ft_unset(cd->cmd, &g_shell_data->env));
 	if (builtin == 4)
-	{
-		temp_env = env_to_str_tab(g_shell_data->env);
-		status = ft_env(lentab(cd->cmd), cd->cmd, temp_env);
-		free_str_tab((void **) temp_env);
-	}
+		return (ft_env(lentab(cd->cmd), cd->cmd, &g_shell_data->env));
 	if (builtin == 5)
-		status = ft_echo(lentab(cd->cmd), cd->cmd);
+		return (ft_echo(lentab(cd->cmd), cd->cmd));
 	if (builtin == 6)
-		status = ft_pwd(lentab(cd->cmd), cd->cmd);
-	return (status);
+		return (ft_pwd(lentab(cd->cmd), cd->cmd));
+	return (SH_SUCCESS);
 }
