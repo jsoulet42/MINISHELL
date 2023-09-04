@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/01 17:19:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:58:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 int	ft_min(int a, int b)
 {

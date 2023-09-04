@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:17 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/01 23:27:47 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:58:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 void	safe_free(void **ptr_addr)
 {

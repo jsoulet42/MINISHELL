@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:13:50 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:39:52 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/04 13:41:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 /* Function to retrieve a variable's value inside a shell's environment
  *

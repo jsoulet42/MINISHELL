@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:24:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 12:27:55 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:02:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 int	next_pipe(char **line_tab)
 {

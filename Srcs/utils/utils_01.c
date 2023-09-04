@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 21:27:38 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/25 13:57:08 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:58:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 int	ft_strccmp(const char *str1, const char *str2, char limit)
 {

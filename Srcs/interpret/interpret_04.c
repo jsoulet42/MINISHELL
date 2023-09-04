@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/31 20:09:15 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:11:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 void	get_exit_code(int status_code, int *to_set)
 {

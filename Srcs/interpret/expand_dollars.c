@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:02:53 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/27 16:07:51 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:12:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static char	*start_expand_dollar(char *str, t_env *env)
 {

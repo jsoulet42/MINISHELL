@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/30 16:51:10 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:58:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 char	*ft_strchrnul(const char *str, int c)
 {

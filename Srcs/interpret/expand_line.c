@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/01 23:30:47 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:12:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static int	quotes_word_len(char *str)
 {

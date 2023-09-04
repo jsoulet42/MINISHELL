@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:05 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/27 01:57:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:41:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 /* Function to return a shell environment's data as a strings array
  *

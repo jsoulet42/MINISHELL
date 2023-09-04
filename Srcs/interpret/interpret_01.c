@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 12:30:38 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:10:59 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 int	check_line_words(const char **line_tab)
 {

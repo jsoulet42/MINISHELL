@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/04 12:48:02 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/04 13:11:48 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,18 @@
 NAME		=	minishell
 
 ## Paths to all source files
-VPATH		=	Srcs:			\
-				Srcs/builtins:	\
-				Srcs/gnl
+VPATH		=	Srcs:				\
+				Srcs/builtins:		\
+				Srcs/environment:	\
+				Srcs/gnl:			\
+				Srcs/interpret:		\
+				Srcs/utils:			\
+				Srcs/parsing
 
 SRCS		=	main.c						\
 				parsing_01.c				\
+				parsing_02.c				\
 				parsing_03.c				\
-				parsing_06.c				\
 				display.c					\
 				init_environment.c			\
 				environment_utils_01.c		\

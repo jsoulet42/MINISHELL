@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/28 17:07:03 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:11:15 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static int	get_cmd_path(char **to_set, char **bin_paths, char *cmd)
 {

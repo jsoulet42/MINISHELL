@@ -6,11 +6,11 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 21:05:03 by hnogared          #+#    #+#             */
-/*   Updated: 2023/08/14 21:05:13 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:40:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static t_env	*get_default_env(char **envp)
 {

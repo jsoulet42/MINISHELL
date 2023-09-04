@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/26 18:05:51 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:11:10 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 static int	handle_in_file(char *file_in, char *type_in)
 {
