@@ -6,20 +6,36 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:00 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 15:46:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:42:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-int	viveldop(char gel, char *str, int *i)
+static unsigned char	error_quote(char *str)
+{
+	unsigned char	quote;
+
+	if (!str)
+		return (1);
+	quote = 0;
+	while (*str)
+	{
+		if ((*str == '\'' || *str == '"') && (quote == 0 || quote == *str))
+			quote = (quote == 0) * *str;
+		str++;
+	}
+	return (quote);
+}
+
+static int	viveldop(char gel, char *str, int *i)
 {
 	if (str[*(i) + 1] == gel)
 		return (1);
 	return (0);
 }
 
-int	error_gen(char *str, int i)
+static int	error_gen(char *str, int i)
 {
 	while (str[i])
 	{
@@ -36,7 +52,7 @@ int	error_gen(char *str, int i)
 	return (0);
 }
 
-int	error_pipe(char *str)
+static int	error_pipe(char *str)
 {
 	int	i;
 

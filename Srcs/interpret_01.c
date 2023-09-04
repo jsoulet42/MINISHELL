@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/30 20:58:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:30:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,7 @@ int	check_line_words(const char **line_tab)
 	}
 	return (SH_SUCCESS);
 }
-/*
-int	check_line(t_par **par)
-{
-	int	i;
 
-	i = 0;
-	while (par[i])
-	{
-		if (par[i]->type != 0 && par[i + 1] && par[i + 1]->type != 0)
-		{
-			printf("minishell: syntax error bad operand `");
-			return (printf("%s'\n", par[i + 1]->str));
-		}
-		if (par[i]->type != 0 && par[i + 1] == NULL)
-		{
-			printf("minishell: syntax error bad operand `");
-			return (printf("%s'\n", par[i]->str));
-		}
-		i++;
-	}
-	return (0);
-}
-*/
 int	commande_len(t_par **par)
 {
 	int	i;

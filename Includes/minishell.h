@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/02 00:24:31 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 12:44:14 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,16 @@ t_env			*update_pwd(char *oldpwd, char *pwd, t_env **env);
 /* Srcs/check_starterrors01.c */
 int				doublequote(int *i, char *str);
 int				simplequote( int *i, char *str);
-unsigned char	error_quote(char *str);
+//unsigned char	error_quote(char *str);
 void			error_dquote(char *str, int *dquote, int *i);
 void			error_squote(char *str, int *squote, int *i);
 
 /* Srcs/check_starterrors02.c */
 int				check_starterrors(char *str);
-int				error_gen(char *str, int i);
-int				error_pipe(char *str);
+//int				error_gen(char *str, int i);
+//int				error_pipe(char *str);
 int				unknown_command(void);
-int				viveldop(char gel, char *str, int *i);
+//int				viveldop(char gel, char *str, int *i);
 
 /* Srcs/display.c */
 int				set_termios_mode(int mode);

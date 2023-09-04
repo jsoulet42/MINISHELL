@@ -6,12 +6,18 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/02 00:13:54 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/02 19:06:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
+/* Function to split and store a string inside an array of t_rinity structures
+ * Each structure stores a parsed command with its arguments and redirections
+ *
+ * @param char *argv	-> pointer to the input string
+ * @return t_rinity **	-> pointer to the parsed commands structures' tab
+ */
 t_rinity	**ft_parsing(char *argv)
 {
 	char		**line_tab;
@@ -22,12 +28,16 @@ t_rinity	**ft_parsing(char *argv)
 		return (NULL);
 	t = t_rinity_init(line_tab);
 	free_str_tab((void **)line_tab);
-	if (!t)
-		ft_perror("mishelle", __func__);
 	return (t);
 }
 
-static char	*unquote_and_merge(char ***line_tab)
+/* Function to unquote and join successive strings of a strings array which
+ * don't start with a whitespace character or a shell operand
+ * /!\ The pointer *line_tab is incremented until 
+ *
+ * @param
+ */
+static char	*unquote_and_join(char ***line_tab)
 {
 	int		quote;
 	char	*temp;
@@ -47,10 +57,8 @@ static char	*unquote_and_merge(char ***line_tab)
 	{
 		quote = **moved_tab == '"' || **moved_tab == '\'';
 		temp = ft_substr(*moved_tab, quote, ft_strlen(*moved_tab) - 2 * quote);
-		if (!temp)
-			return (free(res), NULL);
 		if (!ft_free_strcat(&res, temp, 0, ft_strlen(temp)))
-			return (safe_free((void **)res), free(temp), NULL);
+			return (safe_free((void **)res), safe_free((void **)temp), NULL);
 		free(temp);
 		moved_tab++;
 	}
@@ -70,7 +78,7 @@ static int	store_redirection(t_rinity **t, char ***line_tab)
 	redir = *moved_tab++;
 	while (*moved_tab && ft_strchr(" \t\n\v\f\r", **moved_tab))
 		moved_tab++;
-	temp = unquote_and_merge(&moved_tab);
+	temp = unquote_and_join(&moved_tab);
 	if (!temp)
 		return (SH_ERROR);
 	if (*redir == '>')
@@ -104,7 +112,7 @@ static t_rinity	*t_rinity_init_utils(char **line_tab)
 			return (free_trinity_struct(t), NULL);
 		else if (*line_tab && !ft_strchr(" \t\n\v\f\r", **line_tab))
 		{
-			temp = unquote_and_merge(&line_tab);
+			temp = unquote_and_join(&line_tab);
 			if (!temp)
 				return (free_trinity_struct(t), NULL);
 			t->cmd = str_tab_add_neo(t->cmd, temp);

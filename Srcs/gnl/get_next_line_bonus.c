@@ -6,11 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:19:27 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:19 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/04 12:49:26 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
 char	*get_next_line(int fd)
 {

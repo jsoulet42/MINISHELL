@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/08/31 15:43:38 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/04 12:48:02 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,19 +23,13 @@ NAME		=	minishell
 
 ## Paths to all source files
 VPATH		=	Srcs:			\
-				Srcs/builtins:
+				Srcs/builtins:	\
+				Srcs/gnl
 
 SRCS		=	main.c						\
 				parsing_01.c				\
-				parsing_02.c				\
 				parsing_03.c				\
-				parsing_04.c				\
-				parsing_05.c				\
 				parsing_06.c				\
-				parsing_07.c				\
-				parsing_08.c				\
-				doublquote_01.c				\
-				simplquote_01.c				\
 				display.c					\
 				init_environment.c			\
 				environment_utils_01.c		\
@@ -46,8 +40,8 @@ SRCS		=	main.c						\
 				utils_01.c					\
 				utils_02.c					\
 				utils_03.c					\
-				check_starterrors01.c		\
-				check_starterrors02.c		\
+				quotes_utils.c				\
+				check_starterrors.c			\
 				ft_heredoc.c				\
 				interpret_01.c				\
 				interpret_02.c				\

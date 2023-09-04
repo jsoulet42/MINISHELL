@@ -1,21 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils_02.c                                    :+:      :+:    :+:   */
+/*   check_starterrors01.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:14:24 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:15 by jsoulet          ###   ########.fr       */
+/*   Created: 2023/08/07 13:16:53 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/09/04 12:41:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-void	free_and_return(void)
+int	doublequote(int *i, char *str)
 {
-	free_trinity();
-	if (g_shell_data)
-		free_data(g_shell_data);
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	int	start;
+
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 34)
+		(*i)++;
+	return (*i - start);
+}
+
+int	simplequote(int *i, char *str)
+{
+	int	start;
+
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 39)
+		(*i)++;
+	return (*i - start);
 }
