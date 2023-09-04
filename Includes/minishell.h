@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 12:44:14 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:50:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ int				ft_unset(char **argv, t_env **env);
 int				ft_exit(int argc, char **argv);
 
 /* Srcs/builtins/ft_cd.c */
-int				change_directory(const char *path);
-t_env			*ft_cd(int argc, char **argv, t_env **env);
-t_env			*update_pwd(char *oldpwd, char *pwd, t_env **env);
+//int				change_directory(const char *path);
+int				ft_cd(int argc, char **argv, t_env **env);
+//t_env			*update_pwd(char *oldpwd, char *pwd, t_env **env);
 
 /* Srcs/check_starterrors01.c */
 int				doublequote(int *i, char *str);
