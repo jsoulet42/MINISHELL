@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:02 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:31:04 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/04 14:30:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,20 @@ int	change_directory(const char *path)
 
 t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env)
 {
-	t_env	*found;
-	t_env	*test;
+	char	*pwd_arg;
+	char	*oldpwd_arg;
 
-	found = g_shell_data->env;
-	found = get_env_var(found, "PWD");
-	found->value = pwd;
-	found = get_env_var(found, "OLDPWD");
-	found->value = oldpwd;
-	test = *env;
-	test = get_env_var(test, "PWD");
+	if (!oldpwd || !pwd)
+		return (NULL);
+	pwd_arg = ft_strjoin("PWD=", pwd);
+	if (!pwd_arg)
+		return (NULL);
+	oldpwd_arg = ft_strjoin("OLDPWD=", oldpwd);
+	if (!oldpwd_arg)
+		return (NULL);
+	ft_export((char *[]){"ft_export", pwd_arg, oldpwd_arg, NULL}, env);
+	free(pwd_arg);
+	free(oldpwd_arg);
 	return (*env);
 }
 

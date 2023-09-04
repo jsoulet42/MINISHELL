@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:11:15 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 14:19:56 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,55 @@ char	*get_path(char *cmd, t_env *env)
 	errno = 0;
 	return (cmd_path);
 }
+/*
+static int	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
+{
+	int	status_code;
 
+	status_code = 0;
+		  if (pid == -1)
+					{
+								g_shell_data->exit_code = errno;
+										 return (perror("mishelle"), SH_ERROR);
+											  }
+													if (pid == 0)
+															{
+																		 signal(SIGQUIT, SIG_DFL);
+																				  signal(SIGINT, SIG_DFL);
+																							run_child(cmd_struct, fd, env);
+																								}
+																									 else
+																											  {
+																															signal(SIGQUIT, parent_sig_handler);
+																																	signal(SIGINT, parent_sig_handler);
+																																			 waitpid(pid, &status_code, 0);
+																																					  get_exit_code(status_code, &g_shell_data->exit_code);
+																																								close(fd[1]);
+																																										dup2(fd[0], STDIN_FILENO);
+																																												 close(fd[0]);
+																																													  }
+																																															return (status_code);
+																																															}
+																																															 
+																																															  int	piper(t_env *env, t_rinity *cmd_struct)
+																																																{
+																																																		int		status_code;
+																																																			 int		fd[2];
+																																																				  pid_t	pid;
+																																																					
+																																																						if (redirect_streams(cmd_struct))
+																																																									 return (SH_ERROR);
+																																																										  if (pipe(fd) == -1)
+																																																													{
+																																																																g_shell_data->exit_code = errno;
+																																																																		 return (perror("mishelle"), SH_ERROR);
+																																																																			  }
+																																																																					pid = fork();
+																																																																						status_code = ft_fork(pid, fd, cmd_struct, env);
+																																																																							 return (status_code);
+																																																																							  }
+																																																																								
+*/
 int	piper(t_env *env, t_rinity *cmd_struct)
 {
 	int		status_code;
