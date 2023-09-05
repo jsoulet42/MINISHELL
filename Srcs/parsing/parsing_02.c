@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:19:21 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 17:23:50 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:44:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ static void	print_t_rinity_02(t_rinity **t, int i, int j, int len)
 	pw(len - j, ' ');
 	j = ft_fprintf(2, "|\tfile_out : ");
 	j += print_strstr(t[i]->file_out);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tkafka    : ");
-	j += print_strstr(t[i]->kafka);
 	pw(len - j, ' ');
 	ft_fprintf(2, "|______________________________");
 	ft_fprintf(2, "_______________________|\n\n");

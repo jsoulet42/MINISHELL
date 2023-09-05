@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 16:30:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:51:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,21 @@ int	execute_builtin(t_rinity *cd, int builtin)
 
 void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
+	char	*path;
 	char	**str_env;
 
-	g_shell_data->path = get_path(cmd_struct->cmd[0], env);
-	if (!g_shell_data->path)
+	path = get_path(cmd_struct->cmd[0], env);
+	if (!path)
 		exit(g_shell_data->exit_code);
 	str_env = env_to_str_tab(env);
-	execve(g_shell_data->path, cmd_struct->cmd, str_env);
+	if (!str_env)
+	{
+		free(path);
+		exit(errno);
+	}
+	execve(path, cmd_struct->cmd, str_env);
 	ft_perror("mishelle", cmd_struct->cmd[0]);
+	free(path);
 	free_str_tab((void **)str_env);
 	exit(errno);
 }
@@ -75,4 +82,3 @@ void	get_exit_code(int status_code, int *to_set)
 	else
 		*to_set = status_code;
 }
-

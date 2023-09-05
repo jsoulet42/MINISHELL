@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 12:58:26 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:00:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,6 @@ char	*join_str_tab(const char **str_tab)
 		temp_tab++;
 	}
 	return (res);
-}
-
-char	*join_str_tab_mono(const char **str_tab)
-{
-	char	*temp;
-	char	**temp_tab;
-
-	if (!str_tab)
-		return (NULL);
-	temp_tab = (char **)str_tab;
-	while (*(temp_tab + 1))
-	{
-		temp = ft_strjoin(*temp_tab, " ");
-		if (!temp)
-			return (NULL);
-		free(*temp_tab);
-		*temp_tab++ = temp;
-	}
-	return (join_str_tab(str_tab));
 }
 
 static int	get_words_count(const char *str, char sep)

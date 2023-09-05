@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 16:16:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:27:09 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@
  * @param char *argv	-> pointer to the input string
  * @return t_rinity **	-> pointer to the parsed commands structures' tab
  */
-t_rinity	**ft_parsing(char *argv)
+t_rinity	**ft_parsing(char *line)
 {
 	char		**line_tab;
 	t_rinity	**t;
 
-	line_tab = expand_line(argv, g_shell_data->env);
+	if (!line || check_starterrors(line) != SH_SUCCESS)
+	{
+		g_shell_data->exit_code = 1;
+		return (NULL);
+	}
+	line_tab = expand_line(line, g_shell_data->env);
 	if (!line_tab)
 		return (NULL);
 	if (check_line_words((const char **)line_tab))
