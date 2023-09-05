@@ -5,92 +5,74 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:11:10 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/09/04 16:30:59 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-static int	handle_in_file(char *file_in, char *type_in)
+int	agent_smith(char *cmd)
 {
-	int	fd_in;
+	if (!ft_strncmp(cmd, "cd", 3))
+		return (0);
+	if (!ft_strncmp(cmd, "exit", 5))
+		return (1);
+	if (!ft_strncmp(cmd, "export", 7))
+		return (2);
+	if (!ft_strncmp(cmd, "unset", 6))
+		return (3);
+	if (!ft_strncmp(cmd, "env", 4))
+		return (4);
+	if (!ft_strncmp(cmd, "echo", 5))
+		return (5);
+	if (!ft_strncmp(cmd, "pwd", 4))
+		return (6);
+	return (-1);
+}
 
-	fd_in = -1;
-	if (ft_strncmp(type_in, "<<", 3) == 0)
-	{
-		fd_in = ft_heredoc(file_in);
-		if (fd_in < 0)
-			return (SH_ERROR);
-	}
-	if (errno)
-		return (SH_SUCCESS);
-	if (ft_strncmp(type_in, "<", 2) == 0)
-		fd_in = open(file_in, O_RDONLY, 0644);
-	if (fd_in < 0)
-		return (SH_ERROR + 1);
-	dup2(fd_in, STDIN_FILENO);
-	close(fd_in);
+int	execute_builtin(t_rinity *cd, int builtin)
+{
+	if (redirect_streams(cd))
+		return (SH_ERROR);
+	if (builtin == 0)
+		return (ft_cd(lentab(cd->cmd), cd->cmd, &g_shell_data->env));
+	if (builtin == 1)
+		return (ft_exit(lentab(cd->cmd), cd->cmd));
+	if (builtin == 2)
+		return (ft_export(cd->cmd, &g_shell_data->env));
+	if (builtin == 3)
+		return (ft_unset(cd->cmd, &g_shell_data->env));
+	if (builtin == 4)
+		return (ft_env(lentab(cd->cmd), cd->cmd, &g_shell_data->env));
+	if (builtin == 5)
+		return (ft_echo(lentab(cd->cmd), cd->cmd));
+	if (builtin == 6)
+		return (ft_pwd(lentab(cd->cmd), cd->cmd));
 	return (SH_SUCCESS);
 }
 
-int	redirect_in(char **file_in, char **type_in)
+void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
-	int		i;
-	int		status;
-	char	*error_file;
+	char	**str_env;
 
-	if (!file_in || !type_in)
-		return (SH_SUCCESS);
-	i = 0;
-	error_file = NULL;
-	while (file_in[i] && type_in[i])
-	{
-		status = handle_in_file(file_in[i], type_in[i]);
-		if (status == SH_ERROR)
-			return (g_shell_data->exit_code);
-		if (status == SH_ERROR + 1)
-			error_file = file_in[i];
-		i++;
-	}
-	if (errno)
-		ft_perror("mishelle", error_file);
-	return (1 && errno);
+	g_shell_data->path = get_path(cmd_struct->cmd[0], env);
+	if (!g_shell_data->path)
+		exit(g_shell_data->exit_code);
+	str_env = env_to_str_tab(env);
+	execve(g_shell_data->path, cmd_struct->cmd, str_env);
+	ft_perror("mishelle", cmd_struct->cmd[0]);
+	free_str_tab((void **)str_env);
+	exit(errno);
 }
 
-int	redirect_out(char **file_out, char **type_out)
+void	get_exit_code(int status_code, int *to_set)
 {
-	int	i;
-	int	fd_out;
-
-	if (!file_out || !type_out)
-		return (SH_SUCCESS);
-	i = -1;
-	while (file_out[++i])
-	{
-		fd_out = -1;
-		if (type_out[i] && ft_strncmp(type_out[i], ">>", 3) == 0)
-			fd_out = open(file_out[i], O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (type_out[i] && ft_strncmp(type_out[i], ">", 2) == 0)
-			fd_out = open(file_out[i], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd_out < 0)
-		{
-			ft_perror("mishelle", file_out[i]);
-			break ;
-		}
-		dup2(fd_out, STDOUT_FILENO);
-		close(fd_out);
-	}
-	return (1 && errno);
+	if (WIFEXITED(status_code))
+		*to_set = WEXITSTATUS(status_code);
+	else if (WIFSIGNALED(status_code))
+		*to_set = 128 + WTERMSIG(status_code);
+	else
+		*to_set = status_code;
 }
 
-int	redirect_streams(t_rinity *cmd_struct)
-{
-	g_shell_data->exit_code = redirect_in(cmd_struct->file_in,
-			cmd_struct->type_in);
-	if (g_shell_data->exit_code)
-		return (g_shell_data->exit_code);
-	g_shell_data->exit_code = redirect_out(cmd_struct->file_out,
-			cmd_struct->type_out);
-	return (g_shell_data->exit_code);
-}

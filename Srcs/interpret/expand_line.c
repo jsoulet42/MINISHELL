@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/27 14:57:49 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 13:12:30 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:15:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,6 @@ char	**expand_line(char *line, t_env *env)
 			continue ;
 		free_str_tab((void **)line_split);
 		return (NULL);
-	}
-	if (check_line_words((const char **)line_split))
-	{
-		free_str_tab((void **)line_split);
-		line_split = NULL;
 	}
 	return (line_split);
 }

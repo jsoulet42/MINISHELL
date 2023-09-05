@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:02:22 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/04 16:16:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ t_rinity	**ft_parsing(char *argv)
 	line_tab = expand_line(argv, g_shell_data->env);
 	if (!line_tab)
 		return (NULL);
+	if (check_line_words((const char **)line_tab))
+	{
+		free_str_tab((void **)line_tab);
+		return (NULL);
+	}
 	t = t_rinity_init(line_tab);
 	free_str_tab((void **)line_tab);
 	return (t);

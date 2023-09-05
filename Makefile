@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/04 13:11:48 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/04 17:32:24 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,17 +40,17 @@ SRCS		=	main.c						\
 				environment_utils_02.c		\
 				expand_dollars.c			\
 				expand_line.c				\
-				free_utils_01.c				\
+				free_utils.c				\
 				utils_01.c					\
 				utils_02.c					\
 				utils_03.c					\
 				quotes_utils.c				\
 				check_starterrors.c			\
 				ft_heredoc.c				\
+				redirect_streams.c			\
 				interpret_01.c				\
 				interpret_02.c				\
-				interpret_03.c				\
-				interpret_04.c				\
+				get_path.c					\
 				ft_export.c					\
 				get_next_line_bonus.c		\
 				get_next_line_utils_bonus.c \

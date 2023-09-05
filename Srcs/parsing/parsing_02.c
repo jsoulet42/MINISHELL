@@ -1,18 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_03.c                                       :+:      :+:    :+:   */
+/*   parsing_02.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
+/*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:23:15 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:02:29 by hnogared         ###   ########.fr       */
+/*   Created: 2023/09/04 16:19:21 by hnogared          #+#    #+#             */
+/*   Updated: 2023/09/04 17:23:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-static void	print_t_rinity_02(t_rinity **t, int i, int j, int len);
+int	check_line_words(const char **line_tab)
+{
+	int		test;
+	int		test2;
+	char	**temp;
+
+	if (!line_tab || !*line_tab)
+		return (SH_ERROR);
+	temp = (char **)line_tab - 1;
+	while (*(++temp))
+	{
+		test = ft_isoperand(**temp);
+		if (*(temp + 1))
+			test2 = ft_isoperand(*(temp + 1)[0]);
+		if (test && (!*(temp + 1) || test2))
+		{
+			printf("mishelle: syntax error bad operand `");
+			printf("%s'\n", *temp);
+			return (SH_ERROR);
+		}
+	}
+	return (SH_SUCCESS);
+}
 
 static int	pw(int i, char c)
 {
@@ -47,6 +69,24 @@ static int	print_strstr(char **str)
 	return (j);
 }
 
+static void	print_t_rinity_02(t_rinity **t, int i, int j, int len)
+{
+	j = ft_fprintf(2, "|\ttype_out : ");
+	j += print_strstr(t[i]->type_out);
+	pw(len - j, ' ');
+	j = ft_fprintf(2, "|\tfile_in  : ");
+	j += print_strstr(t[i]->file_in);
+	pw(len - j, ' ');
+	j = ft_fprintf(2, "|\tfile_out : ");
+	j += print_strstr(t[i]->file_out);
+	pw(len - j, ' ');
+	j = ft_fprintf(2, "|\tkafka    : ");
+	j += print_strstr(t[i]->kafka);
+	pw(len - j, ' ');
+	ft_fprintf(2, "|______________________________");
+	ft_fprintf(2, "_______________________|\n\n");
+}
+
 void	print_t_rinity(t_rinity **t)
 {
 	int	i;
@@ -71,22 +111,4 @@ void	print_t_rinity(t_rinity **t)
 		print_t_rinity_02(t, i, j, len);
 		i++;
 	}
-}
-
-static void	print_t_rinity_02(t_rinity **t, int i, int j, int len)
-{
-	j = ft_fprintf(2, "|\ttype_out : ");
-	j += print_strstr(t[i]->type_out);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tfile_in  : ");
-	j += print_strstr(t[i]->file_in);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tfile_out : ");
-	j += print_strstr(t[i]->file_out);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tkafka    : ");
-	j += print_strstr(t[i]->kafka);
-	pw(len - j, ' ');
-	ft_fprintf(2, "|______________________________");
-	ft_fprintf(2, "_______________________|\n\n");
 }
