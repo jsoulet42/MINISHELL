@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/05 15:32:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/05 16:14:42 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,21 +75,8 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 	return (status_code);
 }
 
-void	exec_last(t_env *env, t_rinity *cmd, char **envp)
+void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 {
-	int		builtin_check;
-	int		status_code;
-	pid_t	pid;
-
-	builtin_check = agent_smith(cmd->cmd[0]);
-	if (builtin_check != -1)
-	{
-		g_shell_data->exit_code = execute_builtin(cmd, builtin_check);
-		return ;
-	}
-	if (redirect_streams(cmd))
-		return ((void)envp);
-	pid = fork();
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -101,7 +88,23 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, &status_code, 0);
-		get_exit_code(status_code, &g_shell_data->exit_code);
+		waitpid(pid, &g_shell_data->exit_code, 0);
 	}
+}
+
+void	exec_last(t_env *env, t_rinity *cmd, char **envp)
+{
+	int		builtin_check;
+	pid_t	pid;
+
+	builtin_check = agent_smith(cmd->cmd[0]);
+	if (builtin_check != -1)
+	{
+		g_shell_data->exit_code = execute_builtin(cmd, builtin_check);
+		return ;
+	}
+	if (redirect_streams(cmd))
+		return ((void)envp);
+	pid = fork();
+	ft_last_fork(pid, cmd, env);
 }
