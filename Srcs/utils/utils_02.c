@@ -6,11 +6,21 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/05 16:00:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:26:08 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+int	lentab(char **tableau)
+{
+	int	i;
+
+	i = -1;
+	while (tableau[++i])
+		i = i;
+	return (i);
+}
 
 char	*ft_strchrnul(const char *str, int c)
 {

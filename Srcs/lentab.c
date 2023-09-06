@@ -6,21 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:35 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 17:40:49 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/06 14:25:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-
-int	lentab(char **tableau)
-{
-	int	i;
-
-	i = -1;
-	while (tableau[++i])
-		i = i;
-	return (i);
-}
 
 char	**env_update(char **envp, t_shell *env)
 {

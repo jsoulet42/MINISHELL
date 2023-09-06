@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/05 15:59:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/06 14:30:33 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,16 +164,15 @@ char			**order_str_tab(char **str_tab, char limit);
 void			print_str_tab(char **str_tab);
 
 /* Srcs/utils_02.c */
+int				lentab(char **tableau);
 char			*ft_strchrnul(const char *str, int c);
 char			*join_str_tab(const char **str_tab);
-//char			*join_str_tab_mono(const char **str_tab);
 char			**ft_keep_split(char *str, char sep);
 
 /* Srcs/utils_03.c */
 int				ft_min(int a, int b);
 int				ft_isoperand(char c);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
-//void			ft_supprchar(char **str, int i);
 
 /* Srcs/display.c */
 int				set_termios_mode(int mode);
@@ -184,7 +183,6 @@ void			ft_perror(const char *prefix, const char *prefix2);
 int				ft_heredoc(char *str);
 
 /* Srcs/lentab.c */
-int				lentab(char **tableau);
 char			**env_update(char **envp, t_shell *env);
 
 /* Srcs/main.c */

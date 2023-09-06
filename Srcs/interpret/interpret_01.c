@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/05 16:14:42 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/06 18:00:48 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 	return (status_code);
 }
 
-void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
+static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 {
 	if (pid == 0)
 	{
