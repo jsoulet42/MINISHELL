@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 12:30:43 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:48:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,7 @@ t_env			*update_env_var(t_env *env_var, char *value, int mode);
 void			print_env(t_env *env_list, int mode);
 
 /* Srcs/init_environment.c */
-char			*ft_pwd2(void);
-char			*modif_pwd(void);
-char			*modif_pwd2(void);
 t_env			*init_env(t_env **env_list, char **envp);
-
-/* Srcs/modif_shlvl.c */
-int				modif_shlvl(t_env **env);
 
 /* ***** Srcs/interpret ***** */
 /* Srcs/expand_dollars.c */
@@ -181,12 +175,6 @@ void			ft_perror(const char *prefix, const char *prefix2);
 
 /* Srcs/ft_heredoc.c */
 int				ft_heredoc(char *str);
-
-/* Srcs/lentab.c */
-char			**env_update(char **envp, t_shell *env);
-
-/* Srcs/main.c */
-//int				prompt_cmd_02(char *line2, char **envp);
 
 /* Srcs/signals.c */
 void			main_sig_handler(int signal);

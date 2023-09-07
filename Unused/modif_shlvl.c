@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:42 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 12:34:53 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:42:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	modif_shlvl(t_env **env)
 		return (SH_ERROR);
 	tmp = ft_getenv(*env, "SHLVL");
 	if (!tmp)
-		return(SH_ERROR);
+		return (SH_ERROR);
 	new_lvl = ft_itoa(ft_atoi(tmp) + 1);
 	if (!new_lvl)
 		return (SH_ERROR);

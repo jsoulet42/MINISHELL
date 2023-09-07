@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/04 17:32:24 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/07 14:49:55 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,22 +46,20 @@ SRCS		=	main.c						\
 				utils_03.c					\
 				quotes_utils.c				\
 				check_starterrors.c			\
-				ft_heredoc.c				\
 				redirect_streams.c			\
 				interpret_01.c				\
 				interpret_02.c				\
 				get_path.c					\
-				ft_export.c					\
 				get_next_line_bonus.c		\
 				get_next_line_utils_bonus.c \
-				lentab.c					\
+				ft_heredoc.c				\
 				ft_cd.c						\
+				ft_export.c					\
 				ft_unset.c					\
 				ft_exit.c					\
 				ft_echo.c					\
 				ft_pwd.c					\
 				ft_env.c					\
-				modif_shlvl.c				\
 				signals.c
 
 ## Object files directory

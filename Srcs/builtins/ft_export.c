@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:28 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 12:11:56 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 13:16:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
  *
  * @parent_function ft_export
  * @child_function find_var
- * @param char *arg		-> pointer to the input argument (NAME[+/=][VALUE])
+ * @param char *arg		-> pointer to the input argument ("NAME[=/+=]VALUE")
  * @param t_env *env	-> pointer to the shell environment list to modify
  * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
  * @return int			-> function exit code

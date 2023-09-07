@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 12:31:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 14:48:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int	init_data(char **envp)
 	if (!g_shell_data)
 		return (SH_ERROR);
 	init_env(&g_shell_data->env, envp);
-	modif_shlvl(&g_shell_data->env);
 	g_shell_data->in = dup(STDIN_FILENO);
 	g_shell_data->out = dup(STDOUT_FILENO);
 	set_termios_mode(TERMIOS_MUTE_CTRL);
@@ -58,7 +57,7 @@ static int	prompt_and_execute(t_env *env)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell	*test;
+//	t_shell	*test;
 
 	(void)argc;
 	(void)argv;
@@ -72,8 +71,8 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, main_sig_handler);
 		if (prompt_and_execute(g_shell_data->env))
 			continue ;
-		test = g_shell_data;
-		envp = env_update(envp, test);
+	//	test = g_shell_data;
+	//	envp = env_update(envp, test);
 	}
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	free_data(g_shell_data);
