@@ -6,72 +6,65 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:02 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 15:31:04 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/04 15:32:52 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	change_directory(const char *path)
+static int	update_pwd(char *oldpwd, char *pwd, t_env **env)
 {
-	if (chdir(path) == 0)
-		return (0);
-	else
-	{
-		perror("Erreur lors du changement de répertoire");
-		return (-1);
-	}
+	char	*pwd_arg;
+	char	*oldpwd_arg;
+
+	if (!oldpwd || !pwd || !env || !*env)
+		return (SH_ERROR);
+	pwd_arg = ft_strjoin("PWD=", pwd);
+	if (!pwd_arg)
+		return (SH_ERROR);
+	oldpwd_arg = ft_strjoin("OLDPWD=", oldpwd);
+	if (!oldpwd_arg)
+		return (free(pwd_arg), SH_ERROR);
+	ft_export((char *[]){"ft_export", pwd_arg, oldpwd_arg, NULL}, env);
+	free(pwd_arg);
+	free(oldpwd_arg);
+	return (SH_SUCCESS);
 }
 
-t_env	*update_pwd(char *oldpwd, char *pwd, t_env **env)
+static int	change_directory(const char *path, t_env **env)
 {
-	t_env	*found;
-	t_env	*test;
+	char	pwd[512];
+	char	oldpwd[512];
 
-	found = g_shell_data->env;
-	found = get_env_var(found, "PWD");
-	found->value = pwd;
-	found = get_env_var(found, "OLDPWD");
-	found->value = oldpwd;
-	test = *env;
-	test = get_env_var(test, "PWD");
-	return (*env);
+	if (!path || !getcwd(oldpwd, 512) || chdir(path) || !getcwd(pwd, 512))
+		return (SH_ERROR);
+	return (update_pwd(oldpwd, pwd, env));
 }
 
-struct s_cd
+int	ft_cd(int argc, char **argv, t_env **env)
 {
-	int		changedir;
-	char	*home;
-	char	*oldpwd;
-	char	*pwd;
-	t_env	*envi;
-	t_env	*envtest;
-};
+	char	*path;
 
-t_env	*ft_cd(int argc, char **argv, t_env **env)
-{
-	struct s_cd		cd;
-
-	cd.envtest = *env;
-	cd.envi = *env;
-	cd.oldpwd = malloc(sizeof(char) * 512);
-	cd.pwd = malloc(sizeof(char) * 512);
-	getcwd(cd.oldpwd, 512);
-	cd.home = ft_getenv(cd.envi, "HOME");
-	cd.changedir = 42;
-	if ((argc < 2) || (argv[1][0] == '~'))
+	if (argc > 2)
 	{
-		if (cd.home)
-			cd.changedir = change_directory(cd.home);
-		else
-		{
-			ft_printf("HOME not set");
-			return (*env);
-		}
+		ft_fprintf(STDERR_FILENO, "mishelle: cd: too many arguments\n");
+		return (SH_ERROR);
+	}
+	if (argc == 1 || !ft_strncmp(argv[1], "~", 2))
+	{
+		path = ft_getenv(*env, "HOME");
+		if (!path)
+			return (ft_fprintf(2, "mishelle: cd: HOME not set\n"), SH_ERROR);
+	}
+	else if (!ft_strncmp(argv[1], "-", 2))
+	{
+		path = ft_getenv(*env, "OLDPWD");
+		if (!path)
+			return (ft_fprintf(2, "mishelle: cd: OLDPWD not set\n"), SH_ERROR);
 	}
 	else
-		cd.changedir = change_directory(argv[1]);
-	if (cd.changedir == 0)
-		cd.envtest = update_pwd(cd.oldpwd, getcwd(cd.pwd, 512), env);
-	return (cd.envtest);
+		path = argv[1];
+	if (change_directory(path, env) != SH_SUCCESS)
+		return (ft_perror("mishelle: cd", argv[1]), SH_ERROR);
+	return (SH_SUCCESS);
 }

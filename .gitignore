@@ -7,3 +7,5 @@ bin
 test
 Ignore
 *.txt
+.nfs*
+.vscode

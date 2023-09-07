@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   modif_shlvl.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 13:09:46 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 15:48:10 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/07 13:17:42 by jsoulet           #+#    #+#             */
+/*   Updated: 2023/09/07 14:42:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	ft_env(int argc, char **argv, t_env **env)
+int	modif_shlvl(t_env **env)
 {
-	t_env	*temp;
+	char	*tmp;
+	char	*new_lvl;
 
-	if (!env)
+	if (!env || !*env)
 		return (SH_ERROR);
-	if (argc > 1)
-	{
-		ft_fprintf(STDERR_FILENO, "mishelle: env: too many arguments\n");
+	tmp = ft_getenv(*env, "SHLVL");
+	if (!tmp)
 		return (SH_ERROR);
-	}
-	(void)argv;
-	temp = *env;
-	while (temp)
-	{
-		if (temp->value)
-			printf("%s\n", temp->display);
-		temp = temp->next;
-	}
+	new_lvl = ft_itoa(ft_atoi(tmp) + 1);
+	if (!new_lvl)
+		return (SH_ERROR);
+	tmp = ft_strjoin("SHLVL=", new_lvl);
+	free(new_lvl);
+	if (!tmp)
+		return (SH_ERROR);
+	export_var(tmp, env, SH_OVERWRITE);
+	free(tmp);
 	return (SH_SUCCESS);
 }

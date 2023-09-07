@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/07 13:07:26 by jsoulet          ###   ########.fr       */
+/*   Updated: 2023/09/07 12:36:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MINISHELL_MACROS_H
 
 # define OPERANDS_COUNT 12
-# define OPERANDS "| || & && < > \\ ' \" << >>"
+# define OPERANDS "|:||:&:&&:<:>:\\:<<:>>"
 # define PIPE "|"
 # define AND "&&"
 # define OR "||"
@@ -27,5 +27,29 @@
 # define BACKSLASH "\\"
 # define SIMPLE_QUOTE "'"
 # define DOUBLE_QUOTE "\""
+
+/* Status codes for function returns */
+# define SH_SUCCESS	0
+# define SH_ERROR	1
+
+/* Startup environment variables */
+# define START_LOGNAME	"LOGNAME=guest"
+# define START_NAME		"NAME=mishelle"
+# define START_PWD		"PWD="
+# define START_OLDPWD	"OLDPWD="
+# define START_SHLVL	"SHLVL=1"
+
+/* Environment variable update modes */
+# define SH_OVERWRITE	0
+# define SH_ADDBACK		1
+# define SH_ADDFRONT	2
+
+/* Environment display mode */
+# define SH_DISORDERED	0
+# define SH_ORDERED		1
+
+/* Termios setup modes */
+# define TERMIOS_UNMUTE_CTRL	0
+# define TERMIOS_MUTE_CTRL		1
 
 #endif
