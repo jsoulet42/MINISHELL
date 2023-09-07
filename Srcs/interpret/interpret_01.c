@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/06 18:00:48 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:30:27 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 	}
 }
 
-void	exec_last(t_env *env, t_rinity *cmd, char **envp)
+void	exec_last(t_env *env, t_rinity *cmd)
 {
 	int		builtin_check;
 	pid_t	pid;
@@ -104,7 +104,7 @@ void	exec_last(t_env *env, t_rinity *cmd, char **envp)
 		return ;
 	}
 	if (redirect_streams(cmd))
-		return ((void)envp);
+		return ;
 	pid = fork();
 	ft_last_fork(pid, cmd, env);
 }

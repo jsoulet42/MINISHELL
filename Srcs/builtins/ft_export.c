@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:28 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/14 20:32:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:11:56 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	find_var(t_env **var, char *arg, t_env *env, int mode)
  * @param int mode		-> variable modification mode (SH_OVERWRITE/SH_ADDBACK)
  * @return int			-> function exit code
  */
-static int	export_var(char *arg, t_env **env, int mode)
+int	export_var(char *arg, t_env **env, int mode)
 {
 	int		res;
 	t_env	*var;

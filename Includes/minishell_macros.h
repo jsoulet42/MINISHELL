@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:25 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/02 00:27:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:36:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define START_NAME		"NAME=mishelle"
 # define START_PWD		"PWD="
 # define START_OLDPWD	"OLDPWD="
-# define START_SHLVL	"SHLVL=2"
+# define START_SHLVL	"SHLVL=1"
 
 /* Environment variable update modes */
 # define SH_OVERWRITE	0

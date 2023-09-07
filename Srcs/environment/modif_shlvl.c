@@ -6,35 +6,30 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:17:42 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:42:16 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:34:53 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-void	new_shlvl(char *env)
+int	modif_shlvl(t_env **env)
 {
-	int	sh_atoi;
+	char	*tmp;
+	char	*new_lvl;
 
-	sh_atoi = ft_atoi(env + 6);
-	if (sh_atoi <= 9)
-		*(env + 6) += 1;
-}
-
-void	modif_shlvl(char **env)
-{
-	int	i;
-
-	i = 0;
-	if (!*env)
-		return ;
-	while (env[i])
-	{
-		if (ft_strncmp(env[i], "SHLVL=", 6) == 0)
-		{
-			new_shlvl(env[i]);
-			break ;
-		}
-		i++;
-	}
+	if (!env || !*env)
+		return (SH_ERROR);
+	tmp = ft_getenv(*env, "SHLVL");
+	if (!tmp)
+		return(SH_ERROR);
+	new_lvl = ft_itoa(ft_atoi(tmp) + 1);
+	if (!new_lvl)
+		return (SH_ERROR);
+	tmp = ft_strjoin("SHLVL=", new_lvl);
+	free(new_lvl);
+	if (!tmp)
+		return (SH_ERROR);
+	export_var(tmp, env, SH_OVERWRITE);
+	free(tmp);
+	return (SH_SUCCESS);
 }

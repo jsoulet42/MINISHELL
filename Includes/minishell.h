@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/06 14:30:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/07 12:30:43 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int				ft_cd(int argc, char **argv, t_env **env);
 int				ft_echo(int argc, char **argv);
 int				ft_env(int argc, char **argv, t_env **env);
 int				ft_exit(int argc, char **argv);
+int				export_var(char *arg, t_env **env, int mode);
 int				ft_export(char **argv, t_env **env);
 int				ft_pwd(int argc, char **argv);
 int				ft_unset(char **argv, t_env **env);
@@ -116,8 +117,7 @@ char			*modif_pwd2(void);
 t_env			*init_env(t_env **env_list, char **envp);
 
 /* Srcs/modif_shlvl.c */
-void			modif_shlvl(char **env);
-void			new_shlvl(char *env);
+int				modif_shlvl(t_env **env);
 
 /* ***** Srcs/interpret ***** */
 /* Srcs/expand_dollars.c */
@@ -131,7 +131,7 @@ char			*get_path(char *cmd, t_env *env);
 
 /* Srcs/interpret/interpret_01.c */
 int				piper(t_env *env, t_rinity *cmd_struct);
-void			exec_last(t_env *env, t_rinity *cmd_struct, char **envp);
+void			exec_last(t_env *env, t_rinity *cmd);
 
 /* Srcs/interpret/interpret_02.c */
 int				agent_smith(char *cmd);

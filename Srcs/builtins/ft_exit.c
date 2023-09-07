@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/31 20:15:53 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/06 19:03:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	free_and_exit(unsigned char num)
 {
 	free_data(g_shell_data);
 	set_termios_mode(TERMIOS_UNMUTE_CTRL);
+	close(g_shell_data->in);
+	close(g_shell_data->out);
 	exit(num);
 }
 
@@ -31,8 +33,10 @@ int	ft_exit(int argc, char **argv)
 	if (argc > 2)
 	{
 		ft_fprintf(STDERR_FILENO, "mishelle: exit: too many arguments\n");
-		return (1);
+		return (SH_ERROR);
 	}
+	if (!argv)
+		return (SH_ERROR);
 	nbr = ft_atoi(argv[1]);
 	if (!nbr && *(argv[1]) != '0')
 	{
@@ -42,5 +46,5 @@ int	ft_exit(int argc, char **argv)
 	}
 	ft_fprintf(STDOUT_FILENO, "mishelle: Exit o7\n");
 	free_and_exit(nbr);
-	return (0);
+	return (SH_SUCCESS);
 }
