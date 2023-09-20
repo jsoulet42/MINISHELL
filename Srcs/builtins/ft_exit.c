@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 21:15:36 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 21:23:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	free_and_exit(unsigned char num)
 {
-	free_data(g_shell_data);
-	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	close(g_shell_data->in);
 	close(g_shell_data->out);
+	free_data(g_shell_data);
+	set_termios_mode(TERMIOS_UNMUTE_CTRL);
 	exit(num);
 }
 
