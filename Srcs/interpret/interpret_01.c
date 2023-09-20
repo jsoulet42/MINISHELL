@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpret_04.c                                     :+:      :+:    :+:   */
+/*   interpret_01.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 12:30:27 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 20:37:21 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	piper(t_env *env, t_rinity *cmd_struct)
 
 static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 {
+	int	status_code;
+
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
@@ -88,7 +90,8 @@ static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 		signal(SIGQUIT, parent_sig_handler);
 		signal(SIGINT, parent_sig_handler);
 		dup2(g_shell_data->out, STDOUT_FILENO);
-		waitpid(pid, &g_shell_data->exit_code, 0);
+		waitpid(pid, &status_code, 0);
+		get_exit_code(status_code, &g_shell_data->exit_code);
 	}
 }
 
