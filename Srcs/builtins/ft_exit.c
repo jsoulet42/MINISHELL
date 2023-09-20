@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 20:36:08 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 21:15:36 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_exit(int argc, char **argv)
 {
 	int	nbr;
 
-	if (argc == 0)
+	if (argc == 1)
 	{
 		ft_fprintf(STDOUT_FILENO, "mishelle: Exit o7\n");
 		free_and_exit(g_shell_data->exit_code);
