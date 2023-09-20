@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 20:51:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:52:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@
 # include "minishell_macros.h"
 # include "get_next_line_bonus.h"
 
-extern struct s_shell	*g_shell_data;
+extern struct s_shell	g_shell_data;
+
+typedef struct termios	t_termios;
 
 typedef struct s_rinity
 {
@@ -59,11 +61,13 @@ typedef struct s_env
 
 typedef struct s_shell
 {
-	int				in;
-	int				out;
-	int				exit_code;
-	t_env			*env;
-	t_rinity		**t;
+	int			in;
+	int			out;
+	int			exit_code;
+	t_env		*env;
+	t_rinity	**t;
+	t_termios	default_termios;
+	t_termios	custom_termios;
 }				t_shell;
 
 /* ***** Srcs/builtins ***** */
@@ -169,7 +173,7 @@ int				ft_isoperand(char c);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
 
 /* Srcs/display.c */
-int				set_termios_mode(int mode);
+int				set_termios_mode(int mode, t_termios termios_struct);
 char			*prompt(t_env *env);
 void			ft_perror(const char *prefix, const char *prefix2);
 

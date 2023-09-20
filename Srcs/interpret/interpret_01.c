@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 21:06:24 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:48:39 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 {
 	int	status_code;
 
-	status_code = 0;
 	if (pid == -1)
 	{
 		g_shell_data->exit_code = errno;
@@ -42,6 +41,7 @@ static void	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL, g_shell_data->default_termios);
 		run_child(cmd_struct, fd, env);
 	}
 	else
@@ -53,6 +53,7 @@ static void	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
+		set_termios_mode(TERMIOS_MUTE_CTRL, g_shell_data->default_termios);
 	}
 }
 
@@ -80,6 +81,7 @@ static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		set_termios_mode(TERMIOS_UNMUTE_CTRL, g_shell_data->default_termios);
 		execute_cmd(env, cmd);
 	}
 	else
@@ -89,6 +91,7 @@ static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 		dup2(g_shell_data->out, STDOUT_FILENO);
 		waitpid(pid, &status_code, 0);
 		get_exit_code(status_code, &g_shell_data->exit_code);
+		set_termios_mode(TERMIOS_MUTE_CTRL, g_shell_data->default_termios);
 	}
 }
 

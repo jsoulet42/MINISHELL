@@ -6,23 +6,19 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/20 21:17:24 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 21:53:47 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-int	set_termios_mode(int mode)
+int	set_termios_mode(int mode, t_termios termios_struct)
 {
-	struct termios	terminos_opts;
-
-	if (tcgetattr(STDOUT_FILENO, &terminos_opts) < 0)
-		return (SH_ERROR);
 	if (mode == TERMIOS_MUTE_CTRL)
-		terminos_opts.c_lflag &= ~ECHOCTL;
+		termios_struct.c_lflag &= ~ECHOCTL;
 	else
-		terminos_opts.c_lflag |= ECHOCTL;
-	if (tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_opts) < 0)
+		termios_struct.c_lflag |= ECHOCTL;
+	if (tcsetattr(STDOUT_FILENO, TCSANOW, &termios_struct) < 0)
 		return (SH_ERROR);
 	return (SH_SUCCESS);
 }
