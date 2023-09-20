@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 14:48:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 20:51:23 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char			**expand_line(char *line, t_env *env);
 char			*get_path(char *cmd, t_env *env);
 
 /* Srcs/interpret/interpret_01.c */
-int				piper(t_env *env, t_rinity *cmd_struct);
+void			piper(t_env *env, t_rinity *cmd_struct);
 void			exec_last(t_env *env, t_rinity *cmd);
 
 /* Srcs/interpret/interpret_02.c */

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 20:37:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 21:06:24 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 	exit(0);
 }
 
-static int	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
+static void	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 {
 	int	status_code;
 
@@ -36,7 +36,7 @@ static int	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 	if (pid == -1)
 	{
 		g_shell_data->exit_code = errno;
-		return (perror("mishelle"), SH_ERROR);
+		return (perror("mishelle"));
 	}
 	if (pid == 0)
 	{
@@ -54,25 +54,22 @@ static int	ft_fork(pid_t pid, int *fd, t_rinity *cmd_struct, t_env *env)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 	}
-	return (status_code);
 }
 
-int	piper(t_env *env, t_rinity *cmd_struct)
+void	piper(t_env *env, t_rinity *cmd_struct)
 {
-	int		status_code;
 	int		fd[2];
 	pid_t	pid;
 
 	if (redirect_streams(cmd_struct))
-		return (SH_ERROR);
+		return ;
 	if (pipe(fd) == -1)
 	{
 		g_shell_data->exit_code = errno;
-		return (perror("mishelle"), SH_ERROR);
+		return (perror("mishelle"));
 	}
 	pid = fork();
-	status_code = ft_fork(pid, fd, cmd_struct, env);
-	return (status_code);
+	ft_fork(pid, fd, cmd_struct, env);
 }
 
 static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)

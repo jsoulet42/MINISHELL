@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/07 14:48:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 20:48:40 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ static int	init_data(char **envp)
 static int	prompt_and_execute(t_env *env)
 {
 	int		i;
-	int		status_code;
 	char	*line;
 	char	*line2;
 
@@ -47,11 +46,9 @@ static int	prompt_and_execute(t_env *env)
 	if (!g_shell_data->t)
 		return (SH_ERROR);
 	i = 0;
-	status_code = 0;
-	while (!status_code && g_shell_data->t && g_shell_data->t[i + 1])
-		status_code = piper(env, g_shell_data->t[i++]);
-	if (!status_code)
-		exec_last(env, g_shell_data->t[i]);
+	while (g_shell_data->t && g_shell_data->t[i + 1])
+		piper(env, g_shell_data->t[i++]);
+	exec_last(env, g_shell_data->t[i]);
 	return (SH_SUCCESS);
 }
 
