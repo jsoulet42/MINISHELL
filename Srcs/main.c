@@ -6,26 +6,26 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 21:54:47 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:54:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
 
-t_shell	*g_shell_data;
+t_shell	g_shell_data;
 
 static int	init_data(char **envp)
 {
-	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
-	if (!g_shell_data)
+//	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
+//	if (!g_shell_data)
+//		return (SH_ERROR);
+	if (tcgetattr(STDOUT_FILENO, &g_shell_data.default_termios) < 0)
 		return (SH_ERROR);
-	if (tcgetattr(STDOUT_FILENO, &g_shell_data->default_termios) < 0)
-		return (SH_ERROR);
-	g_shell_data->custom_termios = g_shell_data->default_termios;
-	set_termios_mode(TERMIOS_MUTE_CTRL, g_shell_data->default_termios);
-	init_env(&g_shell_data->env, envp);
-	g_shell_data->in = dup(STDIN_FILENO);
-	g_shell_data->out = dup(STDOUT_FILENO);
+	g_shell_data.custom_termios = g_shell_data.default_termios;
+	set_termios_mode(TERMIOS_MUTE_CTRL, g_shell_data.default_termios);
+	init_env(&g_shell_data.env, envp);
+	g_shell_data.in = dup(STDIN_FILENO);
+	g_shell_data.out = dup(STDOUT_FILENO);
 	return (SH_SUCCESS);
 }
 
@@ -43,15 +43,15 @@ static int	prompt_and_execute(t_env *env)
 	add_history(line);
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
-	free_trinity_tab(g_shell_data->t);
-	g_shell_data->t = ft_parsing(line2);
+	free_trinity_tab(g_shell_data.t);
+	g_shell_data.t = ft_parsing(line2);
 	free(line2);
-	if (!g_shell_data->t)
+	if (!g_shell_data.t)
 		return (SH_ERROR);
 	i = 0;
-	while (g_shell_data->t && g_shell_data->t[i + 1])
-		piper(env, g_shell_data->t[i++]);
-	exec_last(env, g_shell_data->t[i]);
+	while (g_shell_data.t && g_shell_data.t[i + 1])
+		piper(env, g_shell_data.t[i++]);
+	exec_last(env, g_shell_data.t[i]);
 	return (SH_SUCCESS);
 }
 
@@ -65,11 +65,11 @@ int	main(int argc, char **argv, char **envp)
 		return (1);
 	while (1)
 	{
-		dup2(g_shell_data->in, STDIN_FILENO);
-		dup2(g_shell_data->out, STDOUT_FILENO);
+		dup2(g_shell_data.in, STDIN_FILENO);
+		dup2(g_shell_data.out, STDOUT_FILENO);
 		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, main_sig_handler);
-		if (prompt_and_execute(g_shell_data->env))
+		if (prompt_and_execute(g_shell_data.env))
 			continue ;
 	//	test = g_shell_data;
 	//	envp = env_update(envp, test);

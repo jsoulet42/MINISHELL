@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_utils_01.c                                    :+:      :+:    :+:   */
+/*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:17 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/06 18:57:51 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:58:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,13 @@ void	free_str_tab(void **str_tab)
 	str_tab = NULL;
 }
 
-void	free_data(t_shell *shell_data)
+void	free_data(t_shell shell_data)
 {
 	rl_clear_history();
-	if (!shell_data)
-		return ;
-	if (shell_data->t)
-		free_trinity_tab(shell_data->t);
-	if (shell_data->env)
-		free_env(&shell_data->env);
-	safe_free((void **) &shell_data);
+	if (shell_data.t)
+		free_trinity_tab(shell_data.t);
+	if (shell_data.env)
+		free_env(&shell_data.env);
 }
 
 void	free_trinity_struct(t_rinity *t)

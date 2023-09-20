@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/24 17:22:15 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/06 18:47:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 01:00:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	heredoc_write(char *stop, int *fd)
 		}
 		if (ft_strncmp(line, stop, len + 1) == 0)
 			break ;
-		temp = expand_dollars(line, g_shell_data->env);
+		temp = expand_dollars(line, g_shell_data.env);
 		free(line);
 		if (!temp)
 			return ;
@@ -47,8 +47,8 @@ static int	herefork(pid_t pid, char *stop, int *fd)
 
 	if (pid == 0)
 	{
-		signal(SIGQUIT, SIG_IGN);
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		close(fd[0]);
 		heredoc_write(stop, fd);
 		close(fd[1]);
@@ -60,7 +60,7 @@ static int	herefork(pid_t pid, char *stop, int *fd)
 		signal(SIGINT, heredoc_sig_handler);
 		close(fd[1]);
 		waitpid(pid, &status_code, 0);
-		get_exit_code(status_code, &g_shell_data->exit_code);
+		get_exit_code(status_code, &g_shell_data.exit_code);
 	}
 	return (status_code);
 }
@@ -70,7 +70,7 @@ int	ft_heredoc(char *str)
 	int		fd[2];
 	pid_t	pid;
 
-	dup2(g_shell_data->in, STDIN_FILENO);
+	dup2(g_shell_data.in, STDIN_FILENO);
 	if (pipe(fd) == -1)
 	{
 		perror("mishelle: here-document");

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/20 21:53:47 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:55:00 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*prompt(t_env *env)
 		line = readline("\e[0mguest@mishelle $> ");
 	else
 	{
-		prompt = expand_dollars("\e[0m$LOGNAME@$NAME ", g_shell_data->env);
+		prompt = expand_dollars("\e[0m$LOGNAME@$NAME ", g_shell_data.env);
 		if (!prompt)
 			return (NULL);
 		if (!ft_free_strcat(&prompt, "$> ", 0, 4))

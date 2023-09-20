@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   dollar_handler.c                                   :+:      :+:    :+:   */
+/*   expand_dollars.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:02:53 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 13:12:23 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:55:19 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*start_expand_dollar(char *str, t_env *env)
 	if (str[0] && str[1] == '?')
 	{
 		temp = str + 2;
-		res = ft_itoa(g_shell_data->exit_code);
+		res = ft_itoa(g_shell_data.exit_code);
 		ft_free_strcat(&res, temp, 0, ft_strlen(temp));
 		return (res);
 	}
@@ -79,7 +79,7 @@ int	get_dollar_value(char **to_set, char *to_search, t_env *env)
 	i = 1;
 	if (to_search[i] == '?')
 	{
-		*to_set = ft_itoa(g_shell_data->exit_code);
+		*to_set = ft_itoa(g_shell_data.exit_code);
 		return (2);
 	}
 	while (to_search[i] && ft_isalnum(to_search[i]))

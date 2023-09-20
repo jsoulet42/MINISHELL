@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:52:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:57:34 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ int				simplequote(int *i, char *str);
 /* Srcs/free_utils.c */
 void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
-void			free_data(t_shell *shell_data);
+void			free_data(t_shell shell_data);
 void			free_trinity_struct(t_rinity *t);
 void			free_trinity_tab(t_rinity **t);
 

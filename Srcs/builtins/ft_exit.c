@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:09:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 21:47:00 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/20 23:57:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 static void	free_and_exit(unsigned char num)
 {
-	tcsetattr(STDOUT_FILENO, TCSANOW, &g_shell_data->default_termios);
-	close(g_shell_data->in);
-	close(g_shell_data->out);
+	tcsetattr(STDOUT_FILENO, TCSANOW, &g_shell_data.default_termios);
+	close(g_shell_data.in);
+	close(g_shell_data.out);
 	free_data(g_shell_data);
 	exit(num);
 }
@@ -28,7 +28,7 @@ int	ft_exit(int argc, char **argv)
 	if (argc == 1)
 	{
 		ft_fprintf(STDOUT_FILENO, "mishelle: Exit o7\n");
-		free_and_exit(g_shell_data->exit_code);
+		free_and_exit(g_shell_data.exit_code);
 	}
 	if (argc > 2)
 	{
