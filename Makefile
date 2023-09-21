@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/07 14:49:55 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/21 05:49:55 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,6 @@ SRCS		=	main.c						\
 				utils_01.c					\
 				utils_02.c					\
 				utils_03.c					\
-				quotes_utils.c				\
 				check_starterrors.c			\
 				redirect_streams.c			\
 				interpret_01.c				\
@@ -75,7 +74,7 @@ OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 ## Compilator and compilation flags
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-g -Wall -Werror -Wextra
 
 ## Header files directory
 INCL_DIR	=	Includes

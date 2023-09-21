@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:54:19 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 05:26:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,8 @@ t_shell	g_shell_data;
 
 static int	init_data(char **envp)
 {
-//	g_shell_data = (t_shell *)ft_calloc(sizeof(t_shell), 1);
-//	if (!g_shell_data)
-//		return (SH_ERROR);
 	if (tcgetattr(STDOUT_FILENO, &g_shell_data.default_termios) < 0)
 		return (SH_ERROR);
-	g_shell_data.custom_termios = g_shell_data.default_termios;
 	set_termios_mode(TERMIOS_MUTE_CTRL, g_shell_data.default_termios);
 	init_env(&g_shell_data.env, envp);
 	g_shell_data.in = dup(STDIN_FILENO);

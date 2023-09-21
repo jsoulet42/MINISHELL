@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:22:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 01:06:02 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 05:35:46 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,36 +36,28 @@ int	real_cmd(char **line_tab)
 	return (i);
 }
 
-char	**new_neo(char *add)
+int	doublequote(int *i, char *str)
 {
-	char	**new;
+	int	start;
 
-	if (!add)
-		return (NULL);
-	new = (char **)malloc(sizeof(char *) * 2);
-	if (!new)
-		return (NULL);
-	new[0] = add;
-	new[1] = NULL;
-	return (new);
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 34)
+		(*i)++;
+	return (*i - start);
 }
 
-char	**str_tab_add_neo(char **str, char *add)
+int	simplequote(int *i, char *str)
 {
-	int		i;
-	char	**new;
+	int	start;
 
-	if (!str)
-		return (new_neo(add));
-	i = str_tab_len(str);
-	new = (char **)ft_calloc(sizeof(char *), i + 2);
-	if (!new)
-		return (NULL);
-	i = -1;
-	while (str[++i])
-		new[i] = str[i];
-	free(str);
-	new[i] = add;
-	new[i + 1] = NULL;
-	return (new);
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 39)
+		(*i)++;
+	return (*i - start);
 }

@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 02:21:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 05:40:30 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_shell
 	t_env		*env;
 	t_rinity	**t;
 	t_termios	default_termios;
-	t_termios	custom_termios;
 }				t_shell;
 
 /* ***** Srcs/builtins ***** */
@@ -96,22 +95,22 @@ void			print_t_rinity(t_rinity **t);
 /* Srcs/parsing/parsing_03.c */
 int				next_pipe(char **line_tab);
 int				real_cmd(char **line_tab);
-char			**new_neo(char *add);
-char			**str_tab_add_neo(char **str, char *add);
+int				doublequote(int *i, char *str);
+int				simplequote(int *i, char *str);
 
 /* ***** Srcs/environment ***** */
 /* Srcs/environment_utils_01.c */
-char			*ft_getenv(t_env *env, char *var_name);
 t_env			*new_env_var(char *var_str, void *prev, void *next);
 t_env			*env_add_back(t_env **env_list, t_env *new);
+t_env			*update_env_var(t_env *env_var, char *value, int mode);
 void			del_env_var(t_env *env_var, t_env *prev_var, t_env *next_var);
-void			free_env(t_env **env_list);
 
 /* Srcs/environment_utils_02.c */
+char			*ft_getenv(t_env *env, char *var_name);
 char			**env_to_str_tab(t_env *env_list);
 t_env			*get_env_var(t_env *env_list, char *var_name);
-t_env			*update_env_var(t_env *env_var, char *value, int mode);
 void			print_env(t_env *env_list, int mode);
+void			free_env(t_env **env_list);
 
 /* Srcs/init_environment.c */
 t_env			*init_env(t_env **env_list, char **envp);
@@ -142,10 +141,6 @@ int				redirect_out(char **file_out, char **type_out);
 int				redirect_streams(t_rinity *cmd_struct);
 
 /* ***** Srcs/utils ***** */
-/* Srcs/utils/quotes_utils.c */
-int				doublequote(int *i, char *str);
-int				simplequote(int *i, char *str);
-
 /* Srcs/free_utils.c */
 void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
@@ -170,6 +165,8 @@ char			**ft_keep_split(char *str, char sep);
 int				ft_min(int a, int b);
 int				ft_isoperand(char c);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
+char			**new_neo(char *add);
+char			**str_tab_add_neo(char **str, char *add);
 
 /* Srcs/display.c */
 int				set_termios_mode(int mode, t_termios termios_struct);

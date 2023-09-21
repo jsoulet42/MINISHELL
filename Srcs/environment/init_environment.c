@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/14 21:05:03 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/07 14:45:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 05:56:49 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,14 @@ t_env	*init_env(t_env **env_list, char **envp)
 	if (!ft_getenv(*env_list, "NAME") && ft_export(
 			(char *[]){"export", START_NAME, NULL}, env_list) == SH_ERROR)
 		return (free_env(env_list), NULL);
-	if (!ft_getenv(*env_list, "SHLVL") && ft_export(
-			(char *[]){"export", START_SHLVL, NULL}, env_list) == SH_ERROR)
+	if (!ft_getenv(*env_list, "SHLVL"))
+	{
+		if (ft_export((char *[]){"export", START_SHLVL, NULL}, env_list) == SH_ERROR)
+			return (free_env(env_list), NULL);
+	}
+	else if (modif_shlvl(env_list) == SH_ERROR)
 		return (free_env(env_list), NULL);
-	if (init_pwd(env_list) == SH_ERROR || modif_shlvl(env_list) == SH_ERROR)
+	if (init_pwd(env_list) == SH_ERROR)
 		return (free_env(env_list), NULL);
 	return (*env_list);
 }

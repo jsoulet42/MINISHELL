@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 01:12:21 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 05:30:18 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,38 @@ char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
 		res = str_tab_add_neo(res, word);
 	}
 	return (res);
+}
+
+char	**new_neo(char *add)
+{
+	char	**new;
+
+	if (!add)
+		return (NULL);
+	new = (char **)malloc(sizeof(char *) * 2);
+	if (!new)
+		return (NULL);
+	new[0] = add;
+	new[1] = NULL;
+	return (new);
+}
+
+char	**str_tab_add_neo(char **str, char *add)
+{
+	int		i;
+	char	**new;
+
+	if (!str)
+		return (new_neo(add));
+	i = str_tab_len(str);
+	new = (char **)ft_calloc(sizeof(char *), i + 2);
+	if (!new)
+		return (NULL);
+	i = -1;
+	while (str[++i])
+		new[i] = str[i];
+	free(str);
+	new[i] = add;
+	new[i + 1] = NULL;
+	return (new);
 }
