@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 07:56:11 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:31:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_rinity	**t_rinity_init(char **line_tab)
 	{
 		*temp = t_rinity_init_utils(line_tab);
 		if (!*temp)
-			return (free_trinity_tab(t), NULL);
+			return (free_trinity_tab(&t), NULL);
 		line_tab += next_pipe(line_tab) + 1;
 		temp++;
 	}

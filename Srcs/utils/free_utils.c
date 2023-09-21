@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:14:17 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:58:06 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:35:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	free_data(t_shell shell_data)
 {
 	rl_clear_history();
 	if (shell_data.t)
-		free_trinity_tab(shell_data.t);
+		free_trinity_tab(&shell_data.t);
 	if (shell_data.env)
 		free_env(&shell_data.env);
 }
@@ -55,6 +55,7 @@ void	free_trinity_struct(t_rinity *t)
 {
 	if (!t)
 		return ;
+	safe_free((void **)&t->cmd_path);
 	free_str_tab((void **)t->cmd);
 	free_str_tab((void **)t->file_in);
 	free_str_tab((void **)t->file_out);
@@ -63,14 +64,15 @@ void	free_trinity_struct(t_rinity *t)
 	free(t);
 }
 
-void	free_trinity_tab(t_rinity **t)
+void	free_trinity_tab(t_rinity ***t)
 {
 	int	i;
 
-	if (!t || !*t)
+	if (!t || !*t || !**t)
 		return ;
 	i = 0;
-	while (t[i])
-		free_trinity_struct(t[i++]);
-	free(t);
+	while ((*t)[i])
+		free_trinity_struct((*t)[i++]);
+	free(*t);
+	*t = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:41:47 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/20 23:56:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:35:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	get_cmd_path(char **to_set, char **bin_paths, char *cmd)
 	{
 		if (access(cmd, F_OK | X_OK) != 0)
 			return (SH_ERROR);
-		*to_set = cmd;
+		*to_set = ft_strdup(cmd);
 		return (SH_SUCCESS);
 	}
 	while (*bin_paths)

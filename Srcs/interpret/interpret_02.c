@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 01:08:35 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:46:57 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,34 @@ int	agent_smith(char *cmd)
 	return (-1);
 }
 
-int	execute_builtin(t_rinity *cd, int builtin)
+int	execute_builtin(t_rinity *cd)
 {
-	if (redirect_streams(cd))
-		return (SH_ERROR);
-	if (builtin == 0)
+	if (cd->builtin == 0)
 		return (ft_cd(str_tab_len(cd->cmd), cd->cmd, &g_shell_data.env));
-	if (builtin == 1)
+	if (cd->builtin == 1)
 		return (ft_exit(str_tab_len(cd->cmd), cd->cmd));
-	if (builtin == 2)
+	if (cd->builtin == 2)
 		return (ft_export(cd->cmd, &g_shell_data.env));
-	if (builtin == 3)
+	if (cd->builtin == 3)
 		return (ft_unset(cd->cmd, &g_shell_data.env));
-	if (builtin == 4)
+	if (cd->builtin == 4)
 		return (ft_env(str_tab_len(cd->cmd), cd->cmd, &g_shell_data.env));
-	if (builtin == 5)
+	if (cd->builtin == 5)
 		return (ft_echo(str_tab_len(cd->cmd), cd->cmd));
-	if (builtin == 6)
+	if (cd->builtin == 6)
 		return (ft_pwd(str_tab_len(cd->cmd), cd->cmd));
 	return (SH_SUCCESS);
 }
 
 void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 {
-	char	*path;
 	char	**str_env;
 
-	path = get_path(cmd_struct->cmd[0], env);
-	if (!path)
-		exit(g_shell_data.exit_code);
 	str_env = env_to_str_tab(env);
 	if (!str_env)
-	{
-		free(path);
 		exit(errno);
-	}
-	execve(path, cmd_struct->cmd, str_env);
+	execve(cmd_struct->cmd_path, cmd_struct->cmd, str_env);
 	ft_perror("mishelle", cmd_struct->cmd[0]);
-	free(path);
 	free_str_tab((void **)str_env);
 	exit(errno);
 }

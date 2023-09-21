@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 05:26:57 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:56:20 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	prompt_and_execute(t_env *env)
 	add_history(line);
 	line2 = ft_strtrim(line, " \t\n\v\f\r");
 	free(line);
-	free_trinity_tab(g_shell_data.t);
+	free_trinity_tab(&g_shell_data.t);
 	g_shell_data.t = ft_parsing(line2);
 	free(line2);
 	if (!g_shell_data.t)

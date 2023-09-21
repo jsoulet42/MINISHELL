@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 08:04:17 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:40:05 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct termios	t_termios;
 
 typedef struct s_rinity
 {
+	int		builtin;
+	char	*cmd_path;
 	char	**cmd;
 	char	**file_in;
 	char	**file_out;
@@ -126,7 +128,7 @@ void			exec_last(t_env *env, t_rinity *cmd);
 
 /* interpret_02.c */
 int				agent_smith(char *cmd);
-int				execute_builtin(t_rinity *cmd_struct, int builtin);
+int				execute_builtin(t_rinity *cmd_struct);
 void			execute_cmd(t_env *env, t_rinity *cmd_struct);
 void			get_exit_code(int status_code, int *to_set);
 
@@ -174,7 +176,7 @@ void			safe_free(void **ptr_addr);
 void			free_str_tab(void **str_tab);
 void			free_data(t_shell shell_data);
 void			free_trinity_struct(t_rinity *t);
-void			free_trinity_tab(t_rinity **t);
+void			free_trinity_tab(t_rinity ***t);
 
 /* str_tab_utils_01.c */
 int				str_tab_len(char **str);

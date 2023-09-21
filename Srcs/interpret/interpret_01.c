@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:44 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:56:08 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:32:35 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 static void	run_child(t_rinity *cmd_struct, int *fd, t_env *env)
 {
-	int	builtin_check;
-
 	close(fd[0]);
 	if (!cmd_struct->file_out)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	builtin_check = agent_smith(cmd_struct->cmd[0]);
-	if (builtin_check > -1)
-		exit(execute_builtin(cmd_struct, builtin_check));
+	if (cmd_struct->builtin != -1)
+		exit(execute_builtin(cmd_struct));
 	else
 		execute_cmd(env, cmd_struct);
 	exit(0);
@@ -64,6 +61,13 @@ void	piper(t_env *env, t_rinity *cmd_struct)
 
 	if (redirect_streams(cmd_struct))
 		return ;
+	cmd_struct->builtin = agent_smith(cmd_struct->cmd[0]);
+	if (cmd_struct->builtin == -1)
+	{
+		cmd_struct->cmd_path = get_path(cmd_struct->cmd[0], env);
+		if (!cmd_struct->cmd_path)
+			return ;
+	}
 	if (pipe(fd) == -1)
 	{
 		g_shell_data.exit_code = errno;
@@ -97,16 +101,18 @@ static void	ft_last_fork(pid_t pid, t_rinity *cmd, t_env *env)
 
 void	exec_last(t_env *env, t_rinity *cmd)
 {
-	int		builtin_check;
 	pid_t	pid;
 
-	builtin_check = agent_smith(cmd->cmd[0]);
-	if (builtin_check != -1)
+	if (redirect_streams(cmd))
+		return ;
+	cmd->builtin = agent_smith(cmd->cmd[0]);
+	if (cmd->builtin != -1)
 	{
-		g_shell_data.exit_code = execute_builtin(cmd, builtin_check);
+		g_shell_data.exit_code = execute_builtin(cmd);
 		return ;
 	}
-	if (redirect_streams(cmd))
+	cmd->cmd_path = get_path(cmd->cmd[0], env);
+	if (!cmd->cmd_path)
 		return ;
 	pid = fork();
 	ft_last_fork(pid, cmd, env);
