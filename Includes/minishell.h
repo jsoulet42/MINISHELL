@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 08:00:35 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 08:04:17 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,7 +189,7 @@ char			*ft_strjoin_plus(char *dest, char *src);
 char			*join_str_tab(const char **str_tab);
 char			**ft_fsplit(char *str, int (*word_len_counter)(char *str));
 
-/* utils_01.c */
+/* utils.c */
 int				ft_min(int a, int b);
 int				ft_isoperand(char c);
 int				ft_is_whitespace(char c);

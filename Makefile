@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/21 07:04:32 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/21 08:04:25 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,7 +61,7 @@ SRCS		=	main.c						\
 				signals.c					\
 				str_tab_utils_01.c			\
 				str_tab_utils_02.c			\
-				utils_01.c
+				utils.c
 
 ## Object files directory
 OBJS_DIR	=	Objs
