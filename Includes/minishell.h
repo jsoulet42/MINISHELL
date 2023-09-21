@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:07:30 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:57:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 02:21:06 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			print_t_rinity(t_rinity **t);
 /* Srcs/parsing/parsing_03.c */
 int				next_pipe(char **line_tab);
 int				real_cmd(char **line_tab);
-int				str_tab_len(char **str_tab);
 char			**new_neo(char *add);
 char			**str_tab_add_neo(char **str, char *add);
 
@@ -162,7 +161,7 @@ char			**order_str_tab(char **str_tab, char limit);
 void			print_str_tab(char **str_tab);
 
 /* Srcs/utils_02.c */
-int				lentab(char **tableau);
+int				str_tab_len(char **str);
 char			*ft_strchrnul(const char *str, int c);
 char			*join_str_tab(const char **str_tab);
 char			**ft_keep_split(char *str, char sep);

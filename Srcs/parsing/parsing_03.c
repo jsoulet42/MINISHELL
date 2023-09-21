@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:22:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 16:22:34 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 01:06:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,6 @@ int	real_cmd(char **line_tab)
 	i = 1;
 	while (*line_tab)
 		i += ((*line_tab++)[0] == '|');
-	return (i);
-}
-
-int	str_tab_len(char **str)
-{
-	int	i;
-
-	i = 0;
-	if (!*str)
-		return (0);
-	while (str[i])
-		i++;
 	return (i);
 }
 

@@ -6,19 +6,21 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/06 14:26:08 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 01:12:31 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	lentab(char **tableau)
+int	str_tab_len(char **str)
 {
 	int	i;
 
-	i = -1;
-	while (tableau[++i])
-		i = i;
+	i = 0;
+	if (!*str)
+		return (0);
+	while (str[i])
+		i++;
 	return (i);
 }
 
