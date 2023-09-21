@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:31 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 14:56:20 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:41:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int	prompt_and_execute(t_env *env)
 
 int	main(int argc, char **argv, char **envp)
 {
-//	t_shell	*test;
-
 	(void)argc;
 	(void)argv;
 	if (init_data(envp))
@@ -67,8 +65,6 @@ int	main(int argc, char **argv, char **envp)
 		signal(SIGINT, main_sig_handler);
 		if (prompt_and_execute(g_shell_data.env))
 			continue ;
-	//	test = g_shell_data;
-	//	envp = env_update(envp, test);
 	}
 	ft_exit(1, NULL);
 }
