@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 16:19:21 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/05 15:44:20 by hnogared         ###   ########.fr       */
+/*   Created: 2023/09/04 16:22:31 by hnogared          #+#    #+#             */
+/*   Updated: 2023/09/21 06:34:18 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,76 +36,52 @@ int	check_line_words(const char **line_tab)
 	return (SH_SUCCESS);
 }
 
-static int	pw(int i, char c)
+int	next_pipe(char **line_tab)
 {
 	int	j;
 
+	if (!line_tab)
+		return (0);
 	j = 0;
-	if (i < 0)
-	{
-		j += ft_fprintf(2, "\t|\n");
-		return (j);
-	}
-	while (i--)
-		j += ft_fprintf(2, "%c", c);
-	j += ft_fprintf(2, "|\n");
+	while (line_tab[j] && line_tab[j][0] != '|')
+		j++;
 	return (j);
 }
 
-static int	print_strstr(char **str)
+int	real_cmd(char **line_tab)
 {
 	int	i;
-	int	j;
 
-	i = 0;
-	j = 0;
-	if (!str || !str[0])
-		return (ft_fprintf(2, "NULL"));
-	while (str[i])
-	{
-		j += ft_fprintf(2, "[%s] ", str[i]);
-		i++;
-	}
-	return (j);
+	if (!line_tab)
+		return (0);
+	i = 1;
+	while (*line_tab)
+		i += ((*line_tab++)[0] == '|');
+	return (i);
 }
 
-static void	print_t_rinity_02(t_rinity **t, int i, int j, int len)
+int	doublequote(int *i, char *str)
 {
-	j = ft_fprintf(2, "|\ttype_out : ");
-	j += print_strstr(t[i]->type_out);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tfile_in  : ");
-	j += print_strstr(t[i]->file_in);
-	pw(len - j, ' ');
-	j = ft_fprintf(2, "|\tfile_out : ");
-	j += print_strstr(t[i]->file_out);
-	pw(len - j, ' ');
-	ft_fprintf(2, "|______________________________");
-	ft_fprintf(2, "_______________________|\n\n");
+	int	start;
+
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 34)
+		(*i)++;
+	return (*i - start);
 }
 
-void	print_t_rinity(t_rinity **t)
+int	simplequote(int *i, char *str)
 {
-	int	i;
-	int	j;
-	int	len;
+	int	start;
 
-	i = 0;
-	if (!t)
-		return ;
-	while (t[i])
-	{
-		len = ft_fprintf(2, " _________________________");
-		len += ft_fprintf(2, "____________________________") - 6;
-		ft_fprintf(2, "\n|");
-		pw(len + 5, ' ');
-		j = ft_fprintf(2, "|\tLa commande est : ");
-		j += print_strstr(t[i]->cmd);
-		pw(len - j, ' ');
-		j = ft_fprintf(2, "|\ttype_in  : ");
-		j += print_strstr(t[i]->type_in);
-		pw(len - j, ' ');
-		print_t_rinity_02(t, i, j, len);
-		i++;
-	}
+	if (!i || !str)
+		return (0);
+	start = *i;
+	(*i)++;
+	while (str[*(i)] && str[*(i)] != 39)
+		(*i)++;
+	return (*i - start);
 }

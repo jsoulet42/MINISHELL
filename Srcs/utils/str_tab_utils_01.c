@@ -1,53 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_03.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 05:30:18 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/14 21:27:38 by hnogared          #+#    #+#             */
+/*   Updated: 2023/09/21 07:00:38 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	ft_min(int a, int b)
+int	str_tab_len(char **str)
 {
-	return ((a <= b) * a + (a > b) * b);
+	int	i;
+
+	i = 0;
+	if (!*str)
+		return (0);
+	while (str[i])
+		i++;
+	return (i);
 }
 
-int	ft_isoperand(char c)
+int	print_str_tab(int fd, char **str_tab)
 {
-	char	to_find[2];
+	int	len;
 
-	to_find[0] = c;
-	to_find[1] = 0;
-	return (c != ':'
-		&& ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
-}
-
-char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
-{
-	int		word_len;
-	char	*word;
-	char	**res;
-
-	if (!str || !word_len_counter)
-		return (NULL);
-	res = NULL;
-	while (*str)
-	{
-		word_len = word_len_counter(str);
-		if (word_len < 1)
-			return (free_str_tab((void **)res), NULL);
-		word = ft_substr(str, 0, word_len);
-		if (!word)
-			return (free_str_tab((void **)res), NULL);
-		str += word_len;
-		res = str_tab_add_neo(res, word);
-	}
-	return (res);
+	if (!str_tab)
+		return (ft_fprintf(fd, "NULL\n"));
+	len = 0;
+	while (*str_tab)
+		len += ft_fprintf(fd, "[%s] ", *str_tab++);
+	len += ft_fprintf(fd, "\n");
+	return (len);
 }
 
 char	**new_neo(char *add)
@@ -82,4 +69,30 @@ char	**str_tab_add_neo(char **str, char *add)
 	new[i] = add;
 	new[i + 1] = NULL;
 	return (new);
+}
+
+char	**order_str_tab(char **str_tab, char limit)
+{
+	int		id[2];
+	char	*temp;
+
+	if (!str_tab || !str_tab[0] || !str_tab[1])
+		return (str_tab);
+	id[0] = 0;
+	id[1] = 1;
+	while (str_tab[id[0] + 1])
+	{
+		if (ft_strccmp(str_tab[id[0]], str_tab[id[1]], limit) > 0)
+		{
+			temp = str_tab[id[0]];
+			str_tab[id[0]] = str_tab[id[1]];
+			str_tab[id[1]] = temp;
+		}
+		id[1]++;
+		if (str_tab[id[1]])
+			continue ;
+		id[0]++;
+		id[1] = id[0] + 1;
+	}
+	return (str_tab);
 }

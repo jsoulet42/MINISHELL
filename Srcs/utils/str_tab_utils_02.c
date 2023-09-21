@@ -6,34 +6,18 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 23:36:22 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 01:12:31 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 07:00:18 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-int	str_tab_len(char **str)
+char	*ft_strjoin_plus(char *dest, char *src)
 {
-	int	i;
-
-	i = 0;
-	if (!*str)
-		return (0);
-	while (str[i])
-		i++;
-	return (i);
-}
-
-char	*ft_strchrnul(const char *str, int c)
-{
-	char	*temp;
-
-	if (!str)
-		return (NULL);
-	temp = ft_strchr(str, c);
-	if (!temp)
-		return (ft_strchr(str, 0));
-	return (temp);
+	if (!dest || !src)
+		return (ft_strdup((char *)((uintptr_t) src * (1 && src)
+				+ (uintptr_t) dest * (1 && dest))));
+	return (ft_strjoin(dest, src));
 }
 
 char	*join_str_tab(const char **str_tab)
@@ -56,6 +40,29 @@ char	*join_str_tab(const char **str_tab)
 			return (NULL);
 		res = temp;
 		temp_tab++;
+	}
+	return (res);
+}
+
+char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
+{
+	int		word_len;
+	char	*word;
+	char	**res;
+
+	if (!str || !word_len_counter)
+		return (NULL);
+	res = NULL;
+	while (*str)
+	{
+		word_len = word_len_counter(str);
+		if (word_len < 1)
+			return (free_str_tab((void **)res), NULL);
+		word = ft_substr(str, 0, word_len);
+		if (!word)
+			return (free_str_tab((void **)res), NULL);
+		str += word_len;
+		res = str_tab_add_neo(res, word);
 	}
 	return (res);
 }

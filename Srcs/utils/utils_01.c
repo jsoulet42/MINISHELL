@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_03.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/14 21:27:38 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/04 12:58:19 by hnogared         ###   ########.fr       */
+/*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
+/*   Updated: 2023/09/21 06:59:36 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
+
+int	ft_min(int a, int b)
+{
+	return ((a <= b) * a + (a > b) * b);
+}
+
+int	ft_isoperand(char c)
+{
+	char	to_find[2];
+
+	to_find[0] = c;
+	to_find[1] = 0;
+	return (c != ':'
+		&& ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
+}
 
 int	ft_strccmp(const char *str1, const char *str2, char limit)
 {
@@ -32,12 +47,16 @@ int	ft_strccmp(const char *str1, const char *str2, char limit)
 	return (0);
 }
 
-char	*ft_strjoin_plus(char *dest, char *src)
+char	*ft_strchrnul(const char *str, int c)
 {
-	if (!dest || !src)
-		return (ft_strdup((char *)((uintptr_t) src * (1 && src)
-				+ (uintptr_t) dest * (1 && dest))));
-	return (ft_strjoin(dest, src));
+	char	*temp;
+
+	if (!str)
+		return (NULL);
+	temp = ft_strchr(str, c);
+	if (!temp)
+		return (ft_strchr(str, 0));
+	return (temp);
 }
 
 char	*ft_free_strcat(char **dest, char *src, int start, int end)
@@ -55,42 +74,4 @@ char	*ft_free_strcat(char **dest, char *src, int start, int end)
 		return (NULL);
 	*dest = temp2;
 	return (*dest);
-}
-
-char	**order_str_tab(char **str_tab, char limit)
-{
-	int		id[2];
-	char	*temp;
-
-	if (!str_tab || !str_tab[0] || !str_tab[1])
-		return (str_tab);
-	id[0] = 0;
-	id[1] = 1;
-	while (str_tab[id[0] + 1])
-	{
-		if (ft_strccmp(str_tab[id[0]], str_tab[id[1]], limit) > 0)
-		{
-			temp = str_tab[id[0]];
-			str_tab[id[0]] = str_tab[id[1]];
-			str_tab[id[1]] = temp;
-		}
-		id[1]++;
-		if (str_tab[id[1]])
-			continue ;
-		id[0]++;
-		id[1] = id[0] + 1;
-	}
-	return (str_tab);
-}
-
-void	print_str_tab(char **str_tab)
-{
-	if (!str_tab)
-	{
-		ft_fprintf(2, "NULL\n");
-		return ;
-	}
-	while (*str_tab)
-		ft_fprintf(2, "[%s] ", *str_tab++);
-	ft_fprintf(2, "\n");
 }
