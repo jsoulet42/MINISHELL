@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/20 23:54:46 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 07:56:11 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*unquote_and_join(char ***line_tab)
 	{
 		quote = **moved_tab == '"' || **moved_tab == '\'';
 		temp = ft_substr(*moved_tab, quote, ft_strlen(*moved_tab) - 2 * quote);
-		if (!ft_free_strcat(&res, temp, 0, ft_strlen(temp)))
+		if (!ft_free_strcat(&res, temp))
 			return (safe_free((void **)res), safe_free((void **)temp), NULL);
 		free(temp);
 		moved_tab++;

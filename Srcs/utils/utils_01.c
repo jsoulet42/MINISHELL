@@ -6,7 +6,7 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 06:59:36 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 08:00:02 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 int	ft_min(int a, int b)
 {
 	return ((a <= b) * a + (a > b) * b);
+}
+
+int	ft_is_whitespace(char str)
+{
+	return (!str || (str > 8 && str < 14) || str == 32 || str == 127);
 }
 
 int	ft_isoperand(char c)
@@ -57,21 +62,4 @@ char	*ft_strchrnul(const char *str, int c)
 	if (!temp)
 		return (ft_strchr(str, 0));
 	return (temp);
-}
-
-char	*ft_free_strcat(char **dest, char *src, int start, int end)
-{
-	char	*temp;
-	char	*temp2;
-
-	temp = ft_substr(src, start, end - start);
-	if (!temp)
-		return (NULL);
-	temp2 = ft_strjoin_plus(*dest, temp);
-	free(temp);
-	safe_free((void **) dest);
-	if (!temp2)
-		return (NULL);
-	*dest = temp2;
-	return (*dest);
 }
