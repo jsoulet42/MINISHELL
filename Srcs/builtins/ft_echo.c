@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:10:12 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/25 15:11:59 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/25 16:36:28 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,9 @@ static int	index_after_option(char **argv, int *no_newline)
 	while (argv[i])
 	{
 		j = 0;
-		if (argv[i][j++] == '-')
+		if (argv[i][j] == '-' && argv[i][j + 1] == 'n')
 		{
+			j++;
 			while (argv[i][j] == 'n')
 				j++;
 			if (!ft_is_whitespace(argv[i][j]))
