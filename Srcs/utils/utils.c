@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_03.c                                         :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/29 17:22:11 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/06 14:24:47 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/25 17:57:44 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,35 +17,49 @@ int	ft_min(int a, int b)
 	return ((a <= b) * a + (a > b) * b);
 }
 
+int	ft_is_whitespace(char str)
+{
+	return (!str || (str > 8 && str < 14) || str == 32 || str == 127);
+}
+
 int	ft_isoperand(char c)
 {
 	char	to_find[2];
 
 	to_find[0] = c;
 	to_find[1] = 0;
-	return (c != ':'
+	return (c != ':' && c != 0
 		&& ft_strnstr(OPERANDS, to_find, ft_strlen(OPERANDS)));
 }
 
-char	**ft_fsplit(char *str, int (*word_len_counter)(char *))
+int	ft_strccmp(const char *str1, const char *str2, char limit)
 {
-	int		word_len;
-	char	*word;
-	char	**res;
+	int	i;
 
-	if (!str || !word_len_counter)
-		return (NULL);
-	res = NULL;
-	while (*str)
+	if (!str1 || !str2)
+		return (0);
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] != limit && str2[i] != limit)
 	{
-		word_len = word_len_counter(str);
-		if (word_len < 1)
-			return (free_str_tab((void **)res), NULL);
-		word = ft_substr(str, 0, word_len);
-		if (!word)
-			return (free_str_tab((void **)res), NULL);
-		str += word_len;
-		res = str_tab_add_neo(res, word);
+		if (str1[i] != str2[i])
+			return ((unsigned char) str1[i] - (unsigned char) str2[i]);
+		i++;
 	}
-	return (res);
+	if (str1[i] && str1[i] != limit)
+		return ((unsigned char) str1[i]);
+	if (str2[i] && str2[i] != limit)
+		return (- (unsigned char) str2[i]);
+	return (0);
+}
+
+char	*ft_strchrnul(const char *str, int c)
+{
+	char	*temp;
+
+	if (!str)
+		return (NULL);
+	temp = ft_strchr(str, c);
+	if (!temp)
+		return (ft_strchr(str, 0));
+	return (temp);
 }

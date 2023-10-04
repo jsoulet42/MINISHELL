@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:21:56 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/05 15:27:09 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 15:31:37 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ t_rinity	**ft_parsing(char *line)
 
 	if (!line || check_starterrors(line) != SH_SUCCESS)
 	{
-		g_shell_data->exit_code = 1;
+		g_shell_data.exit_code = 1;
 		return (NULL);
 	}
-	line_tab = expand_line(line, g_shell_data->env);
+	line_tab = expand_line(line, g_shell_data.env);
 	if (!line_tab)
 		return (NULL);
 	if (check_line_words((const char **)line_tab))
@@ -67,7 +67,7 @@ static char	*unquote_and_join(char ***line_tab)
 	{
 		quote = **moved_tab == '"' || **moved_tab == '\'';
 		temp = ft_substr(*moved_tab, quote, ft_strlen(*moved_tab) - 2 * quote);
-		if (!ft_free_strcat(&res, temp, 0, ft_strlen(temp)))
+		if (!ft_free_strcat(&res, temp))
 			return (safe_free((void **)res), safe_free((void **)temp), NULL);
 		free(temp);
 		moved_tab++;
@@ -148,7 +148,7 @@ t_rinity	**t_rinity_init(char **line_tab)
 	{
 		*temp = t_rinity_init_utils(line_tab);
 		if (!*temp)
-			return (free_trinity_tab(t), NULL);
+			return (free_trinity_tab(&t), NULL);
 		line_tab += next_pipe(line_tab) + 1;
 		temp++;
 	}

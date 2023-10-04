@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   interpret_02.c                                     :+:      :+:    :+:   */
+/*   redirect_streams.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:16:19 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/04 13:11:10 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/29 12:08:07 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	redirect_in(char **file_in, char **type_in)
 	{
 		status = handle_in_file(file_in[i], type_in[i]);
 		if (status == SH_ERROR)
-			return (g_shell_data->exit_code);
+			return (g_shell_data.exit_code);
 		if (status == SH_ERROR + 1)
 			error_file = file_in[i];
 		i++;
@@ -86,11 +86,11 @@ int	redirect_out(char **file_out, char **type_out)
 
 int	redirect_streams(t_rinity *cmd_struct)
 {
-	g_shell_data->exit_code = redirect_in(cmd_struct->file_in,
+	g_shell_data.exit_code = redirect_in(cmd_struct->file_in,
 			cmd_struct->type_in);
-	if (g_shell_data->exit_code)
-		return (g_shell_data->exit_code);
-	g_shell_data->exit_code = redirect_out(cmd_struct->file_out,
+	if (g_shell_data.exit_code)
+		return (g_shell_data.exit_code);
+	g_shell_data.exit_code = redirect_out(cmd_struct->file_out,
 			cmd_struct->type_out);
-	return (g_shell_data->exit_code);
+	return (g_shell_data.exit_code);
 }

@@ -6,7 +6,7 @@
 #    By: hnogared <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:13:07 by hnogared          #+#    #+#              #
-#    Updated: 2023/09/07 14:49:55 by hnogared         ###   ########.fr        #
+#    Updated: 2023/09/21 08:04:25 by hnogared         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,34 +24,22 @@ NAME		=	minishell
 ## Paths to all source files
 VPATH		=	Srcs:				\
 				Srcs/builtins:		\
+				Srcs/display:		\
 				Srcs/environment:	\
 				Srcs/gnl:			\
 				Srcs/interpret:		\
-				Srcs/utils:			\
-				Srcs/parsing
+				Srcs/parsing:		\
+				Srcs/signals:		\
+				Srcs/utils
 
 SRCS		=	main.c						\
-				parsing_01.c				\
-				parsing_02.c				\
-				parsing_03.c				\
+				check_starterrors.c			\
+				debug_display.c				\
 				display.c					\
-				init_environment.c			\
 				environment_utils_01.c		\
 				environment_utils_02.c		\
 				expand_dollars.c			\
 				expand_line.c				\
-				free_utils.c				\
-				utils_01.c					\
-				utils_02.c					\
-				utils_03.c					\
-				quotes_utils.c				\
-				check_starterrors.c			\
-				redirect_streams.c			\
-				interpret_01.c				\
-				interpret_02.c				\
-				get_path.c					\
-				get_next_line_bonus.c		\
-				get_next_line_utils_bonus.c \
 				ft_heredoc.c				\
 				ft_cd.c						\
 				ft_export.c					\
@@ -60,7 +48,20 @@ SRCS		=	main.c						\
 				ft_echo.c					\
 				ft_pwd.c					\
 				ft_env.c					\
-				signals.c
+				free_utils.c				\
+				get_next_line_bonus.c		\
+				get_next_line_utils_bonus.c \
+				get_path.c					\
+				init_environment.c			\
+				interpret_01.c				\
+				interpret_02.c				\
+				parsing_01.c				\
+				parsing_02.c				\
+				redirect_streams.c			\
+				signals.c					\
+				str_tab_utils_01.c			\
+				str_tab_utils_02.c			\
+				utils.c
 
 ## Object files directory
 OBJS_DIR	=	Objs
@@ -75,7 +76,7 @@ OBJS		=	$(addprefix $(OBJS_DIR)/, $(SRCS:.c=.o))
 
 ## Compilator and compilation flags
 CC			=	gcc
-CFLAGS		=	-Wall -Werror -Wextra
+CFLAGS		=	-g -Wall -Werror -Wextra
 
 ## Header files directory
 INCL_DIR	=	Includes

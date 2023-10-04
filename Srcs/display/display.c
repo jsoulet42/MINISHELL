@@ -6,23 +6,19 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/15 10:37:31 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/07 12:26:39 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 14:57:01 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Includes/minishell.h"
+#include "../../Includes/minishell.h"
 
-int	set_termios_mode(int mode)
+int	set_termios_mode(int mode, t_termios termios_struct)
 {
-	struct termios	terminos_opts;
-
-	if (tcgetattr(STDOUT_FILENO, &terminos_opts) < 0)
-		return (SH_ERROR);
 	if (mode == TERMIOS_MUTE_CTRL)
-		terminos_opts.c_lflag &= ~ECHOCTL;
+		termios_struct.c_lflag &= ~ECHOCTL;
 	else
-		terminos_opts.c_lflag |= ECHOCTL;
-	if (tcsetattr(STDOUT_FILENO, TCSANOW, &terminos_opts) < 0)
+		termios_struct.c_lflag |= ECHOCTL;
+	if (tcsetattr(STDOUT_FILENO, TCSANOW, &termios_struct) < 0)
 		return (SH_ERROR);
 	return (SH_SUCCESS);
 }
@@ -31,21 +27,24 @@ char	*prompt(t_env *env)
 {
 	char	*line;
 	char	*prompt;
+	char	*joined;
 
 	if (!ft_getenv(env, "LOGNAME") || !ft_getenv(env, "NAME"))
 		line = readline("\e[0mguest@mishelle $> ");
 	else
 	{
-		prompt = expand_dollars("\e[0m$LOGNAME@$NAME ", g_shell_data->env);
+		prompt = expand_dollars("\e[0m$LOGNAME@$NAME ", g_shell_data.env);
 		if (!prompt)
 			return (NULL);
-		if (!ft_free_strcat(&prompt, "$> ", 0, 4))
-			return (safe_free((void **) &prompt), NULL);
-		line = readline(prompt);
+		joined = ft_strjoin_plus(prompt, "$> ");
 		free(prompt);
+		if (!joined)
+			return (NULL);
+		line = readline(joined);
+		free(joined);
 	}
 	if (!line)
-		ft_exit(0, NULL);
+		ft_exit(1, NULL);
 	return (line);
 }
 

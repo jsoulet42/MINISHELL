@@ -6,18 +6,11 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:25:23 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/08/29 22:07:33 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/09/21 07:16:55 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Includes/minishell.h"
-
-int	ft_is_whitespace(char str)
-{
-	if (!str || (str > 8 && str < 14) || str == 32 || str == 127)
-		return (0);
-	return (1);
-}
 
 int	find_next_char(const char *str, const char c)
 {
