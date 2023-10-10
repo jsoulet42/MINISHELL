@@ -6,7 +6,7 @@
 /*   By: jsoulet <jsoulet@student.42perpignan.fr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/07 13:15:57 by jsoulet           #+#    #+#             */
-/*   Updated: 2023/09/21 14:46:57 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:52:50 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,10 @@ void	execute_cmd(t_env *env, t_rinity *cmd_struct)
 void	get_exit_code(int status_code, int *to_set)
 {
 	if (WIFEXITED(status_code))
+	{
 		*to_set = WEXITSTATUS(status_code);
+		*to_set += 113 * (*to_set == 13);
+	}
 	else if (WIFSIGNALED(status_code))
 		*to_set = 128 + WTERMSIG(status_code);
 	else

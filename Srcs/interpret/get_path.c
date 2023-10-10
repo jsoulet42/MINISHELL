@@ -6,65 +6,64 @@
 /*   By: hnogared <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 16:41:47 by hnogared          #+#    #+#             */
-/*   Updated: 2023/09/21 15:35:01 by hnogared         ###   ########.fr       */
+/*   Updated: 2023/10/05 15:21:41 by hnogared         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../Includes/minishell.h"
 
-static int	get_cmd_path(char **to_set, char **bin_paths, char *cmd)
+static void	get_cmd_path(char **to_set, char *cmd, char *path)
 {
+	int		i;
 	char	*tmp;
+	char	**bin_paths;
 
-	if (cmd[0] == '.' || cmd[0] == '/')
+	if (ft_strchr(cmd, '/'))
 	{
-		if (access(cmd, F_OK | X_OK) != 0)
-			return (SH_ERROR);
-		*to_set = ft_strdup(cmd);
-		return (SH_SUCCESS);
+		*to_set = ft_strdup(
+				(void *)((uintptr_t)cmd * !access(cmd, F_OK | X_OK)));
+		return ;
 	}
-	while (*bin_paths)
+	bin_paths = ft_split(path, ':');
+	if (!bin_paths)
+		return ;
+	i = 0;
+	while (bin_paths[i])
 	{
-		tmp = ft_strjoin(*bin_paths++, "/");
-		if (!tmp)
-			return (SH_ERROR);
+		tmp = ft_strjoin(bin_paths[i++], "/");
 		*to_set = ft_strjoin(tmp, cmd);
-		free(tmp);
-		if (!*to_set)
-			return (SH_ERROR);
-		if (access(*to_set, F_OK | X_OK) == 0)
-			return (SH_SUCCESS);
-		free(*to_set);
-		*to_set = NULL;
+		safe_free((void **) &tmp);
+		if (!*to_set || !access(*to_set, F_OK | X_OK))
+			break ;
+		safe_free((void **) to_set);
 	}
-	return (SH_ERROR + 1);
+	free_str_tab((void **) bin_paths);
+	return ;
 }
 
 char	*get_path(char *cmd, t_env *env)
 {
-	int		status;
+	char	*path;
 	char	*cmd_path;
-	char	**bin_paths;
 
-	g_shell_data.exit_code = 0;
-	bin_paths = ft_split(ft_getenv(env, "PATH"), ':');
 	cmd_path = NULL;
-	if (bin_paths)
+	path = ft_getenv(env, "PATH");
+	if (!path)
+		errno = 2;
+	get_cmd_path(&cmd_path, cmd, path);
+	if (cmd_path)
 	{
-		status = get_cmd_path(&cmd_path, bin_paths, cmd);
-		free_str_tab((void **)bin_paths);
-		if (errno == 13)
-			g_shell_data.exit_code = 126;
-		else
-			g_shell_data.exit_code = errno;
-		if (status == SH_ERROR)
-			ft_perror("mishelle", cmd);
+		errno = 0;
+		return (cmd_path);
 	}
-	if (!bin_paths || status == SH_ERROR + 1)
+	g_shell_data.exit_code = 126 * (errno == 13) + errno * (errno != 13);
+	if (g_shell_data.exit_code != 2)
+		ft_perror("mishelle", cmd);
+	else
 	{
 		ft_fprintf(2, "mishelle: %s: command not found\n", cmd);
 		g_shell_data.exit_code = 127;
 	}
 	errno = 0;
-	return (cmd_path);
+	return (NULL);
 }
